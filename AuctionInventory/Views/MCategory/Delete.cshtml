@@ -1,0 +1,19 @@
+﻿
+@model AuctionInventory.Models.Category
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete Category</h2>
+@using (Html.BeginForm("delete", "MCategory", FormMethod.Post, new { id = "popupForm" }))
+{
+    @Html.HiddenFor(a => a.iCategoryID)
+    <div class="form-group">
+        <label>Category Name</label>
+        <p>@Model.strCategoryName</p>
+    </div>
+    <div>
+        <input type="submit" value="Delete" />
+    </div>
+}
+

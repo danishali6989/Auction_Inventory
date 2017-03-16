@@ -1,0 +1,56 @@
+﻿@model AuctionInventory.Models.Company
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Delete Employee</h2>
+@using (Html.BeginForm("delete", "MCompany", FormMethod.Post, new { id = "popupForm" }))
+{
+    @Html.HiddenFor(a => a.iCompanyID)
+    <div class="form-group">
+        <label>Company Name</label>
+        <p>@Model.strCompanyName</p>
+    </div>
+
+    <div class="form-group">
+        <label>Area</label>
+        <p>@Model.strArea</p>
+    </div>
+    <div class="form-group">
+        <label>Country</label>
+        <p>@Model.iCountry</p>
+    </div>
+
+    <div class="form-group">
+        <label>City</label>
+        <p>@Model.iCity</p>
+    </div>
+    <div class="form-group">
+        <label>Email ID</label>
+        <p>@Model.strEmailID</p>
+    </div>
+
+    <div class="form-group">
+        <label>Website</label>
+        <p>@Model.strWebsites</p>
+    </div>
+    <div class="form-group">
+        <label>Phone Number</label>
+        <p>@Model.iPhoneNumber</p>
+    </div>
+
+    <div class="form-group">
+        <label>Office Number</label>
+        <p>@Model.iOfcPhoneNumber</p>
+    </div>
+    <div class="form-group">
+        <label>Address</label>
+        <p>@Model.strAddress</p>
+    </div>
+
+   
+
+    <div>
+        <input type="submit" value="Delete" />
+    </div>
+}
+

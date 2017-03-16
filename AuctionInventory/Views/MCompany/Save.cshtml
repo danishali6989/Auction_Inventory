@@ -1,0 +1,66 @@
+﻿
+@model AuctionInventory.Models.Company
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Save</h2>
+@using (Html.BeginForm("Save", "MCompany", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.iCompanyID > 0)
+    {
+        @Html.HiddenFor(a => a.iCompanyID)
+    }
+    <div class="form-group">
+        <label>Company Name</label>
+        @Html.TextBoxFor(a => a.strCompanyName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.strCompanyName)
+    </div>
+    <div class="form-group">
+        <label>Area</label>
+        @Html.TextBoxFor(a => a.strArea, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.strArea)
+    </div>
+    <div class="form-group">
+        <label>Country</label>
+        @Html.TextBoxFor(a => a.iCountry, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.iCountry)
+    </div>
+    <div class="form-group">
+        <label>City</label>
+        @Html.TextBoxFor(a => a.iCity, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.iCity)
+    </div>
+    <div class="form-group">
+        <label>Email ID</label>
+        @Html.TextBoxFor(a => a.strEmailID, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.strEmailID)
+    </div>
+    <div class="form-group">
+        <label>Website</label>
+        @Html.TextBoxFor(a => a.strWebsites, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.strWebsites)
+    </div>
+    <div class="form-group">
+        <label>Phone Number</label>
+        @Html.TextBoxFor(a => a.iPhoneNumber, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.iPhoneNumber)
+    </div>
+    <div class="form-group">
+        <label>Office Number</label>
+        @Html.TextBoxFor(a => a.iOfcPhoneNumber, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.iOfcPhoneNumber)
+    </div>
+    <div class="form-group">
+        <label>Address</label>
+        @Html.TextBoxFor(a => a.strAddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.strAddress)
+    </div>
+    
+    <div>
+        <input type="submit" value="Save" />
+    </div>
+}
+
+
+

@@ -1,0 +1,259 @@
+﻿@model AuctionInventory.Models.Purchase
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<meta name="viewport" content="width=device-width" />
+<title>Index</title>
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+    /*we have overrides the css to change border color of menus*/
+    .navbar-inverse {
+        background-color: #337ab7;
+        border-color: #333;
+    }
+
+    #divDetails #divParsedExcel {
+        margin-right: 5%;
+        margin-left: 5%;
+    }
+</style>
+
+@using (Html.BeginForm("delete", "TPurchase", FormMethod.Post, new { id = "popupForm" }))
+{
+    
+<div id="boxbody" style="width:90%; margin:0px auto" class="tablecontainer">
+    <div class="box-body">
+        <div id="divDetails" class="row">
+            @Html.HiddenFor(a => a.PurchaseID, new { @id = "PurchaseID" })
+            @*<label>Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>*@
+            <br />
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Purchase Inv No: </label>
+                    @*<label>Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>*@
+                    @Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })
+
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Purchase Inv Date:</label>
+                    @* <input type="datetime" name="name" value="" class="form-control datepicker" placeholder="Enter Drop-off date here..." />*@
+
+                    @Html.TextBoxFor(a => a.strPurchaseInvoiceDate, new { @class = "form-control datepicker", @placeholder = "Enter Drop-off date here..." })
+                    @Html.ValidationMessageFor(a => a.strPurchaseInvoiceDate)
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input type="hidden" id="hfSupplier" />
+                    <label>Supplier:</label>
+                    @Html.TextBoxFor(a => a.strSupplierName, new { @class = "form-control", @id = "txtSearchSupplier" })
+                    @Html.ValidationMessageFor(a => a.strSupplierName)
+                </div>
+            </div>
+
+
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Master Dec No:</label>
+                    @Html.TextBoxFor(a => a.strMasterDecNo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.strMasterDecNo)
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Bill No:</label>
+                    @Html.TextBoxFor(a => a.strBLNo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.strBLNo)
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Arrival Date:</label>
+                    @*<input type="datetime" name="name" value="" class="form-control  datepicker" placeholder="Enter Drop-off date here..." />*@
+                    @Html.TextBoxFor(a => a.strArrivalDate, new { @class = "form-control datepicker", @placeholder = "Enter Drop-off date here..." })
+                    @Html.ValidationMessageFor(a => a.strArrivalDate)
+                </div>
+            </div>
+
+
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>Conversion Rate:</label>
+                    @Html.TextBoxFor(a => a.dmlConversionRate, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.dmlConversionRate)
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row" id="divParsedExcel" style="display:none">
+
+            <div class="col-sm-6">
+                <b>Invoice value JPY </b>: &yen; <span id="spnINVJPY"></span>
+                <br />
+                <b>Invoice value AED </b>: 	د.إ <span id="spnINVAED"></span>
+            </div>
+           
+            @*<div class="col-sm-6">
+
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <input type="submit" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
+                        </div>
+
+                        <div class="col-sm-3">
+                            <input type="button" class='popup btn btn-info' name="Save" value="Stock Revice" />
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="button" class='popup btn btn-info' name="Save" value="Print Invoice" />
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="button" class='popup btn btn-info' name="Save" value="Print Custom Invoice" />
+                        </div>
+                    </div>
+                </div>*@
+            <br />
+            <br />
+
+            <table id="dataGrid" class="table table-bordered table-striped"></table>
+            <div id="pagingGrid"></div>
+
+        </div>
+
+        <div class="col-sm-2">
+            <input type="submit" class='popup btn btn-info' id="btnDeleteJQ" name="Delete" value="Delete" />
+        </div>
+
+    </div>
+</div>
+}
+
+<!-- /.box-body -->
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var request =@Model.PurchaseID
+        jQuery.ajax({
+            url: '/MVehicle/GetData/',
+            data: "{ 'id': '" + request + "'}",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+
+                var listVehicle = result.listVehicle
+
+                var sumOfJPY = result.sumOfJPY
+
+                var sumOfAED = result.sumOfAED
+                $("#spnINVJPY").text(sumOfJPY);
+                $("#spnINVAED").text(sumOfAED);
+                $("#divParsedExcel").show();
+                bindGrid(listVehicle);
+
+
+            }
+        });
+
+
+        function bindGrid(listVehicle) {
+
+
+            $('#dataGrid').jqGrid({
+
+                data: listVehicle,
+                datatype: "local",
+                colNames: ['ID','Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'CustomAssessed Value','Duty', 'JPY'],
+                colModel: [
+                    { name: 'iVehicleID', index: 'iVehicleID',hidden: true, editable: true, editrules: { edithidden: false }, hidedlg: true },
+                    { name: 'iLotNum', index: 'iLotNum' },
+                    { name: 'strChassisNum', index: 'strChassisNum' },
+                    { name: 'strMake', index: 'strMake' },
+                    { name: 'iModel', index: 'iModel' },
+                    { name: 'strCategory', index: 'strCategory'},
+                    { name: 'iYear', index: 'iYear' },
+                    { name: 'strColor', index: 'strColor' },
+                    { name: 'strOrigin', index: 'strOrigin' },
+                    { name: 'strLocation', index: 'strLocation' },
+                    { name: 'iCustomAssesVal', index: 'iCustomAssesVal' },
+                    { name: 'iDuty', index: 'iDuty' },
+                    { name: 'iCustomValInJPY', index: 'iCustomValInJPY' }
+
+
+                ],
+                width: 1050,
+                height: 250,
+                rowNum: 10,
+                loadonce: true,
+                rowList: [10, 20, 30],
+                pager: 'pagingGrid',
+
+            });
+            jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+            jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false, rel: false });
+        }
+    });
+
+
+</script>
+
+
+
+<script>
+
+
+    $("#btnDeleteJQ").click(function () {
+        debugger;
+        var purchase =@Model.PurchaseID
+        @*var purchase = {
+            PurchaseID:@Model.PurchaseID,
+            iPurchaseInvoiceNo: $('#invno').val(),
+            strPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
+            strSupplierName: $('#txtSearchSupplier').val(),
+            strMasterDecNo: $('#strMasterDecNo').val(),
+            strBLNo: $('#strBLNo').val(),
+            strArrivalDate: $('#strArrivalDate').val(),
+            dmlConversionRate: $('#dmlConversionRate').val()
+        }
+        var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');*@
+
+        $.ajax({
+            type: "POST",
+            url: "/TPurchase/Delete",
+            cache: false,
+            data: JSON.stringify({ purchase: purchase}),
+            // data: JSON.stringify(purchase),
+            dataType: this.dataType,
+            contentType: "application/json; charset=utf-8",
+            success: function (Data) {
+
+                window.location.href = "/TPurchase/GetPurchaseList";
+
+            },
+            error: function (data) {
+                $("#error_message").html(data);
+            }
+        });
+
+    });
+
+</script>
+
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>

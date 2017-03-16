@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<meta name="viewport" content="width=device-width" />
+<title>Index</title>
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+    /*we have overrides the css to change border color of menus*/
+    .navbar-inverse {
+        background-color: #337ab7;
+        border-color: #333;
+    }
+</style>
+
+<div style="width:90%; margin:70px auto" class="tablecontainer">
+    <a class="popup btn btn-primary" href="/MSupplier/save/0" style="margin-bottom:20px; margin-top:20px;">Add New Supplier</a>
+    <table id="myDatatable">
+        <thead>
+            <tr>
+
+                <th>Name</th>
+                <th>Email ID</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Pincode</th>
+                <th>Currency</th>
+                <th>Supplier Photo</th>
+                <th>Supplier Date</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        var oTable = $('#myDatatable').DataTable({
+            "scrollY": 400,
+            "scrollX": true,
+            "ajax": {
+                "url": '/MSupplier/GetAllSuppliers',
+                "type": "get",
+                "datatype": "json"
+            },
+
+            "columns": [
+                { "data": "FullName", "width": 150 },
+                { "data": "strEmailID", "autoWidth": true },
+                { "data": "iPhoneNumber", "autoWidth": true },
+                { "data": "strAddress", "autoWidth": true },
+                { "data": "iPincode", "autoWidth": true },
+                { "data": "iCurrency", "autoWidth": true },
+                { "data": "SupplierPhoto", "autoWidth": true },
+                { "data": "SupplierDate", "autoWidth": true },
+
+                {
+                  
+                    "data": "iSupplierID", "width": "50px", "render": function (data) {
+                        return '<a class="popup"  href="/MSupplier/save/' + data + '">Edit</a>';
+
+                    }
+                },
+                {
+                    "data": "iSupplierID", "width": "50px", "render": function (data) {
+                        return '<a class="popup" href="/MSupplier/delete/' + data + '">Delete</a>';
+                    }
+                }
+            ]
+        })
+    })
+</script>
+
+
+

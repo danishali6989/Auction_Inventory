@@ -1,0 +1,96 @@
+﻿@model AuctionInventory.Models.Vehicles
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete Employee</h2>
+@using (Html.BeginForm("delete", "MVehicle", FormMethod.Post, new { id = "popupForm" }))
+{
+    @Html.HiddenFor(a => a.iVehicleID)
+    <div class="form-group">
+        <label>Lot Number </label>
+        <p>@Model.iLotNum </p>
+    </div>
+
+    <div class="form-group">
+        <label>Grade </label>
+        <p>@Model.strGrade </p>
+    </div>
+
+    <div class="form-group">
+        <label>Chassis Number </label>
+        <p>@Model.strChassisNum </p>
+    </div>
+    <div class="form-group">
+        <label>Category </label>
+        <p>@Model.strCategory </p>
+    </div>
+
+    <div class="form-group">
+        <label>Make </label>
+        <p>@Model.strMake </p>
+    </div>
+
+    <div class="form-group">
+        <label>Model </label>
+        <p>@Model.iModel </p>
+    </div>
+    <div class="form-group">
+        <label>Year </label>
+        <p>@Model.iYear </p>
+    </div>
+
+    <div class="form-group">
+        <label>Color </label>
+        <p>@Model.iColor </p>
+    </div>
+
+    <div class="form-group">
+        <label>KM </label>
+        <p>@Model.dmlKM </p>
+    </div>
+    <div class="form-group">
+        <label>Origin </label>
+        <p>@Model.strOrigin </p>
+    </div>
+
+    <div class="form-group">
+        <label>Door </label>
+        <p>@Model.iDoor </p>
+    </div>
+
+    <div class="form-group">
+        <label>Location </label>
+        <p>@Model.strLocation </p>
+    </div>
+    <div class="form-group">
+        <label>weight </label>
+        <p>@Model.weight </p>
+    </div>
+
+    <div class="form-group">
+        <label>HSCode </label>
+        <p>@Model.strHSCode </p>
+    </div>
+
+    <div class="form-group">
+        <label>ATMT </label>
+        <p>@Model.ATMT </p>
+    </div>
+    <div class="form-group">
+        <label>Custom Asses Val </label>
+        <p>@Model.iCustomAssesVal </p>
+    </div>
+
+    <div class="form-group">
+        <label>Duty  </label>
+        <p>@Model.iDuty  </p>
+    </div>
+    <div class="form-group">
+        <label>Custom Val In JPY  </label>
+        <p>@Model.iCustomValInJPY  </p>
+    </div>
+    <div>
+        <input type="submit" value="Delete" />
+    </div>
+}

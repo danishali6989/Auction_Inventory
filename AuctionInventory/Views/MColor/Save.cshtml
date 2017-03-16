@@ -1,0 +1,42 @@
+﻿@*@{
+        ViewBag.Title = "Save";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
+
+@model AuctionInventory.Models.Color
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    .error {
+        color: red;
+    }
+</style>
+<h2>Save</h2>
+@using (Html.BeginForm("save", "MColor", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.iColorID > 0)
+    {
+        @Html.HiddenFor(a => a.iColorID)
+    }
+
+
+    
+
+    <div class="form-group">
+        <label>Color Name</label>
+        @Html.TextBoxFor(a => a.strColorName, new { @class = "form-control" })        
+        @Html.ValidationMessageFor(m => m.strColorName, "", new { @class = "error" })
+    </div>
+
+    <div>
+        <input type="submit" value="Save" />
+    </div>
+}
+

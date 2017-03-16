@@ -1,0 +1,152 @@
+﻿@*@model AuctionInventory.Models.Vehicles*@
+@model IEnumerable<AuctionInventory.Models.Vehicles>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+    /*we have overrides the css to change border color of menus*/
+    .navbar-inverse {
+        background-color: #337ab7;
+        border-color: #333;
+    }
+
+    #divDetails #divParsedExcel {
+        margin-right: 5%;
+        margin-left: 5%;
+    }
+</style>
+
+<div class="box-body">
+    <table id="myDatatable">
+       
+        <thead>
+            <tr>
+                <th>Purchase ID</th>
+                <th>InvoiceNo</th>
+                <th>InvoiceDate</th>
+                <th>SupplierName</th>
+                <th>MasterDecNo</th>
+                <th>BLNo</th>
+                <th>ArrivalDate</th>
+                <th>ConversionRate</th>
+                <th>AED</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#myDatatable').DataTable({
+            "scrollY": 400,
+            "scrollX": true,
+            "ajax": {
+                "url": '/TPurchase/GetAllPurchase',
+                "type": "get",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "PurchaseID", "autoWidth": true },
+                { "data": "iPurchaseInvoiceNo", "autoWidth": true },
+                { "data": "strPurchaseInvoiceDate", "autoWidth": true },
+                { "data": "strSupplierName", "autoWidth": true },
+                { "data": "strMasterDecNo", "autoWidth": true },
+                { "data": "strBLNo", "autoWidth": true },
+                { "data": "strArrivalDate", "autoWidth": true },
+                //{ "data": "strInvoiceValue", "autoWidth": true },
+                { "data": "dmlConversionRate", "autoWidth": true },
+                { "data": "iAED", "autoWidth": true },
+
+                {
+                    "data": "PurchaseID", "width": "50px", "render": function (data) {
+                        return '<a  href="/TPurchase/UpdateIndex/' + data + '">Edit</a>';
+                    }
+                },
+                {
+                    "data": "PurchaseID", "width": "50px", "render": function (data) {
+                        return '<a  href="/TPurchase/delete/' + data + '">Delete</a>';
+                    }
+                }
+            ]
+        })
+    });
+</script>
+
+
+    @*<div class="box-body">
+        <div class="row">
+            <table id="dataGrid" class="table table-bordered table-striped"></table>
+            <div id="pagingGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        var end;
+        $(document).ready(function () {
+
+            $('#dataGrid').jqGrid({
+
+                url: '/TPurchase/GetAllPurchase/',
+                datatype: "json",
+                contentType: "application/json; charset-utf-8",
+                mtype: 'GET',
+                colNames: ['Purchase ID', 'InvoiceNo', 'InvoiceDate', 'SupplierName', 'MasterDecNo', 'BLNo', 'ArrivalDate', 'ConversionRate', 'AED', 'Action'],
+                colModel: [
+                     { name: 'PurchaseID', index: 'PurchaseID', editable: true },
+                    { name: 'iPurchaseInvoiceNo', index: 'iPurchaseInvoiceNo', editable: true },
+                    { name: 'strPurchaseInvoiceDate', index: 'strPurchaseInvoiceDate', editable: true },
+                    { name: 'strSupplierName', index: 'strSupplierName', editable: true },
+                    { name: 'strMasterDecNo', index: 'strMasterDecNo', editable: true },
+                    { name: 'strBLNo', index: 'strBLNo', editable: true },
+                    { name: 'strArrivalDate', index: 'strArrivalDate', editable: true },
+                    { name: 'dmlConversionRate', index: 'dmlConversionRate', editable: true },
+                     { name: 'iAED', index: 'iAED', editable: true },
+                    //{ name: 'act', index: 'act', width: 350 }
+
+                    {
+                        name: 'Action', index: 'Action', align: 'center', width: 200, search: false, title: false,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return '<a class=" btn btn-info" href="/MVehicle/Save/' + options.rowId + '">' + "Edit" + '</a>' + "     " + '<a class="btn btn-info" href="/MVehicle/Delete/' + options.rowId + '">' + "Delete" + '</a>';
+
+                        }
+                    },
+
+                ],
+                width: 1050,
+                height: 250,
+                rowNum: 10,
+                loadonce: true,
+                rowList: [10, 20, 30],
+                pager: 'pagingGrid',
+                caption: 'Select Invoice to edit',
+                //cellEdit: true,
+                //cellsubmit: 'clientArray',
+                //gridComplete: function () {
+
+                //    var ids = jQuery("#dataGrid").jqGrid('getDataIDs');
+
+                //    for (var i = 0; i < ids.length; i++) {
+                //        var cl = ids[i];
+                //        be = "<input class='popup btn btn-info' style='margin-right: 5%; margin-left: 8%;' type='button' value='Edit' onclick=\"jQuery('#dataGrid').editRow('" + cl + "');\"  />";
+                //        se = "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Save' onclick=\"jQuery('#dataGrid').saveRow('" + cl + "');\"  />";
+                //        ce = "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Cancel' onclick=\"jQuery('#dataGrid').restoreRow('" + cl + "');\" />";
+                //        jQuery("#dataGrid").jqGrid('setRowData', ids[i], { act: be + se + ce });
+                //    }
+                //},
+            });
+            jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+            jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+        });
+    </script>*@
+
+<!-- JqGrid Scripts -->
+@*<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>*@

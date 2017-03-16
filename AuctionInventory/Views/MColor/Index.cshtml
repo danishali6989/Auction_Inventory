@@ -1,0 +1,113 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<meta name="viewport" content="width=device-width" />
+<title>Index</title>
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+    /*we have overrides the css to change border color of menus*/
+    .navbar-inverse {
+        background-color: #337ab7;
+        border-color: #333;
+    }
+</style>
+
+<div id="boxbody" style="width:90%; margin:70px auto" class="tablecontainer">
+    @*@Html.ActionLink("Create New", "Save",null, new { @class = "btn btn-default" })*@
+    <a class="popup btn btn-primary" href="/MColor/save/0" style="margin-bottom:20px; margin-top:20px;">Add New Color</a>
+    <table id="myDatatable">
+        <thead>
+            <tr>
+                <th>Color Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var oTable = $('#myDatatable').DataTable({
+            //"scrollY": 200,
+            //"scrollX": true,
+            "ajax": {
+                "url": '/MColor/GetAllColor',
+                "type": "get",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "strColorName", "autoWidth": true },
+
+                {
+                    "data": "iColorID", "width": "50px", "render": function (data) {
+                        return '<a class="popup" href="/MColor/save/' + data + '">Edit</a>';
+                    }
+                },
+                {
+                    "data": "iColorID", "width": "50px", "render": function (data) {
+                        return '<a class="popup" href="/MColor/delete/' + data + '">Delete</a>';
+                    }
+                }
+            ]
+        })
+
+        //$('.tablecontainer').on('click', 'a.popup', function (e) {
+        //    e.preventDefault();
+
+        //    //$('#ModalAddColor').modal('show');
+
+        //    OpenPopup($(this).attr('href'));
+        //})
+        function OpenPopup(pageUrl) {
+            var $pageContent = $('<div/>');
+            $pageContent.load(pageUrl, function () {
+                $('#popupForm', $pageContent).removeData('validator');
+                $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse('form');
+
+            });
+
+            $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
+                      .html($pageContent)
+                      .dialog({
+                          draggable: false,
+                          autoOpen: false,
+                          resizable: false,
+                          model: true,
+                          title: 'Popup Dialog',
+                          height: 550,
+                          width: 600,
+                          close: function () {
+                              $dialog.dialog('destroy').remove();
+                          }
+                      })
+
+            $('.popupWindow').on('submit', '#popupForm', function (e) {
+                var url = $('#popupForm')[0].action;
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#popupForm').serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            $dialog.dialog('close');
+                            oTable.ajax.reload();
+                        }
+                    }
+                })
+
+                e.preventDefault();
+            })
+
+            $dialog.dialog('open');
+        }
+    })
+    function getfocus() {
+        document.getElementById("myAnchor").focus();
+    }
+</script>
+

@@ -1,0 +1,752 @@
+﻿@model AuctionInventory.Models.Purchase
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<meta name="viewport" content="width=device-width" />
+<title>Index</title>
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+    /*we have overrides the css to change border color of menus*/
+    .navbar-inverse {
+        background-color: #337ab7;
+        border-color: #333;
+    }
+
+    #divDetails #divParsedExcel {
+        margin-right: 5%;
+        margin-left: 5%;
+    }
+</style>
+
+<script type="text/javascript">
+    $.ajax({
+        url: '/TPurchase/GetInvoice/',
+        dataType: "json",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $("#invno").html(data);
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#txtSearchSupplier").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/TPurchase/AutoComplete/',
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (!data.length) {
+                            var result = [
+                             {
+                                 label: 'No matches found',
+                                 value: response.term
+                             }
+                            ];
+                            response(result);
+                        }
+                        else {
+                            // normal response
+                            response($.map(data, function (item) {
+                                return {
+
+                                    label: item.strFirstName,
+                                    value: item.strFirstName
+                                }
+                            }));
+                        }
+                    }
+
+
+                    //success: function (data) {
+                    //    var items = $.map(data, function (item) {
+                    //        return {
+                    //            strFirstName: item.strFirstName,
+                    //            //strLastName : item.strLastName,
+                    //            //strEmailID : item.strEmailID,
+                    //            iSupplierID: item.iSupplierID,
+                    //            value: item.strFirstName
+
+                    //            //,value: item.strLastName,
+                    //            //value: item.strEmailID
+
+                    //        };
+                    //    });
+                    //    response(items);
+                    //}
+                });
+            },
+            select: function (event, i) {
+
+                event.preventDefault();
+
+                $("#txtSearchSupplier").val(i.item.value);
+                //$("#txtSearchSupplier").val(i.item.strLastName);
+                //$("#txtSearchSupplier").val(i.item.strEmailID);
+                $("#hfSupplier").val(i.item.iSupplierID);
+                return false;
+            },
+            minLength: 1
+        });
+    });
+</script>
+
+<div id="boxbody" style="width:90%; margin:0px auto" class="tablecontainer">
+    <div class="box-body">
+
+
+
+        <!-- /modal For Purchase Alert -->
+        <div class="example-modal">
+            <div class="modal" id="alertModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3 class="modal-title"></h3>
+                        </div>
+                        <div class="modal-body" id="Modal" style="border-bottom:1px solid #f4f4f4">
+                            <div class="box-body">
+                                <div id="alertDiv">
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <input type="button" class="btn btn-info pull-right" id="btnNewCustomerAdd" value="Save" />
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div><!-- /.example-modal -->
+        <!-- /End-modal  -->
+
+
+
+        <div id="divDetails" class="row">
+            @Html.ValidationSummary(true)
+            @*@Html.HiddenFor(a => a.PurchaseID, new {  @id = "PurchaseID" })*@
+            <label>Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>
+            <br />
+
+            @*@Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })*@
+            <br />
+            @*<div class="col-sm-6">
+                    <div class="form-group">
+                        <label> &nbsp; </label><br />
+                        <label>Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>
+
+                    </div>
+                </div>*@
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Purchase Inv Date:</label>
+                    @* <input type="datetime" name="name" value="" class="form-control datepicker" placeholder="Enter Drop-off date here..." />*@
+
+                    @Html.TextBoxFor(a => a.strPurchaseInvoiceDate, new { @class = "form-control datepicker", @required = "required", @id = "strPurchaseInvoiceDate", @placeholder = "Enter Drop-off date here..." })
+                    @Html.ValidationMessageFor(a => a.strPurchaseInvoiceDate)
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input type="hidden" id="hfSupplier" />
+                    <label>Supplier:</label>
+                    @Html.TextBoxFor(a => a.strSupplierName, new
+               {
+                   @class = "form-control",
+                   @id = "txtSearchSupplier",
+                   @required = "required", @placeholder = "Search By Supplier FirstName"})
+                    @Html.ValidationMessageFor(a => a.strSupplierName)
+                </div>
+            </div>
+
+
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Master Dec No:</label>
+                    @Html.TextBoxFor(a => a.strMasterDecNo, new { @class = "form-control", @id = "strMasterDecNo", @required = "required" })
+                    @Html.ValidationMessageFor(a => a.strMasterDecNo)
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>BL No:</label>
+                    @Html.TextBoxFor(a => a.strBLNo, new { @class = "form-control", @id = "strBLNo", @required = "required" })
+                    @Html.ValidationMessageFor(a => a.strBLNo)
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Arrival Date:</label>
+                    @*<input type="datetime" name="name" value="" class="form-control  datepicker" placeholder="Enter Drop-off date here..." />*@
+                    @Html.TextBoxFor(a => a.strArrivalDate, new { @class = "form-control datepicker", @required = "required", @id = "strArrivalDate", @placeholder = "Enter Drop-off date here..." })
+                    @Html.ValidationMessageFor(a => a.strArrivalDate)
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Conversion Rate:</label>
+                    @Html.TextBoxFor(a => a.dmlConversionRate, new { @class = "form-control", @id = "dmlConversionRate", Value = "0.033" })
+                    @Html.ValidationMessageFor(a => a.dmlConversionRate)
+                </div>
+
+            </div>
+
+
+            <div class="col-sm-4">
+                &nbsp;
+                @*<div class="form-group">
+                        <label>&nbsp;</label><br />
+                        <input class='popup btn btn-info' type="button" name="Submit" value="Choose File" id="browse" />
+                        <input type="file" id="UploadedFile" name="UploadedFile" style="display:none"/>
+                    </div>*@
+            </div>
+
+
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>&nbsp;</label><br />
+                    <input class='popup btn btn-info' type="button" name="Submit" value="Choose File" id="browse" />
+                    <input type="file" id="UploadedFile" name="UploadedFile" style="display:none" />
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>&nbsp;</label><br />
+                    <input class='popup btn btn-info' type="button" name="Submit" value="Import Vehicals" id="btnUpload" />
+                </div>
+            </div>
+
+
+            <div class="col-sm-4">
+
+                &nbsp;
+                @*<div class="form-group">
+                        <label>&nbsp;</label><br />
+
+                        <input class='popup btn btn-info' type="button" name="Submit" value="Import Vehicals" id="btnUpload" />
+                    </div>*@
+            </div>
+
+
+
+        </div>
+
+
+        <div class="row" id="divParsedExcel" style="display:none">
+
+            <div class="col-sm-6">
+                <b>Invoice value JPY </b>: &yen; <span id="spnINVJPY"></span>
+                <br />
+                <b>Invoice value AED </b>: 	د.إ <span id="spnINVAED"></span>
+            </div>
+
+            <div class="col-sm-6">
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <input type="submit" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
+                    </div>
+                    @*<div class="col-sm-2">
+                            <input type="button" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
+                        </div>*@
+                    <div class="col-sm-3">
+                        <input type="button" class='popup btn btn-info' id="btnRcvStock" name="Save" value="Stock Revice" />
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="button" class='popup btn btn-info' name="Save" value="Print Invoice" />
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="button" class='popup btn btn-info' name="Save" value="Print Custom Invoice" />
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+
+            <table id="dataGrid" class="table table-bordered table-striped"></table>
+            <div id="pagingGrid"></div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<!-- /.box-body -->
+
+
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+    });
+
+</script>
+
+
+@*<script>
+    $("#btnRcvStock").click(function () {
+        var id = $('#invno').val();
+        $.ajax({
+            type: "POST",
+            url: "/TPurchase/Save",
+            cache: false,
+            data: JSON.stringify({ id: id }),
+            // data: JSON.stringify(purchase),
+            dataType: this.dataType,
+            contentType: "application/json; charset=utf-8",
+            success: function (Data) {
+
+            }
+        });
+
+    });
+
+</script>*@
+
+<script>
+
+    // What is this !!!!
+    $("#btnSaveJQ").click(function () {
+        debugger;
+        var validPurchase = ValidatePurchaseInfo();
+        if (validPurchase == true) {
+
+            //debugger;
+            //var tes = "salman"
+            //var alphanumers = /^[a-zA-Z0-9]+$/;
+            //if (!alphanumers.test(tes)) {
+            //    alert("Special chareter found");
+            //    $("#textboxid").css({ "background-color": "color" });
+            //    return false;
+            //}
+
+            var purchase = {
+                iPurchaseInvoiceNo: $('#invno').val(),
+                strPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
+                strSupplierName: $('#txtSearchSupplier').val(),
+                strMasterDecNo: $('#strMasterDecNo').val(),
+                strBLNo: $('#strBLNo').val(),
+                strArrivalDate: $('#strArrivalDate').val(),
+                dmlConversionRate: $('#dmlConversionRate').val()
+            }
+            var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+
+            $.ajax({
+                type: "POST",
+                url: "/TPurchase/Save",
+                cache: false,
+                data: JSON.stringify({ purchase: purchase, griddata: griddata }),
+                // data: JSON.stringify(purchase),
+                dataType: this.dataType,
+                contentType: "application/json; charset=utf-8",
+                success: function (Data) {
+                    window.location.href = "/TPurchase/GetPurchaseList";
+                    // debugger;
+                    // To Do- Redirect after success result
+                    if (Data.status) {
+                        //var url = "/Artists/Details?NestId=" + NestId;
+                        //window.location.href = url;
+                       
+                        //window.location.href = "/TPurchase/GetPurchaseList";
+                        //alert("Data Saved")
+                    }
+                    //var $result = $(Data).find(purID);
+                    //alert($result);
+
+                    //$('#result').html('"PassGriddata()" successfully called.');
+
+
+
+
+                    //var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+
+                    //griddata = JSON.stringify({ 'griddata': griddata });
+                    //$.ajax({
+                    //    contentType: 'application/json; charset=utf-8',
+                    //    dataType: 'json',
+                    //    type: 'POST',
+                    //    url: '/MVehicle/PassGriddata',
+                    //    data: griddata,
+                    //    success: function () {
+                    //        $('#result').html('"PassGriddata()" successfully called.');
+                    //    },
+                    //    failure: function (response) {
+                    //        $('#result').html(response);
+                    //    }
+                    //});
+                },
+                error: function (data) {
+                    $("#error_message").html(data);
+                }
+            });
+        }
+
+
+        else {
+            //$('#alertModal').modal('show');
+            if (document.getElementById('strPurchaseInvoiceDate').value == "") {
+                $('#strPurchaseInvoiceDate').css('border-color', 'red');
+            }
+            else
+               
+                if (document.getElementById('txtSearchSupplier').value == "") {
+                    $('#txtSearchSupplier').css('border-color', 'red');
+                } else
+                  
+                    if (document.getElementById('strMasterDecNo').value == "") {
+                        $('#strMasterDecNo').css('border-color', 'red');
+                    } else
+                      
+                        if (document.getElementById('strBLNo').value == "") {
+                            $('#strBLNo').css('border-color', 'red');
+                        } else
+                          
+                            if (document.getElementById('strArrivalDate').value == "") {
+                                $('#strArrivalDate').css('border-color', 'red');
+                            }
+            //$('#strPurchaseInvoiceDate').css('border-color', 'red');
+            //$("#txtSearchSupplier").css({ "border-color": "red" });
+            //$("#strMasterDecNo").css({ "border-color": "red" });
+            //$("#strBLNo").css({ "border-color": "red" });
+            //$("#strArrivalDate").css({ "border-color": "red" });
+            //$('#alertDiv').html("Plese fill all the fields");
+            //$('#txtSearchSupplier').html("Plese fill all the fields");
+            //$('#strMasterDecNo').html("Plese fill all the fields");
+            //$('#strBLNo').html("Plese fill all the fields");
+            //$('#strArrivalDate').html("Plese fill all the fields");
+        }
+
+
+
+
+    });
+
+
+    $(document).ready(function () {
+
+        $('#browse').bind('click', function (e) {
+            $('#UploadedFile').click();
+        });
+
+
+        $('#btnUpload').click(function () {
+
+            // Checking whether FormData is available in browser
+            if (window.FormData !== undefined) {
+
+                var fileUpload = $("#UploadedFile").get(0);
+                var files = fileUpload.files;
+
+                // Create FormData object
+                var fileData = new FormData();
+
+                // Looping over all files and add it to FormData object
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                // Adding one more key to FormData object
+                fileData.append('username', 'Salman');
+
+                $.ajax({
+                    url: '/TPurchase/UploadFiles',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        $("#divParsedExcel").show();
+                        sumOfJPY, sumOfAED
+                        var listVehicle = result.listVehicle
+
+                        var sumOfJPY = result.sumOfJPY
+
+                        var sumOfAED = result.sumOfAED
+                       
+                        $("#spnINVJPY").text(sumOfJPY);
+                        $("#spnINVAED").text(sumOfAED);
+
+
+                        var lastsel;
+                        $('#dataGrid').jqGrid({
+                            //// Comment and uncomment below lines for ajax and local data
+                            //    caption: "Invoice Discription",
+                            //    url: '/MVehicle/GetData/',
+                            //    datatype: "json",
+                            //    contentType: "application/json; charset-utf-8",
+                            //    mtype: 'GET',
+
+                            caption: "Invoice Discription",
+                            data: listVehicle,
+                            datatype: "local",
+                            // colNames: ['Action', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Assessed Value', 'AED'],
+
+
+
+                            colNames: ['Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'CustomAssessed Value','Duty', 'JPY'],
+                            colModel: [
+                                { name: 'iLotNum', index: 'iLotNum', editable: true },
+                                { name: 'strChassisNum', index: 'strChassisNum', editable: true },
+                                { name: 'strMake', index: 'strMake', editable: true },
+                                { name: 'iModel', index: 'iModel', editable: true },
+                                { name: 'strCategory', index: 'strCategory', editable: true },
+                                { name: 'iYear', index: 'iYear', editable: true },
+                                { name: 'strColor', index: 'strColor', editable: true },
+                                { name: 'strOrigin', index: 'strOrigin', editable: true },
+                                { name: 'strLocation', index: 'strLocation', editable: true },
+                                { name: 'iCustomAssesVal', index: 'iCustomAssesVal', editable: true },
+                                { name: 'iDuty', index: 'iDuty', editable: true },
+                                { name: 'iCustomValInJPY', index: 'iCustomValInJPY', editable: true }
+                                
+
+                                //,{ name: 'act', index: 'act', width: 750 }
+
+
+
+                            //colNames: ['Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Assessed Value', 'AED', 'Action'],
+                            //colModel: [
+
+                            //    { name: 'iLotNum', index: 'iLotNum', editable: true },
+                            //    { name: 'strChassisNum', index: 'strChassisNum', editable: true },
+                            //    { name: 'iModel', index: 'iModel', editable: true },
+                            //    { name: 'iYear', index: 'iYear', editable: true },
+                            //    { name: 'strColor', index: 'strColor', editable: true },
+                            //    { name: 'iCustomValInJPY', index: 'iCustomValInJPY', editable: true },
+                            //    { name: 'iCustomAssesVal', index: 'iCustomAssesVal', editable: true },
+                            //    { name: 'AED', index: 'AED', editable: true },
+                            //    { name: 'act', index: 'act', width: 350 }
+
+                                //{
+                                //    name: 'Action', index: 'Action', align: 'center', width: 200, search: false, title: false,
+                                //    formatter: function (cellvalue, options, rowObject) {
+                                //        return '<a class="popup btn btn-info" href="/MVehicle/Save/' + options.rowId + '">' + "Edit" + '</a>' + "     " + '<a class="popup btn btn-info" href="/MVehicle/Delete/' + options.rowId + '">' + "Delete" + '</a>';
+
+                                //    }
+                                //},
+
+                            ],
+                            width: 1050,
+                            height: 250,
+                            rowNum: 10,
+                            //loadonce: true,
+                            rowList: [10, 20, 30],
+                            pager: 'pagingGrid',
+                            caption: 'Select Invoice to edit',
+                            //cellEdit: true,
+                            cellsubmit: 'clientArray',
+                            onSelectRow: function (id) {
+                               
+                                if (id !== lastsel) {
+
+
+                                    jQuery('#dataGrid').jqGrid('saveRow', lastsel);
+
+                                    lastsel = id;
+
+                                }
+                                jQuery('#dataGrid').jqGrid('editRow', id, true);
+                                return true;
+
+                            },
+
+
+                            //gridComplete: function () {
+
+                            //    var ids = jQuery("#dataGrid").jqGrid('getDataIDs');
+
+                            //    for (var i = 0; i < ids.length; i++) {
+                            //        var cl = ids[i];
+                            //        //be = "<input class='popup btn btn-info' style='margin-right: 5%; margin-left: 8%;' type='button' value='Edit' onclick=\"jQuery('#dataGrid').editRow('" + cl + "');\"  />";
+                            //        se = "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Save' onclick=\"jQuery('#dataGrid').saveRow('" + cl + "');\"  />";
+                            //        //ce = "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Cancel' onclick=\"jQuery('#dataGrid').restoreRow('" + cl + "');\" />";
+                            //        jQuery("#dataGrid").jqGrid('setRowData', ids[i], { act: se });
+                            //    }
+                            //},
+                        });
+                        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+                        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false, rel: false });
+
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            } else {
+                alert("FormData is not supported.");
+            }
+        });
+    });
+</script>
+@*<script>
+        $(document).ready(function () {
+            var oTable = $('#myDatatable').DataTable({
+                "scrollY": 400,
+                "scrollX": true,
+                "ajax": {
+                    "url": '/TPurchase/GetAllPurchase',
+                    "type": "get",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "iPurchaseInvoiceNo", "autoWidth": true },
+                    { "data": "strPurchaseInvoiceDate", "autoWidth": true },
+                    { "data": "strSupplierName", "autoWidth": true },
+                    { "data": "strMasterDecNo", "autoWidth": true },
+                    { "data": "strBLNo", "autoWidth": true },
+                    { "data": "strArrivalDate", "autoWidth": true },
+                    { "data": "strInvoiceValue", "autoWidth": true },
+                    { "data": "dmlConversionRate", "autoWidth": true },
+                    { "data": "iAED", "autoWidth": true },
+
+                    {
+                        "data": "ID", "width": "50px", "render": function (data) {
+                            return '<a class="popup" href="/TPurchase/save/' + data + '">Edit</a>';
+                        }
+                    },
+                    {
+                        "data": "ID", "width": "50px", "render": function (data) {
+                            return '<a class="popup" href="/TPurchase/delete/' + data + '">Delete</a>';
+                        }
+                    }
+                ]
+            })
+
+            $('.tablecontainer').on('click', 'a.popup', function (e) {
+                e.preventDefault();
+                OpenPopup($(this).attr('href'));
+            })
+            function OpenPopup(pageUrl) {
+                var $pageContent = $('<div/>');
+                $pageContent.load(pageUrl, function () {
+                    $('#popupForm', $pageContent).removeData('validator');
+                    $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
+                    $.validator.unobtrusive.parse('form');
+
+                });
+
+                $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
+                          .html($pageContent)
+                          .dialog({
+                              draggable: false,
+                              autoOpen: false,
+                              resizable: false,
+                              model: true,
+                              title: 'Popup Dialog',
+                              height: 550,
+                              width: 600,
+                              close: function () {
+                                  $dialog.dialog('destroy').remove();
+                              }
+                          })
+
+                $('.popupWindow').on('submit', '#popupForm', function (e) {
+                    var url = $('#popupForm')[0].action;
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: $('#popupForm').serialize(),
+                        success: function (data) {
+                            if (data.status) {
+                                $dialog.dialog('close');
+                                oTable.ajax.reload();
+                            }
+                        }
+                    })
+
+                    e.preventDefault();
+                })
+
+                $dialog.dialog('open');
+            }
+        })
+        function getfocus() {
+            document.getElementById("myAnchor").focus();
+        }
+    </script>*@
+<script>
+
+
+    $('#strMasterDecNo').bind('keypress', function (e) {
+        console.log(e.which);
+        if ($('#strMasterDecNo').val().length == 0) {
+            var k = e.which;
+            var ok = k >= 65 && k <= 90 || // A-Z
+                k >= 97 && k <= 122 || // a-z
+                k >= 48 && k <= 57; // 0-9
+
+            if (!ok) {
+                e.preventDefault();
+            }
+        }
+    });
+    $('#strBLNo').bind('keypress', function (e) {
+        console.log(e.which);
+        if ($('#strBLNo').val().length == 0) {
+            var k = e.which;
+            var ok = k >= 65 && k <= 90 || // A-Z
+                k >= 97 && k <= 122 || // a-z
+                k >= 48 && k <= 57; // 0-9
+
+            if (!ok) {
+                e.preventDefault();
+            }
+        }
+    });
+
+
+
+    //To validate fields for Purchase
+    function ValidatePurchaseInfo() {
+
+        if (
+            (jQuery.trim($('#strPurchaseInvoiceDate').val()) == "") ||
+             (jQuery.trim($('#txtSearchSupplier').val()) == "") ||
+             (jQuery.trim($('#strMasterDecNo').val()) == "") ||
+             (jQuery.trim($('#strBLNo').val()) == "") ||
+             (jQuery.trim($('#strArrivalDate').val()) == "")
+
+             ) {
+
+            return false;
+        }
+        else {
+
+            return true;
+        }
+    }
+
+
+
+</script>
+
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>
+@*<script src="~/scripts/jQuery-ui-1.9.2.custom.js"></script>*@
+
+
+
+

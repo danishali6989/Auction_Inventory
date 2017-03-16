@@ -1,0 +1,359 @@
+﻿@*@model IEnumerable<AuctionInventory.Models.Vehicles>*@
+@model IEnumerable<AuctionInventoryDAL.Entity.Vehicle>
+@*@model AuctionInventory.Models.Purchase*@
+@{
+    ViewBag.Title = "GeneratePDF";
+    Layout = null;
+}
+
+@*<h2>GeneratePDF</h2>*@
+<head>
+    <title>Print Fax View</title>
+    <meta content="text/html; charset=utf-8" http-equiv=Content-Type>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*<script src="~/Content/plugins/jsPDF/jspdf.js"></script>
+        <script src="~/Content/plugins/jsPDF/jspdf.plugin.addimage.js"></script>
+        <script src="~/Content/plugins/jsPDF/jspdf.plugin.cell.js"></script>
+        <script src="~/Content/plugins/jsPDF/jspdf.plugin.from_html.js"></script>
+        <script src="~/Content/plugins/jsPDF/jspdf.plugin.ie_below_9_shim.js"></script>
+        <script src="~/Content/plugins/jsPDF/jspdf.plugin.javascript.js"></script>
+        <script src="~/Content/plugins/jsPDF/jspdf.plugin.sillysvgrenderer.js"></script>
+        <script src="~/Content/plugins/jsPDF/jspdf.plugin.split_text_to_size.js"></script>
+        <script src="~/Content/plugins/jsPDF/jspdf.plugin.standard_fonts_metrics.js"></script>
+        <script src="~/Content/plugins/jsPDF/jspdf.PLUGINTEMPLATE.js"></script>
+        <script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
+        <script src="~/Scripts/jquery-3.1.1.min.js"></script>*@
+
+    @*<link rel="stylesheet" href="libs/pure-min.css">*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    @*<link rel="stylesheet" href="libs/grids-responsive-min.css">*@
+
+    <title>AutoTable sample By Shazy</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #e74c3c;
+            border-bottom: 5px solid #c0392b;
+            height: 50px;
+            white-space: nowrap;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0 10px;
+        }
+
+            .navbar h1 {
+                font-size: 20px;
+                color: #fff;
+            }
+
+        .menu {
+            padding: 0;
+            list-style: none;
+        }
+
+            .menu li {
+                vertical-align: top;
+            }
+
+                .menu li a {
+                    text-decoration: none;
+                    color: #fff;
+                    font-weight: bold;
+                    font-family: sans-serif;
+                    padding: 10px 0;
+                    line-height: 25px;
+                }
+
+                    .menu li a:hover {
+                        font-style: italic;
+                    }
+
+        #panel {
+            background: #141f2b;
+            padding: 10px;
+            height: 100%;
+        }
+
+        #wrapper {
+            overflow: hidden;
+            height: 100%;
+            background: rgba(193, 193, 193, 1);
+        }
+
+        #output {
+            width: 100%;
+            height: 100%;
+            background: rgba(193, 193, 193, 1);
+        }
+    </style>
+
+    @*<script src="libs/jspdf.debug.js"></script>
+
+        <script src="libs/faker.min.js"></script>
+        <script src="libs/jspdf.plugin.autotable.js"></script>
+
+        <script src="examples.js"></script>*@
+
+    <script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
+    <script src="~/Content/plugins/jsPDF-2/faker.min.js"></script>
+    <script src="~/Content/plugins/jsPDF-2/jspdf.plugin.autotable.js"></script>
+    <script src="~/Content/plugins/jsPDF-2/examples.js"></script>
+
+    <script>
+        window.onhashchange = function () {
+            update();
+        };
+
+        document.getElementById('download-btn').onclick = function () {
+            update(true);
+        };
+
+        function update(shouldDownload) {
+            var funcStr = window.location.hash.replace(/#/g, '') || 'auto';
+            var doc = examples[funcStr]();
+
+            doc.setProperties({
+                title: 'Example: ' + funcStr,
+                subject: 'A jspdf-autotable example pdf (' + funcStr + ')'
+            });
+
+            if (shouldDownload) {
+                doc.save('table.pdf');
+            } else {
+                document.getElementById("output").src = doc.output('datauristring');
+            }
+        }
+
+        update();
+    </script>
+
+    <style>
+        td, th {
+            border: solid 1px #777;
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+
+</head>
+
+
+
+<div class="pure-g" style="padding-top: 50px; height: 100%;">
+    <div id="panel" class="pure-u-1 pure-u-md-1-5">
+        <ul class="menu">
+            <li><a href="#">Default</a></li>
+            <li><a href="#minimal">Minimal</a></li>
+            <li><a href="#long">Long text</a></li>
+            <li><a href="#content">With content</a></li>
+            <li><a href="#multiple">Multiple tables</a></li>
+            <li><a href="#html">From html</a></li>
+            <li><a href="#header-footer">Header and footer</a></li>
+            <li><a href="#defaults">Setting defaults</a></li>
+            <li><a href="#horizontal">Horizontal headers</a></li>
+            <li><a href="#spans">Rowspan and colspan</a></li>
+            <li><a href="#themes">Themes</a></li>
+            <li><a href="#custom">Custom style</a></li>
+        </ul>
+
+        <button id="download-btn" class="pure-button">Download PDF</button>
+        <!--<div class="editor">
+        <pre><code class="javascript">var test = "hey!";</code></pre></div>-->
+    </div>
+
+    <div id="wrapper" class="pure-u-1 pure-u-md-4-5">
+        <iframe id="output"></iframe>
+    </div>
+</div>
+
+
+<table id="basic-table" style="display: none;">
+
+    <thead>
+        @*<tr>
+                <th><h2>Supplier</h2></th>
+                <th></th><th><h2>Buyer:</h2>DAA</th>
+            </tr>
+            <tr>
+                <th><h2>MIKAWA DAIHATSU CO.,LTD </h2></th>
+            </tr>
+            <tr>
+                <th>
+                    50-0100-302,Japan
+                    <br />
+                    Invoice Number:PUR-@(@DateTime.Now.Year % 100)-001
+                    <br />
+                    Date:@DateTime.Now
+                </th>
+            </tr>
+            <tr><th><h2>Invoice</h2></th></tr>*@
+        <tr style="font-size: 24px;">
+
+            <th>
+                Make
+            </th>
+            <th colspan="2">
+                Chassis Number
+            </th>
+            <th>
+                Model
+            </th>
+            <th>
+                Door
+            </th>
+            <th>
+                Year
+            </th>
+            <th>
+                Color
+            </th>
+            <th>
+                weight
+            </th>
+            <th>
+                Custom Val In JPY
+            </th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.strMake)
+                </td>
+            </tr>
+            <tr style="background: rgb(231, 76, 60); color: white;">
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.strChassisNum)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.iModel)
+                </td>
+            </tr>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.strGrade)
+                </td>*@
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.iDoor)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.iYear)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.strColor)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.weight)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.iCustomValInJPY)
+                </td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+@*<table id="basic-table" style="display: none;">
+    <thead>
+        <tr style="font-size: 24px;">
+            <th>ID</th>
+            <th colspan="2">Name</th>
+            <th>Email</th>
+            <th>Country</th>
+            <th>IP-address</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Donna</td>
+            <td>Moore</td>
+            <td>dmoore0@furl.net</td>
+            <td>China</td>
+            <td>211.56.242.221</td>
+        </tr>
+        <tr style="background: rgb(231, 76, 60); color: white;">
+            <td>2</td>
+            <td>Janice</td>
+            <td>Henry</td>
+            <td>jhenry1@theatlantic.com</td>
+            <td>Ukraine</td>
+            <td>38.36.7.199</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Ruth</td>
+            <td>Wells</td>
+            <td>rwells2@constantcontact.com</td>
+            <td>Trinidad and Tobago</td>
+            <td>19.162.133.184</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Jason</td>
+            <td>Ray</td>
+            <td>jray3@psu.edu</td>
+            <td>Brazil</td>
+            <td>10.68.11.42</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Jane</td>
+            <td>Stephens</td>
+            <td>jstephens4@go.com</td>
+            <td>United States</td>
+            <td>47.32.129.71</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Adam</td>
+            <td>Nichols</td>
+            <td>anichols5@com.com</td>
+            <td>Canada</td>
+            <td>18.186.38.37</td>
+        </tr>
+    </tbody>
+</table>*@
+
+
+
+
+
+

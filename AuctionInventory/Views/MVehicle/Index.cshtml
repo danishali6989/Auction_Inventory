@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<meta name="viewport" content="width=device-width" />
+<title>Index</title>
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+    /*we have overrides the css to change border color of menus*/
+    .navbar-inverse {
+        background-color: #337ab7;
+        border-color: #333;
+    }
+</style>
+<div style="width:90%; margin:70px auto" class="tablecontainer">
+    <a class="popup btn btn-primary" href="/MVehicle/save/0" style="margin-bottom:20px; margin-top:20px;">Add New Vehicle</a>
+    <table id="myDatatable">
+        <thead>
+            <tr>
+                <th>Lot Number</th>
+                <th>Grade</th>
+                <th>Chassis Number</th>
+                <th>Category</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Color</th>
+                <th>KM</th>
+                <th>Origin</th>
+                <th>Door</th>
+                <th>Location</th>
+                <th>weight</th>
+                <th>HSCode</th>
+                <th>ATMT</th>
+                <th>Custom Asses Val</th>
+                <th>Duty</th>
+                <th>Custom Val In JPY</th>                
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        var oTable = $('#myDatatable').DataTable({
+            "scrollY": 200,
+            "scrollX": true,
+            "ajax": {
+                "url":'/MVehicle/GetAllVehicle',
+                "type":"get",
+                "datatype":"json"
+            },
+            "columns": [
+                { "data": "iLotNum", "autoWidth": true },
+                { "data": "strGrade", "autoWidth": true },
+                { "data": "strChassisNum", "autoWidth": true },
+                { "data": "strCategory", "autoWidth": true },
+                { "data": "strMake", "autoWidth": true },
+                { "data": "iModel", "autoWidth": true },
+                { "data": "iYear", "autoWidth": true },
+                { "data": "iColor", "autoWidth": true },
+                { "data": "dmlKM", "autoWidth": true },
+                { "data": "strOrigin", "autoWidth": true },
+                { "data": "iDoor", "autoWidth": true },
+                { "data": "strLocation", "autoWidth": true },
+                { "data": "weight", "autoWidth": true },
+                { "data": "strHSCode", "autoWidth": true },
+                { "data": "ATMT", "autoWidth": true },
+                { "data": "iCustomAssesVal", "autoWidth": true },
+                { "data": "iDuty", "autoWidth": true },
+                { "data": "iCustomValInJPY", "autoWidth": true },
+                {
+                    "data": "iVehicleID", "width": "50px", "render": function (data) {
+                        return '<a class="popup" href="/MVehicle/save/' + data + '">Edit</a>';
+                    }
+                },
+                {
+                    "data": "iVehicleID", "width": "50px", "render": function (data) {
+                        return '<a class="popup" href="/MVehicle/delete/' + data + '">Delete</a>';
+                    }
+                }
+            ]
+        })
+        //$('.tablecontainer').on('click', 'a.popup', function (e) {
+        //    e.preventDefault();
+        //    OpenPopup($(this).attr('href'));
+        //})
+        function OpenPopup(pageUrl) {
+            var $pageContent = $('<div/>');
+            $pageContent.load(pageUrl, function () {
+                $('#popupForm', $pageContent).removeData('validator');
+                $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse('form');
+
+            });
+
+            $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
+                      .html($pageContent)
+                      .dialog({
+                          draggable: false,
+                          autoOpen: false,
+                          resizable: false,
+                          model: true,
+                          title: 'Popup Dialog',
+                          height: 550,
+                          width: 600,
+                          close: function () {
+                              $dialog.dialog('destroy').remove();
+                          }
+                      })
+
+            $('.popupWindow').on('submit', '#popupForm', function (e) {
+                var url = $('#popupForm')[0].action;
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#popupForm').serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            $dialog.dialog('close');
+                            oTable.ajax.reload();
+                        }
+                    }
+                })
+
+                e.preventDefault();
+            })
+
+            $dialog.dialog('open');
+        }
+    })
+</script>
+

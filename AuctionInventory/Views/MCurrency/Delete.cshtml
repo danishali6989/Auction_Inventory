@@ -1,0 +1,28 @@
+﻿
+@*@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
+@model AuctionInventory.Models.Currency
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Delete Employee</h2>
+@using (Html.BeginForm("delete", "MCurrency", FormMethod.Post, new { id = "popupForm" }))
+{
+    @Html.HiddenFor(a => a.CurrencyID)
+    <div class="form-group">
+        <label>Currency Name</label>
+        <p>@Model.strCurrencyName</p>
+    </div>
+
+    <div class="form-group">
+        <label>Currency ShortName</label>
+        <p>@Model.strCurrencyShortName</p>
+    </div>
+    
+    <div>
+        <input type="submit" value="Delete" />
+    </div>
+}
+

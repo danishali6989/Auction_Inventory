@@ -1,0 +1,166 @@
+﻿
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    .error {
+        color: red;
+    }
+</style>
+@model AuctionInventory.Models.Staff
+<h2>Save</h2>
+@using (Html.BeginForm("save", "MStaff", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.iStaffID > 0)
+    {
+        @Html.HiddenFor(a => a.iStaffID)
+    }
+
+    <div class="form-group">
+        <label>First Name</label>
+        @Html.TextBoxFor(a => a.strFirstName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strFirstName, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Middle Name</label>
+        @Html.TextBoxFor(a => a.strMiddleName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strMiddleName, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Last Name</label>
+        @Html.TextBoxFor(a => a.strLastName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strLastName, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Nationality Address</label>
+        @Html.TextBoxFor(a => a.strNationalityAddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strNationalityAddress, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Nationality</label>
+        @Html.TextBoxFor(a => a.iNationality, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.iNationality, "", new { @class = "error" })
+
+
+    </div>
+
+    <div class="form-group">
+        <label>Nationality Contact</label>
+        @Html.TextBoxFor(a => a.iNationalityContact, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.iNationalityContact, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        @Html.TextBoxFor(a => a.strEmailID, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strEmailID, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>ID NO</label>
+        @Html.TextBoxFor(a => a.iIDNO, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.iIDNO, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Miscellaneous</label>
+        @Html.TextBoxFor(a => a.strMISC, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strMISC, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Passport</label>
+        @Html.TextBoxFor(a => a.strPassport, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strPassport, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Passport Expiry</label>
+        @Html.TextBoxFor(a => a.strPassportExpiry, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strPassportExpiry, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Visa</label>
+        @Html.TextBoxFor(a => a.strVisa, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strVisa, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Visa Expiry</label>
+        @Html.TextBoxFor(a => a.strVisaExpiry, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strVisaExpiry, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Current Address</label>
+        @Html.TextBoxFor(a => a.strCurrentAddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strCurrentAddress, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Designation</label>
+        @Html.TextBoxFor(a => a.iDesignation, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.iDesignation, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Salary</label>
+        @Html.TextBoxFor(a => a.dmlSalary, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.dmlSalary, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>DOB</label>
+        @Html.TextBoxFor(a => a.DOB, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.DOB, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>DOJ</label>
+        @Html.TextBoxFor(a => a.DOJ, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.DOJ, "", new { @class = "error" })
+
+
+    </div>
+    <div class="form-group">
+        <label>Remark</label>
+        @Html.TextBoxFor(a => a.strRemark, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strRemark, "", new { @class = "error" })
+
+
+    </div>
+   
+    <div>
+        <input type="submit" value="Save" />
+    </div>
+}
+
+

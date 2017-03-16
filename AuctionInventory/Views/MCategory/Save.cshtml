@@ -1,0 +1,34 @@
+﻿
+@model AuctionInventory.Models.Category
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    .error {
+        color: red;
+    }
+</style>
+<h2>Save</h2>
+@using (Html.BeginForm("Save", "MCategory", FormMethod.Post, new { id = "popupForm" }))
+
+{
+    if(Model!=null&&Model.iCategoryID>0)
+    {
+        @Html.HiddenFor(a=>a.iCategoryID)
+    }
+    <div class="form-group">
+        <label>Category Name</label>
+        @Html.TextBoxFor(a => a.strCategoryName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strCategoryName, "", new { @class = "error" })
+        
+    </div>
+    <div>
+        <input type="submit" value="Save" />
+    </div>
+}

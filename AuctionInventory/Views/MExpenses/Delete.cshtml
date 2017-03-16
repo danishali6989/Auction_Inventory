@@ -1,0 +1,20 @@
+﻿
+@model AuctionInventory.Models.Expenses
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Delete Employee</h2>
+@using (Html.BeginForm("delete", "MExpenses", FormMethod.Post, new { id = "popupForm" }))
+{
+    @Html.HiddenFor(a => a.iExpenseID)
+    <div class="form-group">
+        <label>Expense Name</label>
+        <p>@Model.strExpenseName</p>
+    </div>
+
+
+    <div>
+        <input type="submit" value="Delete" />
+    </div>
+}
+

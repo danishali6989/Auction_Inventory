@@ -1,0 +1,103 @@
+﻿@*@{
+        ViewBag.Title = "Delete";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
+@model AuctionInventory.Models.Staff
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Delete Employee</h2>
+@using (Html.BeginForm("delete", "MStaff", FormMethod.Post, new { id = "popupForm" }))
+{
+    @Html.HiddenFor(a => a.iStaffID)
+    <div class="form-group">
+        <label>First Name</label>
+        <p>@Model.strFirstName</p>
+    </div>
+
+    <div class="form-group">
+        <label>Middle Name</label>
+        <p>@Model.strMiddleName</p>
+    </div>
+
+    <div class="form-group">
+        <label>Last Name</label>
+        <p>@Model.strLastName</p>
+    </div>
+
+    <div class="form-group">
+        <label>Nationality Address</label>
+        <p>@Model.strNationalityAddress</p>
+    </div>
+
+    <div class="form-group">
+        <label>Nationality</label>
+        <p>@Model.iNationality</p>
+    </div>
+
+    <div class="form-group">
+        <label>Nationality Contact</label>
+        <p>@Model.iNationalityContact</p>
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <p>@Model.strEmailID</p>
+    </div>
+
+    <div class="form-group">
+        <label>ID NO</label>
+        <p>@Model.iIDNO</p>
+    </div>
+
+    <div class="form-group">
+        <label>Miscellaneous</label>
+        <p>@Model.strMISC</p>
+    </div>
+    <div class="form-group">
+        <label>Passport</label>
+        <p>@Model.strPassport</p>
+    </div>
+
+    <div class="form-group">
+        <label>Passport Expiry</label>
+        <p>@Model.strPassportExpiry</p>
+    </div>
+
+    <div class="form-group">
+        <label>Visa</label>
+        <p>@Model.strVisa</p>
+    </div>
+    <div class="form-group">
+        <label>Visa Expiry</label>
+        <p>@Model.strVisaExpiry</p>
+    </div>
+    <div class="form-group">
+        <label>Current Address</label>
+        <p>@Model.strCurrentAddress</p>
+    </div>
+    <div class="form-group">
+        <label>Designation</label>
+        <p>@Model.iDesignation</p>
+    </div>
+    <div class="form-group">
+        <label>Salary</label>
+        <p>@Model.dmlSalary</p>
+    </div>
+    <div class="form-group">
+        <label>DOB</label>
+        <p>@Model.DOB</p>
+    </div>
+    <div class="form-group">
+        <label>DOJ</label>
+        <p>@Model.DOJ</p>
+    </div>
+    <div class="form-group">
+        <label>Remark</label>
+        <p>@Model.strRemark</p>
+    </div>
+    <div>
+        <input type="submit" value="Delete" />
+    </div>
+}
+

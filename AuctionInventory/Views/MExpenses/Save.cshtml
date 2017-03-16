@@ -1,0 +1,44 @@
+﻿@model AuctionInventory.Models.Expenses
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    .error {
+        color: red;
+    }
+</style>
+<h2>Save</h2>
+@using (Html.BeginForm("Save", "MExpenses", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.iExpenseID > 0)
+    {
+        @Html.HiddenFor(a => a.iExpenseID)
+    }
+    <div class="form-group">
+        <label>Expense Name</label>
+        @Html.TextBoxFor(a => a.strExpenseName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.strExpenseName, "", new { @class = "error" })
+
+
+    </div>
+    
+    <div>
+        <select>
+            <option >Select</option>
+            <option value="AllVehicleExpense">AllVehicleExpense</option>
+            <option value="VehicleExpense">VehicleExpense</option>
+        </select>
+    </div>
+    
+    <div>
+        <input type="submit" value="Save" />
+    </div>
+}
+
+

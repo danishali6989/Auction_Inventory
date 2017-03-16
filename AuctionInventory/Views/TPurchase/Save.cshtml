@@ -1,0 +1,219 @@
+﻿@model AuctionInventory.Models.Purchase
+@{
+    ViewBag.Title = "Save";
+    Layout = null;
+}
+
+<style>
+    #divDetails {
+        margin-right: 5%;
+        margin-left: 5%;
+    }
+</style>
+
+@*@using (Html.BeginForm("save", "TPurchase", FormMethod.Post, new { id = "popupForm" }))*@
+@*@using (Html.BeginForm("Upload", "TPurchase", FormMethod.Post, new { enctype = "multipart/form-data" })) *@
+
+@*@using (Ajax.BeginForm("Upload", "TPurchase", null, new AjaxOptions() { OnSuccess = "getresult" }, null))*@
+
+@*@using (Html.BeginForm("Upload", "TPurchase", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
+@using (Ajax.BeginForm("Upload", "TPurchase", new AjaxOptions() { HttpMethod = "post", OnSuccess = "GetResult" }, new { id = "dialog", name = "dialog", enctype = "multipart/form-data" }))
+{
+    @*if (Model != null && Model.ID > 0)
+        {
+            @Html.HiddenFor(a => a.ID)
+        }*@
+
+
+
+    <div id="divDetails" class="row">
+        <div>
+
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label> &nbsp; </label><br />
+                <label>Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>
+                @*<label>Purchase Inv No:</label>
+                    @Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @id = "invno", disabled = "disabled" })
+                    @Html.ValidationMessageFor(a => a.iPurchaseInvoiceNo)*@
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Purchase Inv Date:</label>
+                @Html.TextBoxFor(a => a.strPurchaseInvoiceDate, new { @class = "form-control datepicker", @placeholder = "Enter Drop-off date here..." })
+                @Html.ValidationMessageFor(a => a.strPurchaseInvoiceDate)
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <input type="hidden" id="hfSupplier" />
+                <label>Supplier:</label>
+                @Html.TextBoxFor(a => a.strSupplierName, new { @class = "form-control", @id = "txtSearchSupplier" })
+                @Html.ValidationMessageFor(a => a.strSupplierName)
+            </div>
+        </div>
+
+        @*<div class="col-sm-6">
+                <div class="form-group">
+                    &nbsp;
+                </div>
+            </div>*@
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Master Dec No:</label>
+                @Html.TextBoxFor(a => a.strMasterDecNo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.strMasterDecNo)
+            </div>
+        </div>
+
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Bill No:</label>
+                @Html.TextBoxFor(a => a.strBLNo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.strBLNo)
+            </div>
+        </div>
+
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Arrival Date:</label>
+                @Html.TextBoxFor(a => a.strArrivalDate, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.strArrivalDate)
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Invoice value:</label>
+                @Html.TextBoxFor(a => a.strInvoiceValue, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.strInvoiceValue)
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Conversion Rate:</label>
+                @Html.TextBoxFor(a => a.dmlConversionRate, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.dmlConversionRate)
+            </div>
+
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>AED:</label>
+                @Html.TextBoxFor(a => a.iAED, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.iAED)
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Choose Excel File:</label>
+                <input type="file" name="UploadedFile" />
+            </div>
+        </div>
+
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>&nbsp;</label><br />
+                <input type="submit" name="Submit" value="Import" />
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+    @*<table>
+            <tr>
+                <td>File:</td>
+                <td>
+                    <input type="file" name="UploadedFile" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" name="Submit" value="Submit" />
+                </td>
+            </tr>
+        </table>*@
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+<script type="text/javascript">
+    $.ajax({
+        url: '/TPurchase/GetInvoice/',
+        dataType: "json",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $("#invno").html(data);
+        }
+    });
+
+
+
+</script>
+
+
+
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#txtSearchSupplier").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/TPurchase/AutoComplete/',
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (e, i) {
+                $("#hfSupplier").val(i.item.val);
+            },
+            minLength: 1
+        });
+    });
+</script>

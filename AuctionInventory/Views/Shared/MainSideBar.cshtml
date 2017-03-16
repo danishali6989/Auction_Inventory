@@ -1,0 +1,263 @@
+﻿@using AuctionInventory.Helpers;
+@{
+    Menus menu = CommonMethods.GetMenuAuthorization();
+}
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="~/Content/dist/img/admin-img.png" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info" style="color:#222d32;">
+                <p>Admin</p>
+                <a href="#" style="color:#222d32;"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+
+            @if (menu.ShowDashBoard)
+            {
+                <li class="active treeview">
+                    <a href="@Url.Action("DashBoard", "Home")">
+                        <i class="fa fa-dashboard fa-angle-left pull-right"></i>
+                        <span>Dashboard</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                </li>
+            }
+
+
+            @if (menu.ShowCategory)
+            {
+                <li class="treeview">
+                    <a href="@Url.Action("Index", "MCategory")">
+
+                        <i class="fa fa-edit"></i> <span>Category List</span>
+                        @*<i class="fa fa-angle-left pull-right"></i>*@
+                    </a>
+                    @*<ul class="treeview-menu">
+                    <li><a href="@Url.Action("Save","MSupplier")"><i class="fa fa-circle-o"></i> Add Supplier</a></li>
+                    <li><a href="@Url.Action("Index", "MSupplier")"><i class="fa fa-circle-o"></i> Supplier List</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> supplier Ledger</a></li>
+                </ul>*@
+                </li>
+            }
+            
+            @if (menu.ShowCurrency)
+            {
+                <li class="treeview">
+                    <a href="@Url.Action("Index", "MCurrency")">
+
+                        <i class="fa fa-edit"></i> <span>Currency List</span>
+                        @*<i class="fa fa-angle-left pull-right"></i>*@
+                    </a>
+                    @*<ul class="treeview-menu">
+                    <li><a href="@Url.Action("Save","MSupplier")"><i class="fa fa-circle-o"></i> Add Supplier</a></li>
+                    <li><a href="@Url.Action("Index", "MSupplier")"><i class="fa fa-circle-o"></i> Supplier List</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> supplier Ledger</a></li>
+                </ul>*@
+                </li>
+            }
+
+            @if (menu.ShowSupplier)
+            {
+                <li class="treeview">
+                    <a href="@Url.Action("Index", "MSupplier")">
+
+                        <i class="fa fa-edit"></i> <span>Supplier Management</span>
+                        @*<i class="fa fa-angle-left pull-right"></i>*@
+                    </a>
+                    @*<ul class="treeview-menu">
+                        <li><a href="@Url.Action("Save","MSupplier")"><i class="fa fa-circle-o"></i> Add Supplier</a></li>
+                        <li><a href="@Url.Action("Index", "MSupplier")"><i class="fa fa-circle-o"></i> Supplier List</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> supplier Ledger</a></li>
+                    </ul>*@
+                </li>
+            }
+
+            @if (menu.ShowEmployee)
+            {
+                <li class="treeview">
+
+                    <a href="@Url.Action("Index", "MStaff")">
+
+                        <i class="fa fa-edit"></i> <span>Employee List</span>
+                        @*<i class="fa fa-angle-left pull-right"></i>*@
+                    </a>
+                    @*<a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Employee Management</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="addemployee.php"><i class="fa fa-circle-o"></i> Add Employee</a></li>
+                        <li><a href="employeelist.php"><i class="fa fa-circle-o"></i> Employee List</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Role Management</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Advance payment</a></li>
+                    </ul>*@
+                </li>
+            }
+
+            @if (menu.ShowExpenses)
+            {
+                <li class="treeview">
+
+                    <a href="@Url.Action("Index", "MExpenses")">
+
+                        <i class="fa fa-edit"></i> <span>Expense List</span>
+                        @*<i class="fa fa-angle-left pull-right"></i>*@
+                    </a>
+                    @*<a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Expenses</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Generate Expenses</a></li>
+                        <li><a href="ReceiptVoucher.php"><i class="fa fa-circle-o"></i> Receipt Vouchers</a></li>
+                    </ul>*@
+                </li>
+            }
+
+            @if (menu.ShowPurchase)
+            {
+                <li class="treeview">
+
+                    <a href="@Url.Action("GetPurchaseList", "TPurchase")">
+
+                        <i class="fa fa-edit"></i> <span>Purchase List</span>
+                        @*<i class="fa fa-angle-left pull-right"></i>*@
+                    </a>
+                    @*<a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Purchase</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="saleinvoice.php"><i class="fa fa-circle-o"></i> Create Sale Invoices</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Invoices List</a></li>
+                    </ul>*@
+                </li>
+            }
+
+            @if (menu.ShowSale)
+            {
+                <li class="treeview">
+
+                    @*<a href="@Url.Action("Index", "MSupplier")">
+
+                        <i class="fa fa-edit"></i> <span>Supplier Management</span>
+                    </a>*@
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Sale</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="saleinvoice.php"><i class="fa fa-circle-o"></i> Create Sale Invoices</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Invoices List</a></li>
+                    </ul>
+                </li>
+            }
+
+            @if (menu.ShowLedger)
+            {
+                <li class="treeview">
+
+                    @*<a href="@Url.Action("Index", "MSupplier")">
+
+                        <i class="fa fa-edit"></i> <span>Supplier Management</span>
+                    </a>*@
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Ledger Management</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Ledger listing</a></li>
+                    </ul>
+                </li>
+
+            }
+
+            @if (menu.ShowReports)
+            {
+                <li class="treeview">
+
+
+                    @*<a href="@Url.Action("Index", "MSupplier")">
+
+                        <i class="fa fa-edit"></i> <span>Supplier Management</span>
+                    </a>*@
+                    <a href="#">
+                        <i class="fa fa-laptop"></i>
+                        <span>Reports Management</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Reports listing</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Reports filtering</a></li>
+                    </ul>
+                </li>
+            }
+
+            @*Commented Temprory Uncomment if reuired*@
+                @*<li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-laptop"></i>
+                            <span>Reciepts</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="#"><i class="fa fa-circle-o"></i> Generate Receipts</a></li>
+                            <li><a href="#"><i class="fa fa-circle-o"></i> Print Receipts</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-pie-chart"></i>
+                            <span>Customer Management</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>@Html.ActionLink("Customers List", "Index", "Customers")</li>
+                            <li>@Html.ActionLink("Add Customer", "Create", "Customers")</li>
+                            <li>@Html.ActionLink("Customers Ledger", "CustLedger", "Main")</li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-table"></i> <span>Product Management</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="#"><i class="fa fa-circle-o"></i> Add product</a></li>
+                            <li><a href="#"><i class="fa fa-circle-o"></i> Products List</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-laptop"></i>
+                            <span>Queue Management</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="#"><i class="fa fa-circle-o"></i> Add Ticket</a></li>
+                            <li><a href="#"><i class="fa fa-circle-o"></i> Ticket List</a></li>
+                            <li><a href="#"><i class="fa fa-circle-o"></i> Add Queue</a></li>
+                            <li><a href="#"><i class="fa fa-circle-o"></i> Queue List</a></li>
+                            <li><a href="allqueue.php"><i class="fa fa-circle-o"></i> All Queue</a></li>
+                        </ul>
+                    </li>*@
+            </ul>
+
+
+
+        </section>
+        <!-- /.sidebar -->
+    </aside>
