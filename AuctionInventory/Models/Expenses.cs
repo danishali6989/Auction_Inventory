@@ -12,5 +12,10 @@ namespace AuctionInventory.Models
         [Required(ErrorMessage = "Expense Name is required")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Please Use Letters Only ")]
         public string strExpenseName { get; set; }
+
+        public long iPurchaseID { get; set; }
+        public Nullable<int> iCategoryID { get; set; }
+        public Nullable<int> iSubCategoryID { get; set; }
+
     }
 }

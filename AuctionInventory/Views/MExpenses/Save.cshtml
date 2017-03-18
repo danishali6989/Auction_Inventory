@@ -14,31 +14,163 @@
     }
 </style>
 <h2>Save</h2>
-@using (Html.BeginForm("Save", "MExpenses", FormMethod.Post, new { id = "popupForm" }))
-{
-    if (Model != null && Model.iExpenseID > 0)
+@*@using (Html.BeginForm("Save", "MExpenses", FormMethod.Post, new { id = "popupForm" }))
+    {*@
+@*if (Model != null && Model.iExpenseID > 0)
     {
         @Html.HiddenFor(a => a.iExpenseID)
-    }
+    }*@
+
+@Html.HiddenFor(a => a.iExpenseID)
+
+<div class="form-group">
+    <label>Expense Name</label>
+    @Html.TextBoxFor(a => a.strExpenseName, new { @class = "form-control", @id = "strExpenseName" })
+    @Html.ValidationMessageFor(m => m.strExpenseName, "", new { @class = "error" })
+
+
+</div>
+
+@*<div class="form-group">
+        <label class="control-label col-md-2">Expense Category</label>
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.iCategoryID,
+              new SelectList(ViewBag.StateList, "StateId", "StateName"),
+              "Select state",
+              new { @class = "form-control", @onchange = "FillCity()" })
+            @Html.ValidationMessageFor(m => m.iCategoryID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
     <div class="form-group">
-        <label>Expense Name</label>
-        @Html.TextBoxFor(a => a.strExpenseName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strExpenseName, "", new { @class = "error" })
+        <label class="control-label col-md-2">Expense SubCategory</label>
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.iSubCategoryID,
+       new SelectList(Enumerable.Empty<SelectListItem>(), "CityId", "CityName"),
+              "Select city",
+              new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.iSubCategoryID, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
 
+<div>
+    <select id="ddlcategory" onchange="getvalCat(this);">
+        <option value="0">Select</option>
+        <option value="1">General Expense</option>
+        <option value="2">Vehicle Expense</option>
+    </select>
+</div>
 
-    </div>
-    
-    <div>
-        <select>
-            <option >Select</option>
-            <option value="AllVehicleExpense">AllVehicleExpense</option>
-            <option value="VehicleExpense">VehicleExpense</option>
+@*<div>
+        <select id="ddlcategory">
+            <option value="0">Select</option>
+            <option value="1">General Expense</option>
+            <option value="2">Vehicle Expense</option>
         </select>
-    </div>
-    
-    <div>
-        <input type="submit" value="Save" />
-    </div>
-}
+    </div>*@
+<div>
+    <select id="ddlsubcategory" style="display:none" onchange="getvalCat(this);">
+        <option value="0">Select</option>
+        <option value="1">All Vehicle</option>
+        <option value="2">Single Vehicle</option>
+    </select>
+</div>
+<div>
+    <input type="submit" id="btnSaveExpense" value="Save" />
+</div>
+@*}*@
+
+<script>
 
 
+
+
+
+
+    //$("#btnSaveExpense").click(function () {
+
+    //    var expense1 = {
+    //        strExpenseName: $('#strExpenseName').val(),
+    //        ddlcategory: $("#ddlcategory").change(function () {
+    //            var id = $(this).find(":selected").val()
+    //            alert(id);
+    //            if ($("#ddlcategory").val() == 2) { $("#ddlsubcategory").css("display", "block"); }
+    //        }),
+    //        ddlsubcategory: $("#ddlsubcategory").change(function () {
+    //            var id = $(this).find(":selected").val()
+    //            alert(id);
+    //        })
+
+    //    }
+    //    alert(expense1);
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/MExpenses/Save",
+    //        cache: false,
+    //        data: JSON.stringify({ expense: expense1 }),
+    //        // data: JSON.stringify(purchase),
+    //        dataType: 'json',
+    //        contentType: "application/json; charset=utf-8",
+    //        success: function (Data) {
+    //            window.location.href = "/MExpenses/Index";
+
+    //        },
+    //        error: function (data) {
+    //            $("#error_message").html(data);
+    //        }
+    //    });
+
+    //});
+
+
+
+
+
+    function getvalCat(sel) {
+
+        if ($("#ddlcategory").val() == 2) { $("#ddlsubcategory").css("display", "block"); }
+
+    }
+
+    $("#btnSaveExpense").click(function () {
+
+
+        var expense1 = {
+            strExpenseName: $('#strExpenseName').val(),
+            iCategoryID: $("#ddlcategory").val(),
+            iSubCategoryID: $("#ddlsubcategory").val()
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/MExpenses/Save",
+            cache: false,
+            data: JSON.stringify({ expense: expense1 }),
+            // data: JSON.stringify(purchase),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success: function (Data) {
+                window.location.href = "/MExpenses/Index";
+
+            },
+            error: function (data) {
+                $("#error_message").html(data);
+            }
+        });
+
+    });
+
+
+    //ddlcategory: $("#ddlcategory").change(function () {
+    //    var id = $(this).find(":selected").val()
+    //    alert(id);
+    //    if ($("#ddlcategory").val() == 2) { $("#ddlsubcategory").css("display", "block"); }
+    //}),
+    //    ddlsubcategory: $("#ddlsubcategory").change(function () {
+    //        var id = $(this).find(":selected").val()
+    //        alert(id);
+    //    })
+
+
+
+</script>

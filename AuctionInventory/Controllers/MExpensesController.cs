@@ -150,14 +150,86 @@ namespace AuctionInventory.Controllers
         {
             return View();
         }
+
+        //[HttpPost]
+        //public ActionResult VehiclesByInvoiceID(int request)
+        //{
+        //    TPurchase purchase = new TPurchase();
+        //    purchase = auctionContext.TPurchases.Where(a => a.iPurchaseInvoiceNo == request).SingleOrDefault();
+        //    //var VehiclePurID = purchase.PurchaseID;
+        //    //var VehicleByInvoice = auctionContext.Vehicles.Where(a => a.PurchaseID == VehiclePurID).ToList();
+        //    //return Json(VehicleByInvoice, JsonRequestBehavior.AllowGet);
+        //    var NoOfUnits = purchase.Vehicles.Count;
+        //    return Json(new { purchase, NoOfUnits }, JsonRequestBehavior.AllowGet);
+        //}
+
+
+
+
+
+        //[HttpPost]
+        //public ActionResult VehiclesByInvoiceID(int request)
+        //{
+
+        //    using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+        //    {
+        //        var jsonData = new
+        //        {
+        //            //total = 1,
+        //            //page = 1,
+        //            //records = dc.Vehicles.ToList().Count,
+        //            rows = (
+        //              from expenseInvoice in
+        //                  (from AM in dc.TPurchases
+        //                   where AM.iPurchaseInvoiceNo == (request)
+
+        //                   select new
+        //                   {
+        //                       iPurchaseInvoiceNo = AM.iPurchaseInvoiceNo,
+        //                       strPurchaseInvoiceDate = AM.strPurchaseInvoiceDate,
+        //                       NoOfUnits = AM.Vehicles.Count,
+        //                       strMasterDecNo = AM.strMasterDecNo,
+        //                       strBLNo = AM.strBLNo
+
+        //                   }).ToList()
+        //              select new
+        //              {
+        //                  id = expenseInvoice.iPurchaseInvoiceNo,
+        //                  cell = new string[] {
+        //       Convert.ToString(expenseInvoice.iPurchaseInvoiceNo),Convert.ToString( expenseInvoice.strPurchaseInvoiceDate),Convert.ToString(expenseInvoice.NoOfUnits),Convert.ToString( expenseInvoice.strMasterDecNo),Convert.ToString(expenseInvoice.strBLNo)
+        //                }
+        //              }).ToArray()
+        //        };
+        //        return Json(jsonData, JsonRequestBehavior.AllowGet);
+        //    }
+        //    //return View();
+        //}
+
+
+
+
         [HttpPost]
-        public ActionResult VehiclesByInvoiceID(int request)
+        public JsonResult VehiclesByInvoiceID(int request)
         {
             TPurchase purchase = new TPurchase();
-            purchase = auctionContext.TPurchases.Where(a => a.iPurchaseInvoiceNo == request).SingleOrDefault();
-            var VehiclePurID = purchase.PurchaseID;
-            var VehicleByInvoice = auctionContext.Vehicles.Where(a => a.PurchaseID == VehiclePurID);
-            return Json(VehicleByInvoice , JsonRequestBehavior.AllowGet);
+            AuctionInventoryEntities dc = new AuctionInventoryEntities();
+
+            var listPurchase = (from t1 in dc.TPurchases
+                                //join t2 in dc.MColors on t1.iColor equals t2.iColorID
+                                where t1.iPurchaseInvoiceNo == request
+                                select new
+                                {
+                                    iPurchaseInvoiceNo = t1.iPurchaseInvoiceNo,
+                                    strPurchaseInvoiceDate = t1.strPurchaseInvoiceDate,
+                                    NoOfUnits = t1.Vehicles.Count,
+                                    strMasterDecNo = t1.strMasterDecNo,
+                                    strBLNo = t1.strBLNo
+                                    //,strCategory = t1.strCategory
+
+                                });
+
+
+            return Json(new { listPurchase }, JsonRequestBehavior.AllowGet);
         }
 
 

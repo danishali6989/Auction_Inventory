@@ -1,4 +1,4 @@
-﻿@model AuctionInventory.Models.Purchase
+﻿@*@model AuctionInventory.Models.Purchase*@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -7,23 +7,33 @@
 <div id="boxbody" style="width:90%; margin:0px auto" class="tablecontainer">
     <div class="box-body">
         <div id="divDetails" class="row">
-           
+
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>Purchase Inv No: </label>
                     @*<label>Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>*@
-                    @Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })
-
+                    <input type="text" id="invno" class="form-control" />
+                    @*@Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })>*@
+                    <input type="button" value="ADD" id="JQGridFill" />
                 </div>
-                <input type="button" value="ADD" id="JQGridFill" class="btn btn-success" />
+
             </div>
 
-
-
-            <div class="row" id="divParsedExcel" style="display:none">
+            <div class="row">
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
 
                 <table id="dataGrid" class="table table-bordered table-striped"></table>
                 <div id="pagingGrid"></div>
+
+            </div>
+
+            <div>
+
 
             </div>
 
@@ -35,88 +45,53 @@
 
 <script type="text/javascript">
     $("#JQGridFill").click(function () {
-        debugger
+
         var request = $('#invno').val();
 
         $.ajax({
-            
-            url: "/MExpenses/VehiclesByInvoiceID",          
+
+            url: "/MExpenses/VehiclesByInvoiceID",
             data: JSON.stringify({ request: request }),
             dataType: "json",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             success: function (result) {
-
-                alert("Done");
-         
-                var VehicleByInvoice = result.VehicleByInvoice
-
-
-                bindGrid(listVehicle);
-
-
+                var listPurchase = result.listPurchase
+                bindGrid(listPurchase);
             }
         });
 
-        function bindGrid(listVehicle) {
+        function bindGrid(listPurchase) {
 
-
-            var lastsel;
             $('#dataGrid').jqGrid({
-                // Comment and uncomment below lines for ajax and local data
-
-                url: '/MVehicle/GetData/',
-                datatype: "json",
-                contentType: "application/json; charset-utf-8",
-                mtype: 'GET',
-
-                caption: "Invoice Discription",
-                data: listVehicle,
+                caption: "Expenses For All Vehicles",
+                data: listPurchase,
                 datatype: "local",
                 // colNames: ['Action', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Assessed Value', 'AED'],
-                colNames: ['ID','Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'CustomAssessed Value','Duty', 'JPY'],
+                colNames: ['Invoice No', 'Invoice Date', 'No Of units', 'Master Dec No', 'BL NO', 'Action'],
                 colModel: [
-                    { name: 'iVehicleID', index: 'iVehicleID',hidden: true, editable: true, editrules: { edithidden: false }, hidedlg: true },
-                    { name: 'iLotNum', index: 'iLotNum', editable: true },
-                    { name: 'strChassisNum', index: 'strChassisNum', editable: true },
-                    { name: 'strMake', index: 'strMake', editable: true },
-                    { name: 'iModel', index: 'iModel', editable: true },
-                    { name: 'strCategory', index: 'strCategory', editable: true },
-                    { name: 'iYear', index: 'iYear', editable: true },
-                    { name: 'strColor', index: 'strColor', editable: true },
-                    { name: 'strOrigin', index: 'strOrigin', editable: true },
-                    { name: 'strLocation', index: 'strLocation', editable: true },
-                    { name: 'iCustomAssesVal', index: 'iCustomAssesVal', editable: true },
-                    { name: 'iDuty', index: 'iDuty', editable: true },
-                    { name: 'iCustomValInJPY', index: 'iCustomValInJPY', editable: true }
+                    { name: 'iPurchaseInvoiceNo', index: 'iPurchaseInvoiceNo' },
+                    { name: 'strPurchaseInvoiceDate', index: 'strPurchaseInvoiceDate' },
+                    { name: 'NoOfUnits', index: 'NoOfUnits' },
+                    { name: 'strMasterDecNo', index: 'strMasterDecNo' },
+                    { name: 'strBLNo', index: 'strBLNo' },
 
+                   {
+                       name: 'Action', index: 'Action', align: 'center', width: 200, search: false, title: false,
+                       formatter: function (cellvalue, options, rowObject) {
+                           return '<a class="popup btn btn-info" href="/MVehicle/Save/' + options.rowId + '">' + "Edit" + '</a>' + "     " + '<a class="popup btn btn-info" href="/MVehicle/Delete/' + options.rowId + '">' + "Delete" + '</a>';
+
+                       }
+                   },
 
                 ],
-                width: 1050,
-                height: 250,
+                width: 850,
+                height: 'auto',
                 rowNum: 10,
-                //loadonce: true,
+                // loadonce: true,
                 rowList: [10, 20, 30],
                 pager: 'pagingGrid',
-                editurl: '/MVehicle/Save/',
-                //editurl: 'TemplateCategoryWebView.jsp',
-                //caption: 'Select Invoice to edit',
-                //cellEdit: true,
-                cellsubmit: 'clientArray',
-                onSelectRow: function (id) {
-
-                    if (id !== lastsel) {
-
-
-                        jQuery('#dataGrid').jqGrid('saveRow', lastsel);
-
-                        lastsel = id;
-
-                    }
-                    jQuery('#dataGrid').jqGrid('editRow', id, true);
-                    return true;
-
-                },
+                // editurl: '/MVehicle/Save/',
 
 
             });
@@ -126,55 +101,23 @@
         }
     });
 
-    function SaveRow(id) {
-        debugger;
-        var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
-        //var vehicles = jQuery('#dataGrid').jqGrid ('getRowData', id);
-        //var griddata = jQuery("#dataGrid").getRowData();
-        //var ID=id-1;
-        //var vehicle= griddata;
-        var vehicle=  griddata[id-1];
-
-
-        ////Now goes ur ajax
-        //$.ajax({
-        //    url: '/MVehicle/Save/',
-        //    data: JSON.stringify({ vehicle:vehicle  }),
-        //    //data: {vehicle:vehicle },
-        //    type: "post",
-        //    cache: false,
-        //    success: function (Status) {
-        //        alert("Update Data Successfully!!!!");
-        //    },
-        //    error: function (xhr, ajaxOptions, thrownError) {
-        //        alert("Not able to Update Data !!!!");
-        //    }
-        //});
-        $.ajax({
-            type: "POST",
-            url: '/MVehicle/Save/',
-            cache: false,
-            data: JSON.stringify({vehicle: vehicle }),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (Data) {
-                //window.location.href = "/TPurchase/Index";
-
-                if (Data.status) {
-
-                    alert("Data Saved");
-                }
-
-            },
-            error: function (data) {
-                alert("Not able to Update Data !!!!");
-            }
-        });
-
-    }
 </script>
 
+@*<script>
+        var current = 1;
+        function addNumber() {
+            console.log('running addNumber')
+            //current keeps track of how many numbers we have.
+            current++;
+            var thePhoneBox = ('<p> <label for="number ' + current + '>number' + current + ':</label> <%= Html.TextBox("number' + current + '") %>\n <%= Html.ValidationMessage("number ' + current + '", "*") %>\n </p>')
+           console.log(thePhoneBox)
+         $('#phoneNumbers').append(thePhoneBox)
+        }
 
+        $(document).ready(function() {
+            $('#addNumber').click(addNumber)
+        });
+    </script>*@
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
