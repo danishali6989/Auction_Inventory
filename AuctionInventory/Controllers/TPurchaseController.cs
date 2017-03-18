@@ -28,6 +28,19 @@ namespace AuctionInventory.Controllers
             return View(vehicle);
         }
 
+        public ActionResult TestJS()
+        {
+
+            List<Vehicle> vehicle = new List<Vehicle>();
+            vehicle = (from a in auctionContext.Vehicles select a).OrderBy(a => a.iLotNum).ToList();
+            var catNames = vehicle.Select(i =>
+           new { LotNum = i.iLotNum, ChassisNum = i.strChassisNum, Make = i.strMake }).ToList();
+
+            return View();
+        }
+
+
+
         [HttpGet]
         public ActionResult UpdateIndex(int id)
         {
@@ -137,9 +150,9 @@ namespace AuctionInventory.Controllers
                 {
                     PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
                     status = purchaseServiceClient.SaveData(purchase, griddata);
-                    
+
                 }
-               // return RedirectToAction("GetPurchaseList", "TPurchase");
+                // return RedirectToAction("GetPurchaseList", "TPurchase");
             }
             catch (Exception e)
             {

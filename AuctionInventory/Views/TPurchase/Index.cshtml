@@ -272,11 +272,15 @@
                         <input type="button" class='popup btn btn-info' id="btnRcvStock" name="Save" value="Stock Revice" />
                     </div>
                     <div class="col-sm-3">
-                        <input type="button" class='popup btn btn-info' name="Save" value="Print Invoice" />
+                        <input type="button" class='popup btn btn-info' name="Save" value="Print Invoice" onclick="generate()" />
                     </div>
                     <div class="col-sm-3">
                         <input type="button" class='popup btn btn-info' name="Save" value="Print Custom Invoice" />
                     </div>
+
+
+
+                    
                 </div>
             </div>
             <br />
@@ -300,6 +304,68 @@
     });
 
 </script>
+
+<script>
+    function generate() {
+        debugger
+
+      // colNames: ['Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'CustomAssessed Value','Duty', 'JPY'],
+        //var columns = ["ID", "Country", "Rank", "Capital"];
+        //var data = [
+        //    [1, "Denmark", 7.526, "Copenhagen"],
+        //    [2, "Switzerland", 7.509, "Bern"],
+        //    [3, "Iceland", 7.501, "Reykjavík"],
+        //    [4, "Norway", 7.498, "Oslo"],
+        //    [5, "Finland", 7.413, "Helsinki"]
+        //];
+
+
+        var columns = ['LotNum', 'strChassisNum', 'strMake', 'iModel', 'strCategory'];
+        var data = [
+            [1, "Denmark", 7.526, "Copenhagen","Test"],
+            [2, "Switzerland", 7.509, "Bern", "Test"],
+            [3, "Iceland", 7.501, "Reykjavík", "Test"],
+            [4, "Norway", 7.498, "Oslo", "Test"],
+            [5, "Finland", 7.413, "Helsinki", "Test"]
+        ];
+
+
+
+     //   var data = $('#dataGrid').jqGrid('getGridParam', 'data');
+
+
+
+    //    { name: 'iLotNum', index: 'iLotNum', editable: true },
+    //{ name: 'strChassisNum', index: 'strChassisNum', editable: true },
+    //{ name: 'strMake', index: 'strMake', editable: true },
+    //{ name: 'iModel', index: 'iModel', editable: true },
+    //{ name: 'strCategory', index: 'strCategory', editable: true },
+    //{ name: 'iYear', index: 'iYear', editable: true },
+    //{ name: 'strColor', index: 'strColor', editable: true },
+    //{ name: 'strOrigin', index: 'strOrigin', editable: true },
+    //{ name: 'strLocation', index: 'strLocation', editable: true },
+    //{ name: 'iCustomAssesVal', index: 'iCustomAssesVal', editable: true },
+    //{ name: 'iDuty', index: 'iDuty', editable: true },
+    //{ name: 'iCustomValInJPY', index: 'iCustomValInJPY', editable: true }
+                                
+
+        //var data = [
+        //    [1, "Denmark", 7.526, "Copenhagen"],
+        //    [2, "Switzerland", 7.509, "Bern"],
+        //    [3, "Iceland", 7.501, "Reykjavík"],
+        //    [4, "Norway", 7.498, "Oslo"],
+        //    [5, "Finland", 7.413, "Helsinki"]
+        //];
+
+
+        var doc = new jsPDF();
+        doc.autoTable(columns, data);
+        doc.output("dataurlnewwindow");
+    }
+</script>
+
+
+
 
 
 @*<script>
@@ -327,6 +393,10 @@
     // What is this !!!!
     $("#btnSaveJQ").click(function () {
         debugger;
+
+        // For Testing
+     //   var griddata1 = $('#dataGrid').jqGrid('getGridParam', 'data');
+
         var validPurchase = ValidatePurchaseInfo();
         if (validPurchase == true) {
 
@@ -747,6 +817,7 @@
 <script src="~/scripts/jquery.jqgrid.min.js"></script>
 @*<script src="~/scripts/jQuery-ui-1.9.2.custom.js"></script>*@
 
-
+<script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
+<script src="~/Content/plugins/jsPDF/jspdf.plugin.autotable.js"></script>
 
 
