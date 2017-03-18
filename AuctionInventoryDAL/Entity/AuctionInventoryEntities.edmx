@@ -113,6 +113,8 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="iExpenseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="strExpenseName" Type="nvarchar" MaxLength="200" />
           <Property Name="iPurchaseID" Type="bigint" Nullable="false" />
+          <Property Name="iCategoryID" Type="int" />
+          <Property Name="iSubCategoryID" Type="int" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -158,12 +160,6 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="SupplierDate" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="Roles">
-          <Property Name="RoleId" Type="int" />
-          <Property Name="Name" Type="nvarchar" MaxLength="20" />
-        </EntityType>-->
         <EntityType Name="StateMaster">
           <Key>
             <PropertyRef Name="ID" />
@@ -430,6 +426,8 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iExpenseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="strExpenseName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="iPurchaseID" Type="Int64" Nullable="false" />
+          <Property Name="iCategoryID" Type="Int32" />
+          <Property Name="iSubCategoryID" Type="Int32" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -694,6 +692,8 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="MExpenses">
             <EntityTypeMapping TypeName="AuctionInventoryModel.MExpense">
               <MappingFragment StoreEntitySet="MExpense">
+                <ScalarProperty Name="iSubCategoryID" ColumnName="iSubCategoryID" />
+                <ScalarProperty Name="iCategoryID" ColumnName="iCategoryID" />
                 <ScalarProperty Name="iPurchaseID" ColumnName="iPurchaseID" />
                 <ScalarProperty Name="strExpenseName" ColumnName="strExpenseName" />
                 <ScalarProperty Name="iExpenseID" ColumnName="iExpenseID" />
