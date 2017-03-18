@@ -29,12 +29,24 @@
 
                 <table id="dataGrid" class="table table-bordered table-striped"></table>
                 <div id="pagingGrid"></div>
-
+                <br />
+                <br />
             </div>
 
-            <div>
-
-
+            <div id="AddExpenseDynamic" style="display:none">
+                <input type="hidden" id="hfExpense" />
+                <input type="text" id="txtSearchExpense" name="name" placeholder="search Expenses" />
+                <input id="btnAdd" type="button" value="add" />
+                <br />
+                <br />
+                <div id="TextBoxContainer">
+                    <!--Textboxes will be added here -->
+                </div>
+                <br />
+                
+                <div id="totalExpense" style="display:none">
+                    <label>Total Amount :</label><input type="text" readonly />
+                </div>
             </div>
 
         </div>
@@ -42,6 +54,62 @@
 </div>
 
 
+<script type="text/javascript">
+    $(function () {
+        $("#txtSearchExpense").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/MExpenses/AutoCompleteExpense/',
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        //if (!data.length) {
+                        //    var result = [
+                        //     {
+                        //         label: 'No matches found',
+                        //         value: response.term
+                        //     }
+                        //    ];
+                        //    response(result);
+                        //}
+                        //else
+                        {
+                            // normal response
+                            response($.map(data, function (item) {
+                                return {
+
+                                    label: item.strExpenseName,
+                                    value: item.strExpenseName
+                                }
+                            }));
+                        }
+                    }
+
+
+                });
+            },
+            select: function (event, i) {
+             
+                event.preventDefault();
+
+                $("#txtSearchExpense").val(i.item.value);
+                //$("#txtSearchSupplier").val(i.item.strLastName);
+                //$("#txtSearchSupplier").val(i.item.strEmailID);
+                $("#hfExpense").val(i.item.iExpenseID);
+                
+
+                //var id = i.item.value;
+
+                //$('#btnAdd').attr('onClick', 'AddTextBox(' + id + ')');
+
+                return false;
+            },
+            minLength: 1
+        });
+    });
+</script>
 
 <script type="text/javascript">
     $("#JQGridFill").click(function () {
@@ -58,6 +126,7 @@
             success: function (result) {
                 var listPurchase = result.listPurchase
                 bindGrid(listPurchase);
+                $('#AddExpenseDynamic').show();
             }
         });
 
@@ -102,6 +171,60 @@
     });
 
 </script>
+
+
+<script type="text/javascript">
+    $(function () {
+
+        
+        $("#btnAdd").bind("click", function () {         
+           
+
+            if (document.getElementById('txtSearchExpense').value == "") {
+               
+                $('#txtSearchExpense').css('border-color', 'red');
+            }
+            else
+            {
+                $('#txtSearchExpense').css('border-color', '');
+                var value = $("#txtSearchExpense").val();
+                //var id = $("#hfExpense").val();
+                var div = $("<div />");
+                div.html(GetDynamicTextBox(value));
+                $("#TextBoxContainer").append(div);
+
+                $("#txtSearchExpense").val("");
+                $("#hfExpense").val("");
+            }
+              
+           
+        });
+        $("body").on("click", ".remove", function () {
+            $(this).closest("div").remove();
+        });
+    });
+
+    //function AddTextBox(id) {        
+    //    // alert("helo");
+    //    debugger;
+    //    var div = $("<div />");
+    //    div.html(GetDynamicTextBox(id));
+    //    $("#TextBoxContainer").append(div);
+    //    $("body").on("click", ".remove", function () {
+    //        $(this).closest("div").remove();
+    //    });
+    //}
+
+    function GetDynamicTextBox(value) {
+        return ' <label>' + value + '</label>:<input type="number" name="DynamicTextBox" min="1" max="5" placeholder="Enter Amount">&nbsp;' +
+                '<input type="button" value="Remove" class="remove" />'
+    }
+
+</script>
+
+
+
+
 
 @*<script>
         var current = 1;

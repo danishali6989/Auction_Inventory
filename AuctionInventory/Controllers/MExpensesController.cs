@@ -232,10 +232,24 @@ namespace AuctionInventory.Controllers
             return Json(new { listPurchase }, JsonRequestBehavior.AllowGet);
         }
 
+             [HttpPost]
+        public JsonResult AutoCompleteExpense(string prefix)
+        {
+            var expenses = (from expense in auctionContext.MExpenses
+                            where expense.strExpenseName.StartsWith(prefix)
+                             //||
+                             //supplier.strEmailID.StartsWith(prefix)||
+                             //supplier.strLastName.StartsWith(prefix)
+                             select new
+                             {
+                                 strExpenseName = expense.strExpenseName,                                 
+                                 iExpenseID = expense.iExpenseID
+                             }).ToList();
 
+            return Json(expenses, JsonRequestBehavior.AllowGet);
+        }
 
-
-
+       
 
     }
 }

@@ -1185,6 +1185,7 @@
     <Content Include="Views\MCategory\Delete.cshtml" />
     <Content Include="Views\TPurchase\GeneratePDF.cshtml" />
     <Content Include="Views\MExpenses\AllVehicleExpenses.cshtml" />
+    <Content Include="Views\MExpenses\demoDynanicTextbox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
