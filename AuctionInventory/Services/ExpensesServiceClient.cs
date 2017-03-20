@@ -58,8 +58,10 @@ namespace AuctionInventory.Services
             {
                 expense.iExpenseID = expenses.iExpenseID;
                 expense.strExpenseName = expenses.strExpenseName ?? " ";
+                expense.iPurchaseInvoiceID = expenses.iPurchaseInvoiceID;
                 expense.iCategoryID = expenses.iCategoryID;
                 expense.iSubCategoryID = expenses.iSubCategoryID;
+                expense.iExpenseAmount = expenses.iExpenseAmount;
             }
             return expense;
         }
@@ -72,8 +74,11 @@ namespace AuctionInventory.Services
             {
                 expenses.iExpenseID = data.iExpenseID ?? -1;
                 expenses.strExpenseName = data.strExpenseName ?? " ";
+                expenses.iPurchaseInvoiceID = data.iPurchaseInvoiceID ?? -1;
+
                 expenses.iCategoryID = data.iCategoryID ?? -1;
                 expenses.iSubCategoryID = data.iSubCategoryID ?? -1;
+                expenses.iExpenseAmount = data.iExpenseAmount ?? -1;
             }
             return expenses;
         }
@@ -89,8 +94,10 @@ namespace AuctionInventory.Services
                     // supplier.FullName = data.FullName;
                     expenses.iExpenseID = data.iExpenseID ?? -1;
                     expenses.strExpenseName = data.strExpenseName ?? " ";
+                    expenses.iPurchaseInvoiceID = data.iPurchaseInvoiceID ?? -1;
                     expenses.iCategoryID = data.iCategoryID ?? -1;
                     expenses.iSubCategoryID = data.iSubCategoryID ?? -1;
+                    expenses.iExpenseAmount = data.iExpenseAmount ?? -1;
                     listExpenses.Add(expenses);
                 }
             }

@@ -75,6 +75,7 @@ namespace AuctionInventory.Controllers
             bool status = false;
             try
             {
+                //if (ModelState.IsValid)
                 if (ModelState.IsValid)
                 {
                     ExpensesServiceClient service = new ExpensesServiceClient();
@@ -94,6 +95,33 @@ namespace AuctionInventory.Controllers
             return View();
             // return new JsonResult { Data = new { status = status } };
         }
+
+
+        //[HttpPost]
+        //public ActionResult Save(Expenses expense)
+        //{
+        //    bool status = false;
+        //    try
+        //    {
+        //        if (expense!=null && ModelState.IsValid)
+        //        {
+        //            ExpensesServiceClient service = new ExpensesServiceClient();
+        //            status = service.SaveData(expense);
+        //            return RedirectToAction("Index");
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ModelState.AddModelError("error", "Something Went Wrong");
+        //        status = false;
+        //        throw e;
+
+
+        //    }
+
+        //    return View();
+        //    // return new JsonResult { Data = new { status = status } };
+        //}
 
 
         [HttpGet]

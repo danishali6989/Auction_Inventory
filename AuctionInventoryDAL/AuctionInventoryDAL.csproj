@@ -75,6 +75,9 @@
     <Compile Include="Entity\Employee.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\ExpenseAmount.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\MailModel.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>

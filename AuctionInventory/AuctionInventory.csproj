@@ -195,6 +195,7 @@
     <Compile Include="Models\Currency.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\ExpenseAmountModel.cs" />
     <Compile Include="Models\Expenses.cs" />
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\PurchaseViewModel.cs" />

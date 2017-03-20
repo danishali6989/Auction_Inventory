@@ -27,16 +27,17 @@ namespace AuctionInventory.Controllers
             vehicle = (from a in auctionContext.Vehicles select a).OrderBy(a => a.iLotNum).ToList();
             return View(vehicle);
         }
-
+        [HttpPost]
         public ActionResult TestJS()
         {
 
             List<Vehicle> vehicle = new List<Vehicle>();
             vehicle = (from a in auctionContext.Vehicles select a).OrderBy(a => a.iLotNum).ToList();
             var catNames = vehicle.Select(i =>
-           new { LotNum = i.iLotNum, ChassisNum = i.strChassisNum, Make = i.strMake }).ToList();
+           new { LotNum = i.iLotNum, ChassisNum = i.strChassisNum, Make = i.strMake,iModel=i.iModel,Category=i.strCategory,Year=i.iYear,color=i.strColor,Origin=i.strOrigin,Location=i.strLocation,JPY=i.iCustomValInJPY }).ToList();
 
-            return View();
+            return Json(catNames, JsonRequestBehavior.AllowGet);
+            //return View();
         }
 
 

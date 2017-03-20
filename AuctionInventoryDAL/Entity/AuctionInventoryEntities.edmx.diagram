@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="fe7cd9625a134df493f463959df7693c" Name="Diagram1" ZoomLevel="88" >
+      <Diagram DiagramId="fe7cd9625a134df493f463959df7693c" Name="Diagram1" ZoomLevel="85" >
         <EntityTypeShape EntityType="AuctionInventoryModel.CityMaster" Width="1.5" PointX="5.25" PointY="1" />
         <EntityTypeShape EntityType="AuctionInventoryModel.CountryMaster" Width="1.5" PointX="0.75" PointY="1" />
         <EntityTypeShape EntityType="AuctionInventoryModel.Employee" Width="1.5" PointX="5.75" PointY="3.75" />
@@ -20,7 +20,8 @@
         <EntityTypeShape EntityType="AuctionInventoryModel.TPurchase" Width="1.5" PointX="0.75" PointY="5.125" />
         <EntityTypeShape EntityType="AuctionInventoryModel.UserLogin" Width="1.5" PointX="2.75" PointY="10.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.Vehicle" Width="1.5" PointX="3" PointY="4.125" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.MailModel" Width="1.5" PointX="4.75" PointY="10.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.ExpenseAmount" Width="1.5" PointX="4.75" PointY="10.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.MailModel" Width="1.5" PointX="6.75" PointY="10.75" />
         <AssociationConnector Association="AuctionInventoryModel.FK_CityMaster_StateMaster" />
         <AssociationConnector Association="AuctionInventoryModel.FK_StateMaster_CountryMaster" />
         <AssociationConnector Association="AuctionInventoryModel.FK_Vehicle_TPurchase" />

@@ -34,6 +34,11 @@ namespace AuctionInventoryDAL.Repositories
                 if (exp != null)
                 {
                     exp.strExpenseName = expense.strExpenseName;
+                    exp.iPurchaseInvoiceID = expense.iPurchaseInvoiceID;
+                    exp.iCategoryID = expense.iCategoryID;
+                    exp.iSubCategoryID = expense.iSubCategoryID;
+                    exp.iExpenseAmount = expense.iExpenseAmount;
+
                 }
             }
             else

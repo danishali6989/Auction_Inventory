@@ -33,6 +33,16 @@
           <Property Name="Country" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.ExpenseAmount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ExpenseAmount">
+          <Key>
+            <PropertyRef Name="iExpID" />
+          </Key>
+          <Property Name="iExpID" Type="bigint" Nullable="false" />
+          <Property Name="iExpenseAmountID" Type="int" />
+          <Property Name="iExpenseAmount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MailModel">
           <Key>
@@ -112,9 +122,10 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           </Key>
           <Property Name="iExpenseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="strExpenseName" Type="nvarchar" MaxLength="200" />
-          <Property Name="iPurchaseID" Type="bigint" Nullable="false" />
+          <Property Name="iPurchaseInvoiceID" Type="int" Nullable="false" />
           <Property Name="iCategoryID" Type="int" />
           <Property Name="iSubCategoryID" Type="int" />
+          <Property Name="iExpenseAmount" Type="int" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -160,6 +171,12 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="SupplierDate" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Roles">
+          <Property Name="RoleId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" />
+        </EntityType>-->
         <EntityType Name="StateMaster">
           <Key>
             <PropertyRef Name="ID" />
@@ -275,6 +292,13 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <EntitySet Name="TPurchase" EntityType="Self.TPurchase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLogin" EntityType="Self.UserLogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseAmount" EntityType="Self.ExpenseAmount" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ExpenseAmount].[iExpID] AS [iExpID], 
+    [ExpenseAmount].[iExpenseAmountID] AS [iExpenseAmountID], 
+    [ExpenseAmount].[iExpenseAmount] AS [iExpenseAmount]
+    FROM [dbo].[ExpenseAmount] AS [ExpenseAmount]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="MailModel" EntityType="Self.MailModel" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [MailModel].[From] AS [From], 
@@ -316,6 +340,7 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <EntitySet Name="TPurchases" EntityType="AuctionInventoryModel.TPurchase" />
           <EntitySet Name="UserLogins" EntityType="AuctionInventoryModel.UserLogin" />
           <EntitySet Name="Vehicles" EntityType="AuctionInventoryModel.Vehicle" />
+          <EntitySet Name="ExpenseAmounts" EntityType="AuctionInventoryModel.ExpenseAmount" />
           <EntitySet Name="MailModels" EntityType="AuctionInventoryModel.MailModel" />
           <AssociationSet Name="FK_CityMaster_StateMaster" Association="AuctionInventoryModel.FK_CityMaster_StateMaster">
             <End Role="StateMaster" EntitySet="StateMasters" />
@@ -425,9 +450,10 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           </Key>
           <Property Name="iExpenseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="strExpenseName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="iPurchaseID" Type="Int64" Nullable="false" />
+          <Property Name="iPurchaseInvoiceID" Type="Int32" Nullable="false" />
           <Property Name="iCategoryID" Type="Int32" />
           <Property Name="iSubCategoryID" Type="Int32" />
+          <Property Name="iExpenseAmount" Type="Int32" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -539,6 +565,14 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="IsStockRecieved" Type="Boolean" />
           <Property Name="PurchaseID" Type="Int64" Nullable="false" />
           <NavigationProperty Name="TPurchase" Relationship="AuctionInventoryModel.FK_Vehicle_TPurchase" FromRole="Vehicle" ToRole="TPurchase" />
+        </EntityType>
+        <EntityType Name="ExpenseAmount">
+          <Key>
+            <PropertyRef Name="iExpID" />
+          </Key>
+          <Property Name="iExpID" Type="Int64" Nullable="false" />
+          <Property Name="iExpenseAmountID" Type="Int32" />
+          <Property Name="iExpenseAmount" Type="Int32" />
         </EntityType>
         <EntityType Name="MailModel">
           <Key>
@@ -692,9 +726,10 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <EntitySetMapping Name="MExpenses">
             <EntityTypeMapping TypeName="AuctionInventoryModel.MExpense">
               <MappingFragment StoreEntitySet="MExpense">
+                <ScalarProperty Name="iExpenseAmount" ColumnName="iExpenseAmount" />
                 <ScalarProperty Name="iSubCategoryID" ColumnName="iSubCategoryID" />
                 <ScalarProperty Name="iCategoryID" ColumnName="iCategoryID" />
-                <ScalarProperty Name="iPurchaseID" ColumnName="iPurchaseID" />
+                <ScalarProperty Name="iPurchaseInvoiceID" ColumnName="iPurchaseInvoiceID" />
                 <ScalarProperty Name="strExpenseName" ColumnName="strExpenseName" />
                 <ScalarProperty Name="iExpenseID" ColumnName="iExpenseID" />
               </MappingFragment>
@@ -810,6 +845,15 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
                 <ScalarProperty Name="strGrade" ColumnName="strGrade" />
                 <ScalarProperty Name="iLotNum" ColumnName="iLotNum" />
                 <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseAmounts">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.ExpenseAmount">
+              <MappingFragment StoreEntitySet="ExpenseAmount">
+                <ScalarProperty Name="iExpenseAmount" ColumnName="iExpenseAmount" />
+                <ScalarProperty Name="iExpenseAmountID" ColumnName="iExpenseAmountID" />
+                <ScalarProperty Name="iExpID" ColumnName="iExpID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

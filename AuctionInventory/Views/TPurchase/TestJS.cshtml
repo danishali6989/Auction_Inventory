@@ -23,10 +23,10 @@
     }
 </style>
 <body>
-    <button onclick="generate()">Generate pdf</button>
+    
     <script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
     <script src="~/Content/plugins/jsPDF/jspdf.plugin.autotable.js"></script>
-    <table id="table">
+    @*<table id="table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -55,22 +55,56 @@
                 <td>38.36.7.199</td>
             </tr>
         </tbody>
-    </table>
-    <script>
-        function generate() {
-            var columns = ["ID", "Country", "Rank", "Capital"];
-            var data = [
-                [1, "Denmark", 7.526, "Copenhagen"],
-                [2, "Switzerland", 7.509, "Bern"],
-                [3, "Iceland", 7.501, "Reykjavík"],
-                [4, "Norway", 7.498, "Oslo"],
-                [5, "Finland", 7.413, "Helsinki"]
-            ];
+    </table>*@
 
-            var doc = new jsPDF();
-            doc.autoTable(columns, data);
-            doc.output("dataurlnewwindow");
-        }
+
+    <div>
+        <button id="generatePDF">Generate pdf</button>
+    </div>
+
+    <script>
+        $("#generatePDF").click(function () {
+            debugger;
+
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "/TPurchase/TestJS",
+                dataType: 'json',
+                success: function (result) {
+
+                    var columns = [result.LotNum, result.ChassisNum];
+                    var data = [result.LotNum, result.ChassisNum];
+                    var doc = new jsPDF();
+                    doc.autoTable(columns, data);
+                    doc.output("dataurlnewwindow");
+
+                    //console.log(result);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve data.');
+                }
+            });
+        });
+
+        //function generate() {
+        //    var columns = ["ID", "Country", "Rank", "Capital"];
+        //    var data = [
+        //        [1, "Denmark", 7.526, "Copenhagen"],
+        //        [2, "Switzerland", 7.509, "Bern"],
+        //        [3, "Iceland", 7.501, "Reykjavík"],
+        //        [4, "Norway", 7.498, "Oslo"],
+        //        [5, "Finland", 7.413, "Helsinki"]
+        //    ];
+
+        //    var doc = new jsPDF();
+        //    doc.autoTable(columns, data);
+        //    doc.output("dataurlnewwindow");
+        //}
     </script>
+
+
+   
 </body>
 </html>

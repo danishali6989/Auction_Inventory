@@ -1,4 +1,6 @@
 ﻿@*@model AuctionInventory.Models.Purchase*@
+
+@*@model AuctionInventory.Models.Expenses*@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -14,7 +16,7 @@
                     @*<label>Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>*@
                     <input type="text" id="invno" class="form-control" />
                     @*@Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })>*@
-                    <input type="button" value="ADD" id="JQGridFill" />
+                    <input type="button" value="Search" id="JQGridFill" />
                 </div>
 
             </div>
@@ -36,16 +38,21 @@
             <div id="AddExpenseDynamic" style="display:none">
                 <input type="hidden" id="hfExpense" />
                 <input type="text" id="txtSearchExpense" name="name" placeholder="search Expenses" />
-                <input id="btnAdd" type="button" value="add" />
+                <input id="btnAdd" type="button" value="ADD Expenses" />
                 <br />
                 <br />
                 <div id="TextBoxContainer">
                     <!--Textboxes will be added here -->
                 </div>
                 <br />
-                
+
                 <div id="totalExpense" style="display:none">
-                    <label>Total Amount :</label><input type="text" readonly />
+                    <br />
+
+                    <input type="button" value="ADD All Expenses" class="btn btn-success" id="btnAddTotalSum" />
+                    <br />
+                    <br />
+                    <label>Total Expense Amount :</label><input type="text" id="totalSum" readonly />
                 </div>
             </div>
 
@@ -91,14 +98,14 @@
                 });
             },
             select: function (event, i) {
-             
+
                 event.preventDefault();
 
                 $("#txtSearchExpense").val(i.item.value);
                 //$("#txtSearchSupplier").val(i.item.strLastName);
                 //$("#txtSearchSupplier").val(i.item.strEmailID);
                 $("#hfExpense").val(i.item.iExpenseID);
-                
+
 
                 //var id = i.item.value;
 
@@ -137,7 +144,7 @@
                 data: listPurchase,
                 datatype: "local",
                 // colNames: ['Action', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Assessed Value', 'AED'],
-                colNames: ['Invoice No', 'Invoice Date', 'No Of units', 'Master Dec No', 'BL NO', 'Action'],
+                colNames: ['Invoice No', 'Invoice Date', 'No Of units', 'Master Dec No', 'BL NO'],
                 colModel: [
                     { name: 'iPurchaseInvoiceNo', index: 'iPurchaseInvoiceNo' },
                     { name: 'strPurchaseInvoiceDate', index: 'strPurchaseInvoiceDate' },
@@ -145,17 +152,11 @@
                     { name: 'strMasterDecNo', index: 'strMasterDecNo' },
                     { name: 'strBLNo', index: 'strBLNo' },
 
-                   {
-                       name: 'Action', index: 'Action', align: 'center', width: 200, search: false, title: false,
-                       formatter: function (cellvalue, options, rowObject) {
-                           return '<a class="popup btn btn-info" href="/MVehicle/Save/' + options.rowId + '">' + "Edit" + '</a>' + "     " + '<a class="popup btn btn-info" href="/MVehicle/Delete/' + options.rowId + '">' + "Delete" + '</a>';
 
-                       }
-                   },
 
                 ],
                 width: 850,
-                height: 'auto',
+                height: 70,
                 rowNum: 10,
                 // loadonce: true,
                 rowList: [10, 20, 30],
@@ -174,18 +175,16 @@
 
 
 <script type="text/javascript">
+    //var ExpenseTotalAmount = 0;
     $(function () {
 
-        
-        $("#btnAdd").bind("click", function () {         
-           
+        $("#btnAdd").bind("click", function () {
 
             if (document.getElementById('txtSearchExpense').value == "") {
-               
+
                 $('#txtSearchExpense').css('border-color', 'red');
             }
-            else
-            {
+            else {
                 $('#txtSearchExpense').css('border-color', '');
                 var value = $("#txtSearchExpense").val();
                 //var id = $("#hfExpense").val();
@@ -193,31 +192,202 @@
                 div.html(GetDynamicTextBox(value));
                 $("#TextBoxContainer").append(div);
 
-                $("#txtSearchExpense").val("");
-                $("#hfExpense").val("");
+                $("#totalExpense").show();
+
+                //$("#txtSearchExpense").val("");
+                //$("#hfExpense").val("");
+
             }
-              
-           
+
+
         });
+
+        //Adding total Amount To Textbox
+
+        $(function () {
+            $("#btnAddTotalSum").click(function () {
+                AmountTextBox();
+
+
+
+                var expenseAmount =
+                    {
+                        //iExpenseID: $("#hfExpense").val(),
+                        strExpenseName: $("#txtSearchExpense").val(),
+                        iPurchaseInvoiceID: $("#invno").val(),
+                        iCategoryID: 2,
+                        iSubCategoryID: 1,
+                        iExpenseAmount: $(".txtAmount").val()
+
+                    }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/MExpenses/Save",
+                    cache: false,
+                    data: JSON.stringify({ expense: expenseAmount }),
+                    // data: JSON.stringify(purchase),
+                    dataType: this.dataType,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+
+                        $("#txtSearchExpense").val("");
+                        $("#hfExpense").val("");
+
+                        //window.location.href = "/TPurchase/GetPurchaseList";
+                        //// debugger;
+                        //// To Do- Redirect after success result
+                        //if (Data.status) {
+                        //    //var url = "/Artists/Details?NestId=" + NestId;
+                        //    //window.location.href = url;
+
+                        //    //window.location.href = "/TPurchase/GetPurchaseList";
+                        //    //alert("Data Saved")
+                        //}
+
+                    },
+                    error: function (data) {
+                        $("#error_message").html(data);
+                    }
+                });
+
+
+            });
+        });
+
+
+        //$("body").on("click", ".btnAddExpense", function () {
+
+        //    debugger
+
+
+
+        //    $(".txtAmount").each(function () {
+        //        ExpenseTotalAmount += Number($(this).val());
+        //    });
+        //    //alert(ExpenseTotalAmount);
+        //    $("#totalSum").val(ExpenseTotalAmount);
+
+        //    var expenseAmount =
+        //        {
+        //            //iExpenseID: $("#hfExpense").val(),
+        //            strExpenseName: $("#txtSearchExpense").val(),
+        //            iPurchaseInvoiceID: $("#invno").val(),
+        //            iCategoryID:2,
+        //            iSubCategoryID :2,
+        //            iExpenseAmount :$(".txtAmount").val()
+
+        //}
+
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/MExpenses/Save",
+        //        cache: false,
+        //        data: JSON.stringify({ expense: expenseAmount }),
+        //        // data: JSON.stringify(purchase),
+        //        dataType: this.dataType,
+        //        contentType: "application/json; charset=utf-8",
+        //        success: function (Data) {
+
+
+        //            $("#txtSearchExpense").val("");
+        //            $("#hfExpense").val("");
+
+        //            //window.location.href = "/TPurchase/GetPurchaseList";
+        //            //// debugger;
+        //            //// To Do- Redirect after success result
+        //            //if (Data.status) {
+        //            //    //var url = "/Artists/Details?NestId=" + NestId;
+        //            //    //window.location.href = url;
+
+        //            //    //window.location.href = "/TPurchase/GetPurchaseList";
+        //            //    //alert("Data Saved")
+        //            //}
+
+        //        },
+        //        error: function (data) {
+        //            $("#error_message").html(data);
+        //        }
+        //    });
+
+
+        //});
+
+
         $("body").on("click", ".remove", function () {
+            debugger;
             $(this).closest("div").remove();
+            ExpenseTotalAmount = 0;
+            AmountTextBox();
+
+
+            //    var expenseamount =
+            //        {
+            //            //iexpenseid: $("#hfexpense").val(),
+            //            strexpensename: $("#txtsearchexpense").val(),
+            //            ipurchaseinvoiceid: $("#invno").val(),
+            //            icategoryid:2,
+            //            isubcategoryid :2,
+            //            iexpenseamount :$(".txtamount").val()
+
+            //}
+
+            //$.ajax({
+            //    type: "post",
+            //    url: "/mexpenses/save",
+            //    cache: false,
+            //    data: json.stringify({ expense: expenseamount }),
+            //    // data: json.stringify(purchase),
+            //    datatype: this.datatype,
+            //    contenttype: "application/json; charset=utf-8",
+            //    success: function (data) {
+
+
+            //        $("#txtsearchexpense").val("");
+            //        $("#hfexpense").val("");
+
+            //        //window.location.href = "/tpurchase/getpurchaselist";
+            //        //// debugger;
+            //        //// to do- redirect after success result
+            //        //if (data.status) {
+            //        //    //var url = "/artists/details?nestid=" + nestid;
+            //        //    //window.location.href = url;
+
+            //        //    //window.location.href = "/tpurchase/getpurchaselist";
+            //        //    //alert("data saved")
+            //        //}
+
+            //    },
+            //    error: function (data) {
+            //        $("#error_message").html(data);
+            //    }
+            //});
+
         });
+
+
+
     });
 
-    //function AddTextBox(id) {        
-    //    // alert("helo");
-    //    debugger;
-    //    var div = $("<div />");
-    //    div.html(GetDynamicTextBox(id));
-    //    $("#TextBoxContainer").append(div);
-    //    $("body").on("click", ".remove", function () {
-    //        $(this).closest("div").remove();
-    //    });
-    //}
+    var ExpenseTotalAmount = 0;
+    function AmountTextBox() {
+        $(".txtAmount").each(function () {
+            ExpenseTotalAmount += Number($(this).val());
+        });
+        //alert(ExpenseTotalAmount);
+        $("#totalSum").val(ExpenseTotalAmount);
+
+    }
+
+
+
 
     function GetDynamicTextBox(value) {
-        return ' <label>' + value + '</label>:<input type="number" name="DynamicTextBox" min="1" max="5" placeholder="Enter Amount">&nbsp;' +
+
+        return ' <label>' + value + '</label>:<input type="number" class="txtAmount" name="DynamicTextBox" min="1" max="5" placeholder="Enter Amount">&nbsp;' + '<input type="button" class="btnAddExpense" value="Add Expense"  />' +
                 '<input type="button" value="Remove" class="remove" />'
+
     }
 
 </script>
