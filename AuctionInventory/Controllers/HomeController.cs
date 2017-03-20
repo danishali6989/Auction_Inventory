@@ -11,6 +11,7 @@ namespace AuctionInventory.Controllers
 {
     public class HomeController : Controller
     {
+
         public ActionResult DashBoard()
         {
             return View();
