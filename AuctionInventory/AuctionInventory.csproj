@@ -1187,6 +1187,7 @@
     <Content Include="Views\TPurchase\GeneratePDF.cshtml" />
     <Content Include="Views\MExpenses\AllVehicleExpenses.cshtml" />
     <Content Include="Views\TPurchase\TestJS.cshtml" />
+    <Content Include="Views\MExpenses\SingleVehicleExpenses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

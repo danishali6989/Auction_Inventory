@@ -272,10 +272,10 @@
                         <input type="button" class='popup btn btn-info' id="btnRcvStock" name="Save" value="Stock Revice" />
                     </div>
                     <div class="col-sm-3">
-                        <input type="button" class='popup btn btn-info' name="Save" value="Print Invoice" onclick="generatePDF()" />
+                        <input type="button" class='popup btn btn-info' name="Save" value="Print Invoice" onclick="generateInvoicePDF()" />
                     </div>
                     <div class="col-sm-3">
-                        <input type="button" class='popup btn btn-info' name="Save" value="Print Custom Invoice" />
+                        <input type="button" class='popup btn btn-info' name="Save" value="Print Custom Invoice" onclick="generateCustomPDF()" />
                     </div>
 
 
@@ -308,61 +308,63 @@
 
 
 <script>
-    //$("#generatePDF").click(
-
-        function generatePDF() {
-        debugger;
-
-
+   
+    function generateInvoicePDF() {
+       
         $.ajax({
             cache: false,
             type: "POST",
-            url: "/TPurchase/TestJS",
+            url: "/TPurchase/GenerateInvoicePDF",
             dataType: 'json',
             success: function (result) {
-                alert("hiii");
-                debugger;
-                var columns =['Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'JPY'];
-
-         //       var data = [
-         //    [1, "Denmark", 7.526, "Copenhagen"],
-         //    [2, "Switzerland", 7.509, "Bern"],
-         //    [3, "Iceland", 7.501, "Reykjavík"],
-         //    [4, "Norway", 7.498, "Oslo"],
-         //    [5, "Finland", 7.413, "Helsinki"]
-                //];
-
               
+                debugger;
+                var columns =['Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'JPY'];                
 
-               
-                var data = [result[0].LotNum, result[0].ChassisNum, result[0].Make, result[0].iModel, result[0].Category, result[0].Year, result[0].color, result[0].Origin, result[0].Location, result[0].JPY];
+                var data = [];
+                for (var i = 1; i < result.length; i++) {
+
+                    data.push([result[i].LotNum, result[i].ChassisNum, result[i].Make, result[i].iModel, result[i].Category, result[i].Year, result[i].color, result[i].Origin, result[i].Location, result[i].JPY]);
+
+                }                
                 var doc = new jsPDF();
                 doc.autoTable(columns, data);
                 doc.output("dataurlnewwindow");
-
-                //console.log(result);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert('Failed to retrieve data.');
             }
         });
-        }
-    //);
+    }
 
-    //function generate() {
-    //    var columns = ["ID", "Country", "Rank", "Capital"];
-    //    var data = [
-    //        [1, "Denmark", 7.526, "Copenhagen"],
-    //        [2, "Switzerland", 7.509, "Bern"],
-    //        [3, "Iceland", 7.501, "Reykjavík"],
-    //        [4, "Norway", 7.498, "Oslo"],
-    //        [5, "Finland", 7.413, "Helsinki"]
-    //    ];
+    function generateCustomPDF() {
+        debugger;
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/TPurchase/GenerateCustomPDF",
+            dataType: 'json',
+            success: function (result) {
+                alert("hiii");
+                debugger;
+                var columns = ['Lot No', 'Chasis No', 'Make', 'Model', 'Category', 'Year', 'Color', 'Origin', 'Location', 'JPY'];
 
-    //    var doc = new jsPDF();
-    //    doc.autoTable(columns, data);
-    //    doc.output("dataurlnewwindow");
-    //}
+                var data = [];
+                for (var i = 1; i < result.length; i++) {
+
+                    data.push([result[i].LotNum, result[i].ChassisNum, result[i].Make, result[i].iModel, result[i].Category, result[i].Year, result[i].color, result[i].Origin, result[i].Location, result[i].JPY]);
+
+                }
+                var doc = new jsPDF();
+                doc.autoTable(columns, data);
+                doc.output("dataurlnewwindow");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve data.');
+            }
+        });
+    }
+    
 </script>
 
 

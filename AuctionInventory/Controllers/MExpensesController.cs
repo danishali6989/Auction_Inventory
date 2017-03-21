@@ -97,6 +97,38 @@ namespace AuctionInventory.Controllers
         }
 
 
+
+        [HttpPost]
+        public ActionResult SaveAllExpenses(MExpense[] expense)
+        { 
+            
+            try
+            {
+                //if (ModelState.IsValid)
+                if (ModelState.IsValid)
+                {
+                    foreach (var item in expense)
+                    {
+                        
+                       auctionContext.MExpenses.Add(item); 
+                    }
+
+                    auctionContext.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong");
+                
+                throw e;
+
+
+            }
+
+            return View();
+            // return new JsonResult { Data = new { status = status } };
+        }
+
         //[HttpPost]
         //public ActionResult Save(Expenses expense)
         //{
@@ -179,6 +211,12 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
+
+        public ActionResult SingleVehicleExpenses()
+        {
+            return View();
+        }
+
         //[HttpPost]
         //public ActionResult VehiclesByInvoiceID(int request)
         //{
@@ -239,7 +277,7 @@ namespace AuctionInventory.Controllers
         [HttpPost]
         public JsonResult VehiclesByInvoiceID(int request)
         {
-            TPurchase purchase = new TPurchase();
+           
             AuctionInventoryEntities dc = new AuctionInventoryEntities();
 
             var listPurchase = (from t1 in dc.TPurchases
@@ -277,7 +315,52 @@ namespace AuctionInventory.Controllers
             return Json(expenses, JsonRequestBehavior.AllowGet);
         }
 
-       
+
+
+             [HttpPost]
+             public JsonResult VehiclesByVehicleID(int request)
+             {
+                
+                 AuctionInventoryEntities dc = new AuctionInventoryEntities();
+
+                 var VehiclesList = (from t1 in dc.Vehicles
+                                     //join t2 in dc.MColors on t1.iColor equals t2.iColorID
+                                     where t1.iVehicleID == request
+                                     select new
+                                     {
+                                         iLotNum = t1.iLotNum,
+                                         strChassisNum = t1.strChassisNum,
+                                         iModel = t1.iModel,
+                                         iYear = t1.iYear,
+                                         strColor = t1.strColor,
+                                         iCustomValInJPY = t1.iCustomValInJPY
+
+
+                                     });
+
+
+                 return Json(new { VehiclesList }, JsonRequestBehavior.AllowGet);
+             }
+
+
+
+             [HttpPost]
+             public JsonResult AutoCompleteVehicles(string prefix)
+             {
+                 var vehicles = (from vehicle in auctionContext.Vehicles
+                                 where vehicle.strChassisNum.StartsWith(prefix)
+                                 //||
+                                 //supplier.strEmailID.StartsWith(prefix)||
+                                 //supplier.strLastName.StartsWith(prefix)
+                                 select new
+                                 {
+                                     strChassisNum = vehicle.strChassisNum,
+                                     iVehicleID = vehicle.iVehicleID
+                                 }).ToList();
+
+                 return Json(vehicles, JsonRequestBehavior.AllowGet);
+             }
+
 
     }
 }

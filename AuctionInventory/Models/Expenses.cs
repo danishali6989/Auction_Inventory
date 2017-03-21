@@ -24,5 +24,7 @@ namespace AuctionInventory.Models
         public Nullable<int> iSubCategoryID { get; set; }
         public Nullable<int> iExpenseAmount { get; set; }
 
+       
+
     }
 }
