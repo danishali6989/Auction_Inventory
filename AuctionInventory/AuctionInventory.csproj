@@ -189,6 +189,7 @@
     <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Helpers\Menus.cs" />
     <Compile Include="Helpers\Session.cs" />
+    <Compile Include="Models\AllVehicleExpenseModel.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Color.cs" />
     <Compile Include="Models\Company.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Models\Expenses.cs" />
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\PurchaseViewModel.cs" />
+    <Compile Include="Models\SingleVehicleExpenseModel.cs" />
     <Compile Include="Models\Staff.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\TestModel.cs" />

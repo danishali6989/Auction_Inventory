@@ -51,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\AllVehicleExpense.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\AuctionInventoryEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -103,6 +106,9 @@
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\MSupplier.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\SingleVehicleExpense.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\StateMaster.cs">

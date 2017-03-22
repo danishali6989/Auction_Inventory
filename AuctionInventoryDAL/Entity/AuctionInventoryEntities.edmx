@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AuctionInventoryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AllVehicleExpense">
+          <Key>
+            <PropertyRef Name="iAllVehicleExpenseID" />
+          </Key>
+          <Property Name="iAllVehicleExpenseID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="iPurchaseInvoiceID" Type="int" />
+          <Property Name="iExpenseID" Type="int" Nullable="false" />
+          <Property Name="iExpenseAmount" Type="int" />
+          <Property Name="iTotalExpenseAmounrt" Type="int" />
+        </EntityType>
         <EntityType Name="CityMaster">
           <Key>
             <PropertyRef Name="ID" />
@@ -177,6 +187,17 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="RoleId" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="20" />
         </EntityType>-->
+        <EntityType Name="SingleVehicleExpense">
+          <Key>
+            <PropertyRef Name="iSingleVehicleID" />
+          </Key>
+          <Property Name="iSingleVehicleID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="iVehicleID" Type="int" />
+          <Property Name="iExpenseID" Type="int" Nullable="false" />
+          <Property Name="iExpenseAmount" Type="int" />
+          <Property Name="iTotalExpenseAmounrt" Type="int" />
+          <Property Name="strRemarks" Type="nvarchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="StateMaster">
           <Key>
             <PropertyRef Name="ID" />
@@ -277,6 +298,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="AuctionInventoryModelStoreContainer">
+          <EntitySet Name="AllVehicleExpense" EntityType="Self.AllVehicleExpense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CityMaster" EntityType="Self.CityMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CountryMaster" EntityType="Self.CountryMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
@@ -288,6 +310,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySet Name="MExpense" EntityType="Self.MExpense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MStaff" EntityType="Self.MStaff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MSupplier" EntityType="Self.MSupplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SingleVehicleExpense" EntityType="Self.SingleVehicleExpense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StateMaster" EntityType="Self.StateMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TPurchase" EntityType="Self.TPurchase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLogin" EntityType="Self.UserLogin" Schema="dbo" store:Type="Tables" />
@@ -325,6 +348,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
     <edmx:ConceptualModels>
       <Schema Namespace="AuctionInventoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="AuctionInventoryEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="AllVehicleExpenses" EntityType="AuctionInventoryModel.AllVehicleExpense" />
           <EntitySet Name="CityMasters" EntityType="AuctionInventoryModel.CityMaster" />
           <EntitySet Name="CountryMasters" EntityType="AuctionInventoryModel.CountryMaster" />
           <EntitySet Name="Employees" EntityType="AuctionInventoryModel.Employee" />
@@ -336,6 +360,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySet Name="MExpenses" EntityType="AuctionInventoryModel.MExpense" />
           <EntitySet Name="MStaffs" EntityType="AuctionInventoryModel.MStaff" />
           <EntitySet Name="MSuppliers" EntityType="AuctionInventoryModel.MSupplier" />
+          <EntitySet Name="SingleVehicleExpenses" EntityType="AuctionInventoryModel.SingleVehicleExpense" />
           <EntitySet Name="StateMasters" EntityType="AuctionInventoryModel.StateMaster" />
           <EntitySet Name="TPurchases" EntityType="AuctionInventoryModel.TPurchase" />
           <EntitySet Name="UserLogins" EntityType="AuctionInventoryModel.UserLogin" />
@@ -355,6 +380,16 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
             <End Role="Vehicle" EntitySet="Vehicles" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="AllVehicleExpense">
+          <Key>
+            <PropertyRef Name="iAllVehicleExpenseID" />
+          </Key>
+          <Property Name="iAllVehicleExpenseID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iPurchaseInvoiceID" Type="Int32" />
+          <Property Name="iExpenseID" Type="Int32" Nullable="false" />
+          <Property Name="iExpenseAmount" Type="Int32" />
+          <Property Name="iTotalExpenseAmounrt" Type="Int32" />
+        </EntityType>
         <EntityType Name="CityMaster">
           <Key>
             <PropertyRef Name="ID" />
@@ -499,6 +534,17 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="SupplierDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="SingleVehicleExpense">
+          <Key>
+            <PropertyRef Name="iSingleVehicleID" />
+          </Key>
+          <Property Name="iSingleVehicleID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iVehicleID" Type="Int32" />
+          <Property Name="iExpenseID" Type="Int32" Nullable="false" />
+          <Property Name="iExpenseAmount" Type="Int32" />
+          <Property Name="iTotalExpenseAmounrt" Type="Int32" />
+          <Property Name="strRemarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="StateMaster">
           <Key>
             <PropertyRef Name="ID" />
@@ -628,6 +674,17 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AuctionInventoryModelStoreContainer" CdmEntityContainer="AuctionInventoryEntities" >
+          <EntitySetMapping Name="AllVehicleExpenses">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.AllVehicleExpense">
+              <MappingFragment StoreEntitySet="AllVehicleExpense">
+                <ScalarProperty Name="iTotalExpenseAmounrt" ColumnName="iTotalExpenseAmounrt" />
+                <ScalarProperty Name="iExpenseAmount" ColumnName="iExpenseAmount" />
+                <ScalarProperty Name="iExpenseID" ColumnName="iExpenseID" />
+                <ScalarProperty Name="iPurchaseInvoiceID" ColumnName="iPurchaseInvoiceID" />
+                <ScalarProperty Name="iAllVehicleExpenseID" ColumnName="iAllVehicleExpenseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CityMasters">
             <EntityTypeMapping TypeName="AuctionInventoryModel.CityMaster">
               <MappingFragment StoreEntitySet="CityMaster">
@@ -778,6 +835,18 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
                 <ScalarProperty Name="strMiddleName" ColumnName="strMiddleName" />
                 <ScalarProperty Name="strFirstName" ColumnName="strFirstName" />
                 <ScalarProperty Name="iSupplierID" ColumnName="iSupplierID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SingleVehicleExpenses">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.SingleVehicleExpense">
+              <MappingFragment StoreEntitySet="SingleVehicleExpense">
+                <ScalarProperty Name="strRemarks" ColumnName="strRemarks" />
+                <ScalarProperty Name="iTotalExpenseAmounrt" ColumnName="iTotalExpenseAmounrt" />
+                <ScalarProperty Name="iExpenseAmount" ColumnName="iExpenseAmount" />
+                <ScalarProperty Name="iExpenseID" ColumnName="iExpenseID" />
+                <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
+                <ScalarProperty Name="iSingleVehicleID" ColumnName="iSingleVehicleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

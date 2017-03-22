@@ -63,6 +63,40 @@ namespace AuctionInventoryDAL.Repositories
             }
             return status;
         }
+
+
+
+        public bool SaveRepoAllVehicleExpense(List<AllVehicleExpense> expense)
+        {
+            bool status = false;
+            {
+                foreach (var items in expense)
+                {
+                    //Save
+                    auctionContext.AllVehicleExpenses.Add(items);
+                }
+                auctionContext.SaveChanges();
+            }
+            
+            status = true;
+            return status;
+        }
+
+
+        public bool SaveRepoSingleVehicleExpense(SingleVehicleExpense expense)
+        {
+            bool status = false;
+            {
+                //Save
+                auctionContext.SingleVehicleExpenses.Add(expense);
+                
+            }
+            auctionContext.SaveChanges();
+            status = true;
+            return status;
+        }
+
+
         #endregion
     }
 }

@@ -72,23 +72,24 @@
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
-                        //if (!data.length) {
-                        //    var result = [
-                        //     {
-                        //         label: 'No matches found',
-                        //         value: response.term
-                        //     }
-                        //    ];
-                        //    response(result);
-                        //}
-                        //else
+                        if (!data.length) {
+                            var result = [
+                             {
+                                 label: 'No matches found',
+                                 value: response.term
+                             }
+                            ];
+                            response(result);
+                        }
+                        else
                         {
                             // normal response
                             response($.map(data, function (item) {
                                 return {
 
                                     label: item.strExpenseName,
-                                    value: item.strExpenseName
+                                    value: item.strExpenseName,
+                                    iExpenseID:item.iExpenseID
                                 }
                             }));
                         }
@@ -106,7 +107,7 @@
                 //$("#txtSearchSupplier").val(i.item.strEmailID);
                 $("#hfExpense").val(i.item.iExpenseID);
 
-
+                alert(i.item.iExpenseID);
                 //var id = i.item.value;
 
                 //$('#btnAdd').attr('onClick', 'AddTextBox(' + id + ')');
@@ -189,7 +190,7 @@
             }
             else {
                 $('#txtSearchExpense').css('border-color', '');
-                
+                var id = $("#hfExpense").val();
                 var value = $("#txtSearchExpense").val();
                 //var name = 'txtName' + counter;
                
@@ -199,14 +200,15 @@
                 //div.html(GetDynamicTextBox(value, txtNameCounter));
                 //$('#TextBoxContainer').append("<div>" + "<label class='lblExpense' id='" + name + "'>" + value + "</label>" + "<input  type='number' class='txtAmount' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='" + name + "' />" + "<input type='button' class='btnAddExpense' value='Add Expense'  id='" + name + "' />" + "<input type='button' value='Remove' class='remove' />'</div>");
 
-                $('#TextBoxContainer').append("<div>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
+                //$('#TextBoxContainer').append("<div>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
 
-
+                $('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
+                
                 //$("#TextBoxContainer").append(div);
                 counter++;
 
                 $("#totalExpense").show();
-
+                $('#txtSearchExpense').val("");
                 //$("#txtSearchExpense").val("");
                 //$("#hfExpense").val("");
 
@@ -274,13 +276,24 @@
 
     }
 
-    function SaveALLExpense(dataTosave) {
+    function SaveALLExpense(arr) {
+        debugger;
+
         $.ajax({
-            type: "POST",
-            url: "/MExpenses/SaveAllExpenses",
-            data: { expense: dataTosave },
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: "/MExpenses/SaveAllVehicleExpense",
+            data: JSON.stringify({ 'expense': arr }),
             success: function (data) { alert("SUCCESS"); }
         });
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/MExpenses/SaveAllVehicleExpense",
+        //    //data: JSON.stringify({ 'expense': expense }),
+        //    data: { expense: arr },
+        //    success: function (data) { alert("SUCCESS"); }
+        //});
     }
 
     function RemoveALLExpense(Removedata) {
@@ -293,19 +306,22 @@
         });
     }
     function ALLExpense() {
+        debugger;
         for (var i = 1; i < counter; i++) {
-
-            var ExpenseName = $("#lblExpense" + i).html();
+            var ExpenseID = $("#lblExpenseID" + i).html();
+            //var ExpenseName = $("#lblExpense" + i).html();
             var ExpenseAmount = $("#txtAmount" + i).val();
-
+            var ExpenseTotalAmount = $("#totalSum").val();
             var expenseAmount =
                   {
                       //iExpenseID: $("#hfExpense").val(),
-                      strExpenseName: ExpenseName,
+                     
                       iPurchaseInvoiceID: $("#invno").val(),
-                      iCategoryID: 2,
-                      iSubCategoryID: 1,
-                      iExpenseAmount: ExpenseAmount
+                      iExpenseID: ExpenseID,
+                      //iCategoryID: 2,
+                      //iSubCategoryID: 1,
+                      iExpenseAmount: ExpenseAmount,
+                      iTotalExpenseAmounrt: ExpenseTotalAmount
 
                   }
 

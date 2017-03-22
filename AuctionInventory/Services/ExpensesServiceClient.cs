@@ -48,6 +48,27 @@ namespace AuctionInventory.Services
             return status;
         }
 
+
+
+        public bool SaveDataAllVehicleExpense(List<AllVehicleExpenseModel> expenses)
+        {
+            bool status = true;
+            //Expenses expense = new Expenses();
+            ExpensesRepository repo = new ExpensesRepository();
+            status = repo.SaveRepoAllVehicleExpense(ParserAddAllVehicleExpenses(expenses));
+            return status;
+        }
+
+
+        public bool SaveDataSingleVehicleExpense(SingleVehicleExpenseModel expenses)
+        {
+            bool status = true;
+            //Expenses expense = new Expenses();
+            ExpensesRepository repo = new ExpensesRepository();
+            status = repo.SaveRepoSingleVehicleExpense(ParserAddSingleVehicleExpenses(expenses));
+            return status;
+        }
+
         #region Parser
 
         private MExpense ParserAddExpenses(Expenses expenses)
@@ -102,6 +123,44 @@ namespace AuctionInventory.Services
                 }
             }
             return listExpenses;
+        }
+
+        private List<AllVehicleExpense> ParserAddAllVehicleExpenses(List<AllVehicleExpenseModel> expenses)
+        {
+            List<AllVehicleExpense> listAllVehicleExpense = new List<AllVehicleExpense>();
+            foreach (var item in expenses)
+            {
+
+
+                if (expenses != null)
+                {
+                    AllVehicleExpense mVehicleExpense = new AllVehicleExpense();
+                    mVehicleExpense.iAllVehicleExpenseID = item.iAllVehicleExpenseID;
+                    mVehicleExpense.iPurchaseInvoiceID = item.iPurchaseInvoiceID;
+                    mVehicleExpense.iExpenseID = item.iExpenseID;
+                    mVehicleExpense.iExpenseAmount = item.iExpenseAmount;
+                    mVehicleExpense.iTotalExpenseAmounrt = item.iTotalExpenseAmounrt;
+                    listAllVehicleExpense.Add(mVehicleExpense);
+                }
+            }
+            return listAllVehicleExpense;
+        }
+
+        private SingleVehicleExpense ParserAddSingleVehicleExpenses(SingleVehicleExpenseModel expenses)
+        {
+            SingleVehicleExpense expense = new SingleVehicleExpense();
+
+            if (expenses != null)
+            {
+                expense.iSingleVehicleID = expenses.iSingleVehicleID;
+                expense.iVehicleID = expenses.iVehicleID;
+                expense.iExpenseID = expenses.iExpenseID;
+                expense.iExpenseAmount = expenses.iExpenseAmount;
+                expense.iTotalExpenseAmounrt = expenses.iTotalExpenseAmounrt;
+                expense.strRemarks = expenses.strRemarks ?? " ";
+                
+            }
+            return expense;
         }
 
         #endregion
