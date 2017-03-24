@@ -231,8 +231,8 @@
     $(function () {
 
         $("#btnAdd").bind("click", function () {
-
-            if (document.getElementById('txtSearchExpense').value == "") {
+            if (document.getElementById('txtSearchExpense').value == "" || document.getElementById('txtSearchExpense').value == "No matches found") {
+            
 
                 $('#txtSearchExpense').css('border-color', 'red');
             }

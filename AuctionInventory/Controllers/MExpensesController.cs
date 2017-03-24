@@ -287,7 +287,7 @@ namespace AuctionInventory.Controllers
         [HttpPost]
        // public ActionResult SaveAllVehicleExpense(string expense)
         //public ActionResult SaveAllVehicleExpense(List<AllVehicleExpenseModel> expense)
-        public ActionResult SaveAllVehicleExpense(List<AllVehicleExpenseModel> expense)
+        public ActionResult SaveAllVehicleExpense(List<VehicleExpenseModel> expense)
         {
             bool status = false;
             try
@@ -314,7 +314,7 @@ namespace AuctionInventory.Controllers
 
 
         [HttpPost]
-        public ActionResult SaveSingleVehicleExpense(SingleVehicleExpenseModel expense)
+        public ActionResult SaveSingleVehicleExpense(VehicleExpenseModel expense)
         {
             bool status = false;
             try

@@ -416,27 +416,27 @@
         });
 
 
-        $("#GetRow").click(function(){
-            var gridData = jQuery("#dataGrid").getRowData();
-            var postData = JSON.stringify(gridData);
-            alert("JSON serialized jqGrid data:\n" + postData);
-            $.ajax({
-                type: "POST",
-                url: "/TPurchase/Save",
-                data : {
-                    jgGridData: postData,
-                    customData: "bla bla"
-                },
-                dataType:"json",
-                contentType: "application/json; charset=utf-8",
-                success: function(response, textStatus, xhr) {
-                    alert("success");
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    alert("error");
-                }
-            });
-        });
+        //$("#GetRow").click(function(){
+        //    var gridData = jQuery("#dataGrid").getRowData();
+        //    var postData = JSON.stringify(gridData);
+        //    alert("JSON serialized jqGrid data:\n" + postData);
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/TPurchase/Save",
+        //        data : {
+        //            jgGridData: postData,
+        //            customData: "bla bla"
+        //        },
+        //        dataType:"json",
+        //        contentType: "application/json; charset=utf-8",
+        //        success: function(response, textStatus, xhr) {
+        //            alert("success");
+        //        },
+        //        error: function(xhr, textStatus, errorThrown) {
+        //            alert("error");
+        //        }
+        //    });
+        //});
 
 
         function bindGrid(listVehicle) {

@@ -66,14 +66,14 @@ namespace AuctionInventoryDAL.Repositories
 
 
 
-        public bool SaveRepoAllVehicleExpense(List<AllVehicleExpense> expense)
+        public bool SaveRepoAllVehicleExpense(List<VehicleExpens> expense)
         {
             bool status = false;
             {
                 foreach (var items in expense)
                 {
                     //Save
-                    auctionContext.AllVehicleExpenses.Add(items);
+                    auctionContext.VehicleExpenses.Add(items);
                 }
                 auctionContext.SaveChanges();
             }
@@ -83,12 +83,12 @@ namespace AuctionInventoryDAL.Repositories
         }
 
 
-        public bool SaveRepoSingleVehicleExpense(SingleVehicleExpense expense)
+        public bool SaveRepoSingleVehicleExpense(VehicleExpens expense)
         {
             bool status = false;
             {
                 //Save
-                auctionContext.SingleVehicleExpenses.Add(expense);
+                auctionContext.VehicleExpenses.Add(expense);
                 
             }
             auctionContext.SaveChanges();

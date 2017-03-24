@@ -50,7 +50,7 @@ namespace AuctionInventory.Services
 
 
 
-        public bool SaveDataAllVehicleExpense(List<AllVehicleExpenseModel> expenses)
+        public bool SaveDataAllVehicleExpense(List<VehicleExpenseModel> expenses)
         {
             bool status = true;
             //Expenses expense = new Expenses();
@@ -60,7 +60,7 @@ namespace AuctionInventory.Services
         }
 
 
-        public bool SaveDataSingleVehicleExpense(SingleVehicleExpenseModel expenses)
+        public bool SaveDataSingleVehicleExpense(VehicleExpenseModel expenses)
         {
             bool status = true;
             //Expenses expense = new Expenses();
@@ -125,17 +125,17 @@ namespace AuctionInventory.Services
             return listExpenses;
         }
 
-        private List<AllVehicleExpense> ParserAddAllVehicleExpenses(List<AllVehicleExpenseModel> expenses)
+        private List<VehicleExpens> ParserAddAllVehicleExpenses(List<VehicleExpenseModel> expenses)
         {
-            List<AllVehicleExpense> listAllVehicleExpense = new List<AllVehicleExpense>();
+            List<VehicleExpens> listAllVehicleExpense = new List<VehicleExpens>();
             foreach (var item in expenses)
             {
 
 
                 if (expenses != null)
                 {
-                    AllVehicleExpense mVehicleExpense = new AllVehicleExpense();
-                    mVehicleExpense.iAllVehicleExpenseID = item.iAllVehicleExpenseID;
+                    VehicleExpens mVehicleExpense = new VehicleExpens();
+                   
                     mVehicleExpense.iPurchaseInvoiceID = item.iPurchaseInvoiceID;
                     mVehicleExpense.iExpenseID = item.iExpenseID;
                     mVehicleExpense.iExpenseAmount = item.iExpenseAmount;
@@ -146,13 +146,13 @@ namespace AuctionInventory.Services
             return listAllVehicleExpense;
         }
 
-        private SingleVehicleExpense ParserAddSingleVehicleExpenses(SingleVehicleExpenseModel expenses)
+        private VehicleExpens ParserAddSingleVehicleExpenses(VehicleExpenseModel expenses)
         {
-            SingleVehicleExpense expense = new SingleVehicleExpense();
+            VehicleExpens expense = new VehicleExpens();
 
             if (expenses != null)
             {
-                expense.iSingleVehicleID = expenses.iSingleVehicleID;
+               
                 expense.iVehicleID = expenses.iVehicleID;
                 expense.iExpenseID = expenses.iExpenseID;
                 expense.iExpenseAmount = expenses.iExpenseAmount;

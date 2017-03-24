@@ -22,11 +22,13 @@
         <EntityTypeShape EntityType="AuctionInventoryModel.TPurchase" Width="1.5" PointX="0.75" PointY="5.125" />
         <EntityTypeShape EntityType="AuctionInventoryModel.UserLogin" Width="1.5" PointX="6.75" PointY="10.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.Vehicle" Width="1.5" PointX="3" PointY="4.125" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.ExpenseAmount" Width="1.5" PointX="11.75" PointY="0.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.MailModel" Width="1.5" PointX="11.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.VehicleExpens" Width="1.5" PointX="11.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.ExpenseAmount" Width="1.5" PointX="11.75" PointY="4.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.MailModel" Width="1.5" PointX="11.75" PointY="7.75" />
         <AssociationConnector Association="AuctionInventoryModel.FK_CityMaster_StateMaster" />
         <AssociationConnector Association="AuctionInventoryModel.FK_StateMaster_CountryMaster" />
         <AssociationConnector Association="AuctionInventoryModel.FK_Vehicle_TPurchase" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.AuctionList" Width="1.5" PointX="9.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

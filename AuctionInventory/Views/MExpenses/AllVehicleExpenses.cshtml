@@ -107,7 +107,7 @@
                 //$("#txtSearchSupplier").val(i.item.strEmailID);
                 $("#hfExpense").val(i.item.iExpenseID);
 
-                alert(i.item.iExpenseID);
+                //alert(i.item.iExpenseID);
                 //var id = i.item.value;
 
                 //$('#btnAdd').attr('onClick', 'AddTextBox(' + id + ')');
@@ -184,7 +184,7 @@
 
         $("#btnAdd").bind("click", function () {
 
-            if (document.getElementById('txtSearchExpense').value == "") {
+            if (document.getElementById('txtSearchExpense').value == "" || document.getElementById('txtSearchExpense').value == "No matches found") {
 
                 $('#txtSearchExpense').css('border-color', 'red');
             }
@@ -192,34 +192,26 @@
                 $('#txtSearchExpense').css('border-color', '');
                 var id = $("#hfExpense").val();
                 var value = $("#txtSearchExpense").val();
-                //var name = 'txtName' + counter;
-               
-                //var txtNameCounter = 'txtName' + counter;
-                
-                //var div = $("<div />");
-                //div.html(GetDynamicTextBox(value, txtNameCounter));
-                //$('#TextBoxContainer').append("<div>" + "<label class='lblExpense' id='" + name + "'>" + value + "</label>" + "<input  type='number' class='txtAmount' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='" + name + "' />" + "<input type='button' class='btnAddExpense' value='Add Expense'  id='" + name + "' />" + "<input type='button' value='Remove' class='remove' />'</div>");
-
-                //$('#TextBoxContainer').append("<div>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
-
+                 
                 $('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
                 
-                //$("#TextBoxContainer").append(div);
+               
                 counter++;
 
                 $("#totalExpense").show();
                 $('#txtSearchExpense').val("");
-                //$("#txtSearchExpense").val("");
-                //$("#hfExpense").val("");
-
+                
             }
+
+
+           
 
 
         });
 
         //Adding total Amount To Textbox
        
-        //var favorite = new Array();
+        
         $(function () {
             $("#btnAddTotalSum").click(function () {
                 AmountTextBox();
@@ -234,22 +226,7 @@
             });
         });
 
-        //$(function () {
-        //    $("#btnRemove").click(function () {
-
-        //        $(this).closest("div").remove();
-        //        ExpenseTotalAmount = 0;
-        //        AmountTextBox();
-
-        //        debugger;
-        //        ALLExpense();
-
-        //        //If you to save all data in one go then call Save function here
-        //        RemoveALLExpense(favorite);
-
-
-        //    });
-        //});
+       
 
         $("body").on("click", ".remove", function () {
             debugger;
@@ -287,13 +264,7 @@
             data: JSON.stringify({ 'expense': arr }),
             success: function (data) { alert("SUCCESS"); }
         });
-        //$.ajax({
-        //    type: "POST",
-        //    url: "/MExpenses/SaveAllVehicleExpense",
-        //    //data: JSON.stringify({ 'expense': expense }),
-        //    data: { expense: arr },
-        //    success: function (data) { alert("SUCCESS"); }
-        //});
+       
     }
 
     function RemoveALLExpense(Removedata) {
@@ -332,26 +303,6 @@
     }
 
 </script>
-
-
-
-
-
-@*<script>
-        var current = 1;
-        function addNumber() {
-            console.log('running addNumber')
-            //current keeps track of how many numbers we have.
-            current++;
-            var thePhoneBox = ('<p> <label for="number ' + current + '>number' + current + ':</label> <%= Html.TextBox("number' + current + '") %>\n <%= Html.ValidationMessage("number ' + current + '", "*") %>\n </p>')
-           console.log(thePhoneBox)
-         $('#phoneNumbers').append(thePhoneBox)
-        }
-
-        $(document).ready(function() {
-            $('#addNumber').click(addNumber)
-        });
-    </script>*@
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
