@@ -12,13 +12,12 @@ namespace AuctionInventoryDAL.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class MExpense
+    public partial class AllVehicleExpense
     {
+        public long iAllVehicleExpenseID { get; set; }
+        public Nullable<int> iPurchaseInvoiceID { get; set; }
         public int iExpenseID { get; set; }
-        public string strExpenseName { get; set; }
-        public int iPurchaseInvoiceID { get; set; }
-        public Nullable<int> iCategoryID { get; set; }
-        public Nullable<int> iSubCategoryID { get; set; }
         public Nullable<int> iExpenseAmount { get; set; }
+        public Nullable<int> iTotalExpenseAmounrt { get; set; }
     }
 }

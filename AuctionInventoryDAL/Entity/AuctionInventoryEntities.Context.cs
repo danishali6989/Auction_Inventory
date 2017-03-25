@@ -25,6 +25,7 @@ namespace AuctionInventoryDAL.Entity
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AllVehicleExpense> AllVehicleExpenses { get; set; }
         public virtual DbSet<CityMaster> CityMasters { get; set; }
         public virtual DbSet<CountryMaster> CountryMasters { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
@@ -36,10 +37,14 @@ namespace AuctionInventoryDAL.Entity
         public virtual DbSet<MExpense> MExpenses { get; set; }
         public virtual DbSet<MStaff> MStaffs { get; set; }
         public virtual DbSet<MSupplier> MSuppliers { get; set; }
+        public virtual DbSet<SingleVehicleExpense> SingleVehicleExpenses { get; set; }
         public virtual DbSet<StateMaster> StateMasters { get; set; }
         public virtual DbSet<TPurchase> TPurchases { get; set; }
         public virtual DbSet<UserLogin> UserLogins { get; set; }
         public virtual DbSet<Vehicle> Vehicles { get; set; }
+        public virtual DbSet<VehicleExpens> VehicleExpenses { get; set; }
+        public virtual DbSet<ExpenseAmount> ExpenseAmounts { get; set; }
         public virtual DbSet<MailModel> MailModels { get; set; }
+        public virtual DbSet<AuctionList> AuctionLists { get; set; }
     }
 }

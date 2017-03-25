@@ -1,4 +1,6 @@
 ﻿@*@model AuctionInventory.Models.Purchase*@
+
+@*@model AuctionInventory.Models.Expenses*@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -14,7 +16,7 @@
                     @*<label>Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>*@
                     <input type="text" id="invno" class="form-control" />
                     @*@Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })>*@
-                    <input type="button" value="ADD" id="JQGridFill" />
+                    <input type="button" value="Search" id="JQGridFill" />
                 </div>
 
             </div>
@@ -36,16 +38,21 @@
             <div id="AddExpenseDynamic" style="display:none">
                 <input type="hidden" id="hfExpense" />
                 <input type="text" id="txtSearchExpense" name="name" placeholder="search Expenses" />
-                <input id="btnAdd" type="button" value="add" />
+                <input id="btnAdd" type="button" value="ADD Expenses" />
                 <br />
                 <br />
                 <div id="TextBoxContainer">
                     <!--Textboxes will be added here -->
                 </div>
                 <br />
-                
+
                 <div id="totalExpense" style="display:none">
-                    <label>Total Amount :</label><input type="text" readonly />
+                    <br />
+
+                    <input type="button" value="ADD All Expenses" class="btn btn-success" id="btnAddTotalSum" />
+                    <br />
+                    <br />
+                    <label>Total Expense Amount :</label><input type="text" id="totalSum" readonly />
                 </div>
             </div>
 
@@ -65,23 +72,24 @@
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
-                        //if (!data.length) {
-                        //    var result = [
-                        //     {
-                        //         label: 'No matches found',
-                        //         value: response.term
-                        //     }
-                        //    ];
-                        //    response(result);
-                        //}
-                        //else
+                        if (!data.length) {
+                            var result = [
+                             {
+                                 label: 'No matches found',
+                                 value: response.term
+                             }
+                            ];
+                            response(result);
+                        }
+                        else
                         {
                             // normal response
                             response($.map(data, function (item) {
                                 return {
 
                                     label: item.strExpenseName,
-                                    value: item.strExpenseName
+                                    value: item.strExpenseName,
+                                    iExpenseID:item.iExpenseID
                                 }
                             }));
                         }
@@ -91,15 +99,15 @@
                 });
             },
             select: function (event, i) {
-             
+
                 event.preventDefault();
 
                 $("#txtSearchExpense").val(i.item.value);
                 //$("#txtSearchSupplier").val(i.item.strLastName);
                 //$("#txtSearchSupplier").val(i.item.strEmailID);
                 $("#hfExpense").val(i.item.iExpenseID);
-                
 
+                //alert(i.item.iExpenseID);
                 //var id = i.item.value;
 
                 //$('#btnAdd').attr('onClick', 'AddTextBox(' + id + ')');
@@ -137,7 +145,7 @@
                 data: listPurchase,
                 datatype: "local",
                 // colNames: ['Action', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Assessed Value', 'AED'],
-                colNames: ['Invoice No', 'Invoice Date', 'No Of units', 'Master Dec No', 'BL NO', 'Action'],
+                colNames: ['Invoice No', 'Invoice Date', 'No Of units', 'Master Dec No', 'BL NO'],
                 colModel: [
                     { name: 'iPurchaseInvoiceNo', index: 'iPurchaseInvoiceNo' },
                     { name: 'strPurchaseInvoiceDate', index: 'strPurchaseInvoiceDate' },
@@ -145,17 +153,11 @@
                     { name: 'strMasterDecNo', index: 'strMasterDecNo' },
                     { name: 'strBLNo', index: 'strBLNo' },
 
-                   {
-                       name: 'Action', index: 'Action', align: 'center', width: 200, search: false, title: false,
-                       formatter: function (cellvalue, options, rowObject) {
-                           return '<a class="popup btn btn-info" href="/MVehicle/Save/' + options.rowId + '">' + "Edit" + '</a>' + "     " + '<a class="popup btn btn-info" href="/MVehicle/Delete/' + options.rowId + '">' + "Delete" + '</a>';
 
-                       }
-                   },
 
                 ],
                 width: 850,
-                height: 'auto',
+                height: 70,
                 rowNum: 10,
                 // loadonce: true,
                 rowList: [10, 20, 30],
@@ -174,73 +176,133 @@
 
 
 <script type="text/javascript">
+    //var ExpenseTotalAmount = 0;
+    var counter = 1;
+    var favorite = [];
     $(function () {
+       
 
-        
-        $("#btnAdd").bind("click", function () {         
-           
+        $("#btnAdd").bind("click", function () {
 
-            if (document.getElementById('txtSearchExpense').value == "") {
-               
+            if (document.getElementById('txtSearchExpense').value == "" || document.getElementById('txtSearchExpense').value == "No matches found") {
+
                 $('#txtSearchExpense').css('border-color', 'red');
             }
-            else
-            {
+            else {
                 $('#txtSearchExpense').css('border-color', '');
+                var id = $("#hfExpense").val();
                 var value = $("#txtSearchExpense").val();
-                //var id = $("#hfExpense").val();
-                var div = $("<div />");
-                div.html(GetDynamicTextBox(value));
-                $("#TextBoxContainer").append(div);
+                 
+                $('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
+                
+               
+                counter++;
 
-                $("#txtSearchExpense").val("");
-                $("#hfExpense").val("");
+                $("#totalExpense").show();
+                $('#txtSearchExpense').val("");
+                
             }
-              
+
+
            
+
+
         });
+
+        //Adding total Amount To Textbox
+       
+        
+        $(function () {
+            $("#btnAddTotalSum").click(function () {
+                AmountTextBox();
+               
+                debugger;
+                ALLExpense();
+                
+                //If you to save all data in one go then call Save function here
+                SaveALLExpense(favorite);
+
+
+            });
+        });
+
+       
+
         $("body").on("click", ".remove", function () {
+            debugger;
             $(this).closest("div").remove();
+            ExpenseTotalAmount = 0;
+            counter = counter - 1;
+            AmountTextBox();
+            
+            ALLExpense();
+
+            //RemoveALLExpense(favorite);
+
         });
     });
 
-    //function AddTextBox(id) {        
-    //    // alert("helo");
-    //    debugger;
-    //    var div = $("<div />");
-    //    div.html(GetDynamicTextBox(id));
-    //    $("#TextBoxContainer").append(div);
-    //    $("body").on("click", ".remove", function () {
-    //        $(this).closest("div").remove();
-    //    });
-    //}
+    var ExpenseTotalAmount = 0;
+    function AmountTextBox() {
+        for (var i = 1; i < counter; i++) {
 
-    function GetDynamicTextBox(value) {
-        return ' <label>' + value + '</label>:<input type="number" name="DynamicTextBox" min="1" max="5" placeholder="Enter Amount">&nbsp;' +
-                '<input type="button" value="Remove" class="remove" />'
+            ExpenseTotalAmount += Number($("#txtAmount" + i).val());
+        }
+        //alert(ExpenseTotalAmount);
+        $("#totalSum").val(ExpenseTotalAmount);
+
+    }
+
+    function SaveALLExpense(arr) {
+        debugger;
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: "/MExpenses/SaveAllVehicleExpense",
+            data: JSON.stringify({ 'expense': arr }),
+            success: function (data) { alert("SUCCESS"); }
+        });
+       
+    }
+
+    function RemoveALLExpense(Removedata) {
+
+        $.ajax({
+            type: "POST",
+            url: "/MExpenses/Delete",
+            data: { expense: Removedata },
+            success: function (data) { alert("SUCCESS"); }
+        });
+    }
+    function ALLExpense() {
+        debugger;
+        for (var i = 1; i < counter; i++) {
+            var ExpenseID = $("#lblExpenseID" + i).html();
+            //var ExpenseName = $("#lblExpense" + i).html();
+            var ExpenseAmount = $("#txtAmount" + i).val();
+            var ExpenseTotalAmount = $("#totalSum").val();
+            var expenseAmount =
+                  {
+                      //iExpenseID: $("#hfExpense").val(),
+                     
+                      iPurchaseInvoiceID: $("#invno").val(),
+                      iExpenseID: ExpenseID,
+                      //iCategoryID: 2,
+                      //iSubCategoryID: 1,
+                      iExpenseAmount: ExpenseAmount,
+                      iTotalExpenseAmounrt: ExpenseTotalAmount
+
+                  }
+
+            favorite.push(expenseAmount);
+            //If you to save all data in one by one then Save function here
+            //Save(textValue);
+        }
     }
 
 </script>
-
-
-
-
-
-@*<script>
-        var current = 1;
-        function addNumber() {
-            console.log('running addNumber')
-            //current keeps track of how many numbers we have.
-            current++;
-            var thePhoneBox = ('<p> <label for="number ' + current + '>number' + current + ':</label> <%= Html.TextBox("number' + current + '") %>\n <%= Html.ValidationMessage("number ' + current + '", "*") %>\n </p>')
-           console.log(thePhoneBox)
-         $('#phoneNumbers').append(thePhoneBox)
-        }
-
-        $(document).ready(function() {
-            $('#addNumber').click(addNumber)
-        });
-    </script>*@
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />

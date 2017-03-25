@@ -34,6 +34,11 @@ namespace AuctionInventoryDAL.Repositories
                 if (exp != null)
                 {
                     exp.strExpenseName = expense.strExpenseName;
+                    exp.iPurchaseInvoiceID = expense.iPurchaseInvoiceID;
+                    exp.iCategoryID = expense.iCategoryID;
+                    exp.iSubCategoryID = expense.iSubCategoryID;
+                    exp.iExpenseAmount = expense.iExpenseAmount;
+
                 }
             }
             else
@@ -58,6 +63,40 @@ namespace AuctionInventoryDAL.Repositories
             }
             return status;
         }
+
+
+
+        public bool SaveRepoAllVehicleExpense(List<VehicleExpens> expense)
+        {
+            bool status = false;
+            {
+                foreach (var items in expense)
+                {
+                    //Save
+                    auctionContext.VehicleExpenses.Add(items);
+                }
+                auctionContext.SaveChanges();
+            }
+            
+            status = true;
+            return status;
+        }
+
+
+        public bool SaveRepoSingleVehicleExpense(VehicleExpens expense)
+        {
+            bool status = false;
+            {
+                //Save
+                auctionContext.VehicleExpenses.Add(expense);
+                
+            }
+            auctionContext.SaveChanges();
+            status = true;
+            return status;
+        }
+
+
         #endregion
     }
 }

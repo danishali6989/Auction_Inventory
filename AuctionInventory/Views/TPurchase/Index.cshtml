@@ -272,10 +272,10 @@
                         <input type="button" class='popup btn btn-info' id="btnRcvStock" name="Save" value="Stock Revice" />
                     </div>
                     <div class="col-sm-3">
-                        <input type="button" class='popup btn btn-info' name="Save" value="Print Invoice" onclick="generate()" />
+                        <input type="button" class='popup btn btn-info' name="Save" value="Print Invoice" onclick="generateInvoicePDF()" />
                     </div>
                     <div class="col-sm-3">
-                        <input type="button" class='popup btn btn-info' name="Save" value="Print Custom Invoice" />
+                        <input type="button" class='popup btn btn-info' name="Save" value="Print Custom Invoice" onclick="generateCustomPDF()" />
                     </div>
 
 
@@ -305,7 +305,77 @@
 
 </script>
 
+
+
 <script>
+   
+    function generateInvoicePDF() {
+       
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/TPurchase/GenerateInvoicePDF",
+            dataType: 'json',
+            success: function (result) {
+              
+                debugger;
+                var columns =['Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'JPY'];                
+
+                var data = [];
+                for (var i = 1; i < result.length; i++) {
+
+                    data.push([result[i].LotNum, result[i].ChassisNum, result[i].Make, result[i].iModel, result[i].Category, result[i].Year, result[i].color, result[i].Origin, result[i].Location, result[i].JPY]);
+
+                }                
+                var doc = new jsPDF();
+                doc.autoTable(columns, data);
+                doc.output("dataurlnewwindow");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve data.');
+            }
+        });
+    }
+
+    function generateCustomPDF() {
+        debugger;
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/TPurchase/GenerateCustomPDF",
+            dataType: 'json',
+            success: function (result) {
+                alert("hiii");
+                debugger;
+                var columns = ['Lot No', 'Chasis No', 'Make', 'Model', 'Category', 'Year', 'Color', 'Origin', 'Location', 'JPY'];
+
+                var data = [];
+                for (var i = 1; i < result.length; i++) {
+
+                    data.push([result[i].LotNum, result[i].ChassisNum, result[i].Make, result[i].iModel, result[i].Category, result[i].Year, result[i].color, result[i].Origin, result[i].Location, result[i].JPY]);
+
+                }
+                var doc = new jsPDF();
+                doc.autoTable(columns, data);
+                doc.output("dataurlnewwindow");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve data.');
+            }
+        });
+    }
+    
+</script>
+
+
+
+
+
+
+
+
+
+@*<script>
     function generate() {
         debugger
 
@@ -362,7 +432,7 @@
         doc.autoTable(columns, data);
         doc.output("dataurlnewwindow");
     }
-</script>
+</script>*@
 
 
 
@@ -810,7 +880,7 @@
 
 
 <!-- JqGrid Scripts -->
-<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+@*<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />*@
 <link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
 <script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
 <script src="~/scripts/grid.locale-en.js"></script>
