@@ -182,6 +182,7 @@
     <Compile Include="Controllers\MStaffController.cs" />
     <Compile Include="Controllers\MSupplierController.cs" />
     <Compile Include="Controllers\MVehicleController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\TPurchaseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1197,6 +1198,7 @@
     <Content Include="Views\TPurchase\TestJS.cshtml" />
     <Content Include="Views\MExpenses\SingleVehicleExpenses.cshtml" />
     <Content Include="Views\Auction\AuctionList.cshtml" />
+    <Content Include="Views\Sales\SaleVehicle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

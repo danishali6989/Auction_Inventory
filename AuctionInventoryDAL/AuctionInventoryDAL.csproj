@@ -144,7 +144,6 @@
     <Compile Include="Repositories\SupplierRepository.cs" />
     <Compile Include="Repositories\VehicleRepository.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>

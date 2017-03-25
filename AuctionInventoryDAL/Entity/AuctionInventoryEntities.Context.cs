@@ -26,6 +26,7 @@ namespace AuctionInventoryDAL.Entity
         }
     
         public virtual DbSet<AllVehicleExpense> AllVehicleExpenses { get; set; }
+        public virtual DbSet<AuctionList> AuctionLists { get; set; }
         public virtual DbSet<CityMaster> CityMasters { get; set; }
         public virtual DbSet<CountryMaster> CountryMasters { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
@@ -45,6 +46,5 @@ namespace AuctionInventoryDAL.Entity
         public virtual DbSet<VehicleExpens> VehicleExpenses { get; set; }
         public virtual DbSet<ExpenseAmount> ExpenseAmounts { get; set; }
         public virtual DbSet<MailModel> MailModels { get; set; }
-        public virtual DbSet<AuctionList> AuctionLists { get; set; }
     }
 }

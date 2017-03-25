@@ -4,17 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h3>AuctionList</h3>
-<script type="text/javascript">
-    $(function () { // will trigger when the document is ready
-        $('.datepicker').datepicker(); //Initialise any date pickers
-    });
-</script>
 
 
 <div class="col-sm-6">
     <div class="form-group">
-        <label>AuctionFrontEndID:</label>
-        <input class="form-control " id="AuctionFrontEndID" readonly />
+        
+        <input class="form-control " id="AuctionFrontEndID" type="hidden" />
     </div>
 </div>
 
@@ -42,9 +37,50 @@
     <input type="button" style="margin-left: 40px" class="btn btn-success" value="Print" onclick="generateAuctionPDF()" />
 </div>
 
+@*<div id="divShowPrintbtn" style="display:none">
+    <br />
+    <input type="button" style="margin-left: 40px" class="btn btn-success" value="Print" onclick="generateAuctionPDF()" />
+</div>*@
+
+<script type="text/javascript">
+    $.ajax({
+        url: '/Auction/GetAuctionFrontEndID/',
+        dataType: "json",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+
+            $('#AuctionFrontEndID').val(data);
+        }
+    });
+    //if (document.getElementById('AuctionFrontEndID').value == "") {
+       
+    //    $('#AuctionFrontEndID').val('1');
+    //}
+
+    //else {
+    //    $.ajax({
+    //        url: '/Auction/GetAuctionFrontEndID/',
+    //        dataType: "json",
+    //        type: "POST",
+    //        contentType: "application/json; charset=utf-8",
+    //        success: function (data) {
+
+    //            $('#AuctionFrontEndID').val(data);
+    //        }
+    //    });
+    //}
+   
+</script>
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+    });
+</script>
+
 <script>
 
-    var arr = [];
+    // var arr = [];
     $(function () {
 
         $('#dataGrid').jqGrid({
@@ -76,7 +112,7 @@
                 var rowData = jQuery("#dataGrid").getRowData(rowid);
                 var rowDataVehicleID = rowData['iVehicleID'];
 
-                arr.push(rowDataVehicleID);
+                // arr.push(rowDataVehicleID);
                 $('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
 
                 $('#divAddVehicle').show();
@@ -128,17 +164,19 @@
     $("#saveAuctionList").click(function () {
         debugger;
 
-        //var gridDataVehicleID = JSON.stringify(arr);
-        //alert(gridDataVehicleID);
+
+
+        var ids = jQuery("#GridAddVehicle").jqGrid('getDataIDs');
+
         var date = $('#auctionDate').val();
         var AuctionfrontID = $('#AuctionFrontEndID').val();
         //var gridDataVehicleID = JSON.stringify(arr);
 
-        for (var i = 0; i < arr.length; i++) {
+        for (var i = 0; i < ids.length; i++) {
             //alert(arr[i]);
 
             parameters.push({
-                iVehicleID: arr[i],
+                iVehicleID: ids[i],
                 strAuctionDate: date,
                 iAuctionFrontEndID: AuctionfrontID
             });
@@ -184,12 +222,16 @@
             // data: JSON.stringify(purchase),
             dataType: this.dataType,
             contentType: "application/json; charset=utf-8",
-            success: function (Data) { alert("Done"); }
+            success: function () {
+               
+                //$("#divShowPrintbtn").show();
+                alert("Data Saved You Can Print AuctionList");
+            }
         });
 
     });
 
-   
+
     function generateAuctionPDF() {
 
         debugger
@@ -233,8 +275,8 @@
         //    success: function (Data) { alert("Done"); }
         //});
 
-       // var AuctionfrontID = $('#AuctionFrontEndID').val();
-        var AuctionfrontID = 3;
+        var AuctionfrontID = $('#AuctionFrontEndID').val();
+       
         $.ajax({
             type: "POST",
             url: "/Auction/GenerateAuctionListPDF",
@@ -251,7 +293,7 @@
                 var data = [];
                 for (var i = 0; i < result.length; i++) {
 
-                    data.push([result[i].LotNum, result[i].ChassisNum,  result[i].iModel, result[i].Year, result[i].color, result[i].JPY]);
+                    data.push([result[i].LotNum, result[i].ChassisNum, result[i].iModel, result[i].Year, result[i].color, result[i].JPY]);
 
                 }
                 var doc = new jsPDF();
@@ -262,11 +304,6 @@
                 alert('Failed to retrieve data.');
             }
         });
-
-
-
-
-
 
     }
 

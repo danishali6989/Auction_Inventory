@@ -20,9 +20,9 @@
             <PropertyRef Name="iAuctionListID" />
           </Key>
           <Property Name="iAuctionListID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="iAuctionFrontEndID" Type="int" />
           <Property Name="iVehicleID" Type="int" />
           <Property Name="strAuctionDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="iAuctionFrontEndID" Type="int" />
         </EntityType>
         <EntityType Name="CityMaster">
           <Key>
@@ -190,6 +190,12 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="SupplierDate" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Roles">
+          <Property Name="RoleId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" />
+        </EntityType>-->
         <EntityType Name="SingleVehicleExpense">
           <Key>
             <PropertyRef Name="iSingleVehicleID" />
@@ -366,6 +372,7 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
       <Schema Namespace="AuctionInventoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="AuctionInventoryEntities" annotation:LazyLoadingEnabled="true" >
           <EntitySet Name="AllVehicleExpenses" EntityType="AuctionInventoryModel.AllVehicleExpense" />
+          <EntitySet Name="AuctionLists" EntityType="AuctionInventoryModel.AuctionList" />
           <EntitySet Name="CityMasters" EntityType="AuctionInventoryModel.CityMaster" />
           <EntitySet Name="CountryMasters" EntityType="AuctionInventoryModel.CountryMaster" />
           <EntitySet Name="Employees" EntityType="AuctionInventoryModel.Employee" />
@@ -397,7 +404,6 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
             <End Role="TPurchase" EntitySet="TPurchases" />
             <End Role="Vehicle" EntitySet="Vehicles" />
           </AssociationSet>
-          <EntitySet Name="AuctionLists" EntityType="AuctionInventoryModel.AuctionList" />
         </EntityContainer>
         <EntityType Name="AllVehicleExpense">
           <Key>
@@ -408,6 +414,15 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="iExpenseID" Type="Int32" Nullable="false" />
           <Property Name="iExpenseAmount" Type="Int32" />
           <Property Name="iTotalExpenseAmounrt" Type="Int32" />
+        </EntityType>
+        <EntityType Name="AuctionList">
+          <Key>
+            <PropertyRef Name="iAuctionListID" />
+          </Key>
+          <Property Name="iAuctionListID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iVehicleID" Type="Int32" />
+          <Property Name="strAuctionDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="iAuctionFrontEndID" Type="Int32" />
         </EntityType>
         <EntityType Name="CityMaster">
           <Key>
@@ -699,21 +714,12 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="AuctionList">
-          <Key>
-            <PropertyRef Name="iAuctionListID" />
-          </Key>
-          <Property Name="iAuctionListID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="iVehicleID" Type="Int32" />
-          <Property Name="strAuctionDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="iAuctionFrontEndID" Type="Int32" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AuctionInventoryModelStoreContainer" CdmEntityContainer="AuctionInventoryEntities" >
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AuctionInventoryModelStoreContainer" CdmEntityContainer="AuctionInventoryEntities">
           <EntitySetMapping Name="AllVehicleExpenses">
             <EntityTypeMapping TypeName="AuctionInventoryModel.AllVehicleExpense">
               <MappingFragment StoreEntitySet="AllVehicleExpense">
@@ -722,6 +728,16 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
                 <ScalarProperty Name="iExpenseID" ColumnName="iExpenseID" />
                 <ScalarProperty Name="iPurchaseInvoiceID" ColumnName="iPurchaseInvoiceID" />
                 <ScalarProperty Name="iAllVehicleExpenseID" ColumnName="iAllVehicleExpenseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuctionLists">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.AuctionList">
+              <MappingFragment StoreEntitySet="AuctionList">
+                <ScalarProperty Name="iAuctionFrontEndID" ColumnName="iAuctionFrontEndID" />
+                <ScalarProperty Name="strAuctionDate" ColumnName="strAuctionDate" />
+                <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
+                <ScalarProperty Name="iAuctionListID" ColumnName="iAuctionListID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -989,19 +1005,8 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="AuctionLists">
-            <EntityTypeMapping TypeName="AuctionInventoryModel.AuctionList">
-              <MappingFragment StoreEntitySet="AuctionList">
-                <ScalarProperty Name="iAuctionFrontEndID" ColumnName="iAuctionFrontEndID" />
-                <ScalarProperty Name="strAuctionDate" ColumnName="strAuctionDate" />
-                <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
-                <ScalarProperty Name="iAuctionListID" ColumnName="iAuctionListID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -1015,7 +1020,7 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

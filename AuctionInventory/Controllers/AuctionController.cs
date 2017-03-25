@@ -13,6 +13,7 @@ namespace AuctionInventory.Controllers
 {
     public class AuctionController : Controller
     {
+        private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
         //
         // GET: /Auction/
         public ActionResult Index()
@@ -97,7 +98,7 @@ namespace AuctionInventory.Controllers
         [HttpPost]
         public ActionResult GenerateAuctionListPDF(int id)
         {
-             AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
+             
             //List<AuctionList> auction = new List<AuctionList>();
            var auction = (from t1 in auctionContext.AuctionLists
                           join t2 in auctionContext.Vehicles on t1.iVehicleID equals t2.iVehicleID
@@ -110,6 +111,14 @@ namespace AuctionInventory.Controllers
            return Json(catNames, JsonRequestBehavior.AllowGet);
         }
 
+
+
+        [HttpPost]
+        public ActionResult GetAuctionFrontEndID()
+        {
+            var AuctionID = auctionContext.AuctionLists.Max(i => i.iAuctionFrontEndID) + 1;
+            return Json(AuctionID);
+        }
 
         //[HttpPost]
         //public JsonResult GetDataByVehicleID(int id)

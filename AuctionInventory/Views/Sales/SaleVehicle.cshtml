@@ -1,0 +1,546 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SaleVehicle</h2>
+
+<div class="row">
+    <div class="form-group col-xs-5">
+        <input type="hidden" id="hfCustomer" />
+        <label for="Buyer Name" class="sr-only"></label>
+        <input id="txtBuyerName" class="form-control input-group-lg" type="text" name="BuyerName"
+               placeholder="Buyer Name" />
+    </div>
+
+    <div class="form-group col-xs-4">
+        <label for="Date" class="sr-only"></label>
+        <input id="salesDate" class="form-control datepicker input-group-lg" type="text" name="Date"
+               placeholder="Enter Drop-off date here..." />
+    </div>
+</div>
+
+<div id="divCustomerInfo" style="display:none">
+    <div class="row">
+        <div class="form-group col-xs-5">
+            <label for="Customer Name" class="sr-only"></label>
+            <input id="txtCustomerName" class="form-control input-group-lg" type="text" name="CustomerName"
+                   placeholder="Customer Name" />
+        </div>
+
+        <div class="form-group col-xs-5">
+            <label for="InvoiceNum" class="sr-only"></label>
+            <input id="txtInvoiceNum" class="form-control input-group-lg" type="text" readonly
+                   placeholder="Invoice Number" />
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="form-group col-xs-4">
+            <label for="Customer Contact" class="sr-only"></label>
+            <input id="txtCustomerContact" class="form-control input-group-lg" type="text" name="CustomerContact"
+                   placeholder="Customer Contact" />
+        </div>
+
+        <div class="form-group col-xs-4">
+            <label for="Balance" class="sr-only"></label>
+            <input id="txtBalance" class="form-control input-group-lg" type="text" readonly
+                   placeholder="Balance" />
+        </div>
+
+        <div class="form-group col-xs-4">
+            <label for="Credit Limit" class="sr-only"></label>
+            <input id="txtCreditLimit" class="form-control input-group-lg" type="text" readonly
+                   placeholder="Credit Limit" />
+        </div>
+    </div>
+
+    <div class="box-body" id="divFillByVehicle">
+
+        <br />
+        <table id="dataGrid" class="table table-bordered table-striped"></table>
+        <div id="pagingGrid"></div>
+    </div>
+
+</div>
+
+
+<div class="box-body" id="divAddVehicle" style="display:none">
+    <table id="GridAddVehicle" class="table table-bordered table-striped"></table>
+    <div id="pagingGridAddVehicle"></div>
+
+
+    <div class="row">
+        <br />
+        <div class="form-group col-xs-4">
+            <label for="Selling Price" class="sr-only"></label>
+            <input id="txtSellingPrice" class="form-control input-group-lg" type="text"
+                   placeholder="Selling Price" />
+        </div>
+
+        <div class="form-group col-xs-4">
+            <label for="Deposit" class="sr-only"></label>
+            <input id="txtDeposit" class="form-control input-group-lg" type="text"
+                   placeholder="Deposit" />
+        </div>
+        <div class="form-group col-xs-4">
+            <label for="Advance" class="sr-only"></label>
+            <input id="txtAdvance" class="form-control input-group-lg" type="text"
+                   placeholder="Advance" />
+        </div>
+    </div>
+
+
+
+
+
+    <div class="row">
+
+        @*<div class="form-group col-xs-4">
+                <label for="Select payment Option" class="sr-only"></label>
+                <div class="options">
+                    <label for="Cash" class="sr-only"></label>
+
+                    <input type="radio" class="form-control input-group-lg" name="PaymentOption" id="rdbCashOption" checked="checked" />
+                    &nbsp;
+                    <label for="Credit" class="sr-only"></label>
+
+                    <input type="radio" class="form-control input-group-lg" name="PaymentOption" id="rdbCreditOption" />
+                </div>
+
+            </div>*@
+
+
+        <label>Select payment Option</label>
+        <div class="options">
+            <label>Cash</label>
+            <input type="radio" name="PaymentOption" id="rdbCashOption" checked="checked" />
+            &nbsp;
+            <label>Credit</label>
+            <input type="radio" name="PaymentOption" id="rdbCreditOption" />
+        </div>
+
+
+        @*<label>Select payment Option</label>
+            <div class="options">
+                <label>Cash</label>
+                <input type="radio" name="PaymentOption" id="rdbCashOption" onclick="CashPaymentOption()" checked="checked" />
+                &nbsp;
+                <label>Credit</label>
+                <input type="radio" name="PaymentOption" id="rdbCreditOption" onclick="CreditPaymentOption()" />
+            </div>*@
+
+        @*<div class="form-group col-xs-4">
+                <label for="Payment" class="sr-only"></label>
+                <input id="txtPayment" class="form-control input-group-lg" type="text"
+                       placeholder="Payment" />
+            </div>*@
+        <div class="form-group col-xs-4">
+            <label for="Installment" class="sr-only"></label>
+            <input id="txtInstallment" class="form-control input-group-lg" type="text"
+                   placeholder="Installment" />
+        </div>
+
+        <div class="form-group col-xs-4">
+            <label for="Balance" class="sr-only"></label>
+            <input id="txtBalance" class="form-control input-group-lg" type="text"
+                   placeholder="Balance" />
+        </div>
+    </div>
+
+    <div class="row" id="divBoxGroup">
+
+        <label>
+            <input type="checkbox" class="radio" id="ckbImportOption" name="nam_GroupMode" value="1" />Import
+        </label>
+        <label>
+            <input type="checkbox" class="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
+        </label>
+        <label>
+            <input type="checkbox" class="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
+        </label>
+    </div>
+
+
+</div>
+
+
+<div>
+    <br />
+    <input type="button" style="margin-left: 400px" class="btn btn-success" id="saveAuctionList" value="Save" onclick="Test();" />
+    <input type="button" style="margin-left: 40px" class="btn btn-success" value="Update" />
+</div>
+
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+    });
+</script>
+
+<script type="text/javascript">
+    $.ajax({
+        url: '/Sales/GetInvoice/',
+        dataType: "json",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $("#txtInvoiceNum").html(data);
+        }
+    });
+</script>
+
+<script>
+
+    // var arr = [];
+    $(function () {
+
+        $('#dataGrid').jqGrid({
+            caption: "Vehicle List",
+            url: '/Sales/GetData/',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+            colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY'],
+            colModel: [
+                { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+                { name: 'iLotNum', index: 'iLotNum' },
+                { name: 'strChassisNum', index: 'strChassisNum' },
+                { name: 'iModel', index: 'iModel' },
+                { name: 'iYear', index: 'iYear' },
+                { name: 'strColor', index: 'strColor' },
+                { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
+
+            ],
+            width: 'auto',
+            rowNum: 10,
+            loadonce: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGrid',
+            caption: 'Select Vehicle to Add',
+
+            beforeSelectRow: function (rowid, celname, value, iRow, iCol) {
+
+                var rowData = jQuery("#dataGrid").getRowData(rowid);
+                var rowDataVehicleID = rowData['iVehicleID'];
+
+                // arr.push(rowDataVehicleID);
+                $('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
+
+                $('#divAddVehicle').show();
+            }
+
+        });
+        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+
+        $('#GridAddVehicle').jqGrid({
+            caption: "ADD Single Vehicle",
+            //data: SingleVehicle,
+            //datatype: "local",
+            colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'],
+            colModel: [
+                { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+                { name: 'iLotNum', index: 'iLotNum' },
+                { name: 'strChassisNum', index: 'strChassisNum' },
+                { name: 'iModel', index: 'iModel' },
+                { name: 'iYear', index: 'iYear' },
+                { name: 'strColor', index: 'strColor' },
+                { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
+
+                {
+                    name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
+                    formatter: function (cellvalue, options, rowObject) {
+                        // return '<a href="/MAreas/Edit/' + options.rowId + '">' + "<img src='../Images/edit%20(2).png' '/>" + '</a>' + "     " + '<a href="/MAreas/Delete/' + options.rowId + '">' + "<img src='../Images/delete%20(2).png' />" + '</a>';
+                        //return $('#GridAddVehicle').jqGrid('delRowData', options.rowId);
+                        return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"jQuery('#GridAddVehicle').delRowData('" + options.rowId + "');\"  />";
+                    }
+
+                },
+
+            ],
+            //width: 'auto',
+            width: 900,
+            //height: 250,
+            rowNum: 10,
+            loadonce: false,
+            rowList: [10, 20, 30],
+            pager: 'pagingGridAddVehicle',
+        });
+        jQuery("#GridAddVehicle").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#GridAddVehicle").jqGrid('navGrid', '#pagingGridAddVehicle', { edit: false, add: false, del: false, search: false, rel: false });
+
+    });
+
+    //var parameters = [];
+    //$("#saveAuctionList").click(function () {
+    //    debugger;
+
+
+
+    //    var ids = jQuery("#GridAddVehicle").jqGrid('getDataIDs');
+
+    //    var date = $('#auctionDate').val();
+    //    var AuctionfrontID = $('#AuctionFrontEndID').val();
+    //    //var gridDataVehicleID = JSON.stringify(arr);
+
+    //    for (var i = 0; i < ids.length; i++) {
+    //        //alert(arr[i]);
+
+    //        parameters.push({
+    //            iVehicleID: ids[i],
+    //            strAuctionDate: date,
+    //            iAuctionFrontEndID: AuctionfrontID
+    //        });
+    //    }
+
+
+
+    //    //for (var i = 0; i < arr.length; i++) {
+
+    //    //    parameters.push({
+    //    //        iVehicleID: gridDataVehicleID,
+    //    //        strAuctionDate: date
+    //    //    });
+
+    //    //}
+
+
+    //    // TODO: maybe you want to assign an unique id to your table element
+
+    //    //var gridDataVehicleID = JSON.stringify(arr);
+    //    //var date = $('#auctionDate').val();
+    //    //$(gridDataVehicleID).each(function () {
+
+    //    //    parameters.push({
+    //    //        iVehicleID: gridDataVehicleID,
+    //    //        strAuctionDate: date
+    //    //    });
+    //    //});
+
+
+
+
+    //    //var auctionList = {
+    //    //    iVehicleID: gridDataVehicleID,
+    //    //    strAuctionDate: date,
+    //    //}
+
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/Auction/Save",
+    //        cache: false,
+    //        data: JSON.stringify({ auctionList: parameters }),
+    //        // data: JSON.stringify(purchase),
+    //        dataType: this.dataType,
+    //        contentType: "application/json; charset=utf-8",
+    //        success: function () {
+
+    //            //$("#divShowPrintbtn").show();
+    //            alert("Data Saved You Can Print AuctionList");
+    //        }
+    //    });
+
+    //});
+
+
+    //function generateAuctionPDF() {
+
+    //    debugger
+    //    //var localGridData = jQuery("#GridAddVehicle").getRowData();
+    //    //var datatosend = JSON.stringify(localGridData);//all grid rows
+    //    //alert(localGridData);
+
+    //    //var columns = ['Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'];
+
+    //    //var data = [];
+    //    //        for (var i = 1; i < result.length; i++) {
+
+    //    //            data.push([localGridData[i].LotNum, localGridData[i].ChassisNum, localGridData[i].iModel, localGridData[i].Year, localGridData[i].color, localGridData[i].iCustomValInJPY]);
+
+    //    //        }
+
+
+    //    //var doc = new jsPDF();
+    //    //doc.autoTable(columns, data);
+    //    //doc.output("dataurlnewwindow");
+
+
+    //    //for (var i = 0; i < arr.length; i++) {
+    //    //    //alert(arr[i]);
+
+    //    //    pdfArray.push({
+    //    //        iVehicleID: arr[i],
+
+    //    //    });
+    //    //}
+
+
+    //    //$.ajax({
+    //    //    type: "POST",
+    //    //    url: "/Auction/GenerateAuctionListPDF",
+    //    //    cache: false,
+    //    //    data: JSON.stringify({ auction: pdfArray }),
+    //    //    // data: JSON.stringify(purchase),
+    //    //    dataType: this.dataType,
+    //    //    contentType: "application/json; charset=utf-8",
+    //    //    success: function (Data) { alert("Done"); }
+    //    //});
+
+    //    var AuctionfrontID = $('#AuctionFrontEndID').val();
+
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/Auction/GenerateAuctionListPDF",
+    //        cache: false,
+    //        data: JSON.stringify({ id: AuctionfrontID }),
+    //        // data: JSON.stringify(purchase),
+    //        dataType: this.dataType,
+    //        contentType: "application/json; charset=utf-8",
+    //        success: function (result) {
+
+    //            debugger;
+    //            var columns = ['Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY'];
+
+    //            var data = [];
+    //            for (var i = 0; i < result.length; i++) {
+
+    //                data.push([result[i].LotNum, result[i].ChassisNum, result[i].iModel, result[i].Year, result[i].color, result[i].JPY]);
+
+    //            }
+    //            var doc = new jsPDF();
+    //            doc.autoTable(columns, data);
+    //            doc.output("dataurlnewwindow");
+    //        },
+    //        error: function (xhr, ajaxOptions, thrownError) {
+    //            alert('Failed to retrieve data.');
+    //        }
+    //    });
+
+    //}
+
+
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#txtBuyerName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/Sales/GetCustomerDetails/',
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (!data.length) {
+                            var result = [
+                             {
+                                 label: 'No matches found',
+                                 value: response.term
+                             }
+                            ];
+                            response(result);
+                        }
+                        else {
+                            // normal response
+                            response($.map(data, function (item) {
+                                return {
+
+                                    iCustomerID: item.iCustomerID,
+                                    strFirstName: item.strFirstName,
+                                    strMiddleName: item.strMiddleName,
+                                    strLastName: item.strLastName,
+                                    iPhoneNumber: item.iPhoneNumber,
+                                    strCreditLimit: item.strCreditLimit,
+                                    value: item.strFirstName
+
+                                }
+                            }));
+                        }
+                    }
+
+
+                });
+            },
+            select: function (event, i) {
+
+                event.preventDefault();
+
+                $("#txtBuyerName").val(i.item.value);
+                $("#hfCustomer").val(i.item.iCustomerID);
+
+                $("#txtCustomerName").val(i.item.strFirstName + " " + i.item.strLastName);
+                $("#txtCustomerContact").val(i.item.iPhoneNumber);
+                $("#txtCreditLimit").val(i.item.strCreditLimit);
+
+                $("#divCustomerInfo").show();
+                return false;
+            },
+            minLength: 1
+        });
+    });
+</script>
+
+<script>
+
+
+    if ($("#rdbCashOption").is(":checked")) {
+        var paymentStatus = 1;    //1 for Paid
+        var paymentChoice = "Cash";
+        //alert("you have selected" + paymentChoice + "payment method");
+    }
+    else {
+        var paymentStatus = 2;  //2 for Credit
+        var paymentChoice = "Credit";
+        //alert("you have selected" + paymentChoice + "payment method");
+    }
+
+
+    // the selector will match all input controls of type :checkbox
+    // and attach a click event handler
+    $("input:checkbox").on('click', function () {
+        debugger;
+        // in the handler, 'this' refers to the box clicked on
+        var $box = $(this);
+        if ($box.is(":checked")) {
+            // the name of the box is retrieved using the .attr() method
+            // as it is assumed and expected to be immutable
+            var group = "input:checkbox[name='" + $box.attr("name") + "']";
+
+            // the checked state of the group/box on the other hand will change
+            // and the current value is retrieved using .prop() method
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+        } else {
+            $box.prop("checked", false);
+        }
+    });
+
+
+    function Test() {
+        // var values = new Array();
+        $.each($("input[name='nam_GroupMode']:checked"), function () {
+            var chkBoxvalue = $(this).val();
+            alert(chkBoxvalue);
+            //values.push($(this).val());
+
+        });
+    }
+
+</script>
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>
+
+
+<script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
+<script src="~/Content/plugins/jsPDF/jspdf.plugin.autotable.js"></script>
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>*@
+@*<script src="~/Scripts/jquery-3.1.1.min.js"></script>*@
