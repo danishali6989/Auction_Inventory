@@ -43,6 +43,7 @@ namespace  AuctionInventory.Helpers
                     menus.ShowCategory = true;
                     menus.ShowCurrency = true;
                     menus.ShowSale = true;
+                    menus.ShowAuction = true;
                     menus.ShowLedger = true;
                     menus.ShowProducts = true;
                     menus.ShowQueue = true;

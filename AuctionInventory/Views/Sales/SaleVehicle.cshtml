@@ -3,53 +3,73 @@
 }
 
 <h2>SaleVehicle</h2>
+<style>
+    .options {
+        display: inline-block;
+        margin-left: 16px;
+        background-color: #3c8dbc;
+        padding: 5px 15px;
+        color: #FFF;
+    }
+</style>
 
 <div class="row">
+
     <div class="form-group col-xs-5">
         <input type="hidden" id="hfCustomer" />
-        <label for="Buyer Name" class="sr-only"></label>
+        <label style="display:none" id="hfSaleFrontEndID"></label>
+        
+        <label>Search  Buyer Name</label>
         <input id="txtBuyerName" class="form-control input-group-lg" type="text" name="BuyerName"
-               placeholder="Buyer Name" />
-    </div>
-
+               placeholder="Search By Buyer Name" />
+        
+     </div>
     <div class="form-group col-xs-4">
-        <label for="Date" class="sr-only"></label>
-        <input id="salesDate" class="form-control datepicker input-group-lg" type="text" name="Date"
-               placeholder="Enter Drop-off date here..." />
+        <h3><label  class="label label-warning form-control input-group-lg">Sales Inv No: Sale-@(@DateTime.Now.Year % 100)-<span id="txtInvoiceNum"></span></label></h3>
     </div>
+   
 </div>
 
 <div id="divCustomerInfo" style="display:none">
     <div class="row">
         <div class="form-group col-xs-5">
-            <label for="Customer Name" class="sr-only"></label>
+            <label>Customer Name</label>
             <input id="txtCustomerName" class="form-control input-group-lg" type="text" name="CustomerName"
                    placeholder="Customer Name" />
         </div>
 
-        <div class="form-group col-xs-5">
+        <div class="form-group col-xs-4">
+            <label>Sales Date</label>
+            <input id="salesDate" class="form-control datepicker input-group-lg" type="text" name="Date"
+                   placeholder="Enter Drop-off date here..." />
+        </div>
+
+       
+
+
+        @*<div class="form-group col-xs-5">
             <label for="InvoiceNum" class="sr-only"></label>
             <input id="txtInvoiceNum" class="form-control input-group-lg" type="text" readonly
                    placeholder="Invoice Number" />
-        </div>
+        </div>*@
     </div>
 
 
     <div class="row">
         <div class="form-group col-xs-4">
-            <label for="Customer Contact" class="sr-only"></label>
+            <label>Customer Contact</label>
             <input id="txtCustomerContact" class="form-control input-group-lg" type="text" name="CustomerContact"
                    placeholder="Customer Contact" />
         </div>
 
         <div class="form-group col-xs-4">
-            <label for="Balance" class="sr-only"></label>
+            <label>Balance</label>
             <input id="txtBalance" class="form-control input-group-lg" type="text" readonly
                    placeholder="Balance" />
         </div>
 
         <div class="form-group col-xs-4">
-            <label for="Credit Limit" class="sr-only"></label>
+            <label>Credit Limit</label>
             <input id="txtCreditLimit" class="form-control input-group-lg" type="text" readonly
                    placeholder="Credit Limit" />
         </div>
@@ -73,18 +93,18 @@
     <div class="row">
         <br />
         <div class="form-group col-xs-4">
-            <label for="Selling Price" class="sr-only"></label>
+            <label>Selling Price</label>
             <input id="txtSellingPrice" class="form-control input-group-lg" type="text"
                    placeholder="Selling Price" />
         </div>
 
         <div class="form-group col-xs-4">
-            <label for="Deposit" class="sr-only"></label>
+            <label>Deposit</label>
             <input id="txtDeposit" class="form-control input-group-lg" type="text"
                    placeholder="Deposit" />
         </div>
         <div class="form-group col-xs-4">
-            <label for="Advance" class="sr-only"></label>
+            <label>Advance</label>
             <input id="txtAdvance" class="form-control input-group-lg" type="text"
                    placeholder="Advance" />
         </div>
@@ -110,17 +130,6 @@
 
             </div>*@
 
-
-        <label>Select payment Option</label>
-        <div class="options">
-            <label>Cash</label>
-            <input type="radio" name="PaymentOption" id="rdbCashOption" checked="checked" />
-            &nbsp;
-            <label>Credit</label>
-            <input type="radio" name="PaymentOption" id="rdbCreditOption" />
-        </div>
-
-
         @*<label>Select payment Option</label>
             <div class="options">
                 <label>Cash</label>
@@ -136,19 +145,41 @@
                        placeholder="Payment" />
             </div>*@
         <div class="form-group col-xs-4">
-            <label for="Installment" class="sr-only"></label>
+            <label>Installment</label>
             <input id="txtInstallment" class="form-control input-group-lg" type="text"
                    placeholder="Installment" />
         </div>
 
         <div class="form-group col-xs-4">
-            <label for="Balance" class="sr-only"></label>
-            <input id="txtBalance" class="form-control input-group-lg" type="text"
+            <label>Balance</label>
+            <input id="txtSaleBalance" class="form-control input-group-lg" type="text"
                    placeholder="Balance" />
         </div>
     </div>
 
-    <div class="row" id="divBoxGroup">
+
+    <label>Select payment Option:</label>
+    <div class="options">
+        
+        <label>Cash</label>
+        <input type="radio" name="PaymentOption" id="rdbCashOption" checked="checked" />
+        &nbsp;
+        <label>Credit</label>
+        <input type="radio" name="PaymentOption" id="rdbCreditOption" />
+    </div>
+    <label>Paper Type:</label>
+    <div class="options" id="divBoxGroup">       
+        <label>
+            <input type="radio" id="ckbImportOption" name="nam_GroupMode" value="1" />Import
+        </label>
+        <label>
+            <input type="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
+        </label>
+        <label>
+            <input type="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
+        </label>
+    </div>
+    @*<div class="row" id="divBoxGroup">
 
         <label>
             <input type="checkbox" class="radio" id="ckbImportOption" name="nam_GroupMode" value="1" />Import
@@ -159,23 +190,13 @@
         <label>
             <input type="checkbox" class="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
         </label>
-    </div>
-
-
+    </div>*@
 </div>
-
-
 <div>
     <br />
-    <input type="button" style="margin-left: 400px" class="btn btn-success" id="saveAuctionList" value="Save" onclick="Test();" />
+    <input type="button" style="margin-left: 400px" class="btn btn-success" id="saveSaleInfo" value="Save"/>
     <input type="button" style="margin-left: 40px" class="btn btn-success" value="Update" />
 </div>
-
-<script type="text/javascript">
-    $(function () { // will trigger when the document is ready
-        $('.datepicker').datepicker(); //Initialise any date pickers
-    });
-</script>
 
 <script type="text/javascript">
     $.ajax({
@@ -184,8 +205,28 @@
         type: "POST",
         contentType: "application/json; charset=utf-8",
         success: function (data) {
+           
             $("#txtInvoiceNum").html(data);
+           
         }
+    });
+
+    $.ajax({
+        url: '/Sales/GetSalesFrontEndID/',
+        dataType: "json",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $("#hfSaleFrontEndID").html(data);
+            
+        }
+    });
+
+</script>
+
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
     });
 </script>
 
@@ -272,152 +313,7 @@
 
     });
 
-    //var parameters = [];
-    //$("#saveAuctionList").click(function () {
-    //    debugger;
-
-
-
-    //    var ids = jQuery("#GridAddVehicle").jqGrid('getDataIDs');
-
-    //    var date = $('#auctionDate').val();
-    //    var AuctionfrontID = $('#AuctionFrontEndID').val();
-    //    //var gridDataVehicleID = JSON.stringify(arr);
-
-    //    for (var i = 0; i < ids.length; i++) {
-    //        //alert(arr[i]);
-
-    //        parameters.push({
-    //            iVehicleID: ids[i],
-    //            strAuctionDate: date,
-    //            iAuctionFrontEndID: AuctionfrontID
-    //        });
-    //    }
-
-
-
-    //    //for (var i = 0; i < arr.length; i++) {
-
-    //    //    parameters.push({
-    //    //        iVehicleID: gridDataVehicleID,
-    //    //        strAuctionDate: date
-    //    //    });
-
-    //    //}
-
-
-    //    // TODO: maybe you want to assign an unique id to your table element
-
-    //    //var gridDataVehicleID = JSON.stringify(arr);
-    //    //var date = $('#auctionDate').val();
-    //    //$(gridDataVehicleID).each(function () {
-
-    //    //    parameters.push({
-    //    //        iVehicleID: gridDataVehicleID,
-    //    //        strAuctionDate: date
-    //    //    });
-    //    //});
-
-
-
-
-    //    //var auctionList = {
-    //    //    iVehicleID: gridDataVehicleID,
-    //    //    strAuctionDate: date,
-    //    //}
-
-    //    $.ajax({
-    //        type: "POST",
-    //        url: "/Auction/Save",
-    //        cache: false,
-    //        data: JSON.stringify({ auctionList: parameters }),
-    //        // data: JSON.stringify(purchase),
-    //        dataType: this.dataType,
-    //        contentType: "application/json; charset=utf-8",
-    //        success: function () {
-
-    //            //$("#divShowPrintbtn").show();
-    //            alert("Data Saved You Can Print AuctionList");
-    //        }
-    //    });
-
-    //});
-
-
-    //function generateAuctionPDF() {
-
-    //    debugger
-    //    //var localGridData = jQuery("#GridAddVehicle").getRowData();
-    //    //var datatosend = JSON.stringify(localGridData);//all grid rows
-    //    //alert(localGridData);
-
-    //    //var columns = ['Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'];
-
-    //    //var data = [];
-    //    //        for (var i = 1; i < result.length; i++) {
-
-    //    //            data.push([localGridData[i].LotNum, localGridData[i].ChassisNum, localGridData[i].iModel, localGridData[i].Year, localGridData[i].color, localGridData[i].iCustomValInJPY]);
-
-    //    //        }
-
-
-    //    //var doc = new jsPDF();
-    //    //doc.autoTable(columns, data);
-    //    //doc.output("dataurlnewwindow");
-
-
-    //    //for (var i = 0; i < arr.length; i++) {
-    //    //    //alert(arr[i]);
-
-    //    //    pdfArray.push({
-    //    //        iVehicleID: arr[i],
-
-    //    //    });
-    //    //}
-
-
-    //    //$.ajax({
-    //    //    type: "POST",
-    //    //    url: "/Auction/GenerateAuctionListPDF",
-    //    //    cache: false,
-    //    //    data: JSON.stringify({ auction: pdfArray }),
-    //    //    // data: JSON.stringify(purchase),
-    //    //    dataType: this.dataType,
-    //    //    contentType: "application/json; charset=utf-8",
-    //    //    success: function (Data) { alert("Done"); }
-    //    //});
-
-    //    var AuctionfrontID = $('#AuctionFrontEndID').val();
-
-    //    $.ajax({
-    //        type: "POST",
-    //        url: "/Auction/GenerateAuctionListPDF",
-    //        cache: false,
-    //        data: JSON.stringify({ id: AuctionfrontID }),
-    //        // data: JSON.stringify(purchase),
-    //        dataType: this.dataType,
-    //        contentType: "application/json; charset=utf-8",
-    //        success: function (result) {
-
-    //            debugger;
-    //            var columns = ['Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY'];
-
-    //            var data = [];
-    //            for (var i = 0; i < result.length; i++) {
-
-    //                data.push([result[i].LotNum, result[i].ChassisNum, result[i].iModel, result[i].Year, result[i].color, result[i].JPY]);
-
-    //            }
-    //            var doc = new jsPDF();
-    //            doc.autoTable(columns, data);
-    //            doc.output("dataurlnewwindow");
-    //        },
-    //        error: function (xhr, ajaxOptions, thrownError) {
-    //            alert('Failed to retrieve data.');
-    //        }
-    //    });
-
-    //}
+    
 
 
 </script>
@@ -469,7 +365,7 @@
 
                 $("#txtBuyerName").val(i.item.value);
                 $("#hfCustomer").val(i.item.iCustomerID);
-
+               
                 $("#txtCustomerName").val(i.item.strFirstName + " " + i.item.strLastName);
                 $("#txtCustomerContact").val(i.item.iPhoneNumber);
                 $("#txtCreditLimit").val(i.item.strCreditLimit);
@@ -483,42 +379,107 @@
 </script>
 
 <script>
-
-
-    if ($("#rdbCashOption").is(":checked")) {
-        var paymentStatus = 1;    //1 for Paid
-        var paymentChoice = "Cash";
-        //alert("you have selected" + paymentChoice + "payment method");
-    }
-    else {
-        var paymentStatus = 2;  //2 for Credit
-        var paymentChoice = "Credit";
-        //alert("you have selected" + paymentChoice + "payment method");
-    }
-
-
-    // the selector will match all input controls of type :checkbox
-    // and attach a click event handler
-    $("input:checkbox").on('click', function () {
+    
+    var parameters = [];
+    var chkBoxvalue;
+    $("#saveSaleInfo").click(function () {
+            
         debugger;
-        // in the handler, 'this' refers to the box clicked on
-        var $box = $(this);
-        if ($box.is(":checked")) {
-            // the name of the box is retrieved using the .attr() method
-            // as it is assumed and expected to be immutable
-            var group = "input:checkbox[name='" + $box.attr("name") + "']";
 
-            // the checked state of the group/box on the other hand will change
-            // and the current value is retrieved using .prop() method
-            $(group).prop("checked", false);
-            $box.prop("checked", true);
-        } else {
-            $box.prop("checked", false);
+       
+
+        if ($("#rdbCashOption").is(":checked")) {
+            var paymentStatus = 1;    //1 for Paid
+            //var paymentChoice = "Cash";
+            //alert("you have selected" + paymentChoice + "payment method");
         }
+        else {
+            var paymentStatus = 2;  //2 for Credit
+            //var paymentChoice = "Credit";
+            //alert("you have selected" + paymentChoice + "payment method");
+        }
+
+            $.each($("input[name='nam_GroupMode']:checked"), function () {
+                //var chkBoxvalue = $(this).val();
+                 chkBoxvalue = $(this).val();
+                //alert(chkBoxvalue);
+                //ModeValues.push($(this).val());
+
+            })
+            var ids = jQuery("#GridAddVehicle").jqGrid('getDataIDs');
+           
+            var hfSaleFrontEndID = $('#hfSaleFrontEndID').html();
+            //var gridDataVehicleID = JSON.stringify(arr);
+
+            for (var i = 0; i < ids.length; i++) {
+                //alert(arr[i]);
+
+                parameters.push({
+                    iVehicleID: ids[i],
+                    iSaleFrontEndID: hfSaleFrontEndID
+                });
+            }
+
+        //    alert(("#hfCustomer").text());
+        //alert(("#hfSaleFrontEndID").text());
+        //alert(("#txtCustomerName").html());
+        
+
+        var SaleData ={ 
+            iBuyerID: $("#hfCustomer").val(),
+            iSaleFrontEndID: $("#hfSaleFrontEndID").html(),
+            strBuyerName: $("#txtCustomerName").val(),
+            strSalesDate: $("#salesDate").val(),
+            iSalesInvoiceID: $("#txtInvoiceNum").html(),
+            dmlSellingPrice: $("#txtSellingPrice").val(),
+            dmlDeposit: $("#txtDeposit").val(),
+            dmlAdvance: $("#txtAdvance").val(),
+            dmlBalance: $("#txtSaleBalance").val(),
+            iInstallment: $("#txtInstallment").val(),
+            iPaymentType: paymentStatus,
+            iImpExpTransfer: chkBoxvalue,
+           
+        }
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Sales/Save",
+            cache: false,
+            data: JSON.stringify({ sale: SaleData, saleVehicles: parameters }),
+            // data: JSON.stringify(purchase),
+            dataType: this.dataType,
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                alert("Done!!!");
+               
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to Save data.');
+            }
+        });
     });
+    
 
 
-    function Test() {
+
+    //function PaymentType() {
+    //    if ($("#rdbCashOption").is(":checked")) {
+    //        var paymentStatus = 1;    //1 for Paid
+    //        //var paymentChoice = "Cash";
+    //        //alert("you have selected" + paymentChoice + "payment method");
+    //    }
+    //    else {
+    //        var paymentStatus = 2;  //2 for Credit
+    //        //var paymentChoice = "Credit";
+    //        //alert("you have selected" + paymentChoice + "payment method");
+    //    }
+    //}
+
+   
+
+
+    function Mode() {
         // var values = new Array();
         $.each($("input[name='nam_GroupMode']:checked"), function () {
             var chkBoxvalue = $(this).val();

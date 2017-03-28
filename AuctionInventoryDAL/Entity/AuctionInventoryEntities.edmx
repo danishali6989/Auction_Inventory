@@ -196,6 +196,32 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="RoleId" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="20" />
         </EntityType>-->
+        <EntityType Name="Sales">
+          <Key>
+            <PropertyRef Name="iSaleID" />
+          </Key>
+          <Property Name="iSaleID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="iSaleFrontEndID" Type="int" />
+          <Property Name="strBuyerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="iBuyerID" Type="int" />
+          <Property Name="strSalesDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="dmlSellingPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dmlDeposit" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dmlAdvance" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dmlBalance" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="iInstallment" Type="int" />
+          <Property Name="iPaymentType" Type="int" />
+          <Property Name="iImpExpTransfer" Type="int" />
+          <Property Name="iSalesInvoiceID" Type="int" />
+        </EntityType>
+        <EntityType Name="SalesVehicle">
+          <Key>
+            <PropertyRef Name="iSalesVehicleID" />
+          </Key>
+          <Property Name="iSalesVehicleID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="iSaleFrontEndID" Type="int" />
+          <Property Name="iVehicleID" Type="int" />
+        </EntityType>
         <EntityType Name="SingleVehicleExpense">
           <Key>
             <PropertyRef Name="iSingleVehicleID" />
@@ -332,6 +358,8 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySet Name="MExpense" EntityType="Self.MExpense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MStaff" EntityType="Self.MStaff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MSupplier" EntityType="Self.MSupplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesVehicle" EntityType="Self.SalesVehicle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SingleVehicleExpense" EntityType="Self.SingleVehicleExpense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StateMaster" EntityType="Self.StateMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TPurchase" EntityType="Self.TPurchase" Schema="dbo" store:Type="Tables" />
@@ -384,6 +412,8 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySet Name="MExpenses" EntityType="AuctionInventoryModel.MExpense" />
           <EntitySet Name="MStaffs" EntityType="AuctionInventoryModel.MStaff" />
           <EntitySet Name="MSuppliers" EntityType="AuctionInventoryModel.MSupplier" />
+          <EntitySet Name="Sales" EntityType="AuctionInventoryModel.Sale" />
+          <EntitySet Name="SalesVehicles" EntityType="AuctionInventoryModel.SalesVehicle" />
           <EntitySet Name="SingleVehicleExpenses" EntityType="AuctionInventoryModel.SingleVehicleExpense" />
           <EntitySet Name="StateMasters" EntityType="AuctionInventoryModel.StateMaster" />
           <EntitySet Name="TPurchases" EntityType="AuctionInventoryModel.TPurchase" />
@@ -567,6 +597,32 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="SupplierPhoto" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="SupplierDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="iSaleID" />
+          </Key>
+          <Property Name="iSaleID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iSaleFrontEndID" Type="Int32" />
+          <Property Name="strBuyerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="iBuyerID" Type="Int32" />
+          <Property Name="strSalesDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dmlSellingPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dmlDeposit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dmlAdvance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dmlBalance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="iInstallment" Type="Int32" />
+          <Property Name="iPaymentType" Type="Int32" />
+          <Property Name="iImpExpTransfer" Type="Int32" />
+          <Property Name="iSalesInvoiceID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="SalesVehicle">
+          <Key>
+            <PropertyRef Name="iSalesVehicleID" />
+          </Key>
+          <Property Name="iSalesVehicleID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iSaleFrontEndID" Type="Int32" />
+          <Property Name="iVehicleID" Type="Int32" />
         </EntityType>
         <EntityType Name="SingleVehicleExpense">
           <Key>
@@ -891,6 +947,34 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
                 <ScalarProperty Name="strMiddleName" ColumnName="strMiddleName" />
                 <ScalarProperty Name="strFirstName" ColumnName="strFirstName" />
                 <ScalarProperty Name="iSupplierID" ColumnName="iSupplierID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sales">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.Sale">
+              <MappingFragment StoreEntitySet="Sales">
+                <ScalarProperty Name="iSalesInvoiceID" ColumnName="iSalesInvoiceID" />
+                <ScalarProperty Name="iImpExpTransfer" ColumnName="iImpExpTransfer" />
+                <ScalarProperty Name="iPaymentType" ColumnName="iPaymentType" />
+                <ScalarProperty Name="iInstallment" ColumnName="iInstallment" />
+                <ScalarProperty Name="dmlBalance" ColumnName="dmlBalance" />
+                <ScalarProperty Name="dmlAdvance" ColumnName="dmlAdvance" />
+                <ScalarProperty Name="dmlDeposit" ColumnName="dmlDeposit" />
+                <ScalarProperty Name="dmlSellingPrice" ColumnName="dmlSellingPrice" />
+                <ScalarProperty Name="strSalesDate" ColumnName="strSalesDate" />
+                <ScalarProperty Name="iBuyerID" ColumnName="iBuyerID" />
+                <ScalarProperty Name="strBuyerName" ColumnName="strBuyerName" />
+                <ScalarProperty Name="iSaleFrontEndID" ColumnName="iSaleFrontEndID" />
+                <ScalarProperty Name="iSaleID" ColumnName="iSaleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesVehicles">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.SalesVehicle">
+              <MappingFragment StoreEntitySet="SalesVehicle">
+                <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
+                <ScalarProperty Name="iSaleFrontEndID" ColumnName="iSaleFrontEndID" />
+                <ScalarProperty Name="iSalesVehicleID" ColumnName="iSalesVehicleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -182,6 +182,7 @@
     <Compile Include="Controllers\MStaffController.cs" />
     <Compile Include="Controllers\MSupplierController.cs" />
     <Compile Include="Controllers\MVehicleController.cs" />
+    <Compile Include="Controllers\PapersController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\TPurchaseController.cs" />
     <Compile Include="Global.asax.cs">
@@ -203,6 +204,8 @@
     <Compile Include="Models\Expenses.cs" />
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\PurchaseViewModel.cs" />
+    <Compile Include="Models\SaleModel.cs" />
+    <Compile Include="Models\SalesVehicleModel.cs" />
     <Compile Include="Models\SingleVehicleExpenseModel.cs" />
     <Compile Include="Models\Staff.cs" />
     <Compile Include="Models\Supplier.cs" />
@@ -221,6 +224,7 @@
     <Compile Include="Services\ExpensesServiceClient.cs" />
     <Compile Include="Services\HomeServiceClient.cs" />
     <Compile Include="Services\PurchaseServiceClient.cs" />
+    <Compile Include="Services\SaleServiceClient.cs" />
     <Compile Include="Services\StaffServiceClient.cs" />
     <Compile Include="Services\SupplierServiceClient.cs" />
     <Compile Include="Services\VehicleServiceClient.cs" />
@@ -1199,6 +1203,7 @@
     <Content Include="Views\MExpenses\SingleVehicleExpenses.cshtml" />
     <Content Include="Views\Auction\AuctionList.cshtml" />
     <Content Include="Views\Sales\SaleVehicle.cshtml" />
+    <Content Include="Views\Papers\PaperDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

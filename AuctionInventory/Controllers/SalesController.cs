@@ -82,18 +82,62 @@ namespace AuctionInventory.Controllers
                                  iPhoneNumber = AM.iPhoneNumber,
                                  strCreditLimit = AM.strCreditLimit,
                                  //Address = AM.Address
-                                 
+
                              }).ToList();
 
             return Json(customers, JsonRequestBehavior.AllowGet);
         }
 
-        // [HttpPost]
-        //public ActionResult GetInvoice()
-        //{
-        //    var invNo = auctionContext.TPurchases.Max(i => i.iPurchaseInvoiceNo) + 1;
-        //    return Json(invNo);
-        //}
+        [HttpPost]
+        public ActionResult GetInvoice()
+        {
 
-	}
+            int? invNo = auctionContext.Sales.Max(i => i.iSalesInvoiceID) ?? 0;
+            invNo = invNo + 1;
+
+
+            //var invNo = auctionContext.Sales.Max(i => i.iSalesInvoiceID) + 1;
+            return Json(invNo);
+        }
+
+
+        [HttpPost]
+        public ActionResult GetSalesFrontEndID()
+        {
+            int? SalesFrontEndID = auctionContext.Sales.Max(i => i.iSaleFrontEndID) ?? 0;
+            SalesFrontEndID = SalesFrontEndID + 1;
+
+            //var SalesFrontEndID = auctionContext.Sales.Max(i => i.iSaleFrontEndID) + 1;
+            return Json(SalesFrontEndID);
+        }
+        [HttpPost]
+        public ActionResult Save(SaleModel sale, List<SalesVehicleModel> saleVehicles)
+        {
+            bool status = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SaleServiceClient saleServiceClient = new SaleServiceClient();
+                    status = saleServiceClient.SaveSalesData(sale, saleVehicles);
+
+                }
+                // return RedirectToAction("GetPurchaseList", "TPurchase");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong");
+                status = false;
+                throw e;
+            }
+
+            return Json(new { status = true }, JsonRequestBehavior.AllowGet);
+            //return new JsonResult { Data = new { status = status ,purID=purchase.PurchaseID} };
+
+        }
+
+
+
+
+    }
 }

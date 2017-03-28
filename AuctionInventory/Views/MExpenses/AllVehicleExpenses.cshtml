@@ -219,7 +219,7 @@
                 debugger;
                 ALLExpense();
                 
-                //If you to save all data in one go then call Save function here
+               
                 SaveALLExpense(favorite);
 
 
@@ -262,7 +262,7 @@
             type: 'POST',
             url: "/MExpenses/SaveAllVehicleExpense",
             data: JSON.stringify({ 'expense': arr }),
-            success: function (data) { alert("SUCCESS"); }
+            success: function (data) { alert("Succsesfully Saved All Vehicle Expense."); }
         });
        
     }

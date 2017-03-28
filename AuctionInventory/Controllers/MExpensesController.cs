@@ -296,7 +296,7 @@ namespace AuctionInventory.Controllers
                 {
                     ExpensesServiceClient service = new ExpensesServiceClient();
                     status = service.SaveDataAllVehicleExpense(expense);
-                    return RedirectToAction("Index");
+                    //return RedirectToAction("Index");
                 }
             }
             catch (Exception e)
@@ -323,7 +323,7 @@ namespace AuctionInventory.Controllers
                 {
                     ExpensesServiceClient service = new ExpensesServiceClient();
                     status = service.SaveDataSingleVehicleExpense(expense);
-                    return RedirectToAction("Index");
+                    //return RedirectToAction("Index");
                 }
             }
             catch (Exception e)

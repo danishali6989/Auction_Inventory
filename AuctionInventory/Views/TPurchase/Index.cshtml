@@ -28,6 +28,7 @@
         contentType: "application/json; charset=utf-8",
         success: function (data) {
             $("#invno").html(data);
+            
         }
     });
 </script>
@@ -256,18 +257,26 @@
             <div class="col-sm-6">
                 <b>Invoice value JPY </b>: &yen; <span id="spnINVJPY"></span>
                 <br />
-                <b>Invoice value AED </b>: 	د.إ <span id="spnINVAED"></span>
+                <b>Invoice value AED </b>: 	د.إ <span id="spnINVAED"></span>               
             </div>
 
-            <div class="col-sm-6">
+            
+            <br />
+            <br />
+
+            <table id="dataGrid" class="table table-bordered table-striped"></table>
+            <div id="pagingGrid"></div>
+            <br />
+            <br />
+            <div class="col-sm-6" style="margin-left:270px;">
 
                 <div class="row">
                     <div class="col-sm-2">
                         <input type="submit" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
                     </div>
                     @*<div class="col-sm-2">
-                            <input type="button" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
-                        </div>*@
+                    <input type="button" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
+                </div>*@
                     <div class="col-sm-3">
                         <input type="button" class='popup btn btn-info' id="btnRcvStock" name="Save" value="Stock Revice" />
                     </div>
@@ -280,15 +289,9 @@
 
 
 
-                    
+
                 </div>
             </div>
-            <br />
-            <br />
-
-            <table id="dataGrid" class="table table-bordered table-striped"></table>
-            <div id="pagingGrid"></div>
-
         </div>
 
 
@@ -624,7 +627,7 @@
                        
                         $("#spnINVJPY").text(sumOfJPY);
                         $("#spnINVAED").text(sumOfAED);
-
+                       
 
                         var lastsel;
                         $('#dataGrid').jqGrid({
@@ -880,7 +883,7 @@
 
 
 <!-- JqGrid Scripts -->
-@*<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />*@
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
 <link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
 <script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
 <script src="~/scripts/grid.locale-en.js"></script>

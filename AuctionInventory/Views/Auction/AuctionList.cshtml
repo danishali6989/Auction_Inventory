@@ -1,4 +1,4 @@
-﻿@model AuctionInventory.Models.Vehicles
+﻿@*@model AuctionInventory.Models.Vehicles*@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -29,8 +29,12 @@
 <div class="box-body" id="divAddVehicle" style="display:none">
     <table id="GridAddVehicle" class="table table-bordered table-striped"></table>
     <div id="pagingGridAddVehicle"></div>
+    <br />
 </div>
+<div id="msg">
+    
 
+</div>
 <div>
     <br />
     <input type="button" style="margin-left: 400px" class="btn btn-success" id="saveAuctionList" value="Save" />
@@ -213,7 +217,7 @@
         //    iVehicleID: gridDataVehicleID,
         //    strAuctionDate: date,
         //}
-
+        debugger
         $.ajax({
             type: "POST",
             url: "/Auction/Save",
@@ -222,11 +226,20 @@
             // data: JSON.stringify(purchase),
             dataType: this.dataType,
             contentType: "application/json; charset=utf-8",
-            success: function () {
+            success: function (Data) {
                
                 //$("#divShowPrintbtn").show();
                 alert("Data Saved You Can Print AuctionList");
             }
+
+
+            //success: function (Data) {
+            //    $('#msg').html(Data).fadeIn('slow');
+            //    //$('#msg').html("data insert successfully").fadeIn('slow') //also show a success message 
+            //    $('#msg').delay(5000).fadeOut('slow');
+            //},
+
+
         });
 
     });
