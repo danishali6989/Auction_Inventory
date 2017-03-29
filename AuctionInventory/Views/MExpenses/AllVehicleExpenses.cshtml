@@ -42,7 +42,7 @@
                 <br />
                 <br />
                 <div id="TextBoxContainer">
-                    <!--Textboxes will be added dynamically here -->
+                    <!--Textboxes will be added here -->
                 </div>
                 <br />
 
@@ -53,8 +53,6 @@
                     <br />
                     <br />
                     <label>Total Expense Amount :</label><input type="text" id="totalSum" readonly />
-                    <br />
-                    <input type="button" value="Save" class="btn btn-success" id="btnSaveAllVehiclesExpense" />
                 </div>
             </div>
 
@@ -83,15 +81,14 @@
                             ];
                             response(result);
                         }
-                        else
-                        {
+                        else {
                             // normal response
                             response($.map(data, function (item) {
                                 return {
 
                                     label: item.strExpenseName,
                                     value: item.strExpenseName,
-                                    iExpenseID:item.iExpenseID
+                                    iExpenseID: item.iExpenseID
                                 }
                             }));
                         }
@@ -181,9 +178,8 @@
     //var ExpenseTotalAmount = 0;
     var counter = 1;
     var favorite = [];
-    var arrExpenseID = new Array();
     $(function () {
-       
+
 
         $("#btnAdd").bind("click", function () {
 
@@ -195,86 +191,40 @@
                 $('#txtSearchExpense').css('border-color', '');
                 var id = $("#hfExpense").val();
                 var value = $("#txtSearchExpense").val();
-                 
-                var addVehicleID = false;
-                $.map(arrExpenseID, function (elementOfArray, indexInArray) {
-                    if (elementOfArray.ExpenseID == id) {
 
-                        addVehicleID = true;
-                    }
-                })
-                if (!addVehicleID) {
-                    arrExpenseID.push({ ExpenseID: id })
-                    $('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
+                $('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
 
 
-                    counter++;
+                counter++;
 
-                    $("#totalExpense").show();
-                    $('#txtSearchExpense').val("");
-                }
+                $("#totalExpense").show();
+                $('#txtSearchExpense').val("");
 
-
-                //$('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
-                
-               
-                //counter++;
-
-                //$("#totalExpense").show();
-                //$('#txtSearchExpense').val("");
-                
             }
 
 
-           
+
 
 
         });
 
         //Adding total Amount To Textbox
-       
-        
+
+
         $(function () {
             $("#btnAddTotalSum").click(function () {
                 AmountTextBox();
-               
-                //debugger;
-                //ALLExpense();
-                
-               
-                //SaveALLExpense(favorite);
+
+                debugger;
+                ALLExpense();
+
+
+                SaveALLExpense(favorite);
 
 
             });
         });
 
-        $("#btnSaveAllVehiclesExpense").click(function () {
-
-            for (var i = 1; i < counter; i++) {
-                var ExpenseID = $("#lblExpenseID" + i).html();
-                //var ExpenseName = $("#lblExpense" + i).html();
-                var ExpenseAmount = $("#txtAmount" + i).val();
-                var ExpenseTotalAmount = $("#totalSum").val();
-                var expenseAmount =
-                      {
-                          //iExpenseID: $("#hfExpense").val(),
-
-                          iPurchaseInvoiceID: $("#invno").val(),
-                          iExpenseID: ExpenseID,
-                          //iCategoryID: 2,
-                          //iSubCategoryID: 1,
-                          iExpenseAmount: ExpenseAmount,
-                          iTotalExpenseAmounrt: ExpenseTotalAmount
-
-                      }
-                //favorite.push(expenseAmount);
-                SaveALLExpense(expenseAmount);
-                
-                
-            }
-
-
-        });
 
 
         $("body").on("click", ".remove", function () {
@@ -282,8 +232,9 @@
             $(this).closest("div").remove();
             ExpenseTotalAmount = 0;
             counter = counter - 1;
+
             AmountTextBox();
-            
+
             ALLExpense();
 
             //RemoveALLExpense(favorite);
@@ -292,10 +243,28 @@
     });
 
     var ExpenseTotalAmount = 0;
+    var arrTextBoxAmount = new Array();
     function AmountTextBox() {
-        for (var i = 1; i < counter; i++) {
+        ExpenseTotalAmount = 0;
+        arrTextBoxAmount = new Array();
 
-            ExpenseTotalAmount += Number($("#txtAmount" + i).val());
+        $.each($("input[name='DynamicTextBox']"), function () {
+
+            arrTextBoxAmount.push($(this).val());
+
+        })
+
+
+        for (var i = 0; i < arrTextBoxAmount.length; i++) {
+
+            var test = $.isNumeric(arrTextBoxAmount[i])
+            if (test == false) {
+                return false;
+            }
+
+            ExpenseTotalAmount += parseFloat(arrTextBoxAmount[i])
+
+            //ExpenseTotalAmount += Number($("#txtAmount" + i).val());
         }
         //alert(ExpenseTotalAmount);
         $("#totalSum").val(ExpenseTotalAmount);
@@ -311,11 +280,9 @@
             type: 'POST',
             url: "/MExpenses/SaveAllVehicleExpense",
             data: JSON.stringify({ 'expense': arr }),
-            success: function (data) {
-                alert("Succsesfully Saved All Vehicle Expense.");
-            }
+            success: function (data) { alert("Succsesfully Saved All Vehicle Expense."); }
         });
-       
+
     }
 
     function RemoveALLExpense(Removedata) {
@@ -337,7 +304,7 @@
             var expenseAmount =
                   {
                       //iExpenseID: $("#hfExpense").val(),
-                     
+
                       iPurchaseInvoiceID: $("#invno").val(),
                       iExpenseID: ExpenseID,
                       //iCategoryID: 2,
