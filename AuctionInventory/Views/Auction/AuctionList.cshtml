@@ -84,7 +84,7 @@
 
 <script>
 
-    // var arr = [];
+    var arr = new Array();
     $(function () {
 
         $('#dataGrid').jqGrid({
@@ -116,10 +116,26 @@
                 var rowData = jQuery("#dataGrid").getRowData(rowid);
                 var rowDataVehicleID = rowData['iVehicleID'];
 
-                // arr.push(rowDataVehicleID);
-                $('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
+                var addVehicleID = false;
+                $.map(arr, function (elementOfArray, indexInArray) {
+                    if (elementOfArray.VehicleID == rowDataVehicleID) {
 
-                $('#divAddVehicle').show();
+                        addVehicleID = true;
+                    }
+                })
+                if (!addVehicleID) {
+                    arr.push({ VehicleID: rowDataVehicleID })
+                    $('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
+
+                    $('#divAddVehicle').show();
+                }
+
+
+
+                //// arr.push(rowDataVehicleID);
+                //$('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
+
+                //$('#divAddVehicle').show();
             }
 
         });

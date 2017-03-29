@@ -1,25 +1,25 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "PaperDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Paper Details</h2>
 
 <div class="box-body">
-
+    @*<input class="form-control datepicker input-group-sm" name="DynamicDecDate" placeholder="Enter" id="txtDecDate" />*@
 
     @*<label>Paper Type:</label>
-    <div class="options" id="divBoxGroup">
-        <label>
-            <input type="radio" id="ckbImportOption" name="nam_GroupMode" value="1" />Import
-        </label>
-        <label>
-            <input type="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
-        </label>
-        <label>
-            <input type="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
-        </label>
-    </div>*@
+        <div class="options" id="divBoxGroup">
+            <label>
+                <input type="radio" id="ckbImportOption" name="nam_GroupMode" value="1" />Import
+            </label>
+            <label>
+                <input type="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
+            </label>
+            <label>
+                <input type="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
+            </label>
+        </div>*@
 
     <select id="ddlPaperType" name="nam_GroupMode" onchange="getPaperType(this);">
         <option>Select Type</option>
@@ -29,34 +29,53 @@
 
     </select>
     <br><br>
-    <div id="divFillBySalesVehicle" style="display:none">
-        <table id="dataGrid" class="table table-bordered table-striped"></table>
-        <div id="pagingGrid"></div>
-    </div>
+    @*<div id="divFillBySalesVehicle" style="display:none">
+            <table id="dataGrid" class="table table-bordered table-striped"></table>
+            <div id="pagingGrid"></div>
+        </div>
 
-    <br><br>
+        <br><br>*@
     <div id="divForImport" style="display:none">
-        <table id="dataGridForImport" class="table table-bordered table-striped"></table>
-        <div id="pagingGridForImport"></div>
-    </div>
+        <table id="dataGridImport" class="table table-bordered table-striped"></table>
+        <div id="pagingGridImport"></div>
+        <br><br>
+        @*<table id="dataGridForImport" class="table table-bordered table-striped"></table>
+        <div id="pagingGridForImport"></div>*@
 
-    <br><br>
+       
+    </div>
+   
     <div id="divForExport" style="display:none">
-        <table id="dataGridForExport" class="table table-bordered table-striped"></table>
-        <div id="pagingGridForExport"></div>
+        <table id="dataGridExport" class="table table-bordered table-striped"></table>
+        <div id="pagingGridExport"></div>
+        <br><br>
+        @*<table id="dataGridForExport" class="table table-bordered table-striped"></table>
+        <div id="pagingGridForExport"></div>*@
     </div>
 
+    <div id="divForAppendedTextBox" style="display:none">
+
+    </div>
 </div>
+
+
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+        //$('input[type=datetime]').datepicker();
+    });
+
+</script>
 
 <script type="text/javascript">
 
-
-
     var PapertypeID;
+    var arrImportVehicleID = new Array();
+    var arrExportVehicleID = new Array();
     function getPaperType(selectedType) {
 
         PapertypeID = $("#ddlPaperType").val();
-        
+
 
         $.ajax({
             url: '/Papers/GetSalesVehicleByPapertype/',
@@ -65,63 +84,25 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({ paperTypeID: PapertypeID }),
             success: function (result) {
-                
+
                 debugger
-                $('#divFillBySalesVehicle').show();
+
 
                 //$("#dataGrid").trigger("reloadGrid");
-               
+
                 var vehiclePaperByType = result.vehiclePaperByType;
-              
-               
-                $('#dataGrid').jqGrid({
-                    caption: "Vehicle List",
-                    data: vehiclePaperByType,
-                    datatype: "local",
-                    //contentType: "application/json; charset-utf-8",
-                    
-                    colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY'],
-                    colModel: [
-                        { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
-                        { name: 'iLotNum', index: 'iLotNum' },
-                        { name: 'strChassisNum', index: 'strChassisNum' },
-                        { name: 'iModel', index: 'iModel' },
-                        { name: 'iYear', index: 'iYear' },
-                        { name: 'color', index: 'color' },
-                        { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
 
-                    ],
-                    width: 'auto',
-                    //height:300,
-                    rowNum: 10,
-                    //loadonce: true,
-                    rowList: [10, 20, 30],
-                    pager: 'pagingGrid',
-                    beforeSelectRow: function (rowid, celname, value, iRow, iCol) {
-                        debugger;
-                        var rowData = jQuery("#dataGrid").getRowData(rowid);
-                        var rowDataVehicleID = rowData['iVehicleID'];
-
-                        // arr.push(rowDataVehicleID);
-                        $('#dataGridForImport').jqGrid('addRowData', rowDataVehicleID, rowData);
-
-                        $('#divAddVehicle').show();
-                    }
-
-                });
-                jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
-                jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
-
-
-               
 
                 if (PapertypeID == 1) {
+                    
                     $("#divForImport").show();
-
+                    $("#divForAppendedTextBox").show();
+                    $("#divForExport").hide();
                     //Grid for Import
 
-                    $('#dataGridForImport').jqGrid({
-                        caption: "Vehicle List",
+
+                    $('#dataGridImport').jqGrid({
+                        caption: "Import Vehicle List",
                         data: vehiclePaperByType,
                         datatype: "local",
                         //contentType: "application/json; charset-utf-8",
@@ -136,17 +117,55 @@
                             { name: 'color', index: 'color' },
                             { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
 
+
                         ],
                         width: 'auto',
                         //height:300,
                         rowNum: 10,
                         //loadonce: true,
                         rowList: [10, 20, 30],
-                        pager: 'pagingGridForImport',
+                        pager: 'pagingGridImport',
+                        beforeSelectRow: function (rowid, celname, value, iRow, iCol) {
+                            debugger;
+                            var rowData = jQuery("#dataGridImport").getRowData(rowid);
+                            var rowDataVehicleID = rowData['iVehicleID'];
+                            var rowDataChasisNum = rowData['strChassisNum'];
+                            //arrVehicleID.push(rowDataVehicleID);
+
+                            var addVehicleID = false;
+                            $.map(arrImportVehicleID, function (elementOfArray, indexInArray) {
+                                if (elementOfArray.VehicleID == rowDataVehicleID) {
+
+                                    addVehicleID = true;
+                                }
+                            })
+                            if (!addVehicleID) {
+                                arrImportVehicleID.push({ VehicleID: rowDataVehicleID })
+                                $('#divForAppendedTextBox').append("<div class='row'>"
+                              + "<div class='form-group col-sm-1'>" + "<label id='lblChassisNum'>" + "ChassisNo" + "</label>" + "<input class='form-control input-group-sm'  type='text' name='DynamicChassisNo' min='1' max='5' placeholder='Enter' id='txtChassisNo' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label id='lblDecNo'>" + "DecNo" + "</label>" + "<input class='form-control input-group-sm'  type='text' name='DynamicDecNo' min='1' max='5' placeholder='Enter' id='txtDecNo' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label id='lblDecDate'>" + "DecDate" + "</label>" + "<input class='form-control datepicker input-group-sm' name='DynamicDecDate' placeholder='Enter' id='txtDecDate' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label id='lblDeposit'>" + "Deposit" + "</label>" + "<input class='form-control input-group-sm'  type='text' name='DynamicDeposit' min='1' max='5' placeholder='Enter' id='txtDeposit' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label id='lblDuty'>" + "Duty" + "</label>" + "<input class='form-control input-group-sm' type='text' name='DynamicDuty' min='1' max='5' placeholder='Enter' id='txtDuty' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label id='lblPaper'>" + "Paper" + "</label>" + "<input class='form-control input-group-sm'  type='text' name='DynamicPaper' min='1' max='5' placeholder='Enter' id='txtPaper' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label id='lblTotal'>" + "Total" + "</label>" + "<input class='form-control input-group-sm' type='text' name='DynamicTotal' min='1' max='5' placeholder='Enter' id='txtTotal' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label id='lblBal'>" + "Bal" + "</label>" + "<input class='form-control input-group-sm'  type='text' name='DynamicBal' min='1' max='5' placeholder='Enter' id='txtBal' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label id='lblExpense'>" + "</label>" + "<input type='button' value='Remove' class='remove' id='btnRemove' /></div>");
+                                //+ "<input type='button' value='Remove' class='remove' id='btnRemove' />'</div>");
+                            }
+
+
+                            // arr.push(rowDataVehicleID);
+                            //$('#dataGridForImport').jqGrid('addRowData', rowDataVehicleID, rowData);
+
+                            //$('#divAddVehicle').show();
+                        }
 
                     });
-                    jQuery("#dataGridForImport").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
-                    jQuery("#dataGridForImport").jqGrid('navGrid', '#pagingGridForImport', { edit: false, add: false, del: false, search: false });
+                    jQuery("#dataGridImport").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+                    jQuery("#dataGridImport").jqGrid('navGrid', '#pagingGridImport', { edit: false, add: false, del: false, search: false });
+
+
 
 
                 }
@@ -155,10 +174,12 @@
 
                 else if (PapertypeID == 2) {
                     $("#divForExport").show();
-                    
+                    $("#divForAppendedTextBox").show();
+                    $("#divForImport").hide();
 
-                    $('#dataGridForExport').jqGrid({
-                        caption: "Vehicle List",
+
+                    $('#dataGridExport').jqGrid({
+                        caption: "Export Vehicle List",
                         data: vehiclePaperByType,
                         datatype: "local",
                         //contentType: "application/json; charset-utf-8",
@@ -173,125 +194,65 @@
                             { name: 'color', index: 'color' },
                             { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
 
+
                         ],
                         width: 'auto',
                         //height:300,
                         rowNum: 10,
                         //loadonce: true,
                         rowList: [10, 20, 30],
-                        pager: 'pagingGridForExport',
+                        pager: 'pagingGridExport',
+                        beforeSelectRow: function (rowid, celname, value, iRow, iCol) {
+                            debugger;
+                            var rowData = jQuery("#dataGridExport").getRowData(rowid);
+                            var rowDataVehicleID = rowData['iVehicleID'];                           
+
+                            var addVehicleID = false;
+                            $.map(arrExportVehicleID, function (elementOfArray, indexInArray) {
+                                if (elementOfArray.VehicleID == rowDataVehicleID) {
+
+                                    addVehicleID = true;
+                                }
+                            })
+                            if (!addVehicleID) {
+                                arrExportVehicleID.push({ VehicleID: rowDataVehicleID })
+                                $('#divForAppendedTextBox').append("<div class='row'>"
+                              + "<div class='form-group col-sm-1'>" + "<label>" + "Receiving" + "</label>" + "<input class='form-control datepicker input-group-sm'  name='DynamicReceivingDate' placeholder='Date' id='txtReceivingDate' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label>" + "Submit" + "</label>" + "<input class='form-control datepicker input-group-sm'  name='DynamicSubmitDate'  placeholder='Date' id='txtSubmitDate' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label>" + "CApproval" + "</label>" + "<input class='form-control input-group-sm' type='text' name='DynamicApproval'  placeholder='Enter' id='txtApproval' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label>" + "Deduction" + "</label>" + "<input class='form-control input-group-sm'  type='text' name='DynamicDeduction'  placeholder='Enter' id='txtDeduction' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label>" + "Fine" + "</label>" + "<input class='form-control input-group-sm' type='text' name='DynamicFine' placeholder='Enter' id='txtFine' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label>" + "Misc" + "</label>" + "<input class='form-control input-group-sm'  type='text' name='DynamicMisc'  placeholder='Enter' id='txtMisc' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label>" + "Deposit" + "</label>" + "<input class='form-control input-group-sm' type='text' name='DynamicExpDeposit'  placeholder='Enter' id='txtExpDeposit' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label>" + "Bal" + "</label>" + "<input class='form-control input-group-sm'  type='text' name='DynamicExpBal' placeholder='Enter' id='txtExpBal' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label>" + "</label>" + "<input type='button' value='Remove' class='remove' id='btnRemove' /></div>");
+                                //+ "<input type='button' value='Remove' class='remove' id='btnRemove' />'</div>");
+                            }
+                        }
 
                     });
-                    jQuery("#dataGridForExport").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
-                    jQuery("#dataGridForExport").jqGrid('navGrid', '#pagingGridForExport', { edit: false, add: false, del: false, search: false });
+                    jQuery("#dataGridExport").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+                    jQuery("#dataGridExport").jqGrid('navGrid', '#pagingGridExport', { edit: false, add: false, del: false, search: false });
 
                 }
-
-
-               
-
             }
         });
-
     }
 
-   
-
     $(function () {
+        $("body").on("click", ".remove", function () {
+            debugger;
+            $(this).closest("div").remove();
+            //ExpenseTotalAmount = 0;
+            //counter = counter - 1;
+            //AmountTextBox();
 
-       
-    });
+            //ALLExpense();
 
-
-    $(function () {
-
-       
-
-    });
-
-
-
-    $(function () {
-
-        $('#dataGrid').jqGrid({
-            caption: "Auction List",
-            url: '/Auction/GetData/',
-            datatype: "json",
-            contentType: "application/json; charset-utf-8",
-            mtype: 'GET',
-            colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY'],
-            colModel: [
-                { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
-                { name: 'iLotNum', index: 'iLotNum' },
-                { name: 'strChassisNum', index: 'strChassisNum' },
-                { name: 'iModel', index: 'iModel' },
-                { name: 'iYear', index: 'iYear' },
-                { name: 'strColor', index: 'strColor' },
-                { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
-
-            ],
-            width: 'auto',
-            rowNum: 10,
-            loadonce: true,
-            rowList: [10, 20, 30],
-            pager: 'pagingGrid',
-            caption: 'Select Vehicle to Add',
-
-            beforeSelectRow: function (rowid, celname, value, iRow, iCol) {
-                debugger;
-                var rowData = jQuery("#dataGrid").getRowData(rowid);
-                var rowDataVehicleID = rowData['iVehicleID'];
-
-                // arr.push(rowDataVehicleID);
-                $('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
-
-                $('#divAddVehicle').show();
-            }
+            //RemoveALLExpense(favorite);
 
         });
-        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
-        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
-
-
-        $('#GridAddVehicle').jqGrid({
-            caption: "ADD Single Vehicle",
-            //data: SingleVehicle,
-            //datatype: "local",
-            colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'],
-            colModel: [
-                { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
-                { name: 'iLotNum', index: 'iLotNum' },
-                { name: 'strChassisNum', index: 'strChassisNum' },
-                { name: 'iModel', index: 'iModel' },
-                { name: 'iYear', index: 'iYear' },
-                { name: 'strColor', index: 'strColor' },
-                { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
-
-                {
-                    name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
-                    formatter: function (cellvalue, options, rowObject) {
-                        // return '<a href="/MAreas/Edit/' + options.rowId + '">' + "<img src='../Images/edit%20(2).png' '/>" + '</a>' + "     " + '<a href="/MAreas/Delete/' + options.rowId + '">' + "<img src='../Images/delete%20(2).png' />" + '</a>';
-                        //return $('#GridAddVehicle').jqGrid('delRowData', options.rowId);
-                        return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"jQuery('#GridAddVehicle').delRowData('" + options.rowId + "');\"  />";
-                    }
-
-                },
-
-            ],
-            width: 'auto',
-            //width: 1050,
-            //height: 250,
-            rowNum: 10,
-            loadonce: false,
-            rowList: [10, 20, 30],
-            pager: 'pagingGridAddVehicle',
-        });
-        jQuery("#GridAddVehicle").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
-        jQuery("#GridAddVehicle").jqGrid('navGrid', '#pagingGridAddVehicle', { edit: false, add: false, del: false, search: false, rel: false });
-
     });
-
-    
 
 </script>
 

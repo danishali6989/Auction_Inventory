@@ -56,6 +56,29 @@ namespace AuctionInventory.Controllers
         }
 
 
+
+         [HttpPost]
+         public JsonResult EditImportExportVehicle(int vehicleID)
+         {
+             var importExportVehicleByID = (from vehicle in auctionContext.Vehicles
+                                            where vehicle.iVehicleID == vehicleID
+                                       select new
+                                       {
+                                           iVehicleID = vehicle.iVehicleID,                                           
+                                           strChassisNum = vehicle.strChassisNum,
+
+                                           iDuty = vehicle.iDuty,
+                                           iYear = vehicle.iYear,
+                                           color = vehicle.strColor,
+                                           iCustomValInJPY = vehicle.iCustomValInJPY
+
+
+                                       });
+
+             //return Json(vehiclePaperByType, JsonRequestBehavior.AllowGet);
+             return Json(new {importExportVehicleByID }, JsonRequestBehavior.AllowGet);
+         }
+
         //[HttpPost]
         //public ActionResult GetSalesVehicleByPapertype(int paperTypeID)
         //{

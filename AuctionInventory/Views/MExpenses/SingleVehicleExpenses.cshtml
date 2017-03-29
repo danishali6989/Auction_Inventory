@@ -170,6 +170,7 @@
 
 <script>
     var counter = 1;
+    var arrExpenseID = new Array();
     //var favorite = [];
     $(function () {
         $("#txtSearchExpense").autocomplete({
@@ -241,12 +242,30 @@
                 var id = $("#hfExpense").val();
                 var value = $("#txtSearchExpense").val();
 
-               // $('#TextBoxContainer').append("<div>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
-                $('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
-                counter++;
+                var addVehicleID = false;
+                $.map(arrExpenseID, function (elementOfArray, indexInArray) {
+                    if (elementOfArray.ExpenseID == id) {
 
-                $("#totalExpense").show();
-                $('#txtSearchExpense').val("");
+                        addVehicleID = true;
+                    }
+                })
+                if (!addVehicleID) {
+                    arrExpenseID.push({ ExpenseID: id })
+                    $('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
+
+                    counter++;
+
+                    $("#totalExpense").show();
+                    $('#txtSearchExpense').val("");
+                }
+
+
+               //// $('#TextBoxContainer').append("<div>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
+               // $('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
+               // counter++;
+
+               // $("#totalExpense").show();
+               // $('#txtSearchExpense').val("");
             }
 
 
