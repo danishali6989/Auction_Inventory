@@ -111,6 +111,12 @@
     <Compile Include="Entity\MSupplier.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\PaperDetailsForExport.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PaperDetailsForImport.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\Sale.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
@@ -144,6 +150,7 @@
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\ExpensesRepository.cs" />
     <Compile Include="Repositories\LoginRepository.cs" />
+    <Compile Include="Repositories\PapersRepository.cs" />
     <Compile Include="Repositories\PurchaseRepository.cs" />
     <Compile Include="Repositories\SaleRepository.cs" />
     <Compile Include="Repositories\StaffRepository.cs" />

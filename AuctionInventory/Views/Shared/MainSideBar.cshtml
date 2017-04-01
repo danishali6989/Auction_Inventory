@@ -167,7 +167,7 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="@Url.Action("AuctionList", "Auction")"><i class="fa fa-circle-o"></i>Auction List</a></li>
+                        <li><a href="@Url.Action("Index", "Auction")"><i class="fa fa-circle-o"></i>Auction List</a></li>
                    </ul>
                 </li>
                 
@@ -187,6 +187,25 @@
                         <li><a href="@Url.Action("SaleVehicle", "Sales")"><i class="fa fa-circle-o"></i>Sales</a></li>
                    </ul>
                 </li>
+            }
+
+
+
+            @if (menu.ShowPapers)
+            {
+
+                <li class="treeview">
+
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Paper Details</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Index", "Papers")"><i class="fa fa-circle-o"></i>Paper Details</a></li>
+                    </ul>
+                </li>
+
             }
 
             @if (menu.ShowLedger)

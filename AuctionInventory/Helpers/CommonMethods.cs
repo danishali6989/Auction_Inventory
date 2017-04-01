@@ -43,6 +43,7 @@ namespace  AuctionInventory.Helpers
                     menus.ShowCategory = true;
                     menus.ShowCurrency = true;
                     menus.ShowSale = true;
+                    menus.ShowPapers = true;
                     menus.ShowAuction = true;
                     menus.ShowLedger = true;
                     menus.ShowProducts = true;
@@ -154,6 +155,7 @@ namespace  AuctionInventory.Helpers
             }
             return passwordString;
         }
+
 
 
     }

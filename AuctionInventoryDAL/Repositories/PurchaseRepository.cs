@@ -33,18 +33,20 @@ namespace AuctionInventoryDAL.Repositories
             return purchase;
         }
 
-        public bool GetInvoiceRepo()
+        public dynamic GetInvoiceRepo()
         {
-            bool status = false;
+            //bool status = false;
+            //var invNo = auctionContext.TPurchases.Max(i => i.iPurchaseInvoiceNo) + 1;
+            //status = true;
+            //return status;
             var invNo = auctionContext.TPurchases.Max(i => i.iPurchaseInvoiceNo) + 1;
-            status = true;
-            return status;
+            return invNo;
         }
 
 
-        public bool AutoCompleteRepo(string prefix)
+        public dynamic AutoCompleteRepo(string prefix)
         {
-            bool status = false;
+            //bool status = false;
             var suppliers = (from supplier in auctionContext.MSuppliers
                              where supplier.strFirstName.StartsWith(prefix)
                              select new
@@ -53,8 +55,9 @@ namespace AuctionInventoryDAL.Repositories
                                  iSupplierID = supplier.iSupplierID
                              }).ToList();
 
-            status = true;
-            return status;
+            //status = true;
+            //return status;
+            return suppliers;
         }
         public bool SaveEdit(TPurchase purchase, List<Vehicle> griddata)
         {

@@ -31,5 +31,97 @@ namespace AuctionInventoryDAL.Repositories
             return status;
         }
 
+
+
+        public List<Vehicle> GetRepoAuctionList()
+        {
+            List<Vehicle> vehicleList = new List<Vehicle>();
+
+            //Give an Exception
+
+
+            //vehicleList = (from AM in auctionContext.Vehicles
+            //               select new Vehicle
+            //               {
+            //                   iVehicleID = AM.iVehicleID,
+            //                   iLotNum = AM.iLotNum,
+            //                   strChassisNum = AM.strChassisNum,
+            //                   iModel = AM.iModel,
+            //                   iYear = AM.iYear,
+            //                   strColor = AM.strColor,
+            //                   iCustomValInJPY = AM.iCustomValInJPY,
+            //                   iCustomAssesVal = AM.iCustomAssesVal
+
+            //               }).ToList();
+
+
+            //return vehicleList;
+
+
+      //////////Give not selected data .whole data of vehicle//////////////
+
+           
+
+            vehicleList = auctionContext.Vehicles.AsEnumerable()
+
+                        .Select(AM => new Vehicle()
+                        {
+
+                            iVehicleID = AM.iVehicleID,
+                            iLotNum = AM.iLotNum,
+                            strChassisNum = AM.strChassisNum,
+                            iModel = AM.iModel,
+                            iYear = AM.iYear,
+                            strColor = AM.strColor,
+                            iCustomValInJPY = AM.iCustomValInJPY,
+                            iCustomAssesVal = AM.iCustomAssesVal
+                        }).ToList();
+
+
+            return vehicleList;
+
+
+          
+        }
+
+
+        public List<Vehicle> GetVehicleForAuctionListPDF(int id)
+        {
+            List<Vehicle> vehicle = new List<Vehicle>();
+            //vehicle = auctionContext.Vehicles.Where(a => a.iVehicleID == id).FirstOrDefault();
+
+
+            vehicle = (from t1 in auctionContext.AuctionLists
+                       join t2 in auctionContext.Vehicles on t1.iVehicleID equals t2.iVehicleID
+                       where t1.iAuctionFrontEndID == id
+
+                       select new Vehicle
+                           {
+                               //iVehicleID = t2.iVehicleID,
+                               iLotNum = t2.iLotNum,
+                               strChassisNum = t2.strChassisNum,
+                               iModel = t2.iModel,
+                               iYear = t2.iYear,
+                               strColor = t2.strColor,
+                               //iCustomValInJPY = t2.iCustomValInJPY,
+                               iCustomAssesVal = t2.iCustomAssesVal
+
+                           }).OrderBy(a => a.iVehicleID).ToList();
+
+            return vehicle;
+
+
+            //var auction = (from t1 in auctionContext.AuctionLists
+            //               join t2 in auctionContext.Vehicles on t1.iVehicleID equals t2.iVehicleID
+            //               where t1.iAuctionFrontEndID == id
+
+            //               select t2).OrderBy(a => a.iVehicleID).ToList();
+            //vehicle = auction.Select(i =>
+            //new { LotNum = i.iLotNum, ChassisNum = i.strChassisNum, iModel = i.iModel, Year = i.iYear, color = i.strColor, JPY = i.iCustomAssesVal }).ToList();
+
+            //return vehicle;
+        }
+
+        
     }
 }

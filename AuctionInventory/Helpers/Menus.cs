@@ -19,6 +19,7 @@ namespace AuctionInventory.Helpers
         public bool ShowCurrency { get; set; }
         public bool ShowCategory { get; set; }
         public bool ShowSale { get; set; }
+        public bool ShowPapers { get; set; }
         public bool ShowAuction { get; set; }
         public bool ShowLedger { get; set; }
         public bool ShowProducts { get; set; }

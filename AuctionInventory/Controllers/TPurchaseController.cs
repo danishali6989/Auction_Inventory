@@ -412,6 +412,11 @@ namespace AuctionInventory.Controllers
         [HttpPost]
         public JsonResult AutoComplete(string prefix)
         {
+            
+            //PurchaseServiceClient service=new PurchaseServiceClient();
+            //return service.AutoCompleteService(prefix);
+
+
             var suppliers = (from supplier in auctionContext.MSuppliers
                              where supplier.strFirstName.StartsWith(prefix)
                              //||
@@ -431,6 +436,10 @@ namespace AuctionInventory.Controllers
         [HttpPost]
         public ActionResult GetInvoice()
         {
+            //PurchaseServiceClient service = new PurchaseServiceClient();
+            //return service.GetInvoiceID();
+            
+
             var invNo = auctionContext.TPurchases.Max(i => i.iPurchaseInvoiceNo) + 1;
             return Json(invNo);
         }

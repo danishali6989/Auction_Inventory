@@ -62,21 +62,23 @@ namespace AuctionInventory.Services
         }
 
 
-        public bool GetInvoiceID()
+        public dynamic GetInvoiceID()
         {
-            bool status = true;
+            //bool status = true;
             PurchaseRepository repo = new PurchaseRepository();
-            status = repo.GetInvoiceRepo();
-            return status;
+           // status = repo.GetInvoiceRepo();
+            //return status;
+            return repo.GetInvoiceRepo();
         }
 
 
-        public bool AutoCompleteService(string prefix)
+        public dynamic AutoCompleteService(string prefix)
         {
-            bool status = true;
+            //bool status = true;
             PurchaseRepository repo = new PurchaseRepository();
-            status = repo.AutoCompleteRepo(prefix);
-            return status;
+            //status = repo.AutoCompleteRepo(prefix);
+            //return status;
+            return repo.AutoCompleteRepo(prefix);
         }
 
         public Purchase GetPurchase(int id)

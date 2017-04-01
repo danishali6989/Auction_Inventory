@@ -190,6 +190,35 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="SupplierDate" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="PaperDetailsForExport">
+          <Key>
+            <PropertyRef Name="iPaperDetailsForExportID" />
+          </Key>
+          <Property Name="iPaperDetailsForExportID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="iVehicleID" Type="int" />
+          <Property Name="strReceivingDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="strSubmitDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="iCustApproval" Type="int" />
+          <Property Name="iDeduction" Type="int" />
+          <Property Name="iFine" Type="int" />
+          <Property Name="iMisc" Type="int" />
+          <Property Name="iExportDeposit" Type="int" />
+          <Property Name="iExportBalance" Type="int" />
+        </EntityType>
+        <EntityType Name="PaperDetailsForImport">
+          <Key>
+            <PropertyRef Name="iPaperDetailsForImportID" />
+          </Key>
+          <Property Name="iPaperDetailsForImportID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="iVehicleID" Type="int" />
+          <Property Name="iDecNo" Type="int" />
+          <Property Name="strDecDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="iImpDeposit" Type="int" />
+          <Property Name="iDuty" Type="int" />
+          <Property Name="iPaper" Type="int" />
+          <Property Name="iTotal" Type="int" />
+          <Property Name="iImpBalance" Type="int" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="Roles">
@@ -358,6 +387,8 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySet Name="MExpense" EntityType="Self.MExpense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MStaff" EntityType="Self.MStaff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MSupplier" EntityType="Self.MSupplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaperDetailsForExport" EntityType="Self.PaperDetailsForExport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaperDetailsForImport" EntityType="Self.PaperDetailsForImport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesVehicle" EntityType="Self.SalesVehicle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SingleVehicleExpense" EntityType="Self.SingleVehicleExpense" Schema="dbo" store:Type="Tables" />
@@ -412,6 +443,8 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySet Name="MExpenses" EntityType="AuctionInventoryModel.MExpense" />
           <EntitySet Name="MStaffs" EntityType="AuctionInventoryModel.MStaff" />
           <EntitySet Name="MSuppliers" EntityType="AuctionInventoryModel.MSupplier" />
+          <EntitySet Name="PaperDetailsForExports" EntityType="AuctionInventoryModel.PaperDetailsForExport" />
+          <EntitySet Name="PaperDetailsForImports" EntityType="AuctionInventoryModel.PaperDetailsForImport" />
           <EntitySet Name="Sales" EntityType="AuctionInventoryModel.Sale" />
           <EntitySet Name="SalesVehicles" EntityType="AuctionInventoryModel.SalesVehicle" />
           <EntitySet Name="SingleVehicleExpenses" EntityType="AuctionInventoryModel.SingleVehicleExpense" />
@@ -597,6 +630,35 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="SupplierPhoto" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="SupplierDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PaperDetailsForExport">
+          <Key>
+            <PropertyRef Name="iPaperDetailsForExportID" />
+          </Key>
+          <Property Name="iPaperDetailsForExportID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iVehicleID" Type="Int32" />
+          <Property Name="strReceivingDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="strSubmitDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="iCustApproval" Type="Int32" />
+          <Property Name="iDeduction" Type="Int32" />
+          <Property Name="iFine" Type="Int32" />
+          <Property Name="iMisc" Type="Int32" />
+          <Property Name="iExportDeposit" Type="Int32" />
+          <Property Name="iExportBalance" Type="Int32" />
+        </EntityType>
+        <EntityType Name="PaperDetailsForImport">
+          <Key>
+            <PropertyRef Name="iPaperDetailsForImportID" />
+          </Key>
+          <Property Name="iPaperDetailsForImportID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iVehicleID" Type="Int32" />
+          <Property Name="iDecNo" Type="Int32" />
+          <Property Name="strDecDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="iImpDeposit" Type="Int32" />
+          <Property Name="iDuty" Type="Int32" />
+          <Property Name="iPaper" Type="Int32" />
+          <Property Name="iTotal" Type="Int32" />
+          <Property Name="iImpBalance" Type="Int32" />
         </EntityType>
         <EntityType Name="Sale">
           <Key>
@@ -947,6 +1009,37 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
                 <ScalarProperty Name="strMiddleName" ColumnName="strMiddleName" />
                 <ScalarProperty Name="strFirstName" ColumnName="strFirstName" />
                 <ScalarProperty Name="iSupplierID" ColumnName="iSupplierID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaperDetailsForExports">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.PaperDetailsForExport">
+              <MappingFragment StoreEntitySet="PaperDetailsForExport">
+                <ScalarProperty Name="iExportBalance" ColumnName="iExportBalance" />
+                <ScalarProperty Name="iExportDeposit" ColumnName="iExportDeposit" />
+                <ScalarProperty Name="iMisc" ColumnName="iMisc" />
+                <ScalarProperty Name="iFine" ColumnName="iFine" />
+                <ScalarProperty Name="iDeduction" ColumnName="iDeduction" />
+                <ScalarProperty Name="iCustApproval" ColumnName="iCustApproval" />
+                <ScalarProperty Name="strSubmitDate" ColumnName="strSubmitDate" />
+                <ScalarProperty Name="strReceivingDate" ColumnName="strReceivingDate" />
+                <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
+                <ScalarProperty Name="iPaperDetailsForExportID" ColumnName="iPaperDetailsForExportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaperDetailsForImports">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.PaperDetailsForImport">
+              <MappingFragment StoreEntitySet="PaperDetailsForImport">
+                <ScalarProperty Name="iImpBalance" ColumnName="iImpBalance" />
+                <ScalarProperty Name="iTotal" ColumnName="iTotal" />
+                <ScalarProperty Name="iPaper" ColumnName="iPaper" />
+                <ScalarProperty Name="iDuty" ColumnName="iDuty" />
+                <ScalarProperty Name="iImpDeposit" ColumnName="iImpDeposit" />
+                <ScalarProperty Name="strDecDate" ColumnName="strDecDate" />
+                <ScalarProperty Name="iDecNo" ColumnName="iDecNo" />
+                <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
+                <ScalarProperty Name="iPaperDetailsForImportID" ColumnName="iPaperDetailsForImportID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

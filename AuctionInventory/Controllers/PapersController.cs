@@ -21,9 +21,56 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
-        public ActionResult PaperDetails()
+
+
+        [HttpPost]
+        public ActionResult SaveImport(List<PaperDetailsImportModel> importModel)
         {
-            return View();
+            bool status = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PapersServiceClient services = new PapersServiceClient();
+                    status = services.SaveImportData(importModel);
+                    //return RedirectToAction("Index");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong");
+                status = false;
+                throw e;
+
+            }
+            //return RedirectToAction("Index");
+            //return View();
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        [HttpPost]
+        public ActionResult SaveExport(List<PaperDetailsExportModel> exportModel)
+        {
+            bool status = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PapersServiceClient services = new PapersServiceClient();
+                    status = services.SaveExportData(exportModel);
+                    //return RedirectToAction("Index");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong");
+                status = false;
+                throw e;
+
+            }
+            //return RedirectToAction("Index");
+            //return View();
+            return new JsonResult { Data = new { status = status } };
         }
 
         [HttpPost]
@@ -79,46 +126,7 @@ namespace AuctionInventory.Controllers
              return Json(new {importExportVehicleByID }, JsonRequestBehavior.AllowGet);
          }
 
-        //[HttpPost]
-        //public ActionResult GetSalesVehicleByPapertype(int paperTypeID)
-        //{
-
-        //    using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
-        //    {
-        //        var jsonData = new
-        //        {
-        //            total = 1,
-        //            page = 1,
-        //            records = dc.Vehicles.ToList().Count,
-        //            rows = (
-        //              from vehi in
-        //                  (from sale in dc.Sales
-        //                   join saleVehicle in dc.SalesVehicles on sale.iSaleFrontEndID equals saleVehicle.iSaleFrontEndID
-        //                   join vehicle in dc.Vehicles on saleVehicle.iVehicleID equals vehicle.iVehicleID
-        //                   where sale.iImpExpTransfer == paperTypeID
-        //                   select new
-        //                   {
-        //                       iVehicleID = vehicle.iVehicleID,
-        //                       iLotNum = vehicle.iLotNum,
-        //                       strChassisNum = vehicle.strChassisNum,
-        //                       iModel = vehicle.iModel,
-        //                       iYear = vehicle.iYear,
-        //                       color = vehicle.strColor,
-        //                       iCustomValInJPY = vehicle.iCustomValInJPY
-
-        //                   }).ToList()
-        //              select new
-        //              {
-        //                  id = vehi.iVehicleID,
-        //                  cell = new string[] {
-        //       Convert.ToString(vehi.iVehicleID),Convert.ToString( vehi.iLotNum),Convert.ToString(vehi.strChassisNum),Convert.ToString(vehi.iModel),Convert.ToString( vehi.iYear),Convert.ToString(vehi.color),Convert.ToString( vehi.iCustomValInJPY)
-        //                }
-        //              }).ToArray()
-        //        };
-        //        return Json(jsonData, JsonRequestBehavior.AllowGet);
-        //    }
-        //    //return View();
-        //}
+      
 
     }
 }

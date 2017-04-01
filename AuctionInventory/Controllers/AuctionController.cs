@@ -21,51 +21,27 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
-        public ActionResult AuctionList()
-        {
-            return View();
-        }
-
-
+     
         [HttpGet]
         public ActionResult GetData()
         {
-
-            using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+            List<Vehicles> listVehicles = new List<Vehicles>();
+            try
             {
-                var jsonData = new
+                if (ModelState.IsValid)
                 {
-                    total = 1,
-                    page = 1,
-                    records = dc.Vehicles.ToList().Count,
-                    rows = (
-                      from vehi in
-                          (from AM in dc.Vehicles
-                           
-                           
-                           select new
-                           {
-                               iVehicleID = AM.iVehicleID,
-                               iLotNum = AM.iLotNum,
-                               strChassisNum = AM.strChassisNum,
-                               iModel = AM.iModel,
-                               iYear = AM.iYear,
-                               color = AM.strColor,
-                               iCustomValInJPY = AM.iCustomValInJPY,
-                               iCustomAssesVal = AM.iCustomAssesVal
-
-                           }).ToList()
-                      select new
-                      {
-                          id = vehi.iVehicleID,
-                          cell = new string[] {
-               Convert.ToString(vehi.iVehicleID),Convert.ToString(vehi.iLotNum),Convert.ToString( vehi.strChassisNum),Convert.ToString(vehi.iModel),Convert.ToString( vehi.iYear),Convert.ToString(vehi.color),Convert.ToString( vehi.iCustomValInJPY),Convert.ToString(vehi.iCustomAssesVal)
-                        }
-                      }).ToArray()
-                };
-                return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    AuctionServiceClient service = new AuctionServiceClient();
+                    listVehicles = service.GetAuctionListData();
+                   
+                }
             }
-            //return View();
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                throw ex;
+            }
+            return Json(new { data = listVehicles }, JsonRequestBehavior.AllowGet);
+           
         }
 
         [HttpPost]
@@ -99,17 +75,12 @@ namespace AuctionInventory.Controllers
         [HttpPost]
         public ActionResult GenerateAuctionListPDF(int id)
         {
-             
-            //List<AuctionList> auction = new List<AuctionList>();
-           var auction = (from t1 in auctionContext.AuctionLists
-                          join t2 in auctionContext.Vehicles on t1.iVehicleID equals t2.iVehicleID
-                          where t1.iAuctionFrontEndID==id
-                        
-                          select t2).OrderBy(a => a.iVehicleID).ToList();
-           var catNames = auction.Select(i =>
-           new { LotNum = i.iLotNum, ChassisNum = i.strChassisNum, iModel = i.iModel, Year = i.iYear, color = i.strColor, JPY = i.iCustomAssesVal }).ToList();
+            List<Vehicles> vehicles = new List<Vehicles>();
 
-           return Json(catNames, JsonRequestBehavior.AllowGet);
+            AuctionServiceClient service = new AuctionServiceClient();
+            vehicles=service.GetVehiclesForPDF(id);          
+        
+           return Json(vehicles, JsonRequestBehavior.AllowGet);
         }
 
 

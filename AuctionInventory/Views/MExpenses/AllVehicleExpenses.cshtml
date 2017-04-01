@@ -53,6 +53,8 @@
                     <br />
                     <br />
                     <label>Total Expense Amount :</label><input type="text" id="totalSum" readonly />
+                    <br />
+                    <input type="button" value="Save" class="btn btn-success" id="btnSaveAllVehiclesExpense" />
                 </div>
             </div>
 
@@ -178,6 +180,7 @@
     //var ExpenseTotalAmount = 0;
     var counter = 1;
     var favorite = [];
+    var arrExpenseID = new Array();
     $(function () {
 
 
@@ -192,13 +195,32 @@
                 var id = $("#hfExpense").val();
                 var value = $("#txtSearchExpense").val();
 
-                $('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
+
+                var addVehicleID = false;
+                $.map(arrExpenseID, function (elementOfArray, indexInArray) {
+                    if (elementOfArray.ExpenseID == id) {
+
+                        addVehicleID = true;
+                    }
+                })
+                if (!addVehicleID) {
+                    arrExpenseID.push({ ExpenseID: id })
+                    $('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
 
 
-                counter++;
+                    counter++;
 
-                $("#totalExpense").show();
-                $('#txtSearchExpense').val("");
+                    $("#totalExpense").show();
+                    $('#txtSearchExpense').val("");
+                }
+
+                //$('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
+
+
+                //counter++;
+
+                //$("#totalExpense").show();
+                //$('#txtSearchExpense').val("");
 
             }
 
@@ -215,16 +237,43 @@
             $("#btnAddTotalSum").click(function () {
                 AmountTextBox();
 
-                debugger;
-                ALLExpense();
+                //debugger;
+                //ALLExpense();
 
 
-                SaveALLExpense(favorite);
+                //SaveALLExpense(favorite);
 
 
             });
         });
 
+        $("#btnSaveAllVehiclesExpense").click(function () {
+
+            for (var i = 1; i < counter; i++) {
+                var ExpenseID = $("#lblExpenseID" + i).html();
+                //var ExpenseName = $("#lblExpense" + i).html();
+                var ExpenseAmount = $("#txtAmount" + i).val();
+                var ExpenseTotalAmount = $("#totalSum").val();
+                var expenseAmount =
+                      {
+                          //iExpenseID: $("#hfExpense").val(),
+
+                          iPurchaseInvoiceID: $("#invno").val(),
+                          iExpenseID: ExpenseID,
+                          //iCategoryID: 2,
+                          //iSubCategoryID: 1,
+                          iExpenseAmount: ExpenseAmount,
+                          iTotalExpenseAmounrt: ExpenseTotalAmount
+
+                      }
+                //favorite.push(expenseAmount);
+                SaveALLExpense(expenseAmount);
+
+
+            }
+
+
+        });
 
 
         $("body").on("click", ".remove", function () {
