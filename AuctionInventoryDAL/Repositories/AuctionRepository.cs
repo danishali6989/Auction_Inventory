@@ -40,48 +40,55 @@ namespace AuctionInventoryDAL.Repositories
             //Give an Exception
 
 
-            //vehicleList = (from AM in auctionContext.Vehicles
-            //               select new Vehicle
-            //               {
-            //                   iVehicleID = AM.iVehicleID,
-            //                   iLotNum = AM.iLotNum,
-            //                   strChassisNum = AM.strChassisNum,
-            //                   iModel = AM.iModel,
-            //                   iYear = AM.iYear,
-            //                   strColor = AM.strColor,
-            //                   iCustomValInJPY = AM.iCustomValInJPY,
-            //                   iCustomAssesVal = AM.iCustomAssesVal
-
-            //               }).ToList();
 
 
-            //return vehicleList;
+            /// Select from Bellow two lines
+
+            vehicleList = (from r in auctionContext.Vehicles select r).ToList();
 
 
-      //////////Give not selected data .whole data of vehicle//////////////
+            var vehicleListTest = (from AM in auctionContext.Vehicles
+                                select new
+                                {
+                                    AM.iVehicleID,
+                                    AM.iLotNum,
+                                    AM.strChassisNum,
+                                    AM.iModel,
+                                    AM.iYear,
+                                    AM.strColor,
+                                    AM.iCustomValInJPY,
+                                    AM.iCustomAssesVal
 
-           
-
-            vehicleList = auctionContext.Vehicles.AsEnumerable()
-
-                        .Select(AM => new Vehicle()
-                        {
-
-                            iVehicleID = AM.iVehicleID,
-                            iLotNum = AM.iLotNum,
-                            strChassisNum = AM.strChassisNum,
-                            iModel = AM.iModel,
-                            iYear = AM.iYear,
-                            strColor = AM.strColor,
-                            iCustomValInJPY = AM.iCustomValInJPY,
-                            iCustomAssesVal = AM.iCustomAssesVal
-                        }).ToList();
+                                }).ToList();
 
 
             return vehicleList;
 
 
-          
+            //////////Give not selected data .whole data of vehicle//////////////
+
+
+
+            //vehicleList = auctionContext.Vehicles.AsEnumerable()
+
+            //            .Select(AM => new Vehicle()
+            //            {
+
+            //                iVehicleID = AM.iVehicleID,
+            //                iLotNum = AM.iLotNum,
+            //                strChassisNum = AM.strChassisNum,
+            //                iModel = AM.iModel,
+            //                iYear = AM.iYear,
+            //                strColor = AM.strColor,
+            //                iCustomValInJPY = AM.iCustomValInJPY,
+            //                iCustomAssesVal = AM.iCustomAssesVal
+            //            }).ToList();
+
+
+            //return vehicleList;
+
+
+
         }
 
 
@@ -122,6 +129,6 @@ namespace AuctionInventoryDAL.Repositories
             //return vehicle;
         }
 
-        
+
     }
 }
