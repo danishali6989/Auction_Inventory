@@ -37,48 +37,61 @@ namespace AuctionInventoryDAL.Repositories
         {
             List<Vehicle> vehicleList = new List<Vehicle>();
 
+
+
+
+            //var auction = (from t1 in auctionContext.Vehicles
+                           
+
+            //               select t1).OrderBy(a => a.iVehicleID).ToList();
+            //vehicleList = auction.Select(i =>
+            //new { LotNum = i.iLotNum, ChassisNum = i.strChassisNum, iModel = i.iModel, Year = i.iYear, color = i.strColor, JPY = i.iCustomAssesVal }).ToList();
+
+            //return vehicleList;
+
+
             //Give an Exception
 
 
-            //vehicleList = (from AM in auctionContext.Vehicles
-            //               select new Vehicle
-            //               {
-            //                   iVehicleID = AM.iVehicleID,
-            //                   iLotNum = AM.iLotNum,
-            //                   strChassisNum = AM.strChassisNum,
-            //                   iModel = AM.iModel,
-            //                   iYear = AM.iYear,
-            //                   strColor = AM.strColor,
-            //                   iCustomValInJPY = AM.iCustomValInJPY,
-            //                   iCustomAssesVal = AM.iCustomAssesVal
+            vehicleList = (from AM in auctionContext.Vehicles
+                           select new Vehicle
+                           {
+                               iVehicleID = AM.iVehicleID,
+                               iLotNum = AM.iLotNum,
+                               strChassisNum = AM.strChassisNum,
+                               iModel = AM.iModel,
+                               iYear = AM.iYear,
+                               strColor = AM.strColor,
+                               iCustomValInJPY = AM.iCustomValInJPY,
+                               iCustomAssesVal = AM.iCustomAssesVal
 
-            //               }).ToList();
+                           }).ToList();
 
 
-            //return vehicleList;
+            return vehicleList;
 
 
       //////////Give not selected data .whole data of vehicle//////////////
 
            
 
-            vehicleList = auctionContext.Vehicles.AsEnumerable()
+            //vehicleList = auctionContext.Vehicles.AsEnumerable()
 
-                        .Select(AM => new Vehicle()
-                        {
+            //            .Select(AM => new Vehicle()
+            //            {
 
-                            iVehicleID = AM.iVehicleID,
-                            iLotNum = AM.iLotNum,
-                            strChassisNum = AM.strChassisNum,
-                            iModel = AM.iModel,
-                            iYear = AM.iYear,
-                            strColor = AM.strColor,
-                            iCustomValInJPY = AM.iCustomValInJPY,
-                            iCustomAssesVal = AM.iCustomAssesVal
-                        }).ToList();
+            //                iVehicleID = AM.iVehicleID,
+            //                iLotNum = AM.iLotNum,
+            //                strChassisNum = AM.strChassisNum,
+            //                iModel = AM.iModel,
+            //                iYear = AM.iYear,
+            //                strColor = AM.strColor,
+            //                iCustomValInJPY = AM.iCustomValInJPY,
+            //                iCustomAssesVal = AM.iCustomAssesVal
+            //            }).ToList();
 
 
-            return vehicleList;
+            //return vehicleList;
 
 
           
