@@ -10,55 +10,85 @@
     <div class="box-body">
         <div id="divDetails" class="row">
 
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>Purchase Inv No: </label>
-                    @*<label>Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>*@
-                    <input type="text" id="invno" class="form-control" />
-                    @*@Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })>*@
-                    <input type="button" value="Search" id="JQGridFill" />
-                </div>
+            @*<div class='form-group col-sm-4'>
+                <label>Purchase Inv No: </label>
+                <input type="text" class='form-control input-group-sm' id="invno" placeholder="Search By Invoice ID" />
 
             </div>
+            <div class='form-group col-sm-2'>
+                <input id="JQGridFill" style="margin-left: 25px;" class='btn btn-success form-control input-group-sm' type="button" value="Search" />
+            </div>*@
 
-            <div class="row">
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
+            @*<label>Purchase Inv No: </label>*@
+            <div class='row'>
 
-                <table id="dataGrid" class="table table-bordered table-striped"></table>
-                <div id="pagingGrid"></div>
-                <br />
-                <br />
-            </div>
+                
+                @*<div class='form-group col-sm-2'>
 
-            <div id="AddExpenseDynamic" style="display:none">
-                <input type="hidden" id="hfExpense" />
-                <input type="text" id="txtSearchExpense" name="name" placeholder="search Expenses" />
-                <input id="btnAdd" type="button" value="ADD Expenses" />
-                <br />
-                <br />
-                <div id="TextBoxContainer">
-                    <!--Textboxes will be added here -->
+
+                    <label class='form-control input-group-sm' id='lblExpense'></label>
+                </div>*@
+                <div class='form-group col-sm-3'>
+                    <input type='number' id="invno" class='form-control input-group-sm' style='margin-left: -20px;' placeholder='Search By Invoice ID' />
                 </div>
-                <br />
 
-                <div id="totalExpense" style="display:none">
-                    <br />
-
-                    <input type="button" value="ADD All Expenses" class="btn btn-success" id="btnAddTotalSum" />
-                    <br />
-                    <br />
-                    <label>Total Expense Amount :</label><input type="text" id="totalSum" readonly />
-                    <br />
-                    <input type="button" value="Save" class="btn btn-success" id="btnSaveAllVehiclesExpense" />
+                <div class='form-group col-sm-2'>
+                    <input type='button' value='Search' style='margin-left: -35px;' class='btn btn-success' id='JQGridFill' />
                 </div>
             </div>
 
-        </div>
+
+                @*<input type="text" id="invno" class="form-control" />
+            <input type="button" value="Search" id="JQGridFill" />*@
+
+
+
+                <div class="row">
+                    <br />
+                    
+                    <table id="dataGrid" class="table table-bordered table-striped"></table>
+                    <div id="pagingGrid"></div>
+                    <br />
+                   
+                </div>
+
+                <div id="AddExpenseDynamic" style="display:none">
+                    <div class='row form-group col-sm-4'>
+                        <input type="hidden" id="hfExpense" />
+                        <input type="text" class='form-control input-group-sm' id="txtSearchExpense" name="name" placeholder="search Expenses" />
+                    </div>
+
+                    <input id="btnAdd" class='btn btn-success' style="margin-left: 25px;" type="button" value="ADD Expenses" />
+
+                    <br />
+                    <br />
+                    <div id="TextBoxContainer">
+                        <!--Textboxes will be added here -->
+                    </div>
+                    <br />
+
+                    <div id="totalExpense" style="display:none">
+                        <br />
+                       
+                        <div>
+
+
+                            <label style='background-color:orange'>Total Sum :<span id="totalSum">0</span></label>
+                            <br />
+
+
+                        </div>
+
+                        @*<input type="button" value="ADD All Expenses" class="btn btn-success" id="btnAddTotalSum" />
+                        <br />
+                        <br />
+                        <label>Total Expense Amount :</label><input type="text" id="totalSum" readonly />*@
+                        <br />
+                        <input type="button" value="Save" class="btn btn-success" id="btnSaveAllVehiclesExpense" />
+                    </div>
+                </div>
+
+            </div>
     </div>
 </div>
 
@@ -148,11 +178,11 @@
                 // colNames: ['Action', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Assessed Value', 'AED'],
                 colNames: ['Invoice No', 'Invoice Date', 'No Of units', 'Master Dec No', 'BL NO'],
                 colModel: [
-                    { name: 'iPurchaseInvoiceNo', index: 'iPurchaseInvoiceNo' },
-                    { name: 'strPurchaseInvoiceDate', index: 'strPurchaseInvoiceDate' },
-                    { name: 'NoOfUnits', index: 'NoOfUnits' },
-                    { name: 'strMasterDecNo', index: 'strMasterDecNo' },
-                    { name: 'strBLNo', index: 'strBLNo' },
+                    { name: 'iPurchaseInvoiceNo', index: 'iPurchaseInvoiceNo', align: 'center' },
+                    { name: 'strPurchaseInvoiceDate', index: 'strPurchaseInvoiceDate', align: 'center' },
+                    { name: 'NoOfUnits', index: 'NoOfUnits', align: 'center' },
+                    { name: 'strMasterDecNo', index: 'strMasterDecNo', align: 'center' },
+                    { name: 'strBLNo', index: 'strBLNo', align: 'center' },
 
 
 
@@ -177,6 +207,7 @@
 
 
 <script type="text/javascript">
+
     //var ExpenseTotalAmount = 0;
     var counter = 1;
     var favorite = [];
@@ -205,7 +236,19 @@
                 })
                 if (!addVehicleID) {
                     arrExpenseID.push({ ExpenseID: id })
-                    $('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
+
+
+                $('#TextBoxContainer').append("<div  class='row' name='divForExpense'>"
+
+                    + "<div class='form-group col-sm-2'>"
+                    + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>"
+                    + "<label  class='form-control input-group-sm'  style='background-color:orange' id='lblExpense" + counter + "'>" + value + ":</label></div>"
+                     + "<div class='form-group col-sm-2'>"
+                    + "<input  type='number' class='txtAmountClass form-control input-group-sm'  style='margin-left: -20px;' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount"
+                    + counter + "' /></div>"
+                     + "<div class='form-group col-sm-2'>"
+                    + "<input type='button' value='Remove' style='margin-left: -35px;' class='remove btn btn-success' id='btnRemove"
+                    + counter + "' /></div></div>");
 
 
                     counter++;
@@ -233,19 +276,20 @@
         //Adding total Amount To Textbox
 
 
-        $(function () {
-            $("#btnAddTotalSum").click(function () {
-                AmountTextBox();
+        //$(function () {
+        //    $("#btnAddTotalSum").click(function () {
+        //        calculateSum();
 
-                //debugger;
-                //ALLExpense();
-
-
-                //SaveALLExpense(favorite);
+        //        //debugger;
+        //        //ALLExpense();
 
 
-            });
-        });
+        //        //SaveALLExpense(favorite);
+
+
+        //    });
+        //});
+
 
         $("#btnSaveAllVehiclesExpense").click(function () {
 
@@ -266,59 +310,61 @@
                           iTotalExpenseAmounrt: ExpenseTotalAmount
 
                       }
-                //favorite.push(expenseAmount);
-                SaveALLExpense(expenseAmount);
+                favorite.push(expenseAmount);
+                
 
 
             }
-
+            SaveALLExpense(favorite);
 
         });
 
 
         $("body").on("click", ".remove", function () {
             debugger;
-            $(this).closest("div").remove();
-            ExpenseTotalAmount = 0;
-            counter = counter - 1;
+          
+            arrExpenseID.pop($(this).closest("div[name='divForExpense']").remove());
 
-            AmountTextBox();
+            //ExpenseTotalAmount = 0;
+            //counter = counter - 1;
 
-            ALLExpense();
+            //AmountTextBox();
 
-            //RemoveALLExpense(favorite);
+            //ALLExpense();
+
+            calculateSum();
 
         });
     });
 
-    var ExpenseTotalAmount = 0;
-    var arrTextBoxAmount = new Array();
-    function AmountTextBox() {
-        ExpenseTotalAmount = 0;
-        arrTextBoxAmount = new Array();
+    //var ExpenseTotalAmount = 0;
+    //var arrTextBoxAmount = new Array();
+    //function AmountTextBox() {
+    //    ExpenseTotalAmount = 0;
+    //    arrTextBoxAmount = new Array();
 
-        $.each($("input[name='DynamicTextBox']"), function () {
+    //    $.each($("input[name='DynamicTextBox']"), function () {
 
-            arrTextBoxAmount.push($(this).val());
+    //        arrTextBoxAmount.push($(this).val());
 
-        })
+    //    })
 
 
-        for (var i = 0; i < arrTextBoxAmount.length; i++) {
+    //    for (var i = 0; i < arrTextBoxAmount.length; i++) {
 
-            var test = $.isNumeric(arrTextBoxAmount[i])
-            if (test == false) {
-                return false;
-            }
+    //        var test = $.isNumeric(arrTextBoxAmount[i])
+    //        if (test == false) {
+    //            return false;
+    //        }
 
-            ExpenseTotalAmount += parseFloat(arrTextBoxAmount[i])
+    //        ExpenseTotalAmount += parseFloat(arrTextBoxAmount[i])
 
-            //ExpenseTotalAmount += Number($("#txtAmount" + i).val());
-        }
-        //alert(ExpenseTotalAmount);
-        $("#totalSum").val(ExpenseTotalAmount);
+    //        //ExpenseTotalAmount += Number($("#txtAmount" + i).val());
+    //    }
+    //    //alert(ExpenseTotalAmount);
+    //    $("#totalSum").val(ExpenseTotalAmount);
 
-    }
+    //}
 
     function SaveALLExpense(arr) {
         debugger;
@@ -349,7 +395,7 @@
             var ExpenseID = $("#lblExpenseID" + i).html();
             //var ExpenseName = $("#lblExpense" + i).html();
             var ExpenseAmount = $("#txtAmount" + i).val();
-            var ExpenseTotalAmount = $("#totalSum").val();
+            var ExpenseTotalAmount = $("#totalSum").html();
             var expenseAmount =
                   {
                       //iExpenseID: $("#hfExpense").val(),
@@ -369,7 +415,61 @@
         }
     }
 
+
+
+
+
+
 </script>
+
+<script>
+
+    
+  
+
+
+
+    //jQuery(document).ready(function () {
+    //    //iterate through each textboxes and add keyup
+    //    //handler to trigger sum event
+    //    jQuery("input[name='DynamicTextBox']").each(function () {
+    //        alert("hi");
+    //        debugger;
+    //        jQuery(this).keyup(function () {
+    //            calculateSum()
+    //        });
+    //    });
+
+    //});
+
+
+    $(document).on('keyup', 'input[name="DynamicTextBox"]', function () {
+
+        calculateSum();
+    });
+
+
+    function calculateSum() {
+        debugger;
+       
+        var sum = 0;
+        //iterate through each textboxes and add the values
+        $("input[name='DynamicTextBox']").each(function () {
+
+            //add only if the value is number
+            if (!isNaN(this.value) && this.value.length != 0) {
+                sum += parseFloat(this.value);
+            }
+
+        });
+        //.toFixed() method will roundoff the final sum to 2 decimal places
+        $("#totalSum").html(sum.toFixed(2));
+
+    }
+
+
+</script>
+
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />

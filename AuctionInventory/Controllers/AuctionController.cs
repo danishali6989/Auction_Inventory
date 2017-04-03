@@ -21,7 +21,7 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
-     
+
         [HttpGet]
         public ActionResult GetData()
         {
@@ -32,7 +32,7 @@ namespace AuctionInventory.Controllers
                 {
                     AuctionServiceClient service = new AuctionServiceClient();
                     listVehicles = service.GetAuctionListData();
-                   
+
                 }
             }
             catch (Exception ex)
@@ -41,8 +41,53 @@ namespace AuctionInventory.Controllers
                 throw ex;
             }
             return Json(new { data = listVehicles }, JsonRequestBehavior.AllowGet);
-           
+
         }
+
+
+
+        //[HttpGet]
+        //public ActionResult GetData()
+        //{
+
+        //    using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+        //    {
+        //        var jsonData = new
+        //        {
+        //            total = 1,
+        //            page = 1,
+        //            records = dc.Vehicles.ToList().Count,
+        //            rows = (
+        //              from vehi in
+        //                  (from AM in dc.Vehicles
+
+
+        //                   select new
+        //                   {
+        //                       iVehicleID = AM.iVehicleID,
+        //                       iLotNum = AM.iLotNum,
+        //                       strChassisNum = AM.strChassisNum,
+        //                       iModel = AM.iModel,
+        //                       iYear = AM.iYear,
+        //                       color = AM.strColor,
+        //                       iCustomValInJPY = AM.iCustomValInJPY,
+        //                       iCustomAssesVal = AM.iCustomAssesVal
+
+        //                   }).ToList()
+        //              select new
+        //              {
+        //                  id = vehi.iVehicleID,
+        //                  cell = new string[] {
+        //       Convert.ToString(vehi.iVehicleID),Convert.ToString(vehi.iLotNum),Convert.ToString( vehi.strChassisNum),Convert.ToString(vehi.iModel),Convert.ToString( vehi.iYear),Convert.ToString(vehi.color),Convert.ToString( vehi.iCustomValInJPY),Convert.ToString(vehi.iCustomAssesVal)
+        //                }
+        //              }).ToArray()
+        //        };
+        //        return Json(jsonData, JsonRequestBehavior.AllowGet);
+        //    }
+        //    //return View();
+        //}
+
+
 
         [HttpPost]
         public ActionResult Save(List<AuctionListModel> auctionList)

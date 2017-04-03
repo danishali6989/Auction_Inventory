@@ -14,7 +14,8 @@
 </div>
 
 <div class="col-sm-6">
-    <div class="form-group pull-right">
+    <div class="form-group pull-right" style="margin-right: 155px;">
+
         <label>Auction Date:</label>
         <input class="form-control datepicker" id="auctionDate" placeholder="Enter Drop-off date here..." />
     </div>
@@ -22,6 +23,9 @@
 <div class="box-body" id="divFillByVehicle">
     <br />
     <br />
+    <br />
+   
+   
     <table id="dataGrid" class="table table-bordered table-striped"></table>
     <div id="pagingGrid"></div>
 </div>
@@ -31,14 +35,14 @@
     <div id="pagingGridAddVehicle"></div>
     <br />
 </div>
-<div id="msg">
+@*<div id="msg">
 
 
-</div>
+</div>*@
 <div>
     <br />
-    <input type="button" style="margin-left: 400px" class="btn btn-success" id="saveAuctionList" value="Save" />
-    <input type="button" style="margin-left: 40px" class="btn btn-success" value="Print" onclick="generateAuctionPDF()" />
+    <input type="button" style="margin-left: 320px" class="btn btn-success col-md-2" id="saveAuctionList" value="Save" />
+    <input type="button" style="margin-left: 40px" class="btn btn-success col-md-2" value="Print" onclick="generateAuctionPDF()" />
 </div>
 
 @*<div id="divShowPrintbtn" style="display:none">
@@ -96,15 +100,15 @@
             colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY'],
             colModel: [
                 { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
-                { name: 'iLotNum', index: 'iLotNum' },
-                { name: 'strChassisNum', index: 'strChassisNum' },
-                { name: 'iModel', index: 'iModel' },
-                { name: 'iYear', index: 'iYear' },
-                { name: 'strColor', index: 'strColor' },
-                { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
+                { name: 'iLotNum', index: 'iLotNum' ,align: 'center' },
+                { name: 'strChassisNum', index: 'strChassisNum', align: 'center' },
+                { name: 'iModel', index: 'iModel', align: 'center' },
+                { name: 'iYear', index: 'iYear', align: 'center' },
+                { name: 'strColor', index: 'strColor', align: 'center' },
+                { name: 'iCustomValInJPY', index: 'iCustomValInJPY', align: 'center' },
 
             ],
-            width: 'auto',
+            width: 1000,
             rowNum: 10,
             loadonce: true,
             rowList: [10, 20, 30],
@@ -150,12 +154,12 @@
             colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'],
             colModel: [
                 { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
-                { name: 'iLotNum', index: 'iLotNum' },
-                { name: 'strChassisNum', index: 'strChassisNum' },
-                { name: 'iModel', index: 'iModel' },
-                { name: 'iYear', index: 'iYear' },
-                { name: 'strColor', index: 'strColor' },
-                { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
+                { name: 'iLotNum', index: 'iLotNum', align: 'center' },
+                { name: 'strChassisNum', index: 'strChassisNum', align: 'center' },
+                { name: 'iModel', index: 'iModel', align: 'center' },
+                { name: 'iYear', index: 'iYear', align: 'center' },
+                { name: 'strColor', index: 'strColor', align: 'center' },
+                { name: 'iCustomValInJPY', index: 'iCustomValInJPY', align: 'center' },
 
                 {
                     name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,

@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <h2>Paper Details</h2>
 
 <div class="box-body">
@@ -59,16 +60,17 @@
 
         </div>*@
 
-    <div id="divForAllBtn" style="display:none">
-        <input type="button" id="btnAdd" value="ADD " />
-        <input type="button" id="btnAdd" value="Update " />
-        <input type="button" id="btnAdd" value="Print Receipt " />
-        <input type="button" id="btnAdd" value="Pending Bills " />
-        <input type="button" id="btnAdd" value="Expired Bills " />
+    <div id="divForAllBtn" style="display: none">
+        <div style="margin-left: 222px;">
+            <input type="button" id="btnAdd" value="ADD " />
+            <input type="button" id="btnAdd" value="Update " />
+            <input type="button" id="btnAdd" value="Print Receipt " />
+            <input type="button" id="btnAdd" value="Pending Bills " />
+            <input type="button" id="btnAdd" value="Expired Bills " />
+        </div>
+       
     </div>
 </div>
-
-
 
 
 <script type="text/javascript">
@@ -77,10 +79,16 @@
     var PapertypeID;
     var arrImportVehicleID = new Array();
     var arrExportVehicleID = new Array();
+ 
+
     function getPaperType(selectedType) {
 
         PapertypeID = $("#ddlPaperType").val();
+        //arrImportVehicleID = [];
+        //arrExportVehicleID = [];
 
+        arrImportVehicleID = new Array();
+        arrExportVehicleID = new Array();
 
         $.ajax({
             url: '/Papers/GetSalesVehicleByPapertype/',
