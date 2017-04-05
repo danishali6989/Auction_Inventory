@@ -19,28 +19,36 @@ namespace AuctionInventory.Services
         }
 
 
-        public List<Vehicles> GetAuctionListData()
+        public dynamic GetAuctionListData()
         {
-            List<Vehicles> listVehicles = new List<Vehicles>();
+            //List<Vehicles> listVehicles = new List<Vehicles>();
             AuctionRepository repo = new AuctionRepository();
             dynamic vehicle = repo.GetRepoAuctionList();
-            listVehicles = ParserGetAllVehicles(vehicle);
-            return listVehicles;           
+           // listVehicles = ParserGetAllVehicles(vehicle);
+            return vehicle;           
         }
 
 
-
-        public List<Vehicles> GetVehiclesForPDF(int id)
+        
+        public dynamic GetVehiclesForPDF(int id)
         {
-            List<Vehicles> listVehicles = new List<Vehicles>();
+            //List<Vehicles> listVehicles = new List<Vehicles>();
             AuctionRepository repo = new AuctionRepository();
             dynamic vehicle = repo.GetVehicleForAuctionListPDF(id);
-            listVehicles = ParserVehiclesForPDF(vehicle);
-            return listVehicles; 
+            //listVehicles = ParserVehiclesForPDF(vehicle);
+            return vehicle; 
 
         }
 
+        public dynamic AuctionFrontEndID()
+        {
+           
+            AuctionRepository repo = new AuctionRepository();
+            dynamic vehicle = repo.AuctionFrontEnd();
+            //listVehicles = ParserVehiclesForPDF(vehicle);
+            return vehicle; 
 
+        }
 
         private List<Vehicles> ParserGetAllVehicles(dynamic responseData)
         {

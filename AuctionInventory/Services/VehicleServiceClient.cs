@@ -25,7 +25,7 @@ namespace AuctionInventory.Services
             status = repo.SaveEdit(ParserAddVehicle(vehicle));
             return status;
         }
-
+        
         public bool GriddataService(List<Vehicles> vehicle)
         {
             bool status = true;           
@@ -33,6 +33,9 @@ namespace AuctionInventory.Services
             status = repo.GriddataRepo(ParserAddListVehicle(vehicle));
             return status;
         }
+
+
+       
 
         public Vehicles GetVehicles(int id)
         {

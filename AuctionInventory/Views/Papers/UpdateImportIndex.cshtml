@@ -1,41 +1,22 @@
-﻿@{
-    ViewBag.Title = "PaperDetails";
+﻿@model AuctionInventory.Models.PaperDetailsImportModel
+@{
+    ViewBag.Title = "UpdateImportIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h2>UpdateImportIndex</h2>
 
-<h2>Paper Details</h2>
+@Html.HiddenFor(a => a.iPaperDetailsForImportID)
 
-<div class="box-body">
-    @*<input class="form-control datepicker input-group-sm" name="DynamicDecDate" placeholder="Enter" id="txtDecDate" />*@
 
-    @*<label>Paper Type:</label>
-        <div class="options" id="divBoxGroup">
-            <label>
-                <input type="radio" id="ckbImportOption" name="nam_GroupMode" value="1" />Import
-            </label>
-            <label>
-                <input type="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
-            </label>
-            <label>
-                <input type="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
-            </label>
-        </div>*@
 
-    <select id="ddlPaperType" name="nam_GroupMode" onchange="getPaperType(this);">
-        <option>Select Type</option>
-        <option value="1">Import</option>
-        <option value="2">Export</option>
-        <option value="3">Transfer</option>
+<div class="box-body">    
 
+    <select id="ddlPaperType" name="nam_GroupMode">        
+        <option value="1">Import</option> 
     </select>
     <br><br>
-    @*<div id="divFillBySalesVehicle" style="display:none">
-            <table id="dataGrid" class="table table-bordered table-striped"></table>
-            <div id="pagingGrid"></div>
-        </div>
-
-        <br><br>*@
+   
     <div id="divForImport" style="display:none">
         <table id="dataGridImport" class="table table-bordered table-striped"></table>
         <div id="pagingGridImport"></div>
@@ -44,26 +25,13 @@
 
         </div>
 
-
     </div>
 
-    <div id="divForExport" style="display:none">
-        <table id="dataGridExport" class="table table-bordered table-striped"></table>
-        <div id="pagingGridExport"></div>
-        <br><br>
-        <div id="divForAppendedExportTextBox" style="display:none">
-
-        </div>
-    </div>
-
-    @*<div id="divForAppendedTextBox" style="display:none">
-
-        </div>*@
-
+    
     <div id="divForAllBtn" style="display: none">
         <div style="margin-left: 222px;">
             <input type="button" id="btnAdd" value="ADD " />
-            <input type="button" id="btnAdd" value="Update " />
+            <input type="button" id="btnUpdate" value="Update " />
             <input type="button" id="btnAdd" value="Print Receipt " />
             <input type="button" id="btnAdd" value="Pending Bills " />
             <input type="button" id="btnAdd" value="Expired Bills " />
@@ -80,15 +48,9 @@
     var arrImportVehicleID = new Array();
     var arrExportVehicleID = new Array();
 
+    $(function () {   
 
-    function getPaperType(selectedType) {
-
-        PapertypeID = $("#ddlPaperType").val();
-        //arrImportVehicleID = [];
-        //arrExportVehicleID = [];
-
-        arrImportVehicleID = new Array();
-        arrExportVehicleID = new Array();
+        PapertypeID = 1;        
 
         $.ajax({
             url: '/Papers/GetSalesVehicleByPapertype/',
@@ -97,10 +59,7 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({ paperTypeID: PapertypeID }),
             success: function (result) {
-
                 debugger
-
-
                 //$("#dataGrid").trigger("reloadGrid");
 
                 var vehiclePaperByType = result.vehiclePaperByType;
@@ -108,7 +67,7 @@
                 /////////////////////////////////////  Grid for Import   //////////////////////////////////////////////
                 if (PapertypeID == 1) {
 
-                      $("#divForAppendedExportTextBox").html("");
+
 
                     $("#divForImport").show();
                     $("#divForAppendedImportTextBox").show();
@@ -161,7 +120,7 @@
 
                              // + "<div class='form-group col-sm-2'>" + "<label id='lblChassisNum'>" + "ChassisNo" + "</label>" + "<input class='form-control input-group-sm'  type='text' name='DynamicChassisNo' placeholder='Enter' id='txtChassisNo"+ counterImport + "' value='" + rowDataChasisNum + "' /></div>"
                               + "<div class='form-group col-sm-1'>" + "<label id='lblDecNo'>" + "DecNo" + "</label>" + "<input class='form-control input-group-sm'  type='text'     name='DynamicDecNo' placeholder='Enter' id='txtDecNo" + counterImport + "'/></div>"
-                              + "<div class='form-group col-sm-2'>" + "<label id='lblDecDate'>" + "DecDate" + "</label>" + "<input  class='form-control datepicker input-group-sm'   name='DynamicDecDate' placeholder='Enter' id='txtDecDate" + counterImport + "' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label id='lblDecDate'>" + "DecDate" + "</label>" + "<input class='form-control datepicker input-group-sm'   name='DynamicDecDate' placeholder='Enter' id='txtDecDate" + counterImport + "' /></div>"
                               + "<div class='form-group col-sm-1'>" + "<label id='lblDeposit'>" + "Deposit" + "</label>" + "<input class='form-control input-group-sm'  type='text' name='DynamicDeposit' placeholder='Enter' id='txtDeposit" + counterImport + "' /></div>"
                               + "<div class='form-group col-sm-1'>" + "<label id='lblDuty'>" + "Duty" + "</label>" + "<input class='form-control input-group-sm' type='text'        name='DynamicDuty'  placeholder='Enter' id='txtDuty" + counterImport + "' /></div>"
                               + "<div class='form-group col-sm-1'>" + "<label id='lblPaper'>" + "Paper" + "</label>" + "<input class='form-control input-group-sm'  type='text'     name='DynamicPaper' placeholder='Enter' id='txtPaper" + counterImport + "' /></div>"
@@ -169,12 +128,6 @@
                               + "<div class='form-group col-sm-1'>" + "<label id='lblBal'>" + "Bal" + "</label>" + "<input class='form-control input-group-sm'  type='text'         name='DynamicBal' placeholder='Enter' id='txtBal" + counterImport + "' /></div>"
                               + "<div class='form-group col-sm-1'>" + "<label id='lblExpense'>" + "</label>" + "<input type='button' value='Remove' class='removeImport'' id='btnRemoveImport' /></div>");
                                 //+ "<input type='button' value='Remove' class='remove' id='btnRemove' />'</div>");
-
-
-                                // $("#'txtDecDate0" + counterImport + "'").datepicker();
-
-                                $("#txtDecDate" + counterImport).datepicker();
-
                             }
                             counterImport++;
                             $("#divForAllBtn").show();
@@ -189,7 +142,6 @@
                     //////////////////////////////////////////// //Grid for Export///////////////////////////////////////////////////////////////////////////
 
                 else if (PapertypeID == 2) {
-                     $("#divForAppendedImportTextBox").html("");
 
                     $("#divForExport").show();
                     $("#divForAppendedExportTextBox").show();
@@ -237,8 +189,8 @@
                             if (!addVehicleID) {
                                 arrExportVehicleID.push({ VehicleID: rowDataVehicleID })
                                 $('#divForAppendedExportTextBox').append("<div class='row' name='divForRemoveExport' id='" + rowDataVehicleID + "'>"
-                              + "<div class='form-group col-sm-2'>" + "<label>" + "Receiving" + "</label>" + "<input class='form-control datepicker input-group-sm'  name='DynamicReceivingDate' placeholder='Date' id='txtReceivingDate" + counterExport + "' /></div>"
-                              + "<div class='form-group col-sm-2'>" + "<label>" + "Submit" + "</label>" + "<input class='form-control datepicker input-group-sm'  name='DynamicSubmitDate'  placeholder='Date' id='txtSubmitDate" + counterExport + "' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label>" + "Receiving" + "</label>" + "<input class='form-control datepicker input-group-sm'  name='DynamicReceivingDate' placeholder='Date' id='txtReceivingDate" + counterExport + "' /></div>"
+                              + "<div class='form-group col-sm-1'>" + "<label>" + "Submit" + "</label>" + "<input class='form-control datepicker input-group-sm'  name='DynamicSubmitDate'  placeholder='Date' id='txtSubmitDate" + counterExport + "' /></div>"
                               //+ "<div class='form-group col-sm-1'>" + "<label>" + "CApproval" + "</label>" + "<input class='form-control input-group-sm' type='text' name='DynamicApproval'  placeholder='Enter' id='txtApproval" + counterExport + "' /></div>"
 
                               + "<div class='form-group col-sm-2'>" + "<label>" + "CustApproval" + "</label>"
@@ -253,9 +205,6 @@
                               + "<div class='form-group col-sm-1'>" + "<label>" + "Bal" + "</label>" + "<input class='form-control input-group-sm'  type='text' name='DynamicExpBal' placeholder='Enter' id='txtExpBal" + counterExport + "' /></div>"
                               + "<div class='form-group col-sm-1'>" + "<label>" + "</label>" + "<input type='button' value='Remove' class='removeExport' id='btnRemoveExport' /></div>");
                                 // + "<input type='button' value='Remove' class='remove' id='btnRemove' />'</div>");
-                             
-                                $("#txtReceivingDate" + counterExport).datepicker();
-                                $("#txtSubmitDate" + counterExport).datepicker();
                             }
                             counterExport++;
                             $("#divForAllBtn").show();
@@ -271,7 +220,7 @@
         });
     }
 
-
+    });
 
     $("body").on("click", ".removeExport", function () {
         debugger;

@@ -1209,6 +1209,9 @@
     <Content Include="Views\Papers\PaperDetails.cshtml" />
     <Content Include="Views\Papers\Index.cshtml" />
     <Content Include="Views\Auction\Index.cshtml" />
+    <Content Include="Views\Papers\PapersList.cshtml" />
+    <Content Include="Views\Papers\UpdateImportIndex.cshtml" />
+    <Content Include="Views\Papers\UpdateExportIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -16,9 +16,93 @@ namespace AuctionInventory.Controllers
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
         //
         // GET: /Papers/
+       
         public ActionResult Index()
         {
             return View();
+        }
+
+       
+        public ActionResult PapersList()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UpdateImportIndex(PaperDetailsImportModel impUpdateModel)
+        {
+            bool status = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PapersServiceClient services = new PapersServiceClient();
+                    status = services.UpdateImportData(impUpdateModel);
+                    //return RedirectToAction("Index");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong");
+                status = false;
+                throw e;
+
+            }
+            //return RedirectToAction("Index");
+            //return View();
+            return new JsonResult { Data = new { status = status } };
+        }
+
+
+       [HttpPost]
+        public ActionResult UpdateExportIndex(PaperDetailsExportModel expUpdateModel)
+        {
+            bool status = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PapersServiceClient services = new PapersServiceClient();
+                    status = services.UpdateExportData(expUpdateModel);
+                    //return RedirectToAction("Index");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong");
+                status = false;
+                throw e;
+
+            }
+            //return RedirectToAction("Index");
+            //return View();
+            return new JsonResult { Data = new { status = status } };
+        }
+
+
+        [HttpGet]
+        public ActionResult GetImportData()
+       {
+           dynamic importData = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PapersServiceClient papersServiceClient = new PapersServiceClient();
+                     importData = papersServiceClient.GetImportData();
+
+                    //return Json(new { importData }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                importData = null;
+                throw e;
+            }
+            return Json(importData, JsonRequestBehavior.AllowGet);
+
         }
 
 
@@ -48,6 +132,36 @@ namespace AuctionInventory.Controllers
             return new JsonResult { Data = new { status = status } };
         }
 
+
+
+        [HttpGet]
+        public ActionResult GetExportData()
+        {
+            dynamic exportData = 0;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PapersServiceClient papersServiceClient = new PapersServiceClient();
+                     exportData = papersServiceClient.GetExportData();
+
+                    //return Json(new { exportData }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                exportData = null;
+                throw e;
+            }
+            return Json(exportData, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
         [HttpPost]
         public ActionResult SaveExport(List<PaperDetailsExportModel> exportModel)
         {
@@ -76,57 +190,27 @@ namespace AuctionInventory.Controllers
         [HttpPost]
         public JsonResult GetSalesVehicleByPapertype(int paperTypeID)
         {
-            //var vehiclePaperByType = auctionContext.Sales.Where(a => a.iImpExpTransfer == paperTypeID);
+            dynamic vehiclePaperByType = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PapersServiceClient papersServiceClient = new PapersServiceClient();
+                     vehiclePaperByType = papersServiceClient.GetSalesVehicleByPapertype(paperTypeID);
 
+                    //return Json(new { vehiclePaperByType }, JsonRequestBehavior.AllowGet);
+                }
+            }
 
-
-
-            var vehiclePaperByType = (from sale in auctionContext.Sales
-                                      join saleVehicle in auctionContext.SalesVehicles on sale.iSaleFrontEndID equals saleVehicle.iSaleFrontEndID
-                                      join vehicle in auctionContext.Vehicles on saleVehicle.iVehicleID equals vehicle.iVehicleID
-                                      where sale.iImpExpTransfer == paperTypeID
-                                      select new
-                                      {
-                                          iVehicleID = vehicle.iVehicleID,
-                                          iLotNum = vehicle.iLotNum,
-                                          strChassisNum = vehicle.strChassisNum,
-                                          iModel = vehicle.iModel,
-                                          iYear = vehicle.iYear,
-                                          color = vehicle.strColor,
-                                          iCustomValInJPY = vehicle.iCustomValInJPY
-
-
-                                      }).ToList();
-
-            //return Json(vehiclePaperByType, JsonRequestBehavior.AllowGet);
-            return Json(new { vehiclePaperByType }, JsonRequestBehavior.AllowGet);
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                vehiclePaperByType = null;
+                throw e;
+            }
+           return Json(new { vehiclePaperByType }, JsonRequestBehavior.AllowGet);
         }
 
-
-
-         [HttpPost]
-         public JsonResult EditImportExportVehicle(int vehicleID)
-         {
-             var importExportVehicleByID = (from vehicle in auctionContext.Vehicles
-                                            where vehicle.iVehicleID == vehicleID
-                                       select new
-                                       {
-                                           iVehicleID = vehicle.iVehicleID,                                           
-                                           strChassisNum = vehicle.strChassisNum,
-
-                                           iDuty = vehicle.iDuty,
-                                           iYear = vehicle.iYear,
-                                           color = vehicle.strColor,
-                                           iCustomValInJPY = vehicle.iCustomValInJPY
-
-
-                                       });
-
-             //return Json(vehiclePaperByType, JsonRequestBehavior.AllowGet);
-             return Json(new {importExportVehicleByID }, JsonRequestBehavior.AllowGet);
-         }
-
-      
 
     }
 }

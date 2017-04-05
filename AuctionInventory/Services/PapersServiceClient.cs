@@ -19,6 +19,43 @@ namespace AuctionInventory.Services
         }
 
 
+        public bool UpdateImportData(PaperDetailsImportModel mImport)
+        {
+            bool status = true;
+            PapersRepository repo = new PapersRepository();
+            status = repo.UpdatePaperImport(ParserUpdateImports(mImport));
+            return status;
+        }
+
+        public bool UpdateExportData(PaperDetailsExportModel mExport)
+        {
+            bool status = true;
+            PapersRepository repo = new PapersRepository();
+            status = repo.UpdatePaperExport(ParserUpdateExports(mExport));
+            return status;
+        }
+        public dynamic GetImportData()
+        {
+
+            PapersRepository repo = new PapersRepository();
+            var importDataList = repo.GetImportData();
+            return importDataList;
+        }
+
+        public dynamic GetExportData()
+        {
+            PapersRepository repo = new PapersRepository();
+            var exportDataList = repo.GetExportData();
+            return exportDataList;
+        }
+
+        public dynamic GetSalesVehicleByPapertype(int paperTypeID)
+        {
+            PapersRepository repo = new PapersRepository();
+            var vehiclePaperByType = repo.GetSalesVehicleByPapertype(paperTypeID);
+            return vehiclePaperByType;
+        }
+
         public bool SaveExportData(List<PaperDetailsExportModel> mExport)
         {
             bool status = true;
@@ -31,7 +68,7 @@ namespace AuctionInventory.Services
         {
             List<PaperDetailsForImport> eImportList = new List<PaperDetailsForImport>();
 
-            foreach(var data in import)
+            foreach (var data in import)
             {
                 if (data != null)
                 {
@@ -48,10 +85,53 @@ namespace AuctionInventory.Services
                     eImportList.Add(eImport);
                 }
             }
-            
+
             return eImportList;
         }
 
+
+        private PaperDetailsForImport ParserUpdateImports(PaperDetailsImportModel import)
+        {
+            PaperDetailsForImport eImport = new PaperDetailsForImport();
+
+            if (import != null)
+            {
+
+                eImport.iPaperDetailsForImportID = import.iPaperDetailsForImportID;
+                eImport.iVehicleID = import.iVehicleID;
+                eImport.iDecNo = import.iDecNo;
+                eImport.strDecDate = import.strDecDate;
+                eImport.iImpDeposit = import.iImpDeposit;
+                eImport.iDuty = import.iDuty;
+                eImport.iPaper = import.iTotal;
+                eImport.iImpBalance = import.iImpBalance;
+
+            }
+
+            return eImport;
+        }
+
+        private PaperDetailsForExport ParserUpdateExports(PaperDetailsExportModel export)
+        {
+            PaperDetailsForExport eExport = new PaperDetailsForExport();
+
+            if (export != null)
+            {
+                eExport.iPaperDetailsForExportID = export.iPaperDetailsForExportID;
+                eExport.iVehicleID = export.iVehicleID;
+                eExport.strReceivingDate = export.strReceivingDate;
+                eExport.strSubmitDate = export.strSubmitDate;
+                eExport.iCustApproval = export.iCustApproval;
+                eExport.iDeduction = export.iDeduction;
+                eExport.iFine = export.iFine;
+                eExport.iMisc = export.iMisc;
+                eExport.iExportDeposit = export.iExportDeposit;
+                eExport.iExportBalance = export.iExportBalance;
+
+            }
+
+            return eExport;
+        }
 
 
         private List<PaperDetailsForExport> ParserAddExports(List<PaperDetailsExportModel> export)

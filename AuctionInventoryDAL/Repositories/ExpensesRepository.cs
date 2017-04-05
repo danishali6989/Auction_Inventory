@@ -24,6 +24,82 @@ namespace AuctionInventoryDAL.Repositories
             expense = auctionContext.MExpenses.Where(a => a.iExpenseID == id).FirstOrDefault();
             return expense;
         }
+        
+        public dynamic VehiclesByInvoiceID(int id)
+        {
+            var listPurchase = (from t1 in auctionContext.TPurchases
+                                //join t2 in dc.MColors on t1.iColor equals t2.iColorID
+                                where t1.iPurchaseInvoiceNo == id
+                                select new
+                                {
+                                    iPurchaseInvoiceNo = t1.iPurchaseInvoiceNo,
+                                    strPurchaseInvoiceDate = t1.strPurchaseInvoiceDate,
+                                    NoOfUnits = t1.Vehicles.Count,
+                                    strMasterDecNo = t1.strMasterDecNo,
+                                    strBLNo = t1.strBLNo
+                                    //,strCategory = t1.strCategory
+
+                                }).ToList();
+            return listPurchase;
+        }
+
+        
+        public dynamic AutoCompleteExpense(string prefix)
+        {
+            var expenses = (from expense in auctionContext.MExpenses
+                            where expense.strExpenseName.StartsWith(prefix)
+                            //||
+                            //supplier.strEmailID.StartsWith(prefix)||
+                            //supplier.strLastName.StartsWith(prefix)
+                            select new
+                            {
+                                strExpenseName = expense.strExpenseName,
+                                iExpenseID = expense.iExpenseID
+                            }).ToList();
+
+           
+            return expenses;
+        }
+
+
+        public dynamic VehiclesByVehicleID(int id)
+        {
+            var VehiclesList = (from t1 in auctionContext.Vehicles
+                                //join t2 in dc.MColors on t1.iColor equals t2.iColorID
+                                where t1.iVehicleID == id
+                                select new
+                                {
+                                    iLotNum = t1.iLotNum,
+                                    strChassisNum = t1.strChassisNum,
+                                    iModel = t1.iModel,
+                                    iYear = t1.iYear,
+                                    strColor = t1.strColor,
+                                    iCustomValInJPY = t1.iCustomValInJPY
+
+
+                                });
+
+            return VehiclesList;
+        }
+
+
+        public dynamic AutoCompleteVehicles(string prefix)
+        {
+            var vehicles = (from vehicle in auctionContext.Vehicles
+                            where vehicle.strChassisNum.StartsWith(prefix)
+                            //||
+                            //supplier.strEmailID.StartsWith(prefix)||
+                            //supplier.strLastName.StartsWith(prefix)
+                            select new
+                            {
+                                strChassisNum = vehicle.strChassisNum,
+                                iVehicleID = vehicle.iVehicleID
+                            }).ToList();
+
+            return vehicles;
+        }
+
+
         public bool SaveEdit(MExpense expense)
         {
             bool status = false;

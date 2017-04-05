@@ -18,7 +18,35 @@ namespace AuctionInventory.Services
             status = repo.SaveRepository(ParserAddSale(sale), ParserAddSalesVehicle(saleVehicles));
             return status;
         }
+       public dynamic GetVehiclesData()
+        {
+            SaleRepository repo = new SaleRepository();
+            var getvehiclelist = repo.GetVehiclesData();
+            return getvehiclelist;
 
+        }
+        
+       public dynamic GetCustomerDetails(string prefix)
+        {
+            SaleRepository repo = new SaleRepository();
+            var customer = repo.GetCustomerDetails(prefix);
+            return customer;
+
+        }
+       public dynamic GetInvoice()
+        {
+            SaleRepository repo = new SaleRepository();
+            var invoiceID = repo.GetInvoice();
+            return invoiceID;
+
+        }
+       public dynamic GetSalesFrontEndID()
+        {
+            SaleRepository repo = new SaleRepository();
+            var SalesFrontEndID = repo.GetSalesFrontEndID();
+            return SalesFrontEndID;
+
+        }
 
         #region Parser
         private Sale ParserAddSale(SaleModel mSale)

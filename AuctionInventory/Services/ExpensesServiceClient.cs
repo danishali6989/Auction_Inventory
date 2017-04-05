@@ -27,6 +27,35 @@ namespace AuctionInventory.Services
             return status;
         }
 
+        public dynamic VehiclesByInvoiceID(int id)
+        {           
+            ExpensesRepository repo = new ExpensesRepository();
+            var listPurchase = repo.VehiclesByInvoiceID(id);
+            return listPurchase;
+        }
+
+        
+        public dynamic AutoCompleteExpense(string prefix)
+        {           
+            ExpensesRepository repo = new ExpensesRepository();
+            var expenses = repo.AutoCompleteExpense(prefix);
+            return expenses;
+        }
+        
+        public dynamic VehiclesByVehicleID(int id)
+        {           
+            ExpensesRepository repo = new ExpensesRepository();
+            var VehiclesList = repo.VehiclesByVehicleID(id);
+            return VehiclesList;
+        }
+
+        public dynamic AutoCompleteVehicles(string prefix)
+        {           
+            ExpensesRepository repo = new ExpensesRepository();
+            var vehicles = repo.AutoCompleteVehicles(prefix);
+            return vehicles;
+        }
+
         public Expenses GetExpenses(int id)
         {
 

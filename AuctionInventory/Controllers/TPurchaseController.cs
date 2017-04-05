@@ -20,30 +20,79 @@ namespace AuctionInventory.Controllers
         {
             return View();
         }
+       
         [HttpPost]
         public ActionResult GenerateCustomPDF()
         {
-            List<Vehicle> vehicle = new List<Vehicle>();
-            vehicle = (from a in auctionContext.Vehicles select a).OrderBy(a => a.iLotNum).ToList();
-            var catNames = vehicle.Select(i =>
-           new { LotNum = i.iLotNum, ChassisNum = i.strChassisNum, Make = i.strMake, iModel = i.iModel, Category = i.strCategory, Year = i.iYear, color = i.strColor, Origin = i.strOrigin, Location = i.strLocation, JPY = i.iCustomAssesVal }).ToList();
+            dynamic vehicle = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
 
-            return Json(catNames, JsonRequestBehavior.AllowGet);
+                    PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
+                    vehicle = purchaseServiceClient.GenerateCustomPDF();
+                   //return Json(vehicle, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "something went wrong");
+                vehicle = null;
+                throw e;
+            }
+
+            return Json(vehicle, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public ActionResult GenerateInvoicePDF()
         {
+            dynamic vehicle = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
 
-            List<Vehicle> vehicle = new List<Vehicle>();
-            vehicle = (from a in auctionContext.Vehicles select a).OrderBy(a => a.iLotNum).ToList();
-            var catNames = vehicle.Select(i =>
-           new { LotNum = i.iLotNum, ChassisNum = i.strChassisNum, Make = i.strMake,iModel=i.iModel,Category=i.strCategory,Year=i.iYear,color=i.strColor,Origin=i.strOrigin,Location=i.strLocation,JPY=i.iCustomValInJPY }).ToList();
-
-            return Json(catNames, JsonRequestBehavior.AllowGet);
-            //return View();
+                    PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
+                     vehicle = purchaseServiceClient.GenerateInvoicePDF();
+                    //return Json(vehicle, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "something went wrong");
+                vehicle = null;
+                throw e;
+            }
+            return Json(vehicle, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult GetData(int id)
+        {
+            dynamic listVehicle = 0;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
+                    listVehicle = purchaseServiceClient.GetDataVehiclelist(id);
+
+                    //return Json(new { vehicle }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            // Please through Exeption Everywhere
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                listVehicle = null;
+                throw e;
+            }
+            return Json(listVehicle, JsonRequestBehavior.AllowGet);
+            //return vehicle;
+        }
 
 
         [HttpGet]
@@ -412,40 +461,48 @@ namespace AuctionInventory.Controllers
         [HttpPost]
         public JsonResult AutoComplete(string prefix)
         {
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    PurchaseServiceClient service=new PurchaseServiceClient();
+                    var suppliers =service.AutoCompleteService(prefix);
+                    return Json(suppliers, JsonRequestBehavior.AllowGet);
+
+                }
+            }
             
-            //PurchaseServiceClient service=new PurchaseServiceClient();
-            //return service.AutoCompleteService(prefix);
-
-
-            var suppliers = (from supplier in auctionContext.MSuppliers
-                             where supplier.strFirstName.StartsWith(prefix)
-                             //||
-                             //supplier.strEmailID.StartsWith(prefix)||
-                             //supplier.strLastName.StartsWith(prefix)
-                             select new
-                             {
-                                 strFirstName = supplier.strFirstName,
-                                 //strLastName = supplier.strLastName,
-                                 //strEmailID = supplier.strEmailID,
-                                 iSupplierID = supplier.iSupplierID
-                             }).ToList();
-
-            return Json(suppliers, JsonRequestBehavior.AllowGet);
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong!");
+                throw ex;
+            }
+            
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public ActionResult GetInvoice()
         {
-            //PurchaseServiceClient service = new PurchaseServiceClient();
-            //return service.GetInvoiceID();
-            
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PurchaseServiceClient service = new PurchaseServiceClient();
+                    var invNo= service.GetInvoiceID();
+                    return Json(invNo, JsonRequestBehavior.AllowGet);
 
-            var invNo = auctionContext.TPurchases.Max(i => i.iPurchaseInvoiceNo) + 1;
-            return Json(invNo);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong!");
+                throw ex;
+            }
+
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
-
-
-
 
 
         #endregion

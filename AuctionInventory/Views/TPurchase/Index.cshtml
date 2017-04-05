@@ -502,7 +502,14 @@
                 dataType: this.dataType,
                 contentType: "application/json; charset=utf-8",
                 success: function (Data) {
-                    window.location.href = "/TPurchase/GetPurchaseList";
+
+                    alert("Data Saved You Can Generate PDF");
+
+                   // window.location.href = "/TPurchase/GetPurchaseList";
+
+
+
+
                     // debugger;
                     // To Do- Redirect after success result
                     if (Data.status) {

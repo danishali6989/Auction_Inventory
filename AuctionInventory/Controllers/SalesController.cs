@@ -29,86 +29,102 @@ namespace AuctionInventory.Controllers
         [HttpGet]
         public ActionResult GetData()
         {
-
-            using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+            dynamic vehicleList = 0;
+            try
             {
-                var jsonData = new
+                if(ModelState.IsValid)
                 {
-                    total = 1,
-                    page = 1,
-                    records = dc.Vehicles.ToList().Count,
-                    rows = (
-                      from vehi in
-                          (from AM in dc.Vehicles
-
-
-                           select new
-                           {
-                               iVehicleID = AM.iVehicleID,
-                               iLotNum = AM.iLotNum,
-                               strChassisNum = AM.strChassisNum,
-                               iModel = AM.iModel,
-                               iYear = AM.iYear,
-                               color = AM.strColor,
-                               iCustomValInJPY = AM.iCustomValInJPY,
-                               iCustomAssesVal = AM.iCustomAssesVal
-
-                           }).ToList()
-                      select new
-                      {
-                          id = vehi.iVehicleID,
-                          cell = new string[] {
-               Convert.ToString(vehi.iVehicleID),Convert.ToString(vehi.iLotNum),Convert.ToString( vehi.strChassisNum),Convert.ToString(vehi.iModel),Convert.ToString( vehi.iYear),Convert.ToString(vehi.color),Convert.ToString( vehi.iCustomValInJPY),Convert.ToString(vehi.iCustomAssesVal)
-                        }
-                      }).ToArray()
-                };
-                return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    SaleServiceClient service = new SaleServiceClient();
+                     vehicleList = service.GetVehiclesData();
+                    //return Json(vehicleList, JsonRequestBehavior.AllowGet);
+                }
+               
             }
-            //return View();
+            catch(Exception ex)
+            {
+                
+                ModelState.AddModelError("error", "Something Went Wrong");
+                vehicleList = null;
+                throw ex;
+            }
+            return Json(vehicleList, JsonRequestBehavior.AllowGet);
+
+            
         }
 
 
         [HttpPost]
         public JsonResult GetCustomerDetails(string prefix)
         {
-            var customers = (from AM in auctionContext.MCustomers
-                             where AM.strFirstName.StartsWith(prefix)
-                             select new
-                             {
-                                 iCustomerID = AM.iCustomerID,
-                                 strFirstName = AM.strFirstName,
-                                 strMiddleName = AM.strMiddleName,
-                                 strLastName = AM.strLastName,
-                                 iPhoneNumber = AM.iPhoneNumber,
-                                 strCreditLimit = AM.strCreditLimit,
-                                 //Address = AM.Address
+            dynamic customers = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SaleServiceClient service = new SaleServiceClient();
+                     customers = service.GetCustomerDetails(prefix);
+                    //return Json(customers, JsonRequestBehavior.AllowGet);
+                }
 
-                             }).ToList();
+            }
+            catch (Exception ex)
+            {
 
-            return Json(customers, JsonRequestBehavior.AllowGet);
+                ModelState.AddModelError("error", "Something Went Wrong");
+                customers = null;
+                throw ex;
+            }
+           return Json(customers, JsonRequestBehavior.AllowGet);
+
         }
 
         [HttpPost]
         public ActionResult GetInvoice()
         {
+            dynamic invNo = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SaleServiceClient service = new SaleServiceClient();
+                     invNo = service.GetInvoice();
+                    //return Json(invNo, JsonRequestBehavior.AllowGet);
+                }
 
-            int? invNo = auctionContext.Sales.Max(i => i.iSalesInvoiceID) ?? 0;
-            invNo = invNo + 1;
+            }
+            catch (Exception ex)
+            {
 
-
-            //var invNo = auctionContext.Sales.Max(i => i.iSalesInvoiceID) + 1;
-            return Json(invNo);
+                ModelState.AddModelError("error", "Something Went Wrong");
+                invNo = null;
+                throw ex;
+            }
+            return Json(invNo, JsonRequestBehavior.AllowGet);
         }
 
 
         [HttpPost]
         public ActionResult GetSalesFrontEndID()
         {
-            int? SalesFrontEndID = auctionContext.Sales.Max(i => i.iSaleFrontEndID) ?? 0;
-            SalesFrontEndID = SalesFrontEndID + 1;
+            dynamic SalesFrontEndID = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SaleServiceClient service = new SaleServiceClient();
+                     SalesFrontEndID = service.GetSalesFrontEndID();
+                    //return Json(SalesFrontEndID, JsonRequestBehavior.AllowGet);
+                }
 
-            //var SalesFrontEndID = auctionContext.Sales.Max(i => i.iSaleFrontEndID) + 1;
-            return Json(SalesFrontEndID);
+            }
+            catch (Exception ex)
+            {
+
+                ModelState.AddModelError("error", "Something Went Wrong");
+                SalesFrontEndID = null;
+                throw ex;
+            }
+            return Json(SalesFrontEndID, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult Save(SaleModel sale, List<SalesVehicleModel> saleVehicles)

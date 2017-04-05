@@ -62,25 +62,48 @@ namespace AuctionInventory.Services
         }
 
 
+        public dynamic GetDataVehiclelist(int id)
+        {
+
+            PurchaseRepository repo = new PurchaseRepository();
+            dynamic listVehicle = repo.GetDataVehiclelist(id);
+            return listVehicle;
+        }
+
         public dynamic GetInvoiceID()
         {
-            //bool status = true;
+            
             PurchaseRepository repo = new PurchaseRepository();
-           // status = repo.GetInvoiceRepo();
-            //return status;
+           
             return repo.GetInvoiceRepo();
         }
 
 
         public dynamic AutoCompleteService(string prefix)
         {
-            //bool status = true;
-            PurchaseRepository repo = new PurchaseRepository();
-            //status = repo.AutoCompleteRepo(prefix);
-            //return status;
+           
+            PurchaseRepository repo = new PurchaseRepository();           
             return repo.AutoCompleteRepo(prefix);
         }
 
+        
+        public dynamic GenerateCustomPDF()
+        {
+           
+            PurchaseRepository repo = new PurchaseRepository();
+
+             var vehicle= repo.GenerateCustomPDF();
+             return vehicle;
+        }
+
+        public dynamic GenerateInvoicePDF()
+        {
+           
+            PurchaseRepository repo = new PurchaseRepository();
+
+            var vehicle = repo.GenerateInvoicePDF();
+             return vehicle;
+        }
         public Purchase GetPurchase(int id)
         {
 

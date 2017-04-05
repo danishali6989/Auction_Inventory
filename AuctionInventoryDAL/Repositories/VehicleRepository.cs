@@ -18,13 +18,16 @@ namespace AuctionInventoryDAL.Repositories
             vehicle = (from a in auctionContext.Vehicles select a).OrderBy(a => a.iLotNum).ToList();
             return vehicle;
         }
-
+        
         public Vehicle Get(int id)
         {
             Vehicle vehicle = new Vehicle();
             vehicle = auctionContext.Vehicles.Where(a => a.iVehicleID == id).FirstOrDefault();
             return vehicle;
         }
+
+
+       
 
         public bool GriddataRepo(List<Vehicle> vehicle)
         {

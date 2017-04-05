@@ -198,42 +198,57 @@ namespace AuctionInventory.Controllers
         [HttpPost]
         public JsonResult VehiclesByInvoiceID(int request)
         {
+            dynamic listPurchase = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ExpensesServiceClient service = new ExpensesServiceClient();
 
-            AuctionInventoryEntities dc = new AuctionInventoryEntities();
+                     listPurchase = service.VehiclesByInvoiceID(request);
 
-            var listPurchase = (from t1 in dc.TPurchases
-                                //join t2 in dc.MColors on t1.iColor equals t2.iColorID
-                                where t1.iPurchaseInvoiceNo == request
-                                select new
-                                {
-                                    iPurchaseInvoiceNo = t1.iPurchaseInvoiceNo,
-                                    strPurchaseInvoiceDate = t1.strPurchaseInvoiceDate,
-                                    NoOfUnits = t1.Vehicles.Count,
-                                    strMasterDecNo = t1.strMasterDecNo,
-                                    strBLNo = t1.strBLNo
-                                    //,strCategory = t1.strCategory
-
-                                });
-
-
+                    //return Json(new { listPurchase }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                listPurchase = null;
+                throw e;
+            }
             return Json(new { listPurchase }, JsonRequestBehavior.AllowGet);
+
+           
         }
 
         [HttpPost]
         public JsonResult AutoCompleteExpense(string prefix)
         {
-            var expenses = (from expense in auctionContext.MExpenses
-                            where expense.strExpenseName.StartsWith(prefix)
-                            //||
-                            //supplier.strEmailID.StartsWith(prefix)||
-                            //supplier.strLastName.StartsWith(prefix)
-                            select new
-                            {
-                                strExpenseName = expense.strExpenseName,
-                                iExpenseID = expense.iExpenseID
-                            }).ToList();
+            dynamic expenses = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ExpensesServiceClient service = new ExpensesServiceClient();
 
-            return Json(expenses, JsonRequestBehavior.AllowGet);
+                     expenses = service.AutoCompleteExpense(prefix);
+
+                    //return Json(new { expenses }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                expenses = null;
+                throw e;
+            }
+            return Json(expenses , JsonRequestBehavior.AllowGet);
+
+          
+
+           
         }
 
 
@@ -241,26 +256,29 @@ namespace AuctionInventory.Controllers
         [HttpPost]
         public JsonResult VehiclesByVehicleID(int request)
         {
+            dynamic VehiclesList = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ExpensesServiceClient service = new ExpensesServiceClient();
 
-            AuctionInventoryEntities dc = new AuctionInventoryEntities();
+                     VehiclesList = service.VehiclesByVehicleID(request);
 
-            var VehiclesList = (from t1 in dc.Vehicles
-                                //join t2 in dc.MColors on t1.iColor equals t2.iColorID
-                                where t1.iVehicleID == request
-                                select new
-                                {
-                                    iLotNum = t1.iLotNum,
-                                    strChassisNum = t1.strChassisNum,
-                                    iModel = t1.iModel,
-                                    iYear = t1.iYear,
-                                    strColor = t1.strColor,
-                                    iCustomValInJPY = t1.iCustomValInJPY
+                    //return Json(new { VehiclesList }, JsonRequestBehavior.AllowGet);
+                }
+            }
 
-
-                                });
-
-
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                VehiclesList = null;
+                throw e;
+            }
             return Json(new { VehiclesList }, JsonRequestBehavior.AllowGet);
+
+            
+
         }
 
 
@@ -268,18 +286,31 @@ namespace AuctionInventory.Controllers
         [HttpPost]
         public JsonResult AutoCompleteVehicles(string prefix)
         {
-            var vehicles = (from vehicle in auctionContext.Vehicles
-                            where vehicle.strChassisNum.StartsWith(prefix)
-                            //||
-                            //supplier.strEmailID.StartsWith(prefix)||
-                            //supplier.strLastName.StartsWith(prefix)
-                            select new
-                            {
-                                strChassisNum = vehicle.strChassisNum,
-                                iVehicleID = vehicle.iVehicleID
-                            }).ToList();
+            dynamic vehicles = 0;
 
-            return Json(vehicles, JsonRequestBehavior.AllowGet);
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ExpensesServiceClient service = new ExpensesServiceClient();
+
+                     vehicles = service.AutoCompleteVehicles(prefix);
+
+                    //return Json(new { vehicles }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                vehicles = null;
+                throw e;
+            }
+            return Json( vehicles , JsonRequestBehavior.AllowGet);
+
+           
+
+            
         }
 
 
