@@ -26,6 +26,11 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
+        public ActionResult UpdateSaleVehicle(int id)
+        {
+            return View();
+        }
+
         [HttpGet]
         public ActionResult GetData()
         {
@@ -48,6 +53,140 @@ namespace AuctionInventory.Controllers
                 throw ex;
             }
             return Json(vehicleList, JsonRequestBehavior.AllowGet);
+
+            
+        }
+
+
+         [HttpPost]
+        public ActionResult GetSaleVehicleBySalesFrntID(int id)
+        {
+            AuctionInventoryEntities dc = new AuctionInventoryEntities();
+            //List<Vehicle> listVehicle = (from t1 in auctionContext.Vehicles
+            var listVehicle = (
+                from t1 in dc.SalesVehicles
+                join t2 in dc.Vehicles on t1.iVehicleID equals t2.iVehicleID
+                where t1.iSaleFrontEndID == id
+
+               
+                               select new
+                               {
+
+                                   iSalesVehicleID = t1.iSalesVehicleID,
+                                   iVehicleID = t2.iVehicleID,
+                                   iLotNum = t2.iLotNum,
+                                   strChassisNum = t2.strChassisNum,
+                                   //strMake = t2.strMake,
+                                   iModel = t2.iModel,
+                                   //strCategory = t2.strCategory,
+                                   iYear = t2.iYear,
+                                   strColor = t2.strColor,
+                                  // strOrigin = t2.strOrigin,
+                                   //strLocation = t2.strLocation,
+                                   //iCustomAssesVal = t2.iCustomAssesVal,
+                                   //iDuty = t2.iDuty,
+                                   iCustomValInJPY = t2.iCustomValInJPY
+                                   //,strGrade =t1.strGrade,                                             
+
+
+                                   //dmlKM = t1.dmlKM,
+
+                                   //iDoor = t1.iDoor,
+
+                                   //weight = t1.weight,
+                                   //strHSCode = t1.strHSCode,
+                                   //ATMT = t1.ATMT,
+
+
+
+                               }).ToList();
+
+          
+            return Json(new { listVehicle }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //  [HttpPost]
+        //public ActionResult GetSaleVehicleBySalesFrntID(int id)
+        //{
+        //    //AuctionInventoryEntities dc = new AuctionInventoryEntities();
+        //    //var rows = (from AM in dc.SalesVehicles
+        //    //            where (AM.iSaleFrontEndID == id)
+        //    //            select new
+        //    //            {
+
+        //    //                iVehicleID = AM.iVehicleID
+        //    //            }).ToList();
+        //    //return Json(rows, JsonRequestBehavior.AllowGet);
+
+
+
+
+
+
+        //    using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+        //    {
+        //        var jsonData = new
+        //        {
+        //            total = 1,
+        //            page = 1,
+        //            records = dc.Vehicles.ToList().Count,
+        //            rows = (
+        //              from vehi in
+        //                  (from t1 in dc.SalesVehicles
+        //                   join t2 in dc.Vehicles on t1.iVehicleID equals t2.iVehicleID 
+        //                   where t1.iSaleFrontEndID == id
+
+        //                   select new
+        //                   {
+        //                       iVehicleID = t2.iVehicleID,
+        //                       iLotNum = t2.iLotNum,
+        //                       strChassisNum = t2.strChassisNum,
+        //                       iModel = t2.iModel,
+        //                       iYear = t2.iYear,
+        //                       color = t2.strColor,
+        //                       iCustomValInJPY = t2.iCustomValInJPY
+        //                       //,iCustomAssesVal = t2.iCustomAssesVal
+
+        //                   }).ToList()
+        //              select new
+        //              {
+        //                  id = vehi.iVehicleID,
+        //                  cell = new string[] {
+        //       Convert.ToString(vehi.iVehicleID),Convert.ToString(vehi.iLotNum),Convert.ToString( vehi.strChassisNum),Convert.ToString(vehi.iModel),Convert.ToString( vehi.iYear),Convert.ToString(vehi.color),Convert.ToString( vehi.iCustomValInJPY)
+        //                }
+        //              }).ToArray()
+        //        };
+        //        return Json(jsonData, JsonRequestBehavior.AllowGet);
+        //    }
+        //    //return View();
+
+
+        //}
+
+
+        [HttpGet]
+        public ActionResult GetSalesData()
+        {
+            dynamic salesList = 0;
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    SaleServiceClient service = new SaleServiceClient();
+                    salesList = service.GetSalesData();
+                    //return Json(vehicleList, JsonRequestBehavior.AllowGet);
+                }
+               
+            }
+            catch(Exception ex)
+            {
+                
+                ModelState.AddModelError("error", "Something Went Wrong");
+                salesList = null;
+                throw ex;
+            }
+            return Json(salesList, JsonRequestBehavior.AllowGet);
 
             
         }
@@ -77,6 +216,39 @@ namespace AuctionInventory.Controllers
            return Json(customers, JsonRequestBehavior.AllowGet);
 
         }
+
+
+        [HttpPost]
+        public JsonResult GetCustomerDetailsBYCustomerID(int id)
+        {
+              AuctionInventoryEntities dc = new AuctionInventoryEntities();
+
+              var customer = (
+                from t1 in dc.MCustomers                
+                where t1.iCustomerID == id
+
+               
+                               select new
+                               {
+
+                                   //iCustomerID = t1.iCustomerID,
+                                   //strFirstName = t1.strFirstName,
+                                   //strMiddleName = t1.strMiddleName,
+                                   //strLastName = t1.strLastName,
+                                   iPhoneNumber = t1.iPhoneNumber,
+                                   strCreditLimit = t1.strCreditLimit,
+                                   //Address = t1.Address
+
+
+                               }).ToList();
+
+
+              return Json(customer, JsonRequestBehavior.AllowGet);
+        }
+
+
+        
+
 
         [HttpPost]
         public ActionResult GetInvoice()

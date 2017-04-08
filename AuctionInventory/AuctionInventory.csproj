@@ -1212,6 +1212,10 @@
     <Content Include="Views\Papers\PapersList.cshtml" />
     <Content Include="Views\Papers\UpdateImportIndex.cshtml" />
     <Content Include="Views\Papers\UpdateExportIndex.cshtml" />
+    <Content Include="Views\Sales\SaleVehicleList.cshtml" />
+    <Content Include="Views\Sales\Index.cshtml" />
+    <Content Include="Views\Sales\UpdateSaleVehicle.cshtml" />
+    <Content Include="Views\MExpenses\AllVehicleExpensesList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

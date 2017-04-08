@@ -40,6 +40,8 @@ namespace AuctionInventoryDAL.Entity
         public virtual DbSet<MSupplier> MSuppliers { get; set; }
         public virtual DbSet<PaperDetailsForExport> PaperDetailsForExports { get; set; }
         public virtual DbSet<PaperDetailsForImport> PaperDetailsForImports { get; set; }
+        public virtual DbSet<PaperType> PaperTypes { get; set; }
+        public virtual DbSet<PaymentType> PaymentTypes { get; set; }
         public virtual DbSet<Sale> Sales { get; set; }
         public virtual DbSet<SalesVehicle> SalesVehicles { get; set; }
         public virtual DbSet<SingleVehicleExpense> SingleVehicleExpenses { get; set; }

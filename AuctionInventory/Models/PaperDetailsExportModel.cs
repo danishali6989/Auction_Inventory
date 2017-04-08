@@ -12,10 +12,10 @@ namespace AuctionInventory.Models
         public string strReceivingDate { get; set; }
         public string strSubmitDate { get; set; }
         public Nullable<int> iCustApproval { get; set; }
-        public Nullable<int> iDeduction { get; set; }
-        public Nullable<int> iFine { get; set; }
-        public Nullable<int> iMisc { get; set; }
-        public Nullable<int> iExportDeposit { get; set; }
-        public Nullable<int> iExportBalance { get; set; }
+        public Nullable<decimal> dcmlDeduction { get; set; }
+        public Nullable<decimal> dcmlFine { get; set; }
+        public Nullable<decimal> dcmlMisc { get; set; }
+        public Nullable<decimal> dcmlExportDeposit { get; set; }
+        public Nullable<decimal> dcmlExportBalance { get; set; }
     }
 }

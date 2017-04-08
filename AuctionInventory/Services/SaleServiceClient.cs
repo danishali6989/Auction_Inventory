@@ -25,7 +25,14 @@ namespace AuctionInventory.Services
             return getvehiclelist;
 
         }
-        
+
+       public dynamic GetSalesData()
+        {
+            SaleRepository repo = new SaleRepository();
+            dynamic getvehiclelist = repo.GetSalesData();
+            return getvehiclelist;
+
+        }
        public dynamic GetCustomerDetails(string prefix)
         {
             SaleRepository repo = new SaleRepository();

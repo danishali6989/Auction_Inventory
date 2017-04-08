@@ -1,33 +1,46 @@
-﻿@*@model AuctionInventory.Models.Purchase*@
-
-@*@model AuctionInventory.Models.Expenses*@
+﻿
 @{
+    ViewBag.Title = "AllVehicleExpensesList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h2>AllVehicleExpensesList</h2>
 
-<div id="boxbody" style="width:90%; margin:0px auto" class="tablecontainer">
-    <div class="box-body">
+<div class="box-body" id="divForSalesVehicleGrid">
+    <div>
+        <a class="btn btn-primary" href="/MExpenses/AllVehicleExpenses" style="margin-bottom:20px; margin-top:20px;">Add New</a>
+
+    </div>
+    <br />
+    <div>
+        <table id="dataGridForAllVehicleExpensesList" class="table table-bordered table-striped"></table>
+        <div id="pagingGridForAllVehicleExpensesList"></div>
+        <br><br>
+    </div>
+</div>
+
+<div id="boxbody" style="width:90%; margin:0px auto;display:none" class="tablecontainer">
+   
         <div id="divDetails" class="row">
 
             @*<div class='form-group col-sm-4'>
-                <label>Purchase Inv No: </label>
-                <input type="text" class='form-control input-group-sm' id="invno" placeholder="Search By Invoice ID" />
+                    <label>Purchase Inv No: </label>
+                    <input type="text" class='form-control input-group-sm' id="invno" placeholder="Search By Invoice ID" />
 
-            </div>
-            <div class='form-group col-sm-2'>
-                <input id="JQGridFill" style="margin-left: 25px;" class='btn btn-success form-control input-group-sm' type="button" value="Search" />
-            </div>*@
+                </div>
+                <div class='form-group col-sm-2'>
+                    <input id="JQGridFill" style="margin-left: 25px;" class='btn btn-success form-control input-group-sm' type="button" value="Search" />
+                </div>*@
 
             @*<label>Purchase Inv No: </label>*@
             <div class='row'>
 
-                
+
                 @*<div class='form-group col-sm-2'>
 
 
-                    <label class='form-control input-group-sm' id='lblExpense'></label>
-                </div>*@
+                        <label class='form-control input-group-sm' id='lblExpense'></label>
+                    </div>*@
                 <div class='form-group col-sm-3'>
                     <input type='number' id="invno" class='form-control input-group-sm' style='margin-left: -20px;' placeholder='Search By Invoice ID' />
                 </div>
@@ -38,60 +51,131 @@
             </div>
 
 
-                @*<input type="text" id="invno" class="form-control" />
-            <input type="button" value="Search" id="JQGridFill" />*@
+            @*<input type="text" id="invno" class="form-control" />
+                <input type="button" value="Search" id="JQGridFill" />*@
 
 
 
-                <div class="row">
-                    <br />
-                    
-                    <table id="dataGrid" class="table table-bordered table-striped"></table>
-                    <div id="pagingGrid"></div>
-                    <br />
-                   
+            <div class="row">
+                <br />
+
+                <table id="dataGrid" class="table table-bordered table-striped"></table>
+                <div id="pagingGrid"></div>
+                <br />
+
+            </div>
+
+            <div id="AddExpenseDynamic" style="display:none">
+                <div class='row form-group col-sm-4'>
+                    <input type="hidden" id="hfExpense" />
+                    <input type="text" class='form-control input-group-sm' id="txtSearchExpense" name="name" placeholder="search Expenses" />
                 </div>
 
-                <div id="AddExpenseDynamic" style="display:none">
-                    <div class='row form-group col-sm-4'>
-                        <input type="hidden" id="hfExpense" />
-                        <input type="text" class='form-control input-group-sm' id="txtSearchExpense" name="name" placeholder="search Expenses" />
-                    </div>
+                <input id="btnAdd" class='btn btn-success' style="margin-left: 25px;" type="button" value="ADD Expenses" />
 
-                    <input id="btnAdd" class='btn btn-success' style="margin-left: 25px;" type="button" value="ADD Expenses" />
+                <br />
+                <br />
+                <div id="TextBoxContainer">
+                    <!--Textboxes will be added here -->
+                </div>
+                <br />
 
-                    <br />
-                    <br />
-                    <div id="TextBoxContainer">
-                        <!--Textboxes will be added here -->
-                    </div>
+                <div id="totalExpense" style="display:none">
                     <br />
 
-                    <div id="totalExpense" style="display:none">
+                    <div>
+
+
+                        <label style='background-color:orange'>Total Sum :<span id="totalSum">0</span></label>
                         <br />
-                       
-                        <div>
 
 
-                            <label style='background-color:orange'>Total Sum :<span id="totalSum">0</span></label>
-                            <br />
+                    </div>
 
-
-                        </div>
-
-                        @*<input type="button" value="ADD All Expenses" class="btn btn-success" id="btnAddTotalSum" />
+                    @*<input type="button" value="ADD All Expenses" class="btn btn-success" id="btnAddTotalSum" />
                         <br />
                         <br />
                         <label>Total Expense Amount :</label><input type="text" id="totalSum" readonly />*@
-                        <br />
-                        <input type="button" value="Save" class="btn btn-success" id="btnSaveAllVehiclesExpense" />
-                    </div>
+                    <br />
+                    <input type="button" value="Save" class="btn btn-success" id="btnSaveAllVehiclesExpense" />
                 </div>
-
             </div>
-    </div>
-</div>
 
+        </div>
+    </div>
+
+
+
+<script>
+
+    $(function () {
+
+        //this grid is used to fill All Vehicle Expenses
+
+        $('#dataGridForAllVehicleExpensesList').jqGrid({
+            caption: "All Vehicle Expenses List",
+            url: '/MExpenses/GetAllVehicleExpensesListData/',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+
+            colNames: ['iVehicleExpenseID', 'Invoice No', 'Expense ID', 'Expense Amount', 'Total Expense Amount', 'Action'],
+            colModel: [
+                { name: 'iVehicleExpenseID', index: 'iVehicleExpenseID', hidden: true, hidedlg: true },
+               
+                { name: 'iPurchaseInvoiceID', index: 'iPurchaseInvoiceID', align: 'center' },
+                { name: 'iExpenseID', index: 'iExpenseID', align: 'center' },
+                { name: 'iExpenseAmount', index: 'iExpenseAmount', align: 'center' },
+                { name: 'iTotalExpenseAmounrt', index: 'iTotalExpenseAmounrt', align: 'center' },
+                
+                //{ name: 'act', index: 'act', width: 350 },
+                //{
+                //    name: 'Action', index: 'Action', align: 'center', width: 200, search: false, title: false,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        return '<a class="popup btn btn-info" href="/Sales/UpdateSaleVehicle/' + options.rowId + '">' + "Edit" + '</a>' + "     " + '<a class="popup btn btn-info" href="/Sales/DeleteSales/' + options.rowId + '">' + "Delete" + '</a>';
+
+                //    }
+                //},
+
+                 {
+                     name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
+                     formatter: function (cellvalue, options, rowObject) {
+
+                         return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Edit' onclick=\"editRowData('" + options.rowId + "');\"  />";
+                     }
+
+                 },
+
+
+            ],
+            width: 'auto',
+            height: 150,
+            rowNum: 10,
+            loadonce: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGridForAllVehicleExpensesList',
+
+            //gridComplete: function () {
+
+            //    var ids = jQuery("#dataGrid").jqGrid('getDataIDs');
+
+            //    for (var i = 0; i < ids.length; i++) {
+            //        var cl = ids[i];
+            //        be = "<input class='popup btn btn-info' style='margin-right: 5%; margin-left: 8%;' type='button' value='Edit' onclick=\"editRowData('" + cl + "');\"  />";
+            //        //se = "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Save'  onclick=\"saveExportRow('" + cl + "');\"/>";
+            //        //ce = "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Cancel' onclick=\"jQuery('#dataGridExport').restoreRow('" + cl + "');\" />";
+
+            //        jQuery("#dataGrid").jqGrid('setRowData', ids[i], { act: be });
+            //    }
+            //},
+
+
+        });
+        jQuery("#dataGridForAllVehicleExpensesList").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGridForAllVehicleExpensesList").jqGrid('navGrid', '#pagingGridForAllVehicleExpensesList', { edit: false, add: false, del: false, search: false });
+
+    });
+</script>
 
 <script type="text/javascript">
     $(function () {
@@ -238,17 +322,17 @@
                     arrExpenseID.push({ ExpenseID: id })
 
 
-                $('#TextBoxContainer').append("<div  class='row' name='divForExpense'>"
+                    $('#TextBoxContainer').append("<div  class='row' name='divForExpense'>"
 
-                    + "<div class='form-group col-sm-2'>"
-                    + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>"
-                    + "<label  class='form-control input-group-sm'  style='background-color:orange' id='lblExpense" + counter + "'>" + value + ":</label></div>"
-                     + "<div class='form-group col-sm-2'>"
-                    + "<input  type='number' class='txtAmountClass form-control input-group-sm'  style='margin-left: -20px;' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount"
-                    + counter + "' /></div>"
-                     + "<div class='form-group col-sm-2'>"
-                    + "<input type='button' value='Remove' style='margin-left: -35px;' class='remove btn btn-success' id='btnRemove"
-                    + counter + "' /></div></div>");
+                        + "<div class='form-group col-sm-2'>"
+                        + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>"
+                        + "<label  class='form-control input-group-sm'  style='background-color:orange' id='lblExpense" + counter + "'>" + value + ":</label></div>"
+                         + "<div class='form-group col-sm-2'>"
+                        + "<input  type='number' class='txtAmountClass form-control input-group-sm'  style='margin-left: -20px;' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount"
+                        + counter + "' /></div>"
+                         + "<div class='form-group col-sm-2'>"
+                        + "<input type='button' value='Remove' style='margin-left: -35px;' class='remove btn btn-success' id='btnRemove"
+                        + counter + "' /></div></div>");
 
 
                     counter++;
@@ -297,7 +381,7 @@
                 var ExpenseID = $("#lblExpenseID" + i).html();
                 //var ExpenseName = $("#lblExpense" + i).html();
                 var ExpenseAmount = $("#txtAmount" + i).val();
-                var ExpenseTotalAmount =parseInt( $("#totalSum").html());
+                var ExpenseTotalAmount = $("#totalSum").html();
                 var expenseAmount =
                       {
                           //iExpenseID: $("#hfExpense").val(),
@@ -311,7 +395,7 @@
 
                       }
                 favorite.push(expenseAmount);
-                
+
 
 
             }
@@ -322,7 +406,7 @@
 
         $("body").on("click", ".remove", function () {
             debugger;
-          
+
             arrExpenseID.pop($(this).closest("div[name='divForExpense']").remove());
 
             //ExpenseTotalAmount = 0;
@@ -424,8 +508,8 @@
 
 <script>
 
-    
-  
+
+
 
 
 
@@ -451,7 +535,7 @@
 
     function calculateSum() {
         debugger;
-       
+
         var sum = 0;
         //iterate through each textboxes and add the values
         $("input[name='DynamicTextBox']").each(function () {

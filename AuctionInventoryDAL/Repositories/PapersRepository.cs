@@ -50,11 +50,11 @@ namespace AuctionInventoryDAL.Repositories
                                iModel = t2.iModel,
                                iDecNo = t1.iDecNo,
                                strDecDate = t1.strDecDate,
-                               iImpDeposit = t1.iImpDeposit,
-                               iDuty = t1.iDuty,
-                               iPaper = t1.iPaper,
-                               iTotal = t1.iTotal,
-                               iImpBalance = t1.iImpBalance
+                               dcmlImpDeposit = t1.dcmlImpDeposit,
+                               dcmlDuty = t1.dcmlDuty,
+                               dcmlPaper = t1.dcmlPaper,
+                               dcmlTotal = t1.dcmlTotal,
+                               dcmlImpBalance = t1.dcmlImpBalance
 
                            }).ToList()
                       select new
@@ -63,7 +63,7 @@ namespace AuctionInventoryDAL.Repositories
                           cell = new string[] {
                Convert.ToString(import.iPaperDetailsForImportID),Convert.ToString(import.iVehicleID),
                Convert.ToString(import.strChassisNum),Convert.ToString(import.iModel),               
-               Convert.ToString( import.iDecNo),Convert.ToString(import.strDecDate),Convert.ToString( import.iImpDeposit),Convert.ToString(import.iDuty),Convert.ToString( import.iPaper),Convert.ToString( import.iTotal),Convert.ToString(import.iImpBalance)
+               Convert.ToString( import.iDecNo),Convert.ToString(import.strDecDate),Convert.ToString( import.dcmlImpDeposit),Convert.ToString(import.dcmlDuty),Convert.ToString( import.dcmlPaper),Convert.ToString( import.dcmlTotal),Convert.ToString(import.dcmlImpBalance)
                         }
                       }).ToArray()
                 };
@@ -91,23 +91,25 @@ namespace AuctionInventoryDAL.Repositories
                            {
                                iPaperDetailsForExportID = t1.iPaperDetailsForExportID,
                                iVehicleID=t1.iVehicleID,
+                               iCustApproval = t1.iCustApproval,
                                strChassisNum = t2.strChassisNum,
                                iModel = t2.iModel,
                                strReceivingDate = t1.strReceivingDate,
                                strSubmitDate = t1.strSubmitDate,
                                //iImpDeposit = t1.iImpDeposit,
-                               iDeduction = t1.iDeduction,
-                               iFine = t1.iFine,
-                               iMisc = t1.iMisc,
-                               iExportDeposit = t1.iExportDeposit,
-                               iExportBalance = t1.iExportBalance
+                               dcmlDeduction = t1.dcmlDeduction,
+                               dcmlFine = t1.dcmlFine,
+                               dcmlMisc = t1.dcmlMisc,
+                               dcmlExportDeposit = t1.dcmlExportDeposit,
+                               dcmlExportBalance = t1.dcmlExportBalance
 
                            }).ToList()
                       select new
                       {
                           id = export.iPaperDetailsForExportID,
                           cell = new string[] {
-              Convert.ToString(export.iVehicleID),Convert.ToString(export.iPaperDetailsForExportID),Convert.ToString(export.strChassisNum),Convert.ToString(export.iModel),Convert.ToString( export.strReceivingDate),Convert.ToString(export.strSubmitDate),Convert.ToString(export.iDeduction),Convert.ToString( export.iFine),Convert.ToString( export.iMisc),Convert.ToString(export.iExportDeposit)
+                              Convert.ToString(export.iPaperDetailsForExportID),Convert.ToString(export.iVehicleID), Convert.ToString(export.iCustApproval),
+              Convert.ToString(export.strChassisNum),Convert.ToString(export.iModel),Convert.ToString( export.strReceivingDate),Convert.ToString(export.strSubmitDate),Convert.ToString(export.dcmlDeduction),Convert.ToString( export.dcmlFine),Convert.ToString( export.dcmlMisc),Convert.ToString(export.dcmlExportDeposit),Convert.ToString(export.dcmlExportBalance)
                         }
                       }).ToArray()
                 };
@@ -151,11 +153,11 @@ namespace AuctionInventoryDAL.Repositories
                     import.iVehicleID = pprImport.iVehicleID;
                     import.iDecNo = pprImport.iDecNo;
                     import.strDecDate = pprImport.strDecDate;
-                    import.iImpDeposit = pprImport.iImpDeposit;
-                    import.iDuty = pprImport.iDuty;
-                    import.iPaper = pprImport.iPaper;
-                    import.iTotal = pprImport.iTotal;
-                    import.iImpBalance = pprImport.iImpBalance;
+                    import.dcmlImpDeposit = pprImport.dcmlImpDeposit;
+                    import.dcmlDuty = pprImport.dcmlDuty;
+                    import.dcmlPaper = pprImport.dcmlPaper;
+                    import.dcmlTotal = pprImport.dcmlTotal;
+                    import.dcmlImpBalance = pprImport.dcmlImpBalance;
 
                 }
             }
@@ -186,11 +188,11 @@ namespace AuctionInventoryDAL.Repositories
                     export.strReceivingDate = pprExport.strReceivingDate;
                     export.strSubmitDate = pprExport.strSubmitDate;
                     export.iCustApproval = pprExport.iCustApproval;
-                    export.iDeduction = pprExport.iDeduction;
-                    export.iFine = pprExport.iFine;
-                    export.iMisc = pprExport.iMisc;
-                    export.iExportDeposit = pprExport.iExportDeposit;
-                    export.iExportBalance = pprExport.iExportBalance;
+                    export.dcmlDeduction = pprExport.dcmlDeduction;
+                    export.dcmlFine = pprExport.dcmlFine;
+                    export.dcmlMisc = pprExport.dcmlMisc;
+                    export.dcmlExportDeposit = pprExport.dcmlExportDeposit;
+                    export.dcmlExportBalance = pprExport.dcmlExportBalance;
 
                 }
             }

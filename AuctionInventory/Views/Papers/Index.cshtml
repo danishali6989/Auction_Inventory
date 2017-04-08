@@ -63,10 +63,10 @@
     <div id="divForAllBtn" style="display: none">
         <div style="margin-left: 222px;">
             <input type="button" id="btnAdd" value="ADD " />
-            <input type="button" id="btnAdd" value="Update " />
-            <input type="button" id="btnAdd" value="Print Receipt " />
-            <input type="button" id="btnAdd" value="Pending Bills " />
-            <input type="button" id="btnAdd" value="Expired Bills " />
+            @*<input type="button" id="btnUpdate" value="Update " />*@
+            <input type="button" id="btnPrint" value="Print Receipt " />
+            <input type="button" id="btnPending" value="Pending Bills " />
+            <input type="button" id="btnExpired" value="Expired Bills " />
         </div>
 
     </div>
@@ -312,7 +312,7 @@
     }
     var arrImportDataToTransfer = new Array();
     var arrExportDataToTransfer = new Array();
-    $("#divForAllBtn").click(function () {
+    $("#btnAdd").click(function () {
         debugger
         if (PapertypeID == 1) {
 
@@ -334,11 +334,11 @@
                               iVehicleID: vehicleID,
                               iDecNo: DecNo,
                               strDecDate: DecDate,
-                              iImpDeposit: Deposit,
-                              iDuty: Duty,
-                              iPaper: Paper,
-                              iTotal: Total,
-                              iImpBalance: Bal
+                              dcmlImpDeposit: Deposit,
+                              dcmlDuty: Duty,
+                              dcmlPaper: Paper,
+                              dcmlTotal: Total,
+                              dcmlImpBalance: Bal
 
                           }
                     arrImportDataToTransfer.push(paperImportData);
@@ -356,13 +356,16 @@
                     type: 'POST',
                     url: "/Papers/SaveImport",
                     data: JSON.stringify({ 'importModel': arr }),
-                    success: function (data) { alert("Succsesfully Saved Import Data."); }
+                    success: function (data) {
+                        alert("Succsesfully Saved Import Data.");
+                        window.location.href = "/Papers/PapersList";
+                    }
                 });
             }
 
         }
         else if (PapertypeID == 2) {
-
+            debugger;
             function getApproval(CID) {
                 var Approval = $("#ddlApproval").val();
 
@@ -388,11 +391,11 @@
                               strReceivingDate: ReceivingDate,
                               strSubmitDate: SubmitDate,
                               iCustApproval: Approval,
-                              iDeduction: Deduction,
-                              iFine: Fine,
-                              iMisc: Misc,
-                              iExportDeposit: ExpDeposit,
-                              iExportBalance: ExpBal
+                              dcmlDeduction: Deduction,
+                              dcmlFine: Fine,
+                              dcmlMisc: Misc,
+                              dcmlExportDeposit: ExpDeposit,
+                              dcmlExportBalance: ExpBal
 
                           }
                     arrExportDataToTransfer.push(paperExportData);
@@ -410,7 +413,10 @@
                     type: 'POST',
                     url: "/Papers/SaveExport",
                     data: JSON.stringify({ 'exportModel': arrExp }),
-                    success: function (data) { alert("Succsesfully Saved Export Data."); }
+                    success: function (data) {
+                        alert("Succsesfully Saved Export Data.");
+                        window.location.href = "/Papers/PapersList";
+                    }
                 });
 
             }

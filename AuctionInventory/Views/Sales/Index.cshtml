@@ -1,0 +1,716 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sale Vehicle List</h2>
+<div class="box-body" id="divForSalesVehicleGrid">
+    <div>
+        <a class="btn btn-primary" href="/Sales/SaleVehicle" style="margin-bottom:20px; margin-top:20px;">Add New</a>
+
+    </div>
+    <br />
+    <div>
+        <table id="dataGridForSalesList" class="table table-bordered table-striped"></table>
+        <div id="pagingGridForSalesList"></div>
+        <br><br>
+    </div>
+</div>
+
+
+<div id="divForUpdateSalesVehicle" style="display:none">
+
+    <style>
+        .options {
+            display: inline-block;
+            margin-left: 16px;
+            background-color: #3c8dbc;
+            padding: 5px 15px;
+            color: #FFF;
+        }
+    </style>
+
+    <div class="row">
+
+        <div class="form-group col-xs-5">
+            <input type="hidden" id="hfSaleID" />
+            <input type="hidden" id="hfCustomer" />
+            <label style="display:none" id="hfSaleFrontEndID"></label>
+
+            <input type="hidden" id="iImpExpTransfer" />
+            <input type="hidden" id="iPaymentType" />
+              <br>
+
+            @*buyer in as customer*@
+
+                <input id="txtBuyerName" class="form-control input-group-lg" type="text" name="BuyerName"
+                       placeholder="Search By Customer Name" />
+           
+
+            @*<label>Search  Buyer Name</label>
+            <input id="txtBuyerName" class="form-control input-group-lg" type="text" name="BuyerName"
+                   placeholder="Search By Buyer Name" />*@
+
+        </div>
+        <div class="form-group col-xs-4">
+            <h3><label class="label label-warning form-control input-group-lg">Sales Inv No: Sale-@(@DateTime.Now.Year % 100)-<span id="txtInvoiceNum"></span></label></h3>
+        </div>
+
+    </div>
+
+    <div id="divCustomerInfo">
+        <div class="row">
+
+            <div class="form-group col-xs-5">
+                <label>Customer Name</label>
+                <input id="txtCustomerName" class="form-control input-group-lg" type="text" name="CustomerName"
+                       placeholder="Customer Name" readonly />
+            </div>
+
+            <div class="form-group col-xs-4">
+                <label>Sales Date</label>
+                <input id="salesDate" class="form-control datepicker input-group-lg" type="text" name="Date"
+                       placeholder="Enter Drop-off date here..." />
+            </div>
+
+
+        </div>
+
+
+        <div class="row">
+                <div class="form-group col-xs-4">
+                    <label>Customer Contact</label>
+                    <input id="txtCustomerContact" class="form-control input-group-lg" type="text" name="CustomerContact"
+                           placeholder="Customer Contact" readonly />
+                </div>
+
+                <div class="form-group col-xs-4">
+                    <label>Balance</label>
+                    <input id="txtBalance" class="form-control input-group-lg" type="text" readonly
+                           placeholder="Balance" />
+                </div>
+
+                <div class="form-group col-xs-4">
+                    <label>Credit Limit</label>
+                    <input id="txtCreditLimit" class="form-control input-group-lg" type="text" readonly
+                           placeholder="Credit Limit" />
+                </div>
+            </div>
+
+        <div class="box-body" id="divFillByVehicle">
+
+            <br />
+            <table id="dataGrid" class="table table-bordered table-striped"></table>
+            <div id="pagingGrid"></div>
+        </div>
+
+    </div>
+
+
+    <div class="box-body" id="divAddVehicle">
+        <table id="GridAddVehicle" class="table table-bordered table-striped"></table>
+        <div id="pagingGridAddVehicle"></div>
+
+
+        <div class="row">
+            <br />
+            <div class="form-group col-xs-4">
+                <label>Selling Price</label>
+                <input id="txtSellingPrice" class="form-control input-group-lg" type="text"
+                       placeholder="Selling Price" />
+            </div>
+
+            <div class="form-group col-xs-4">
+                <label>Deposit</label>
+                <input id="txtDeposit" class="form-control input-group-lg" type="text"
+                       placeholder="Deposit" />
+            </div>
+            <div class="form-group col-xs-4">
+                <label>Advance</label>
+                <input id="txtAdvance" class="form-control input-group-lg" type="text"
+                       placeholder="Advance" />
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="form-group col-xs-4">
+                <label>Installment</label>
+                <input id="txtInstallment" class="form-control input-group-lg" type="text"
+                       placeholder="Installment" />
+            </div>
+
+            <div class="form-group col-xs-4">
+                <label>Balance</label>
+                <input id="txtSaleBalance" class="form-control input-group-lg" type="text"
+                       placeholder="Balance" />
+            </div>
+        </div>
+
+
+        <label>Select payment Option:</label>
+        <div class="options">
+
+            <label>Cash</label>
+            <input type="radio" name="PaymentOption" id="rdbCashOption" value="1" checked="checked" />
+            &nbsp;
+            <label>Credit</label>
+            <input type="radio" name="PaymentOption" id="rdbCreditOption" value="2" />
+        </div>
+
+        <label>Paper Type:</label>
+        <div class="options" id="divBoxGroup">
+            <label>
+                <input type="radio" id="ckbImportOption" name="nam_GroupMode" value="1" checked="checked" />Import
+            </label>
+            <label>
+                <input type="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
+            </label>
+            <label>
+                <input type="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
+            </label>
+        </div>
+      
+    </div>
+
+    <div>
+        <br />
+        
+        <input type="button" style="margin-left: 330px;" class="btn btn-success col-md-2" id="updateSaleInfo" value="Update">
+
+        <input type="button" style="margin-left: 40px" class="btn btn-warning col-md-2" value="Cancel" onclick="CancelSalesInfo();" id="cancelSaleInfo">
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+
+    function CancelSalesInfo() {
+        window.location.href = "/Sales/Index";
+    }
+
+    $(function () {
+
+        //this grid is used to fill the sales list
+
+        $('#dataGridForSalesList').jqGrid({
+            caption: "Sales List",
+            url: '/Sales/GetSalesData/',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+
+            colNames: ['iSaleID', 'iSaleFrontEndID', 'iSalesInvoiceID', 'iImpExpTransfer', 'iPaymentType', 'iBuyerID', 'BuyerName', 'SalesDate', 'SellingPrice', 'Deposit', 'Advance', 'Balance', 'Installment', 'CashType', 'PaperMode', 'Action'],
+            colModel: [
+                { name: 'iSaleID', index: 'iSaleID', hidden: true, hidedlg: true },
+                { name: 'iSaleFrontEndID', index: 'iSaleFrontEndID', hidden: true, hidedlg: true },
+                { name: 'iSalesInvoiceID', index: 'iSalesInvoiceID', hidden: true, hidedlg: true },
+                 { name: 'iImpExpTransfer', index: 'iImpExpTransfer', hidden: true, hidedlg: true },
+                  { name: 'iPaymentType', index: 'iPaymentType', hidden: true, hidedlg: true },
+                  { name: 'iBuyerID', index: 'iBuyerID', hidden: true, hidedlg: true },
+                { name: 'strBuyerName', index: 'strBuyerName' },
+                { name: 'strSalesDate', index: 'strSalesDate' },
+                { name: 'dmlSellingPrice', index: 'dmlSellingPrice' },
+                { name: 'dmlDeposit', index: 'dmlDeposit' },
+                { name: 'dmlAdvance', index: 'dmlAdvance' },
+                { name: 'dmlBalance', index: 'dmlBalance' },
+                { name: 'iInstallment', index: 'iInstallment' },
+                { name: 'strCashName', index: 'strCashName' },
+                { name: 'strPaperModeName', index: 'strPaperModeName' },
+
+                //{ name: 'act', index: 'act', width: 350 },
+                //{
+                //    name: 'Action', index: 'Action', align: 'center', width: 200, search: false, title: false,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        return '<a class="popup btn btn-info" href="/Sales/UpdateSaleVehicle/' + options.rowId + '">' + "Edit" + '</a>' + "     " + '<a class="popup btn btn-info" href="/Sales/DeleteSales/' + options.rowId + '">' + "Delete" + '</a>';
+
+                //    }
+                //},
+
+                 {
+                     name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
+                     formatter: function (cellvalue, options, rowObject) {
+
+                         return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Edit' onclick=\"editRowData('" + options.rowId + "');\"  />";
+                     }
+
+                 },
+
+
+            ],
+            width: 1050,
+            height: 250,
+            rowNum: 10,
+            loadonce: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGridForSalesList',
+
+            //gridComplete: function () {
+
+            //    var ids = jQuery("#dataGrid").jqGrid('getDataIDs');
+
+            //    for (var i = 0; i < ids.length; i++) {
+            //        var cl = ids[i];
+            //        be = "<input class='popup btn btn-info' style='margin-right: 5%; margin-left: 8%;' type='button' value='Edit' onclick=\"editRowData('" + cl + "');\"  />";
+            //        //se = "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Save'  onclick=\"saveExportRow('" + cl + "');\"/>";
+            //        //ce = "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Cancel' onclick=\"jQuery('#dataGridExport').restoreRow('" + cl + "');\" />";
+
+            //        jQuery("#dataGrid").jqGrid('setRowData', ids[i], { act: be });
+            //    }
+            //},
+
+
+        });
+        jQuery("#dataGridForSalesList").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGridForSalesList").jqGrid('navGrid', '#pagingGridForSalesList', { edit: false, add: false, del: false, search: false });
+
+    });
+
+    var arr = new Array();
+
+    function editRowData(rowID) {
+        debugger
+        arr = new Array();
+        $("#divForSalesVehicleGrid").hide();
+        $("#divForUpdateSalesVehicle").show();
+
+        var rowData = jQuery("#dataGridForSalesList").getRowData(rowID);
+
+        var iSaleID = rowData['iSaleID'];
+
+       
+
+        var iSaleFrontEndID = rowData['iSaleFrontEndID'];
+        var iSalesInvoiceID = rowData['iSalesInvoiceID'];
+
+        var iBuyerID = rowData['iBuyerID'];
+
+      
+        var strBuyerName = rowData['strBuyerName'];
+        var strSalesDate = rowData['strSalesDate'];
+
+        var dmlSellingPrice = rowData['dmlSellingPrice'];
+        var dmlDeposit = rowData['dmlDeposit'];
+
+        var dmlAdvance = rowData['dmlAdvance'];
+        var dmlBalance = rowData['dmlBalance'];
+        var iInstallment = rowData['iInstallment'];
+
+       
+        
+        var iImpExpTransfer = rowData['iImpExpTransfer'];
+        var iPaymentType = rowData['iPaymentType'];
+
+       /////////////For payment and Paper Mode radio as selected
+
+        $("input[name=PaymentOption][value=" + iPaymentType + "]").prop('checked', true);
+
+        $("input[name=nam_GroupMode][value=" + iImpExpTransfer + "]").prop('checked', true);
+
+        /////////feching data from grid and passing value to textboxes  
+
+        $("#hfSaleID").val(iSaleID);
+        $("#hfCustomer").val(iBuyerID);
+        $("#hfSaleFrontEndID").html(iSaleFrontEndID); $("#txtBuyerName").val("");
+         $("#txtCustomerName").val(strBuyerName);
+        $("#salesDate").val(strSalesDate); $("#txtSellingPrice").val(dmlSellingPrice); $("#txtDeposit").val(dmlDeposit);
+        $("#txtAdvance").val(dmlAdvance); $("#txtSaleBalance").val(dmlBalance); $("#txtInstallment").val(iInstallment);
+        //$("input[name='nam_GroupMode']:checked").val(strCashName); 
+        //$("input[name='PaymentOption']:checked").val(strPaperModeName);
+        $("#txtInvoiceNum").html(iSalesInvoiceID);
+        $("#iImpExpTransfer").val(iImpExpTransfer);
+        $("#iPaymentType").val(iPaymentType);
+
+
+        /////////taking sales FrontEnd id and pass to controller for getting all the vehicles associated with that frontEnd id
+        var request = iSaleFrontEndID;
+        jQuery.ajax({
+            url: '/Sales/GetSaleVehicleBySalesFrntID/',
+            data: "{ 'id': '" + request + "'}",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                debugger
+               // arr.push(result);
+
+                var listVehicle = result.listVehicle;
+
+                
+
+                $('#GridAddVehicle').jqGrid({
+                    caption: "ADD Single Vehicle",
+                    data: listVehicle,
+                    datatype: "local",
+                    colNames: ['iSalesVehicleID', 'ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'],
+                    colModel: [
+                        { name: 'iSalesVehicleID', index: 'iSalesVehicleID', hidden: true, hidedlg: true },
+                        { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+                        { name: 'iLotNum', index: 'iLotNum' },
+                        { name: 'strChassisNum', index: 'strChassisNum' },
+                        { name: 'iModel', index: 'iModel' },
+                        { name: 'iYear', index: 'iYear' },
+                        { name: 'strColor', index: 'strColor' },
+                        { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
+
+                        {
+                            name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
+                            formatter: function (cellvalue, options, rowObject) {
+
+                                //return "<input class='popup delete btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"jQuery('#GridAddVehicle').delRowData('" + options.rowId + "');\"  />";
+
+                                return "<input class='popup delete btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"delRowData('" + options.rowId + "');\"  />";
+                            }
+
+                        },
+
+                    ],
+                    //width: 'auto',
+                    width: 900,
+                    //height: 250,
+                    rowNum: 10,
+                    loadonce: false,
+                    rowList: [10, 20, 30],
+                    pager: 'pagingGridAddVehicle',
+
+
+
+
+                });
+                jQuery("#GridAddVehicle").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+                jQuery("#GridAddVehicle").jqGrid('navGrid', '#pagingGridAddVehicle', { edit: false, add: false, del: false, search: false, rel: false });
+
+
+
+            }
+        });
+
+   //////////////taking customer ID  and pass to controller for getting all the customer information associated with that customer ID 
+
+  ///////////////customer some data fill from here and remaing fill from griq data
+
+        var customerID = iBuyerID;
+
+                    $.ajax({
+                        url: '/Sales/GetCustomerDetailsBYCustomerID/',
+                        data: "{ 'id': '" + customerID + "'}",
+                        
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+
+                           
+
+                            //$("#txtCustomerName").val(data.strFirstName + " " + data.strLastName);
+                            $("#txtCustomerContact").val(data[0].iPhoneNumber);  
+                            $("#txtCreditLimit").val(data[0].strCreditLimit);
+
+                        }
+                    });
+      
+
+
+    }
+
+   ////////////////this function is used to delete vehicle from grid and array as well 
+
+    function delRowData(rowid) {
+
+        debugger
+        jQuery('#GridAddVehicle').delRowData(rowid);
+        var rowData = jQuery("#dataGrid").getRowData(rowid);
+        var rowDataVehicleID = rowData['iVehicleID'];
+
+        $.map(arr, function (elementOfArray, indexInArray) {
+            if (elementOfArray.VehicleID == rowDataVehicleID) {
+
+                arr.pop(rowDataVehicleID);
+
+            }
+        })
+    }
+
+
+    $(function () {
+
+        //////////////this is used to fill the grid at load time by all vehicle
+
+        $('#dataGrid').jqGrid({
+            caption: "Vehicle List",
+            url: '/Sales/GetData/',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+            colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY'],
+            colModel: [
+                { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+                { name: 'iLotNum', index: 'iLotNum' },
+                { name: 'strChassisNum', index: 'strChassisNum' },
+                { name: 'iModel', index: 'iModel' },
+                { name: 'iYear', index: 'iYear' },
+                { name: 'strColor', index: 'strColor' },
+                { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
+
+            ],
+            width: 'auto',
+            rowNum: 10,
+            loadonce: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGrid',
+            caption: 'Select Vehicle to Add',
+
+            beforeSelectRow: function (rowid, celname, value, iRow, iCol) {
+                debugger
+                var rowData = jQuery("#dataGrid").getRowData(rowid);
+                var rowDataVehicleID = rowData['iVehicleID'];
+
+
+                var addVehicleID = false;
+                $.map(arr, function (elementOfArray, indexInArray) {
+                    if (elementOfArray.VehicleID == rowDataVehicleID) {
+
+                        addVehicleID = true;
+                    }
+                })
+                if (!addVehicleID) {
+                    arr.push({ VehicleID: rowDataVehicleID })
+                    $('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
+
+                }
+
+            }
+
+        });
+        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+
+        //$('#GridAddVehicle').jqGrid({
+        //    caption: "ADD Single Vehicle",
+        //    //data: SingleVehicle,
+        //    //datatype: "local",
+        //    colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'],
+        //    colModel: [
+        //        { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+        //        { name: 'iLotNum', index: 'iLotNum' },
+        //        { name: 'strChassisNum', index: 'strChassisNum' },
+        //        { name: 'iModel', index: 'iModel' },
+        //        { name: 'iYear', index: 'iYear' },
+        //        { name: 'strColor', index: 'strColor' },
+        //        { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
+
+        //        {
+        //            name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
+        //            formatter: function (cellvalue, options, rowObject) {
+        //                // return '<a href="/MAreas/Edit/' + options.rowId + '">' + "<img src='../Images/edit%20(2).png' '/>" + '</a>' + "     " + '<a href="/MAreas/Delete/' + options.rowId + '">' + "<img src='../Images/delete%20(2).png' />" + '</a>';
+        //                //return $('#GridAddVehicle').jqGrid('delRowData', options.rowId);
+        //                return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"jQuery('#GridAddVehicle').delRowData('" + options.rowId + "');\"  />";
+        //            }
+
+        //        },
+
+        //    ],
+        //    //width: 'auto',
+        //    width: 900,
+        //    //height: 250,
+        //    rowNum: 10,
+        //    loadonce: false,
+        //    rowList: [10, 20, 30],
+        //    pager: 'pagingGridAddVehicle',
+        //});
+        //jQuery("#GridAddVehicle").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        //jQuery("#GridAddVehicle").jqGrid('navGrid', '#pagingGridAddVehicle', { edit: false, add: false, del: false, search: false, rel: false });
+
+    });
+
+
+</script>
+
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#txtBuyerName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/Sales/GetCustomerDetails/',
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (!data.length) {
+                            var result = [
+                             {
+                                 label: 'No matches found',
+                                 value: response.term
+                             }
+                            ];
+                            response(result);
+                        }
+                        else {
+                            // normal response
+                            response($.map(data, function (item) {
+                                return {
+
+                                    iCustomerID: item.iCustomerID,
+                                    strFirstName: item.strFirstName,
+                                    strMiddleName: item.strMiddleName,
+                                    strLastName: item.strLastName,
+                                    iPhoneNumber: item.iPhoneNumber,
+                                    strCreditLimit: item.strCreditLimit,
+                                    value: item.strFirstName
+
+                                }
+                            }));
+                        }
+                    }
+
+
+                });
+            },
+            select: function (event, i) {
+
+                event.preventDefault();
+
+                $("#txtBuyerName").val(i.item.value);
+                $("#hfCustomer").val(i.item.iCustomerID);
+
+                $("#txtCustomerName").val(i.item.strFirstName + " " + i.item.strLastName);
+                $("#txtCustomerContact").val(i.item.iPhoneNumber);
+                $("#txtCreditLimit").val(i.item.strCreditLimit);
+
+
+                return false;
+            },
+            minLength: 1
+        });
+    });
+</script>
+
+<script>
+
+    var parameters = [];
+    var paperModeID;
+    $("#updateSaleInfo").click(function () {
+
+        debugger;
+
+
+
+        if ($("#rdbCashOption").is(":checked")) {
+            var paymentStatus = 1;    //1 for Paid
+            //var paymentChoice = "Cash";
+            //alert("you have selected" + paymentChoice + "payment method");
+        }
+        else {
+            var paymentStatus = 2;  //2 for Credit
+            //var paymentChoice = "Credit";
+            //alert("you have selected" + paymentChoice + "payment method");
+        }
+
+        $.each($("input[name='nam_GroupMode']:checked"), function () {
+            //var chkBoxvalue = $(this).val();
+            paperModeID = $(this).val();
+            //alert(chkBoxvalue);
+            //ModeValues.push($(this).val());
+
+        })
+
+
+        var ids = jQuery("#GridAddVehicle").jqGrid('getDataIDs');
+
+        var hfSaleFrontEndID = $('#hfSaleFrontEndID').html();
+        
+
+        ////var iImpExpTransfer = $('#iImpExpTransfer').val();
+        ////var iPaymentType = $('#iPaymentType').val();
+
+       
+
+        for (var i = 0; i < ids.length; i++) {
+            //alert(arr[i]);
+
+            parameters.push({
+                iVehicleID: ids[i],
+                iSaleFrontEndID: hfSaleFrontEndID
+            });
+        }
+
+        //    alert(("#hfCustomer").text());
+        //alert(("#hfSaleFrontEndID").text());
+        //alert(("#txtCustomerName").html());
+
+
+        var SaleData = {
+            iBuyerID: $("#hfCustomer").val(),
+            iSaleFrontEndID: $("#hfSaleFrontEndID").html(),
+            iSaleID: $("#hfSaleID").val(),
+            strBuyerName: $("#txtCustomerName").val(),
+            strSalesDate: $("#salesDate").val(),
+            iSalesInvoiceID: $("#txtInvoiceNum").html(),
+            dmlSellingPrice: $("#txtSellingPrice").val(),
+            dmlDeposit: $("#txtDeposit").val(),
+            dmlAdvance: $("#txtAdvance").val(),
+            dmlBalance: $("#txtSaleBalance").val(),
+            iInstallment: $("#txtInstallment").val(),
+            iPaymentType: paymentStatus,
+            iImpExpTransfer: paperModeID,
+
+        }
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Sales/Save",
+            cache: false,
+            data: JSON.stringify({ sale: SaleData, saleVehicles: parameters }),
+            // data: JSON.stringify(purchase),
+            dataType: this.dataType,
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                alert("Save data Successfully");
+                window.location.href = "/Sales/Index";
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to Save data.');
+            }
+        });
+    });
+
+
+
+
+    //function Mode() {
+    //    // var values = new Array();
+    //    $.each($("input[name='nam_GroupMode']:checked"), function () {
+    //        var chkBoxvalue = $(this).val();
+    //        alert(chkBoxvalue);
+    //        //values.push($(this).val());
+
+    //    });
+    //}
+
+</script>
+
+
+
+
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>
+
+

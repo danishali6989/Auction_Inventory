@@ -117,6 +117,12 @@
     <Compile Include="Entity\PaperDetailsForImport.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\PaperType.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PaymentType.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\Sale.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>

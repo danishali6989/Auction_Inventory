@@ -77,11 +77,11 @@ namespace AuctionInventory.Services
                     eImport.iVehicleID = data.iVehicleID;
                     eImport.iDecNo = data.iDecNo;
                     eImport.strDecDate = data.strDecDate;
-                    eImport.iImpDeposit = data.iImpDeposit;
-                    eImport.iDuty = data.iDuty;
-                    eImport.iPaper = data.iPaper;
-                    eImport.iTotal = data.iTotal;
-                    eImport.iImpBalance = data.iImpBalance;
+                    eImport.dcmlImpDeposit = data.dcmlImpDeposit;
+                    eImport.dcmlDuty = data.dcmlDuty;
+                    eImport.dcmlPaper = data.dcmlPaper;
+                    eImport.dcmlTotal = data.dcmlTotal;
+                    eImport.dcmlImpBalance = data.dcmlImpBalance;
                     eImportList.Add(eImport);
                 }
             }
@@ -101,10 +101,12 @@ namespace AuctionInventory.Services
                 eImport.iVehicleID = import.iVehicleID;
                 eImport.iDecNo = import.iDecNo;
                 eImport.strDecDate = import.strDecDate;
-                eImport.iImpDeposit = import.iImpDeposit;
-                eImport.iDuty = import.iDuty;
-                eImport.iPaper = import.iTotal;
-                eImport.iImpBalance = import.iImpBalance;
+                eImport.dcmlImpDeposit = import.dcmlImpDeposit;
+                eImport.dcmlDuty = import.dcmlDuty;
+                eImport.dcmlPaper = import.dcmlPaper;
+                eImport.dcmlTotal = import.dcmlTotal;
+                eImport.dcmlImpBalance = import.dcmlImpBalance;
+
 
             }
 
@@ -122,11 +124,11 @@ namespace AuctionInventory.Services
                 eExport.strReceivingDate = export.strReceivingDate;
                 eExport.strSubmitDate = export.strSubmitDate;
                 eExport.iCustApproval = export.iCustApproval;
-                eExport.iDeduction = export.iDeduction;
-                eExport.iFine = export.iFine;
-                eExport.iMisc = export.iMisc;
-                eExport.iExportDeposit = export.iExportDeposit;
-                eExport.iExportBalance = export.iExportBalance;
+                eExport.dcmlDeduction = export.dcmlDeduction;
+                eExport.dcmlFine = export.dcmlFine;
+                eExport.dcmlMisc = export.dcmlMisc;
+                eExport.dcmlExportDeposit = export.dcmlExportDeposit;
+                eExport.dcmlExportBalance = export.dcmlExportBalance;
 
             }
 
@@ -148,11 +150,11 @@ namespace AuctionInventory.Services
                     eExport.strReceivingDate = data.strReceivingDate;
                     eExport.strSubmitDate = data.strSubmitDate;
                     eExport.iCustApproval = data.iCustApproval;
-                    eExport.iDeduction = data.iDeduction;
-                    eExport.iFine = data.iFine;
-                    eExport.iMisc = data.iMisc;
-                    eExport.iExportDeposit = data.iExportDeposit;
-                    eExport.iExportBalance = data.iExportBalance;
+                    eExport.dcmlDeduction = data.dcmlDeduction;
+                    eExport.dcmlFine = data.dcmlFine;
+                    eExport.dcmlMisc = data.dcmlMisc;
+                    eExport.dcmlExportDeposit = data.dcmlExportDeposit;
+                    eExport.dcmlExportBalance = data.dcmlExportBalance;
                     eExportList.Add(eExport);
                 }
             }

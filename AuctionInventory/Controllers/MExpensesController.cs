@@ -186,6 +186,48 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
+        public ActionResult AllVehicleExpensesList()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult GetAllVehicleExpensesListData()
+        {
+            using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+            {
+                var jsonData = new
+                {
+                    total = 1,
+                    page = 1,
+                    records = dc.VehicleExpenses.ToList().Count,
+                    rows = (
+                      from vehi in
+                          (from AM in dc.VehicleExpenses
+                           where AM.iPurchaseInvoiceID != null && AM.iPurchaseInvoiceID != 0
+
+                           select new
+                           {
+                               iVehicleExpenseID = AM.iVehicleExpenseID,
+                               iPurchaseInvoiceID = AM.iPurchaseInvoiceID,
+                               iExpenseID = AM.iExpenseID,
+                               iExpenseAmount = AM.iExpenseAmount,
+                               iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
+                               //iSpreadAmountPerVehicle = AM.iTotalExpenseAmounrt
+                              
+                           }).ToList()
+                      select new
+                      {
+                          id = vehi.iVehicleExpenseID,
+                          cell = new string[] {
+               Convert.ToString(vehi.iVehicleExpenseID),Convert.ToString(vehi.iPurchaseInvoiceID),Convert.ToString( vehi.iExpenseID),Convert.ToString( vehi.iExpenseAmount),Convert.ToString(vehi.iTotalExpenseAmounrt)
+                        }
+                      }).ToArray()
+                };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            //return View();
+        }
 
         public ActionResult SingleVehicleExpenses()
         {

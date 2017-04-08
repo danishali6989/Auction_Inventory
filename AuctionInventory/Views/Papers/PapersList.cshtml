@@ -2,9 +2,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>PaperType List</h2>
+<h2>Update Paper Details</h2>
 <div class="box-body">
+    <div>
+        <a class="btn btn-primary" href="/Papers/Index" style="margin-bottom:20px; margin-top:20px;">Add New</a>
 
+    </div>
+    <br />
     <select id="ddlPaperType" name="name_GroupMode" onchange="getPaperType(this);">
         <option>Select Type</option>
         <option value="1">Import</option>
@@ -51,11 +55,11 @@
                     { name: 'iModel', index: 'iModel' },
                     { name: 'iDecNo', index: 'iDecNo' },
                     { name: 'strDecDate', index: 'strDecDate' },
-                    { name: 'iImpDeposit', index: 'iImpDeposit' },
-                    { name: 'iDuty', index: 'iDuty', editable: true },
-                    { name: 'iPaper', index: 'iPaper', editable: true },
-                    { name: 'iTotal', index: 'iTotal', editable: true },
-                    { name: 'iImpBalance', index: 'iImpBalance', editable: true },
+                    { name: 'dcmlImpDeposit', index: 'dcmlImpDeposit' },
+                    { name: 'dcmlDuty', index: 'dcmlDuty', editable: true },
+                    { name: 'dcmlPaper', index: 'dcmlPaper', editable: true },
+                    { name: 'dcmlTotal', index: 'dcmlTotal', editable: true },
+                    { name: 'dcmlImpBalance', index: 'dcmlImpBalance', editable: true },
                     { name: 'act', index: 'act', width: 350 },
                     //{
                     //    name: 'Action', index: 'Action', align: 'center', width: 200, search: false, title: false,
@@ -125,20 +129,21 @@
                 datatype: "json",
                 contentType: "application/json; charset-utf-8",
                 mtype: 'GET',
-                colNames: ['iPaperDetailsForExportID', 'iVehicleID', 'ChasisNo', 'Model', 'Receiving', 'Submit', 'Deduction', 'Fine', 'Misc', 'Deposit', 'Balance', 'Action'],
+                colNames: ['iPaperDetailsForExportID', 'iVehicleID', 'iCustApproval', 'ChasisNo', 'Model', 'Receiving', 'Submit', 'Deduction', 'Fine', 'Misc', 'Deposit', 'Balance', 'Action'],
                 colModel: [
                     { name: 'iPaperDetailsForExportID', index: 'iPaperDetailsForExportID', hidden: true, hidedlg: true },
                     { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+                     { name: 'iCustApproval', index: 'iCustApproval', hidden: true, hidedlg: true },
                     { name: 'strChassisNum', index: 'strChassisNum'},
                     { name: 'iModel', index: 'iModel' },
                     { name: 'strReceivingDate', index: 'strReceivingDate' },
                     { name: 'strSubmitDate', index: 'strSubmitDate' },
                     //{ name: 'iImpDeposit', index: 'iImpDeposit' , editable: true},
-                    { name: 'iDeduction', index: 'iDeduction', editable: true },
-                    { name: 'iFine', index: 'iFine', editable: true },
-                    { name: 'iMisc', index: 'iMisc', editable: true },
-                    { name: 'iExportDeposit', index: 'iExportDeposit' },
-                    { name: 'iExportBalance', index: 'iExportBalance', editable: true },
+                    { name: 'dcmlDeduction', index: 'dcmlDeduction', editable: true },
+                    { name: 'dcmlFine', index: 'dcmlFine', editable: true },
+                    { name: 'dcmlMisc', index: 'dcmlMisc', editable: true },
+                    { name: 'dcmlExportDeposit', index: 'dcmlExportDeposit' },
+                    { name: 'dcmlExportBalance', index: 'dcmlExportBalance', editable: true },
                      { name: 'act', index: 'act', width: 350 },
 
                     //{

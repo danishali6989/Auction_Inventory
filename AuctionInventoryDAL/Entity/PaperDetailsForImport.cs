@@ -18,10 +18,10 @@ namespace AuctionInventoryDAL.Entity
         public Nullable<int> iVehicleID { get; set; }
         public Nullable<int> iDecNo { get; set; }
         public string strDecDate { get; set; }
-        public Nullable<int> iImpDeposit { get; set; }
-        public Nullable<int> iDuty { get; set; }
-        public Nullable<int> iPaper { get; set; }
-        public Nullable<int> iTotal { get; set; }
-        public Nullable<int> iImpBalance { get; set; }
+        public Nullable<decimal> dcmlImpDeposit { get; set; }
+        public Nullable<decimal> dcmlDuty { get; set; }
+        public Nullable<decimal> dcmlPaper { get; set; }
+        public Nullable<decimal> dcmlTotal { get; set; }
+        public Nullable<decimal> dcmlImpBalance { get; set; }
     }
 }

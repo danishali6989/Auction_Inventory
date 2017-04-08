@@ -199,11 +199,11 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="strReceivingDate" Type="nvarchar" MaxLength="50" />
           <Property Name="strSubmitDate" Type="nvarchar" MaxLength="50" />
           <Property Name="iCustApproval" Type="int" />
-          <Property Name="iDeduction" Type="int" />
-          <Property Name="iFine" Type="int" />
-          <Property Name="iMisc" Type="int" />
-          <Property Name="iExportDeposit" Type="int" />
-          <Property Name="iExportBalance" Type="int" />
+          <Property Name="dcmlDeduction" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlFine" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlMisc" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlExportDeposit" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlExportBalance" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="PaperDetailsForImport">
           <Key>
@@ -213,11 +213,27 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="iVehicleID" Type="int" />
           <Property Name="iDecNo" Type="int" />
           <Property Name="strDecDate" Type="nvarchar" MaxLength="50" />
-          <Property Name="iImpDeposit" Type="int" />
-          <Property Name="iDuty" Type="int" />
-          <Property Name="iPaper" Type="int" />
-          <Property Name="iTotal" Type="int" />
-          <Property Name="iImpBalance" Type="int" />
+          <Property Name="dcmlImpDeposit" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlDuty" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlPaper" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlTotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlImpBalance" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="PaperType">
+          <Key>
+            <PropertyRef Name="iPaperTypeID" />
+          </Key>
+          <Property Name="iPaperTypeID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="iPaperModeID" Type="int" />
+          <Property Name="strPaperModeName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="iPaymentTypeID" />
+          </Key>
+          <Property Name="iPaymentTypeID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="iCashID" Type="int" />
+          <Property Name="strCashName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
@@ -389,6 +405,8 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySet Name="MSupplier" EntityType="Self.MSupplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperDetailsForExport" EntityType="Self.PaperDetailsForExport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperDetailsForImport" EntityType="Self.PaperDetailsForImport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaperType" EntityType="Self.PaperType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesVehicle" EntityType="Self.SalesVehicle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SingleVehicleExpense" EntityType="Self.SingleVehicleExpense" Schema="dbo" store:Type="Tables" />
@@ -445,6 +463,8 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySet Name="MSuppliers" EntityType="AuctionInventoryModel.MSupplier" />
           <EntitySet Name="PaperDetailsForExports" EntityType="AuctionInventoryModel.PaperDetailsForExport" />
           <EntitySet Name="PaperDetailsForImports" EntityType="AuctionInventoryModel.PaperDetailsForImport" />
+          <EntitySet Name="PaperTypes" EntityType="AuctionInventoryModel.PaperType" />
+          <EntitySet Name="PaymentTypes" EntityType="AuctionInventoryModel.PaymentType" />
           <EntitySet Name="Sales" EntityType="AuctionInventoryModel.Sale" />
           <EntitySet Name="SalesVehicles" EntityType="AuctionInventoryModel.SalesVehicle" />
           <EntitySet Name="SingleVehicleExpenses" EntityType="AuctionInventoryModel.SingleVehicleExpense" />
@@ -640,11 +660,11 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="strReceivingDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strSubmitDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="iCustApproval" Type="Int32" />
-          <Property Name="iDeduction" Type="Int32" />
-          <Property Name="iFine" Type="Int32" />
-          <Property Name="iMisc" Type="Int32" />
-          <Property Name="iExportDeposit" Type="Int32" />
-          <Property Name="iExportBalance" Type="Int32" />
+          <Property Name="dcmlDeduction" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlFine" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlMisc" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlExportDeposit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlExportBalance" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="PaperDetailsForImport">
           <Key>
@@ -654,11 +674,27 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iVehicleID" Type="Int32" />
           <Property Name="iDecNo" Type="Int32" />
           <Property Name="strDecDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="iImpDeposit" Type="Int32" />
-          <Property Name="iDuty" Type="Int32" />
-          <Property Name="iPaper" Type="Int32" />
-          <Property Name="iTotal" Type="Int32" />
-          <Property Name="iImpBalance" Type="Int32" />
+          <Property Name="dcmlImpDeposit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlDuty" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlPaper" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlTotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlImpBalance" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="PaperType">
+          <Key>
+            <PropertyRef Name="iPaperTypeID" />
+          </Key>
+          <Property Name="iPaperTypeID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iPaperModeID" Type="Int32" />
+          <Property Name="strPaperModeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="iPaymentTypeID" />
+          </Key>
+          <Property Name="iPaymentTypeID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iCashID" Type="Int32" />
+          <Property Name="strCashName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Sale">
           <Key>
@@ -1015,11 +1051,11 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="PaperDetailsForExports">
             <EntityTypeMapping TypeName="AuctionInventoryModel.PaperDetailsForExport">
               <MappingFragment StoreEntitySet="PaperDetailsForExport">
-                <ScalarProperty Name="iExportBalance" ColumnName="iExportBalance" />
-                <ScalarProperty Name="iExportDeposit" ColumnName="iExportDeposit" />
-                <ScalarProperty Name="iMisc" ColumnName="iMisc" />
-                <ScalarProperty Name="iFine" ColumnName="iFine" />
-                <ScalarProperty Name="iDeduction" ColumnName="iDeduction" />
+                <ScalarProperty Name="dcmlExportBalance" ColumnName="dcmlExportBalance" />
+                <ScalarProperty Name="dcmlExportDeposit" ColumnName="dcmlExportDeposit" />
+                <ScalarProperty Name="dcmlMisc" ColumnName="dcmlMisc" />
+                <ScalarProperty Name="dcmlFine" ColumnName="dcmlFine" />
+                <ScalarProperty Name="dcmlDeduction" ColumnName="dcmlDeduction" />
                 <ScalarProperty Name="iCustApproval" ColumnName="iCustApproval" />
                 <ScalarProperty Name="strSubmitDate" ColumnName="strSubmitDate" />
                 <ScalarProperty Name="strReceivingDate" ColumnName="strReceivingDate" />
@@ -1031,15 +1067,33 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="PaperDetailsForImports">
             <EntityTypeMapping TypeName="AuctionInventoryModel.PaperDetailsForImport">
               <MappingFragment StoreEntitySet="PaperDetailsForImport">
-                <ScalarProperty Name="iImpBalance" ColumnName="iImpBalance" />
-                <ScalarProperty Name="iTotal" ColumnName="iTotal" />
-                <ScalarProperty Name="iPaper" ColumnName="iPaper" />
-                <ScalarProperty Name="iDuty" ColumnName="iDuty" />
-                <ScalarProperty Name="iImpDeposit" ColumnName="iImpDeposit" />
+                <ScalarProperty Name="dcmlImpBalance" ColumnName="dcmlImpBalance" />
+                <ScalarProperty Name="dcmlTotal" ColumnName="dcmlTotal" />
+                <ScalarProperty Name="dcmlPaper" ColumnName="dcmlPaper" />
+                <ScalarProperty Name="dcmlDuty" ColumnName="dcmlDuty" />
+                <ScalarProperty Name="dcmlImpDeposit" ColumnName="dcmlImpDeposit" />
                 <ScalarProperty Name="strDecDate" ColumnName="strDecDate" />
                 <ScalarProperty Name="iDecNo" ColumnName="iDecNo" />
                 <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
                 <ScalarProperty Name="iPaperDetailsForImportID" ColumnName="iPaperDetailsForImportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaperTypes">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.PaperType">
+              <MappingFragment StoreEntitySet="PaperType">
+                <ScalarProperty Name="strPaperModeName" ColumnName="strPaperModeName" />
+                <ScalarProperty Name="iPaperModeID" ColumnName="iPaperModeID" />
+                <ScalarProperty Name="iPaperTypeID" ColumnName="iPaperTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentTypes">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.PaymentType">
+              <MappingFragment StoreEntitySet="PaymentType">
+                <ScalarProperty Name="strCashName" ColumnName="strCashName" />
+                <ScalarProperty Name="iCashID" ColumnName="iCashID" />
+                <ScalarProperty Name="iPaymentTypeID" ColumnName="iPaymentTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
