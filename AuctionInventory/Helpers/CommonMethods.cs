@@ -2,12 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using AuctionInventory.Helpers;
+using AuctionInventoryDAL.Entity;
 
-
-namespace  AuctionInventory.Helpers
+namespace AuctionInventory.Helpers
 {
     public class CommonMethods
     {
+
+        public static UserLogin GetUserSession(UserLogin logins)
+        {
+            AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
+            UserLogin userLogin = auctionContext.UserLogins.Where(x => x.UserName == logins.UserName && x.Password == logins.Password).FirstOrDefault();
+            return userLogin;
+        }
+
+
         public static string GetFullName(string firstName, string middleName, string lastName)
         {
             string fullName = string.Empty;
@@ -32,8 +42,13 @@ namespace  AuctionInventory.Helpers
             Menus menus = new Menus();
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                // For Super Admin DAA
-                if (HttpContext.Current.User.IsInRole("1"))
+                string superAdmin = ((int)Enums.Roles.SuperAdmin).ToString();
+                string adminSupplier = ((int)Enums.Roles.AdminSupplier).ToString();
+                string Accountant = ((int)Enums.Roles.Accountant).ToString();
+                string DataEntry = ((int)Enums.Roles.DataEntry).ToString();
+                string XYZRole = ((int)Enums.Roles.XYZRole).ToString();
+
+                if (HttpContext.Current.User.IsInRole(superAdmin))
                 {
                     menus.ShowDashBoard = true;
                     menus.ShowSupplier = true;
@@ -50,16 +65,16 @@ namespace  AuctionInventory.Helpers
                     menus.ShowQueue = true;
                     menus.ShowReports = true;
                     menus.ShowCustomer = true;
-                  
+
                 }
                 // For Admin Supplier
-             else   if (HttpContext.Current.User.IsInRole("2"))
+                else if (HttpContext.Current.User.IsInRole(adminSupplier))
                 {
                     menus.ShowDashBoard = true;
                     menus.ShowSupplier = false;
                     menus.ShowEmployee = false;
                     menus.ShowExpenses = true;
-                    
+
                     menus.ShowSale = true;
                     menus.ShowLedger = true;
                     menus.ShowProducts = true;
@@ -68,7 +83,7 @@ namespace  AuctionInventory.Helpers
                     menus.ShowCustomer = true;
                 }
                 // For Accountant
-                else if (HttpContext.Current.User.IsInRole("3"))
+                else if (HttpContext.Current.User.IsInRole(Accountant))
                 {
                     menus.ShowDashBoard = true;
                     menus.ShowSupplier = true;
@@ -82,7 +97,7 @@ namespace  AuctionInventory.Helpers
                     menus.ShowCustomer = true;
                 }
                 // For Data Entry Operator
-                else if (HttpContext.Current.User.IsInRole("4"))
+                else if (HttpContext.Current.User.IsInRole(DataEntry))
                 {
                     menus.ShowDashBoard = true;
                     menus.ShowSupplier = true;
@@ -98,7 +113,7 @@ namespace  AuctionInventory.Helpers
 
                     // Need to ask Danish Bhai
                 // For XYZ Role
-                else if (HttpContext.Current.User.IsInRole("5"))
+                else if (HttpContext.Current.User.IsInRole(XYZRole))
                 {
                     menus.ShowDashBoard = true;
                     menus.ShowSupplier = true;
@@ -111,19 +126,19 @@ namespace  AuctionInventory.Helpers
                     menus.ShowReports = true;
                     menus.ShowCustomer = true;
                 }
-                else
-                {
-                    menus.ShowDashBoard = true;
-                    menus.ShowSupplier = false;
-                    menus.ShowEmployee = false;
-                    menus.ShowExpenses = false;
-                    menus.ShowSale = false;
-                    menus.ShowLedger = false;
-                    menus.ShowProducts = false;
-                    menus.ShowQueue = false;
-                    menus.ShowReports = false;
-                    menus.ShowCustomer = false;
-                }
+                //else
+                //{
+                //    menus.ShowDashBoard = true;
+                //    menus.ShowSupplier = false;
+                //    menus.ShowEmployee = false;
+                //    menus.ShowExpenses = false;
+                //    menus.ShowSale = false;
+                //    menus.ShowLedger = false;
+                //    menus.ShowProducts = false;
+                //    menus.ShowQueue = false;
+                //    menus.ShowReports = false;
+                //    menus.ShowCustomer = false;
+                //}
             }
             return menus;
         }

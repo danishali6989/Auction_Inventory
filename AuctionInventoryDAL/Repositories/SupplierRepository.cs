@@ -17,7 +17,7 @@ namespace AuctionInventoryDAL.Repositories
         public List<MSupplier> GetAll()
         {
             List<MSupplier> listsupplier = new List<MSupplier>();
-            listsupplier = (from r in auctionContext.MSuppliers select r).OrderBy(a => a.strFirstName).ToList();
+            listsupplier = (from r in auctionContext.MSuppliers  select r).OrderBy(a => a.strFirstName).ToList();
             return listsupplier;
         }
 
