@@ -177,7 +177,7 @@ namespace AuctionInventory.Helpers
             string sDate = DateTime.Now.ToString();
             DateTime datevalue = (Convert.ToDateTime(sDate.ToString()));
             string yy = datevalue.Year.ToString();
-            string refenceNumber = ShortCode + "-" + ID;
+            string refenceNumber = ShortCode + yy + "-" + ID;
             return refenceNumber;
         }
 
