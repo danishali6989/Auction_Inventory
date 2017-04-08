@@ -171,7 +171,24 @@ namespace AuctionInventory.Helpers
             return passwordString;
         }
 
+        public static string GetRefenceNumber(string ShortCode, string ID)
+        {
+
+            string sDate = DateTime.Now.ToString();
+            DateTime datevalue = (Convert.ToDateTime(sDate.ToString()));
+            string yy = datevalue.Year.ToString();
+            string refenceNumber = ShortCode + "-" + ID;
+            return refenceNumber;
+        }
+
+    }
 
 
+    public static class ShortCode
+    {
+        public static string ExpenseKey
+        {
+            get { return "EXP-"; }
+        }
     }
 }
