@@ -83,17 +83,32 @@
                         <br />
                         <br />
                         <label>Total Expense Amount :</label><input type="text" id="totalSum" readonly />*@
-                        <br />
-                        <input type="button" value="Save" class="btn btn-success" id="btnSaveAllVehiclesExpense" />
+                        @*<br />
+                        <input type="button" value="Save" class="btn btn-success" id="btnSaveAllVehiclesExpense" />*@
+
+
+                        
+
                     </div>
                 </div>
+            <div>
+                <br />
 
+                <input type="button" style="margin-left: 330px;" class="btn btn-success col-md-2" id="btnSaveAllVehiclesExpense" value="Save">
+
+                <input type="button" style="margin-left: 40px" class="btn btn-warning col-md-2" value="Cancel" onclick="CancelVehiclesExpenseInfo();" id="cancelVehiclesExpenseInfo">
+            </div>
             </div>
     </div>
 </div>
 
 
 <script type="text/javascript">
+
+    function CancelVehiclesExpenseInfo() {
+        window.location.href = "/MExpenses/AllVehicleExpensesList";
+    }
+
     $(function () {
         $("#txtSearchExpense").autocomplete({
             source: function (request, response) {
@@ -247,7 +262,7 @@
                     + "<input  type='number' class='txtAmountClass form-control input-group-sm'  style='margin-left: -20px;' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount"
                     + counter + "' /></div>"
                      + "<div class='form-group col-sm-2'>"
-                    + "<input type='button' value='Remove' style='margin-left: -35px;' class='remove btn btn-success' id='btnRemove"
+                    + "<input type='button' value='Remove' style='margin-left: -35px;' onClick='removeRecord(" + id + ");' class='remove btn btn-success' id='btnRemove"
                     + counter + "' /></div></div>");
 
 
@@ -319,22 +334,22 @@
 
         });
 
-
-        $("body").on("click", ".remove", function () {
-            debugger;
+       
+        //$("body").on("click", ".remove", function () {
+        //    debugger;
           
-            arrExpenseID.pop($(this).closest("div[name='divForExpense']").remove());
+        //    arrExpenseID.pop($(this).closest("div[name='divForExpense']").remove());
 
-            //ExpenseTotalAmount = 0;
-            //counter = counter - 1;
+        //    //ExpenseTotalAmount = 0;
+        //    //counter = counter - 1;
 
-            //AmountTextBox();
+        //    //AmountTextBox();
 
-            //ALLExpense();
+        //    //ALLExpense();
 
-            calculateSum();
+        //    calculateSum();
 
-        });
+        //});
     });
 
     //var ExpenseTotalAmount = 0;
@@ -373,9 +388,12 @@
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             type: 'POST',
-            url: "/MExpenses/SaveAllVehicleExpense",
+            url: "/MExpenses/SaveVehicleExpense",
             data: JSON.stringify({ 'expense': arr }),
-            success: function (data) { alert("Succsesfully Saved All Vehicle Expense."); }
+            success: function (data) {
+                alert("Succsesfully Saved All Vehicle Expense.");
+                window.location.href = "/MExpenses/AllVehicleExpensesList";
+            }
         });
 
     }
@@ -417,6 +435,14 @@
 
 
 
+    function removeRecord(expenseID) {
+        debugger;
+        $(this).closest("div[name='divForExpense']").remove()
+
+        arrExpenseID.pop(expenseID);
+
+        calculateSum();
+    }
 
 
 

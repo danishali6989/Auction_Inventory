@@ -5,6 +5,7 @@ using System.Web;
 using AuctionInventory.Models;
 using AuctionInventoryDAL.Repositories;
 using AuctionInventoryDAL.Entity;
+using AuctionInventory.Helpers;
 
 namespace AuctionInventory.Services
 {
@@ -79,24 +80,26 @@ namespace AuctionInventory.Services
 
 
 
-        public bool SaveDataAllVehicleExpense(List<VehicleExpenseModel> expenses)
+        public bool SaveDataVehicleExpense(List<VehicleExpenseModel> expenses)
         {
             bool status = true;
             //Expenses expense = new Expenses();
             ExpensesRepository repo = new ExpensesRepository();
-            status = repo.SaveRepoAllVehicleExpense(ParserAddAllVehicleExpenses(expenses));
+
+            string refenceNumber = CommonMethods.GetRefenceNumber(ShortCode.ExpenseKey, "1");
+            status = repo.SaveRepoVehicleExpense(ParserAddVehicleExpenses(expenses), refenceNumber);
             return status;
         }
 
 
-        public bool SaveDataSingleVehicleExpense(VehicleExpenseModel expenses)
-        {
-            bool status = true;
-            //Expenses expense = new Expenses();
-            ExpensesRepository repo = new ExpensesRepository();
-            status = repo.SaveRepoSingleVehicleExpense(ParserAddSingleVehicleExpenses(expenses));
-            return status;
-        }
+        //public bool SaveDataSingleVehicleExpense(VehicleExpenseModel expenses)
+        //{
+        //    bool status = true;
+        //    //Expenses expense = new Expenses();
+        //    ExpensesRepository repo = new ExpensesRepository();
+        //    status = repo.SaveRepoSingleVehicleExpense(ParserAddSingleVehicleExpenses(expenses));
+        //    return status;
+        //}
 
         #region Parser
 
@@ -154,7 +157,7 @@ namespace AuctionInventory.Services
             return listExpenses;
         }
 
-        private List<VehicleExpens> ParserAddAllVehicleExpenses(List<VehicleExpenseModel> expenses)
+        private List<VehicleExpens> ParserAddVehicleExpenses(List<VehicleExpenseModel> expenses)
         {
             List<VehicleExpens> listAllVehicleExpense = new List<VehicleExpens>();
             foreach (var item in expenses)
@@ -164,33 +167,43 @@ namespace AuctionInventory.Services
                 if (expenses != null)
                 {
                     VehicleExpens mVehicleExpense = new VehicleExpens();
-                   
+
+                    
+
                     mVehicleExpense.iPurchaseInvoiceID = item.iPurchaseInvoiceID;
+
+                    mVehicleExpense.iVehicleID = item.iVehicleID;
+
+                    mVehicleExpense.iVehicleExpenseID = item.iVehicleExpenseID;
+
                     mVehicleExpense.iExpenseID = item.iExpenseID;
                     mVehicleExpense.iExpenseAmount = item.iExpenseAmount;
                     mVehicleExpense.iTotalExpenseAmounrt = item.iTotalExpenseAmounrt;
+
+                    mVehicleExpense.strRemarks = item.strRemarks ?? " ";
+
                     listAllVehicleExpense.Add(mVehicleExpense);
                 }
             }
             return listAllVehicleExpense;
         }
 
-        private VehicleExpens ParserAddSingleVehicleExpenses(VehicleExpenseModel expenses)
-        {
-            VehicleExpens expense = new VehicleExpens();
+        //private VehicleExpens ParserAddSingleVehicleExpenses(VehicleExpenseModel expenses)
+        //{
+        //    VehicleExpens expense = new VehicleExpens();
 
-            if (expenses != null)
-            {
+        //    if (expenses != null)
+        //    {
                
-                expense.iVehicleID = expenses.iVehicleID;
-                expense.iExpenseID = expenses.iExpenseID;
-                expense.iExpenseAmount = expenses.iExpenseAmount;
-                expense.iTotalExpenseAmounrt = expenses.iTotalExpenseAmounrt;
-                expense.strRemarks = expenses.strRemarks ?? " ";
+        //        expense.iVehicleID = expenses.iVehicleID;
+        //        expense.iExpenseID = expenses.iExpenseID;
+        //        expense.iExpenseAmount = expenses.iExpenseAmount;
+        //        expense.iTotalExpenseAmounrt = expenses.iTotalExpenseAmounrt;
+        //        expense.strRemarks = expenses.strRemarks ?? " ";
                 
-            }
-            return expense;
-        }
+        //    }
+        //    return expense;
+        //}
 
         #endregion
     }

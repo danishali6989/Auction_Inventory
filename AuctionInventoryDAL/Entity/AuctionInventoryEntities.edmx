@@ -352,6 +352,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iExpenseAmount" Type="int" />
           <Property Name="iTotalExpenseAmounrt" Type="int" />
           <Property Name="strRemarks" Type="nvarchar" MaxLength="200" />
+          <Property Name="strExpenseKey" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <Association Name="FK_CityMaster_StateMaster">
           <End Role="StateMaster" Type="Self.StateMaster" Multiplicity="0..1" />
@@ -811,6 +812,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iExpenseAmount" Type="Int32" />
           <Property Name="iTotalExpenseAmounrt" Type="Int32" />
           <Property Name="strRemarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="strExpenseKey" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ExpenseAmount">
           <Key>
@@ -1207,6 +1209,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="VehicleExpenses">
             <EntityTypeMapping TypeName="AuctionInventoryModel.VehicleExpens">
               <MappingFragment StoreEntitySet="VehicleExpenses">
+                <ScalarProperty Name="strExpenseKey" ColumnName="strExpenseKey" />
                 <ScalarProperty Name="strRemarks" ColumnName="strRemarks" />
                 <ScalarProperty Name="iTotalExpenseAmounrt" ColumnName="iTotalExpenseAmounrt" />
                 <ScalarProperty Name="iExpenseAmount" ColumnName="iExpenseAmount" />

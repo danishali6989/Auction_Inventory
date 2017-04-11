@@ -129,7 +129,7 @@ namespace AuctionInventory.Controllers
         //    // return new JsonResult { Data = new { status = status } };
         //}
 
-      
+
 
         [HttpGet]
         public ActionResult Delete(int id)
@@ -191,8 +191,243 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
+
+        public ActionResult SingleVehicleExpensesList()
+        {
+            return View();
+        }
+
         [HttpGet]
         public ActionResult GetAllVehicleExpensesListData()
+        {
+
+
+            using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+            {
+                var jsonData = new
+                {
+                    total = 1,
+                    page = 1,
+                    records = dc.VehicleExpenses.ToList().Count,
+                    rows = (
+                      from vehi in
+                          (from AM in dc.VehicleExpenses
+
+                           join t2 in dc.MExpenses on AM.iExpenseID equals t2.iExpenseID
+                           where AM.iPurchaseInvoiceID != null && AM.iPurchaseInvoiceID != 0
+
+
+                           select new
+                           {
+                               iVehicleExpenseID = AM.iVehicleExpenseID,
+
+                               iExpenseID = AM.iExpenseID,
+                               iPurchaseInvoiceID = AM.iPurchaseInvoiceID,
+
+                              
+                               strExpenseName = t2.strExpenseName,
+
+                               iExpenseAmount = AM.iExpenseAmount,
+                               iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
+                               iSpreadAmountPerVehicle = AM.iTotalExpenseAmounrt
+
+                           }).ToList()
+                      select new
+                      {
+                          id = vehi.iVehicleExpenseID,
+                          cell = new string[] {
+               Convert.ToString(vehi.iVehicleExpenseID),Convert.ToString(vehi.iExpenseID),Convert.ToString(vehi.iPurchaseInvoiceID),Convert.ToString( vehi.strExpenseName),Convert.ToString( vehi.iExpenseAmount),Convert.ToString(vehi.iTotalExpenseAmounrt)
+                        }
+                      }).ToArray()
+                };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            //return View();
+        }
+
+
+        [HttpGet]
+        public ActionResult GetSingleVehicleExpensesListData()
+        {
+
+            using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+            {
+                var jsonData = new
+                {
+                    total = 1,
+                    page = 1,
+                    records = dc.VehicleExpenses.ToList().Count,
+                    rows = (
+                      from vehi in
+                          (from AM in dc.VehicleExpenses
+                           join t2 in dc.MExpenses on AM.iExpenseID equals t2.iExpenseID
+                           join t3 in dc.Vehicles on AM.iVehicleID equals t3.iVehicleID
+
+                           where AM.iVehicleID != null && AM.iVehicleID != 0
+
+
+                           select new
+                           {
+                               iVehicleExpenseID = AM.iVehicleExpenseID,
+
+                               strRemarks = AM.strRemarks,
+
+                               iVehicleID = AM.iVehicleID,
+
+                               iExpenseID = AM.iExpenseID,
+                               strChassisNum = t3.strChassisNum,
+                               strExpenseName = t2.strExpenseName,
+
+
+                               iExpenseAmount = AM.iExpenseAmount,
+                               iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt
+                               
+
+                           }).ToList()
+                      select new
+                      {
+                          id = vehi.iVehicleExpenseID,
+                          cell = new string[] {
+               Convert.ToString(vehi.iVehicleExpenseID),Convert.ToString(vehi.strRemarks),Convert.ToString(vehi.iExpenseID),Convert.ToString(vehi.iVehicleID),Convert.ToString(vehi.strChassisNum),Convert.ToString( vehi.strExpenseName),Convert.ToString( vehi.iExpenseAmount),Convert.ToString(vehi.iTotalExpenseAmounrt)
+               
+                        }
+                      }).ToArray()
+                };
+                return Json(jsonData, JsonRequestBehavior.AllowGet);
+            }
+            //return View();
+        }
+
+        //[HttpGet]
+        //public ActionResult GetAllVehicleExpensesListData()
+        //{
+
+        //    List<VehicleExpens> test = new List<VehicleExpens>();
+
+        //    var results = test.GroupBy(x => x.iPurchaseInvoiceID).Select(y => new { iPurchaseInvoiceID = y.Key, iExpenseAmount = y.Sum(x => x.iExpenseAmount) });
+
+        //    return Json(results, JsonRequestBehavior.AllowGet);
+
+
+        //    //var result = from c in auctionContext.VehicleExpenses
+        //    //             group c by new
+        //    //             {
+        //    //                 c.iPurchaseInvoiceID,
+        //    //                 //c.iExpenseAmount,
+        //    //                 //c.iTotalExpenseAmounrt,
+        //    //                 //c.iExpenseID,
+
+        //    //             } into grp
+        //    //             select grp.First().iPurchaseInvoiceID;
+
+        //    //return Json(result, JsonRequestBehavior.AllowGet);
+
+
+        //    //var result = test.GroupBy(g => new { g.iPurchaseInvoiceID })
+        //    //            .Select(g => g.First())
+        //    //            .ToList();
+
+        //    //return Json(result, JsonRequestBehavior.AllowGet);
+
+        //    //var results = from p in auctionContext.VehicleExpenses
+        //    //              group p.iExpenseAmount by p.iPurchaseInvoiceID into g
+        //    //              select new { iPurchaseInvoiceID = g.Key, ExpenseAmount = g.ToList() };
+
+        //    //return Json(results, JsonRequestBehavior.AllowGet);
+
+
+
+        //    //using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+        //    //{
+        //    //    var jsonData = new
+        //    //    {
+        //    //        total = 1,
+        //    //        page = 1,
+        //    //        records = dc.VehicleExpenses.ToList().Count,
+        //    //        rows = (
+        //    //          from vehi in
+        //    //              (from AM in dc.VehicleExpenses
+        //    //               where AM.iPurchaseInvoiceID != null && AM.iPurchaseInvoiceID != 0
+        //    //               group AM.iExpenseAmount by AM.iPurchaseInvoiceID into g
+
+        //    //               select new
+        //    //               {
+        //    //                   //iVehicleExpenseID = AM.iVehicleExpenseID,
+        //    //                   //iPurchaseInvoiceID = AM.iPurchaseInvoiceID,
+        //    //                   iPurchaseInvoiceID = g.Key,
+
+        //    //                   //iExpenseID = AM.iExpenseID,
+        //    //                   iExpenseAmount = g.ToList(),
+        //    //                   //iExpenseAmount = AM.iExpenseAmount,
+        //    //                   //iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
+        //    //                   //iSpreadAmountPerVehicle = AM.iTotalExpenseAmounrt
+
+        //    //               }).ToList()
+        //    //          select new
+        //    //          {
+        //    //              id = vehi.iVehicleExpenseID,
+        //    //              cell = new string[] {
+        //    //   Convert.ToString(vehi.iVehicleExpenseID),Convert.ToString(vehi.iPurchaseInvoiceID),Convert.ToString( vehi.iExpenseID),Convert.ToString( vehi.iExpenseAmount),Convert.ToString(vehi.iTotalExpenseAmounrt)
+        //    //            }
+        //    //          }).ToArray()
+        //    //    };
+        //    //    return Json(jsonData, JsonRequestBehavior.AllowGet);
+        //    //}
+        //    ////return View();
+        //}
+
+
+        [HttpPost]
+        public ActionResult GetExpenseByInvoiceID(int id)
+        {
+            var listExpense = (from AM in auctionContext.VehicleExpenses
+                               join t2 in auctionContext.MExpenses on AM.iExpenseID equals t2.iExpenseID
+                                where AM.iPurchaseInvoiceID == id
+                                
+                                select new
+                                {
+                                    iVehicleExpenseID = AM.iVehicleExpenseID,
+                                    iPurchaseInvoiceID = AM.iPurchaseInvoiceID,
+                                    iExpenseID = AM.iExpenseID,
+
+                                    strExpenseName = t2.strExpenseName,
+
+                                    iExpenseAmount = AM.iExpenseAmount,
+                                    iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
+
+                                }).ToList();
+
+            return Json(listExpense, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult GetExpenseByVehicleID(int id)
+        {
+            var listExpense = (from AM in auctionContext.VehicleExpenses
+                               join t2 in auctionContext.MExpenses on AM.iExpenseID equals t2.iExpenseID
+                               where AM.iVehicleID == id
+
+                               select new
+                               {
+                                   iVehicleExpenseID = AM.iVehicleExpenseID,
+                                   iVehicleID = AM.iVehicleID,
+                                   iExpenseID = AM.iExpenseID,
+                                   strExpenseName = t2.strExpenseName,
+                                   strRemarks = AM.strRemarks,
+
+                                   iExpenseAmount = AM.iExpenseAmount,
+                                   iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
+
+                               }).ToList();
+
+            return Json(listExpense, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public ActionResult GetAllVehicleExpensesByInvoiceID(int id)
         {
             using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
             {
@@ -204,7 +439,7 @@ namespace AuctionInventory.Controllers
                     rows = (
                       from vehi in
                           (from AM in dc.VehicleExpenses
-                           where AM.iPurchaseInvoiceID != null && AM.iPurchaseInvoiceID != 0
+                           where AM.iPurchaseInvoiceID == id
 
                            select new
                            {
@@ -214,7 +449,7 @@ namespace AuctionInventory.Controllers
                                iExpenseAmount = AM.iExpenseAmount,
                                iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
                                //iSpreadAmountPerVehicle = AM.iTotalExpenseAmounrt
-                              
+
                            }).ToList()
                       select new
                       {
@@ -229,12 +464,13 @@ namespace AuctionInventory.Controllers
             //return View();
         }
 
+
         public ActionResult SingleVehicleExpenses()
         {
             return View();
         }
 
-      
+
 
 
         [HttpPost]
@@ -247,12 +483,12 @@ namespace AuctionInventory.Controllers
                 {
                     ExpensesServiceClient service = new ExpensesServiceClient();
 
-                     listPurchase = service.VehiclesByInvoiceID(request);
+                    listPurchase = service.VehiclesByInvoiceID(request);
 
                     //return Json(new { listPurchase }, JsonRequestBehavior.AllowGet);
                 }
             }
-            
+
             catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Wrong");
@@ -261,7 +497,7 @@ namespace AuctionInventory.Controllers
             }
             return Json(new { listPurchase }, JsonRequestBehavior.AllowGet);
 
-           
+
         }
 
         [HttpPost]
@@ -274,7 +510,7 @@ namespace AuctionInventory.Controllers
                 {
                     ExpensesServiceClient service = new ExpensesServiceClient();
 
-                     expenses = service.AutoCompleteExpense(prefix);
+                    expenses = service.AutoCompleteExpense(prefix);
 
                     //return Json(new { expenses }, JsonRequestBehavior.AllowGet);
                 }
@@ -286,11 +522,11 @@ namespace AuctionInventory.Controllers
                 expenses = null;
                 throw e;
             }
-            return Json(expenses , JsonRequestBehavior.AllowGet);
+            return Json(expenses, JsonRequestBehavior.AllowGet);
 
-          
 
-           
+
+
         }
 
 
@@ -305,7 +541,7 @@ namespace AuctionInventory.Controllers
                 {
                     ExpensesServiceClient service = new ExpensesServiceClient();
 
-                     VehiclesList = service.VehiclesByVehicleID(request);
+                    VehiclesList = service.VehiclesByVehicleID(request);
 
                     //return Json(new { VehiclesList }, JsonRequestBehavior.AllowGet);
                 }
@@ -319,7 +555,7 @@ namespace AuctionInventory.Controllers
             }
             return Json(new { VehiclesList }, JsonRequestBehavior.AllowGet);
 
-            
+
 
         }
 
@@ -336,7 +572,7 @@ namespace AuctionInventory.Controllers
                 {
                     ExpensesServiceClient service = new ExpensesServiceClient();
 
-                     vehicles = service.AutoCompleteVehicles(prefix);
+                    vehicles = service.AutoCompleteVehicles(prefix);
 
                     //return Json(new { vehicles }, JsonRequestBehavior.AllowGet);
                 }
@@ -348,19 +584,19 @@ namespace AuctionInventory.Controllers
                 vehicles = null;
                 throw e;
             }
-            return Json( vehicles , JsonRequestBehavior.AllowGet);
+            return Json(vehicles, JsonRequestBehavior.AllowGet);
 
-           
 
-            
+
+
         }
 
 
 
         [HttpPost]
-       // public ActionResult SaveAllVehicleExpense(string expense)
+        // public ActionResult SaveAllVehicleExpense(string expense)
         //public ActionResult SaveAllVehicleExpense(List<AllVehicleExpenseModel> expense)
-        public ActionResult SaveAllVehicleExpense(List<VehicleExpenseModel> expense)
+        public ActionResult SaveVehicleExpense(List<VehicleExpenseModel> expense)
         {
             bool status = false;
             try
@@ -368,7 +604,7 @@ namespace AuctionInventory.Controllers
                 if (expense != null && ModelState.IsValid)
                 {
                     ExpensesServiceClient service = new ExpensesServiceClient();
-                    status = service.SaveDataAllVehicleExpense(expense);
+                    status = service.SaveDataVehicleExpense(expense);
                     //return RedirectToAction("Index");
                 }
             }
@@ -386,31 +622,31 @@ namespace AuctionInventory.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult SaveSingleVehicleExpense(VehicleExpenseModel expense)
-        {
-            bool status = false;
-            try
-            {
-                if (expense != null && ModelState.IsValid)
-                {
-                    ExpensesServiceClient service = new ExpensesServiceClient();
-                    status = service.SaveDataSingleVehicleExpense(expense);
-                    //return RedirectToAction("Index");
-                }
-            }
-            catch (Exception e)
-            {
-                ModelState.AddModelError("error", "Something Went Wrong");
-                status = false;
-                throw e;
+        //[HttpPost]
+        //public ActionResult SaveSingleVehicleExpense(List<VehicleExpenseModel> expense)
+        //{
+        //    bool status = false;
+        //    try
+        //    {
+        //        if (expense != null && ModelState.IsValid)
+        //        {
+        //            ExpensesServiceClient service = new ExpensesServiceClient();
+        //            status = service.SaveDataSingleVehicleExpense(expense);
+        //            //return RedirectToAction("Index");
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ModelState.AddModelError("error", "Something Went Wrong");
+        //        status = false;
+        //        throw e;
 
 
-            }
+        //    }
 
-            //return View();
-            return new JsonResult { Data = new { status = status } };
-        }
+        //    //return View();
+        //    return new JsonResult { Data = new { status = status } };
+        //}
 
 
 

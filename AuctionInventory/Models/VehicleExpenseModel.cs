@@ -14,5 +14,6 @@ namespace AuctionInventory.Models
         public Nullable<int> iExpenseAmount { get; set; }
         public Nullable<int> iTotalExpenseAmounrt { get; set; }
         public string strRemarks { get; set; }
+        public string strExpenseKey { get; set; }
     }
 }

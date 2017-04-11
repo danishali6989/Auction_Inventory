@@ -99,24 +99,41 @@
 
 
                     @*<label>Remarks :</label><textarea id="txtAreaRemarks"></textarea>*@
-                    <br />
+                    @*<br />
                     
                     <div style="margin-left: 222px;">
                         <input type="button" value="Save" class="btn btn-success col-md-2" id="btnSave" />
                         <input type="button" style="margin-left: 30px;" value="Update" class="btn btn-success col-md-2" id="btnUpdate" />
                         <input type="button" style="margin-left: 35px;" value="Print" class="btn btn-success col-md-2" id="btnPrint" />
-                    </div>
+                    </div>*@
+
+                   
 
                     
                 </div>
             </div>
+            <div>
+                <br />
 
+                <input type="button" style="margin-left: 175px;" class="btn btn-success col-md-2" id="btnSave" value="Save">
+
+                <input type="button" style="margin-left: 35px;" value="Print" class="btn btn-success col-md-2" id="btnPrint" />
+
+
+                <input type="button" style="margin-left: 40px" class="btn btn-warning col-md-2" value="Cancel" onclick="CancelVehiclesExpenseInfo();" id="cancelVehiclesExpenseInfo">
+            </div>
         </div>
     </div>
 </div>
 
 
 <script type="text/javascript">
+
+
+    function CancelVehiclesExpenseInfo() {
+        window.location.href = "/MExpenses/SingleVehicleExpensesList";
+    }
+
     $(function () {
         $("#txtSearchVehicle").autocomplete({
             source: function (request, response) {
@@ -359,8 +376,8 @@
                     var ExpenseID = $("#lblExpenseID" + i).html();
                     //var ExpenseName = $("#lblExpense" + i).html();
                     var ExpenseAmount = $("#txtAmount" + i).val();
-                    var ExpenseTotalAmount = $("#totalSum").html();
-
+                   
+                    var ExpenseTotalAmount = parseInt($("#totalSum").html());
                     var expenseAmount =
                           {
                               iVehicleID: $("#hfVehicle").val(),
@@ -438,9 +455,13 @@
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             type: 'POST',
-            url: "/MExpenses/SaveSingleVehicleExpense",
+            url: "/MExpenses/SaveVehicleExpense",
             data: JSON.stringify({ 'expense': dataTosave }),
-            success: function (data) { alert("Succsesfully Saved Single Vehicle Expense."); }
+            success: function (data) {
+                alert("Succsesfully Saved Single Vehicle Expense.");
+
+                window.location.href = "/MExpenses/SingleVehicleExpensesList";
+            }
         });
     }
 

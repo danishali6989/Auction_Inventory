@@ -1216,6 +1216,7 @@
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Sales\UpdateSaleVehicle.cshtml" />
     <Content Include="Views\MExpenses\AllVehicleExpensesList.cshtml" />
+    <Content Include="Views\MExpenses\SingleVehicleExpensesList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
