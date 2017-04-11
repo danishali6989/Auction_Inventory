@@ -200,49 +200,77 @@ namespace AuctionInventory.Controllers
         [HttpGet]
         public ActionResult GetAllVehicleExpensesListData()
         {
-
-
-            using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+            try
             {
-                var jsonData = new
+                using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
                 {
-                    total = 1,
-                    page = 1,
-                    records = dc.VehicleExpenses.ToList().Count,
-                    rows = (
-                      from vehi in
-                          (from AM in dc.VehicleExpenses
 
-                           join t2 in dc.MExpenses on AM.iExpenseID equals t2.iExpenseID
-                           where AM.iPurchaseInvoiceID != null && AM.iPurchaseInvoiceID != 0
+                    var preResult = (from a in dc.VehicleExpenses
+                                     join b in dc.MExpenses on a.iExpenseID equals b.iExpenseID
+                                     where (a.iPurchaseInvoiceID != null && a.iPurchaseInvoiceID != 0)
+                                     select new
+                                     {
+                                         iExpenseKey = a.strExpenseKey,
+                                         iVehicleExpenseID = a.iVehicleExpenseID,
+                                         iExpenseID = a.iExpenseID,
+                                         iPurchaseInvoiceID = a.iPurchaseInvoiceID,
+                                         strExpenseName = b.strExpenseName,
+                                         iExpenseAmount = a.iExpenseAmount,
+                                         iTotalExpenseAmounrt = a.iTotalExpenseAmounrt,
+                                         iSpreadAmountPerVehicle = a.iTotalExpenseAmounrt
+                                     }).ToList();
+                    if (preResult.Count > 0)
+                    {
+                        var results = preResult.GroupBy(x => x.iPurchaseInvoiceID).Select(y =>
+                                        new
+                                        {
+                                            iPurchaseInvoiceID = y.Key,
+                                            iExpenseAmount = y.Sum(x => x.iExpenseAmount),
+                                            iExpenseKey = y.First().iExpenseKey,
+                                            iVehicleExpenseID = y.First().iVehicleExpenseID,
+                                            iExpenseID = y.First().iExpenseID,
+                                            strExpenseName = y.First().strExpenseName,
+                                            iTotalExpenseAmounrt = y.First().iTotalExpenseAmounrt,
+                                            iSpreadAmountPerVehicle = y.First().iTotalExpenseAmounrt
+                                        }).ToList();
 
 
-                           select new
-                           {
-                               iVehicleExpenseID = AM.iVehicleExpenseID,
+                        var rows = (from a in results
+                                    select new
+                                        {
+                                            id = a.iVehicleExpenseID,
+                                            cell = new string[] {
+                                     Convert.ToString(a.iVehicleExpenseID),
+                                     Convert.ToString(a.iExpenseID),
+                                     Convert.ToString(a.iPurchaseInvoiceID),
+                                     Convert.ToString( a.strExpenseName),
+                                     Convert.ToString( a.iExpenseAmount),
+                                     Convert.ToString(a.iTotalExpenseAmounrt)
+                               }
+                                        }).ToArray();
 
-                               iExpenseID = AM.iExpenseID,
-                               iPurchaseInvoiceID = AM.iPurchaseInvoiceID,
 
-                              
-                               strExpenseName = t2.strExpenseName,
+                        var jsonData = new
+                                       {
+                                           total = 1,
+                                           page = 1,
+                                           records = dc.VehicleExpenses.ToList().Count,
+                                           rows = rows
+                                       };
 
-                               iExpenseAmount = AM.iExpenseAmount,
-                               iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
-                               iSpreadAmountPerVehicle = AM.iTotalExpenseAmounrt
-
-                           }).ToList()
-                      select new
-                      {
-                          id = vehi.iVehicleExpenseID,
-                          cell = new string[] {
-               Convert.ToString(vehi.iVehicleExpenseID),Convert.ToString(vehi.iExpenseID),Convert.ToString(vehi.iPurchaseInvoiceID),Convert.ToString( vehi.strExpenseName),Convert.ToString( vehi.iExpenseAmount),Convert.ToString(vehi.iTotalExpenseAmounrt)
-                        }
-                      }).ToArray()
-                };
-                return Json(jsonData, JsonRequestBehavior.AllowGet);
+                        return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(null, JsonRequestBehavior.AllowGet);
+                    }
+                }
             }
-            //return View();
+            catch (Exception)
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+                throw;
+            }
         }
 
 
@@ -281,7 +309,7 @@ namespace AuctionInventory.Controllers
 
                                iExpenseAmount = AM.iExpenseAmount,
                                iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt
-                               
+
 
                            }).ToList()
                       select new
@@ -382,20 +410,20 @@ namespace AuctionInventory.Controllers
         {
             var listExpense = (from AM in auctionContext.VehicleExpenses
                                join t2 in auctionContext.MExpenses on AM.iExpenseID equals t2.iExpenseID
-                                where AM.iPurchaseInvoiceID == id
-                                
-                                select new
-                                {
-                                    iVehicleExpenseID = AM.iVehicleExpenseID,
-                                    iPurchaseInvoiceID = AM.iPurchaseInvoiceID,
-                                    iExpenseID = AM.iExpenseID,
+                               where AM.iPurchaseInvoiceID == id
 
-                                    strExpenseName = t2.strExpenseName,
+                               select new
+                               {
+                                   iVehicleExpenseID = AM.iVehicleExpenseID,
+                                   iPurchaseInvoiceID = AM.iPurchaseInvoiceID,
+                                   iExpenseID = AM.iExpenseID,
 
-                                    iExpenseAmount = AM.iExpenseAmount,
-                                    iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
+                                   strExpenseName = t2.strExpenseName,
 
-                                }).ToList();
+                                   iExpenseAmount = AM.iExpenseAmount,
+                                   iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
+
+                               }).ToList();
 
             return Json(listExpense, JsonRequestBehavior.AllowGet);
         }
