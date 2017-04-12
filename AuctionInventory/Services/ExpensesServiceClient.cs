@@ -28,6 +28,49 @@ namespace AuctionInventory.Services
             return status;
         }
 
+
+        public dynamic GetAllVehicleExpensesByInvoiceID(int id)
+        {
+           
+            ExpensesRepository repo = new ExpensesRepository();
+            dynamic allVehicleExpenses = repo.GetAllVehicleExpensesByInvoiceID(id);
+           
+            return allVehicleExpenses;
+        }
+
+        public dynamic GetAllVehicleExpensesListData()
+        {
+           
+            ExpensesRepository repo = new ExpensesRepository();
+            dynamic allVehicleExpenses = repo.GetAllVehicleExpensesListData();
+           
+            return allVehicleExpenses;
+        }
+
+
+        public dynamic GetSingleVehicleExpensesListData()
+        {
+
+            ExpensesRepository repo = new ExpensesRepository();
+            dynamic singleVehicleExpenses = repo.GetSingleVehicleExpensesListData();
+
+            return singleVehicleExpenses;
+        }
+
+
+        public dynamic GetExpenseByVehicleID(int id)
+        {           
+            ExpensesRepository repo = new ExpensesRepository();
+            var listExpense = repo.GetExpenseByVehicleID(id);
+            return listExpense;
+        }
+
+        public dynamic GetExpenseByInvoiceID(int id)
+        {           
+            ExpensesRepository repo = new ExpensesRepository();
+            var listExpenses = repo.GetExpenseByInvoiceID(id);
+            return listExpenses;
+        }
         public dynamic VehiclesByInvoiceID(int id)
         {           
             ExpensesRepository repo = new ExpensesRepository();

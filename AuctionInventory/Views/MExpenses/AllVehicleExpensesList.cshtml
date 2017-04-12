@@ -155,7 +155,7 @@
                 { name: 'iExpenseID', index: 'iExpenseID', hidden: true, hidedlg: true },
 
                 { name: 'iPurchaseInvoiceID', index: 'iPurchaseInvoiceID', align: 'center' },
-                { name: 'strExpenseName', index: 'strExpenseName', align: 'center' },
+                { name: 'strExpenseName', index: 'strExpenseName', align: 'center'},
                 { name: 'iExpenseAmount', index: 'iExpenseAmount', align: 'center' },
                 { name: 'iTotalExpenseAmounrt', index: 'iTotalExpenseAmounrt', align: 'center' },
 
@@ -206,6 +206,10 @@
         jQuery("#dataGridForAllVehicleExpensesList").jqGrid('navGrid', '#pagingGridForAllVehicleExpensesList', { edit: false, add: false, del: false, search: false });
 
     });
+
+
+
+   
 
 
     var arr = new Array();
@@ -358,7 +362,7 @@
                                     + "<input  type='number' class='txtAmountClass form-control input-group-sm'  style='margin-left: -20px;' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount"
                                     + counter + "' value='" + result[i].iExpenseAmount + "' /></div>"
                                      + "<div class='form-group col-sm-2'>"
-                                    + "<input type='button' value='Remove' style='margin-left: -35px;' class='remove btn btn-success' id='btnRemove"
+                                    + "<input type='button' value='Remove' style='margin-left: -35px;'   onclick='myFunction(" + id + ")' class='remove btn btn-success' id='btnRemove"
                                     + counter + "' /></div></div>");
 
 
@@ -545,7 +549,7 @@
                         + "<input  type='number' class='txtAmountClass form-control input-group-sm'  style='margin-left: -20px;' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount"
                         + counter + "' /></div>"
                          + "<div class='form-group col-sm-2'>"
-                        + "<input type='button' value='Remove' style='margin-left: -35px;' class='remove btn btn-success' id='btnRemove"
+                        + "<input type='button' value='Remove' style='margin-left: -35px;'   onclick='myFunction(" + id + ")' class='remove btn btn-success' id='btnRemove"
                         + counter + "' /></div></div>");
 
 
@@ -609,8 +613,25 @@
                           iTotalExpenseAmounrt: ExpenseTotalAmount
 
                       }
-                favorite.push(expenseAmount);
 
+                if (ExpenseAmount != 0 && ExpenseAmount != null)
+                {
+                    favorite.push(expenseAmount);
+                }
+               
+                //else {
+                //    $.ajax({
+                //        contentType: 'application/json; charset=utf-8',
+                //        dataType: 'json',
+                //        type: 'POST',
+                //        url: "/MExpenses/VehiclesByInvoiceID",
+                //        data: JSON.stringify({ 'id': iVehicleExpenseID }),
+                //        success: function (data) {
+                //            alert("Succsesfully Update All Vehicle Expense.");
+                //            window.location.href = "/MExpenses/AllVehicleExpensesList";
+                //        }
+                //    });
+                //}
 
 
             }
@@ -619,19 +640,19 @@
         });
 
 
-        $("body").on("click", ".remove", function () {
-            debugger;
+        //$("body").on("click", ".remove", function () {
+        //    debugger;
 
             
-            //arrExpenseID.splice($.inArray(, arrExpenseID), 1);
+        //    //arrExpenseID.splice($.inArray(, arrExpenseID), 1);
 
-            arrExpenseID.pop($(this).closest("div[name='divForExpense']").remove());
+        //    arrExpenseID.pop($(this).closest("div[name='divForExpense']").remove());
 
 
 
-            calculateSum();
+        //    calculateSum();
 
-        });
+        //});
     });
 
     //var ExpenseTotalAmount = 0;
@@ -662,6 +683,22 @@
     //    $("#totalSum").val(ExpenseTotalAmount);
 
     //}
+
+
+    function myFunction(id) {
+
+        $("body").on("click", ".remove", function () {
+            $(this).closest("div[name='divForExpense']").remove();
+
+            calculateSum();
+        });
+        //arrExpenseID.splice(id, 1);
+
+        arrExpenseID.splice($.inArray(id, arrExpenseID), 1);
+
+
+    }
+
 
     function SaveALLExpense(arr) {
         debugger;

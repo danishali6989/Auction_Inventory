@@ -262,7 +262,7 @@
                     + "<input  type='number' class='txtAmountClass form-control input-group-sm'  style='margin-left: -20px;' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount"
                     + counter + "' /></div>"
                      + "<div class='form-group col-sm-2'>"
-                    + "<input type='button' value='Remove' style='margin-left: -35px;' onClick='removeRecord(" + id + ");' class='remove btn btn-success' id='btnRemove"
+                    + "<input type='button' value='Remove' style='margin-left: -35px;'   onclick='myFunction(" + id + ")' class='remove btn btn-success' id='btnRemove"
                     + counter + "' /></div></div>");
 
 
@@ -434,16 +434,22 @@
     }
 
 
+    function myFunction(id) {
+      
+        $("body").on("click", ".remove", function () {
+            $(this).closest("div[name='divForExpense']").remove();
 
-    function removeRecord(expenseID) {
-        debugger;
-        $(this).closest("div[name='divForExpense']").remove()
+            calculateSum();
+        });
+        //arrExpenseID.splice(id, 1);
 
-        arrExpenseID.pop(expenseID);
+        arrExpenseID.splice($.inArray(id, arrExpenseID), 1);
 
-        calculateSum();
+
     }
 
+
+    
 
 
 </script>

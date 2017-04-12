@@ -25,6 +25,53 @@ namespace AuctionInventoryDAL.Repositories
             return expense;
         }
 
+
+
+        public dynamic GetExpenseByVehicleID(int id)
+        {
+            var listExpense = (from AM in auctionContext.VehicleExpenses
+                               join t2 in auctionContext.MExpenses on AM.iExpenseID equals t2.iExpenseID
+                               where AM.iVehicleID == id
+
+                               select new
+                               {
+                                   iVehicleExpenseID = AM.iVehicleExpenseID,
+                                   iVehicleID = AM.iVehicleID,
+                                   iExpenseID = AM.iExpenseID,
+                                   strExpenseName = t2.strExpenseName,
+                                   strRemarks = AM.strRemarks,
+
+                                   iExpenseAmount = AM.iExpenseAmount,
+                                   iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
+
+                               }).ToList();
+            return listExpense;
+        }
+
+
+        public dynamic GetExpenseByInvoiceID(int id)
+        {
+            var listExpense = (from AM in auctionContext.VehicleExpenses
+                               join t2 in auctionContext.MExpenses on AM.iExpenseID equals t2.iExpenseID
+                               where AM.iPurchaseInvoiceID == id
+
+                               select new
+                               {
+                                   iVehicleExpenseID = AM.iVehicleExpenseID,
+                                   iPurchaseInvoiceID = AM.iPurchaseInvoiceID,
+                                   iExpenseID = AM.iExpenseID,
+
+                                   strExpenseName = t2.strExpenseName,
+
+                                   iExpenseAmount = AM.iExpenseAmount,
+                                   iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
+
+                               }).ToList();
+
+            return listExpense;
+        }
+
+
         public dynamic VehiclesByInvoiceID(int id)
         {
             var listPurchase = (from t1 in auctionContext.TPurchases
@@ -42,6 +89,190 @@ namespace AuctionInventoryDAL.Repositories
                                 }).ToList();
             return listPurchase;
         }
+
+        public dynamic GetSingleVehicleExpensesListData()
+        {
+
+            using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+            {
+
+                var preResult = (from AM in dc.VehicleExpenses
+                                 join t2 in dc.MExpenses on AM.iExpenseID equals t2.iExpenseID
+                                 join t3 in dc.Vehicles on AM.iVehicleID equals t3.iVehicleID
+                                 where (AM.iVehicleID != null && AM.iVehicleID != 0)
+
+                                 select new
+                            {
+                                iVehicleExpenseID = AM.iVehicleExpenseID,
+
+                                strRemarks = AM.strRemarks,
+
+                                iVehicleID = AM.iVehicleID,
+
+                                iExpenseID = AM.iExpenseID,
+                                strChassisNum = t3.strChassisNum,
+                                strExpenseName = t2.strExpenseName,
+
+
+                                iExpenseAmount = AM.iExpenseAmount,
+                                iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt
+                                }).ToList();
+
+                if (preResult.Count > 0)
+                {
+                    var results = preResult.GroupBy(x => x.iVehicleID).Select(y =>
+                                    new
+                                    {
+                                        iVehicleID = y.Key,
+                                        iExpenseAmount = y.Sum(x => x.iExpenseAmount),
+                                        strChassisNum = y.First().strChassisNum,
+                                        iVehicleExpenseID = y.First().iVehicleExpenseID,
+                                        iExpenseID = y.First().iExpenseID,
+                                         strRemarks = y.First().strRemarks,
+                                        strExpenseName = y.First().strExpenseName,
+                                        iTotalExpenseAmounrt = y.First().iTotalExpenseAmounrt,
+                                        iSpreadAmountPerVehicle = y.First().iTotalExpenseAmounrt
+                                    }).ToList();
+
+
+                    var rows = (from singleExp in results
+                                select new
+                      {
+                          id = singleExp.iVehicleExpenseID,
+                          cell = new string[] {
+               Convert.ToString(singleExp.iVehicleExpenseID),Convert.ToString(singleExp.strRemarks),Convert.ToString(singleExp.iExpenseID),Convert.ToString(singleExp.iVehicleID),Convert.ToString(singleExp.strChassisNum),Convert.ToString( singleExp.strExpenseName),Convert.ToString( singleExp.iExpenseAmount),Convert.ToString(singleExp.iTotalExpenseAmounrt)
+               
+                        }
+                      }).ToArray();
+
+
+                    var jsonData = new
+                    {
+                        total = 1,
+                        page = 1,
+                        records = dc.VehicleExpenses.ToList().Count,
+                        rows = rows
+                    };
+
+                    return jsonData;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+        }
+
+        public dynamic GetAllVehicleExpensesByInvoiceID(int id)
+        {
+            using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+            {
+                var jsonData = new
+                {
+                    total = 1,
+                    page = 1,
+                    records = dc.VehicleExpenses.ToList().Count,
+                    rows = (
+                      from vehi in
+                          (from AM in dc.VehicleExpenses
+                           where AM.iPurchaseInvoiceID == id
+
+                           select new
+                           {
+                               iVehicleExpenseID = AM.iVehicleExpenseID,
+                               iPurchaseInvoiceID = AM.iPurchaseInvoiceID,
+                               iExpenseID = AM.iExpenseID,
+                               iExpenseAmount = AM.iExpenseAmount,
+                               iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
+                               //iSpreadAmountPerVehicle = AM.iTotalExpenseAmounrt
+
+                           }).ToList()
+                      select new
+                      {
+                          id = vehi.iVehicleExpenseID,
+                          cell = new string[] {
+               Convert.ToString(vehi.iVehicleExpenseID),Convert.ToString(vehi.iPurchaseInvoiceID),Convert.ToString( vehi.iExpenseID),Convert.ToString( vehi.iExpenseAmount),Convert.ToString(vehi.iTotalExpenseAmounrt)
+                        }
+                      }).ToArray()
+                };
+                return jsonData;
+            }
+            //return View();
+        }
+
+       
+
+
+        public dynamic GetAllVehicleExpensesListData()
+        {
+            using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+            {
+
+                var preResult = (from a in dc.VehicleExpenses
+                                 join b in dc.MExpenses on a.iExpenseID equals b.iExpenseID
+                                 where (a.iPurchaseInvoiceID != null && a.iPurchaseInvoiceID != 0)
+                                 select new
+                                 {
+                                     iExpenseKey = a.strExpenseKey,
+                                     iVehicleExpenseID = a.iVehicleExpenseID,
+                                     iExpenseID = a.iExpenseID,
+                                     iPurchaseInvoiceID = a.iPurchaseInvoiceID,
+                                     strExpenseName = b.strExpenseName,
+                                     iExpenseAmount = a.iExpenseAmount,
+                                     iTotalExpenseAmounrt = a.iTotalExpenseAmounrt,
+                                     iSpreadAmountPerVehicle = a.iTotalExpenseAmounrt
+                                 }).ToList();
+                if (preResult.Count > 0)
+                {
+                    var results = preResult.GroupBy(x => x.iPurchaseInvoiceID).Select(y =>
+                                    new
+                                    {
+                                        iPurchaseInvoiceID = y.Key,
+                                        iExpenseAmount = y.Sum(x => x.iExpenseAmount),
+                                        iExpenseKey = y.First().iExpenseKey,
+                                        iVehicleExpenseID = y.First().iVehicleExpenseID,
+                                        iExpenseID = y.First().iExpenseID,
+                                        strExpenseName = y.First().strExpenseName,
+                                        iTotalExpenseAmounrt = y.First().iTotalExpenseAmounrt,
+                                        iSpreadAmountPerVehicle = y.First().iTotalExpenseAmounrt
+                                    }).ToList();
+
+
+                    var rows = (from allExpense in results
+                                select new
+                                {
+                                    id = allExpense.iVehicleExpenseID,
+                                    cell = new string[] {
+                                     Convert.ToString(allExpense.iVehicleExpenseID),
+                                     Convert.ToString(allExpense.iExpenseID),
+                                     Convert.ToString(allExpense.iPurchaseInvoiceID),
+                                     Convert.ToString( allExpense.strExpenseName),
+                                     Convert.ToString( allExpense.iExpenseAmount),
+                                     Convert.ToString(allExpense.iTotalExpenseAmounrt)
+                               }
+                                }).ToArray();
+
+
+                    var jsonData = new
+                    {
+                        total = 1,
+                        page = 1,
+                        records = dc.VehicleExpenses.ToList().Count,
+                        rows = rows
+                    };
+
+                    return jsonData;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+
+        }
+
 
 
         public dynamic AutoCompleteExpense(string prefix)
