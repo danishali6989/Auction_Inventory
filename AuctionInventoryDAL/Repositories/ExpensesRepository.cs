@@ -112,11 +112,11 @@ namespace AuctionInventoryDAL.Repositories
                                 iExpenseID = AM.iExpenseID,
                                 strChassisNum = t3.strChassisNum,
                                 strExpenseName = t2.strExpenseName,
-
+                                strExpenseDate = AM.strExpenseDate,
 
                                 iExpenseAmount = AM.iExpenseAmount,
                                 iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt
-                                }).ToList();
+                            }).ToList();
 
                 if (preResult.Count > 0)
                 {
@@ -127,9 +127,10 @@ namespace AuctionInventoryDAL.Repositories
                                         iExpenseAmount = y.Sum(x => x.iExpenseAmount),
                                         strChassisNum = y.First().strChassisNum,
                                         iVehicleExpenseID = y.First().iVehicleExpenseID,
-                                        iExpenseID = y.First().iExpenseID,
-                                         strRemarks = y.First().strRemarks,
+                                        iExpenseID = y.Count(),
+                                        strRemarks = y.First().strRemarks,
                                         strExpenseName = y.First().strExpenseName,
+                                        strExpenseDate = y.First().strExpenseDate,
                                         iTotalExpenseAmounrt = y.First().iTotalExpenseAmounrt,
                                         iSpreadAmountPerVehicle = y.First().iTotalExpenseAmounrt
                                     }).ToList();
@@ -140,7 +141,17 @@ namespace AuctionInventoryDAL.Repositories
                       {
                           id = singleExp.iVehicleExpenseID,
                           cell = new string[] {
-               Convert.ToString(singleExp.iVehicleExpenseID),Convert.ToString(singleExp.strRemarks),Convert.ToString(singleExp.iExpenseID),Convert.ToString(singleExp.iVehicleID),Convert.ToString(singleExp.strChassisNum),Convert.ToString( singleExp.strExpenseName),Convert.ToString( singleExp.iExpenseAmount),Convert.ToString(singleExp.iTotalExpenseAmounrt)
+               Convert.ToString(singleExp.iVehicleExpenseID),
+               Convert.ToString(singleExp.strRemarks),
+                Convert.ToString( singleExp.strExpenseName),
+                Convert.ToString(singleExp.iVehicleID),
+              
+               
+               Convert.ToString(singleExp.strChassisNum),
+               Convert.ToString( singleExp.strExpenseDate),
+                Convert.ToString(singleExp.iExpenseID),
+               Convert.ToString( singleExp.iExpenseAmount),
+               Convert.ToString(singleExp.iTotalExpenseAmounrt)
                
                         }
                       }).ToArray();
@@ -201,7 +212,7 @@ namespace AuctionInventoryDAL.Repositories
             //return View();
         }
 
-       
+
 
 
         public dynamic GetAllVehicleExpensesListData()
@@ -217,7 +228,11 @@ namespace AuctionInventoryDAL.Repositories
                                      iExpenseKey = a.strExpenseKey,
                                      iVehicleExpenseID = a.iVehicleExpenseID,
                                      iExpenseID = a.iExpenseID,
+
+                                     //NoOfExpenses = a.Expenses.Count,
+
                                      iPurchaseInvoiceID = a.iPurchaseInvoiceID,
+                                     strExpenseDate = a.strExpenseDate,
                                      strExpenseName = b.strExpenseName,
                                      iExpenseAmount = a.iExpenseAmount,
                                      iTotalExpenseAmounrt = a.iTotalExpenseAmounrt,
@@ -232,7 +247,11 @@ namespace AuctionInventoryDAL.Repositories
                                         iExpenseAmount = y.Sum(x => x.iExpenseAmount),
                                         iExpenseKey = y.First().iExpenseKey,
                                         iVehicleExpenseID = y.First().iVehicleExpenseID,
-                                        iExpenseID = y.First().iExpenseID,
+                                        iExpenseID = y.Count(),
+
+                                        //NoOfExpenses = y.NoOfExpenses,
+
+                                        strExpenseDate = y.First().strExpenseDate,
                                         strExpenseName = y.First().strExpenseName,
                                         iTotalExpenseAmounrt = y.First().iTotalExpenseAmounrt,
                                         iSpreadAmountPerVehicle = y.First().iTotalExpenseAmounrt
@@ -245,9 +264,11 @@ namespace AuctionInventoryDAL.Repositories
                                     id = allExpense.iVehicleExpenseID,
                                     cell = new string[] {
                                      Convert.ToString(allExpense.iVehicleExpenseID),
+                                      Convert.ToString( allExpense.strExpenseName),
+                                       Convert.ToString(allExpense.iPurchaseInvoiceID),
+                                        Convert.ToString(allExpense.strExpenseDate),
                                      Convert.ToString(allExpense.iExpenseID),
-                                     Convert.ToString(allExpense.iPurchaseInvoiceID),
-                                     Convert.ToString( allExpense.strExpenseName),
+                                    
                                      Convert.ToString( allExpense.iExpenseAmount),
                                      Convert.ToString(allExpense.iTotalExpenseAmounrt)
                                }
@@ -373,55 +394,55 @@ namespace AuctionInventoryDAL.Repositories
 
 
 
-        public bool SaveRepoVehicleExpense(List<VehicleExpens> expense, string refenceNumber)
-        {
-            bool status = false;
-            {
+        //public bool SaveRepoVehicleExpense(List<VehicleExpens> expense, string refenceNumber)
+        //{
+        //    bool status = false;
+        //    {
 
-                foreach (var item in expense)
-                {
+        //        foreach (var item in expense)
+        //        {
 
-                    if (item.iVehicleExpenseID > 0)
-                    {
-                        var mVehicleExpense = auctionContext.VehicleExpenses.Where(a => a.iVehicleExpenseID == item.iVehicleExpenseID).FirstOrDefault();
-
-
-                        if (mVehicleExpense != null)
-                        {
+        //            if (item.iVehicleExpenseID > 0)
+        //            {
+        //                var mVehicleExpense = auctionContext.VehicleExpenses.Where(a => a.iVehicleExpenseID == item.iVehicleExpenseID).FirstOrDefault();
 
 
-                            mVehicleExpense.iPurchaseInvoiceID = item.iPurchaseInvoiceID;
+        //                if (mVehicleExpense != null)
+        //                {
 
-                            mVehicleExpense.iVehicleID = item.iVehicleID;
 
-                            mVehicleExpense.iExpenseID = item.iExpenseID;
-                            mVehicleExpense.iExpenseAmount = item.iExpenseAmount;
-                            mVehicleExpense.iTotalExpenseAmounrt = item.iTotalExpenseAmounrt;
+        //                    mVehicleExpense.iPurchaseInvoiceID = item.iPurchaseInvoiceID;
 
-                            mVehicleExpense.strRemarks = item.strRemarks ?? " ";
-                           // mVehicleExpense.strExpenseKey = refenceNumber;
-                            
-                            //item.strExpenseKey = refenceNumber;
-                            //auctionContext.VehicleExpenses.Add(item);
+        //                    mVehicleExpense.iVehicleID = item.iVehicleID;
 
-                        }
-                    }
-                    
-                    else
-                    {
-                        //Save
-                        item.strExpenseKey = refenceNumber;
-                        auctionContext.VehicleExpenses.Add(item);
-                    }
-                }
+        //                    mVehicleExpense.iExpenseID = item.iExpenseID;
+        //                    mVehicleExpense.iExpenseAmount = item.iExpenseAmount;
+        //                    mVehicleExpense.iTotalExpenseAmounrt = item.iTotalExpenseAmounrt;
 
-               
-                auctionContext.SaveChanges();
-            }
+        //                    mVehicleExpense.strRemarks = item.strRemarks ?? " ";
+        //                   // mVehicleExpense.strExpenseKey = refenceNumber;
 
-            status = true;
-            return status;
-        }
+        //                    //item.strExpenseKey = refenceNumber;
+        //                    //auctionContext.VehicleExpenses.Add(item);
+
+        //                }
+        //            }
+
+        //            else
+        //            {
+        //                //Save
+        //                item.strExpenseKey = refenceNumber;
+        //                auctionContext.VehicleExpenses.Add(item);
+        //            }
+        //        }
+
+
+        //        auctionContext.SaveChanges();
+        //    }
+
+        //    status = true;
+        //    return status;
+        //}
 
 
         //public bool SaveRepoSingleVehicleExpense(VehicleExpens expense)
@@ -439,5 +460,56 @@ namespace AuctionInventoryDAL.Repositories
 
 
         #endregion
+
+
+
+        public bool SaveRepoVehicleExpense(List<VehicleExpens> expense, string refenceNumber, int id)
+        {
+            bool status = false;
+            {
+                if (id != 0)
+                {
+
+                    var vehicleExpID = auctionContext.VehicleExpenses.Where(a => a.iPurchaseInvoiceID == id).ToList();
+
+                    foreach (var item in vehicleExpID)
+                    {
+                        auctionContext.VehicleExpenses.Remove(item);
+                    }
+                    auctionContext.SaveChanges();
+
+                }
+
+                if (id != 0)
+                {
+
+                    var vehicleID = auctionContext.VehicleExpenses.Where(a => a.iVehicleID == id).ToList();
+
+                    foreach (var item in vehicleID)
+                    {
+                        auctionContext.VehicleExpenses.Remove(item);
+                    }
+                    auctionContext.SaveChanges();
+
+                }
+
+               
+                    foreach (var item in expense)
+                    {
+                        //Save
+                        item.strExpenseKey = refenceNumber;
+                        auctionContext.VehicleExpenses.Add(item);
+                    }
+                    auctionContext.SaveChanges();
+                }
+
+            
+            status = true;
+            return status;
+        }
+
+
+
+
     }
 }

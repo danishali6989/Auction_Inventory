@@ -44,6 +44,12 @@
                 @*<div class='form-group col-sm-2'>
                         <input type='button' value='Search' style='margin-left: -35px;' class='btn btn-success' id='JQGridFill' />
                     </div>*@
+
+
+                <div class='form-group col-sm-2' style="margin-top: -24px;margin-left: 125px;">
+                    <label>Date:</label>
+                    <input class='form-control datepicker input-group-sm' name='SingleExpDate' placeholder='Enter drop of date...' id='txtSingleExpDate' />
+                </div>
             </div>
 
             @*<div class="col-sm-6">
@@ -168,19 +174,24 @@
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
 
-            colNames: ['iVehicleExpenseID', 'strRemarks', 'iExpenseID', 'Vehicle ID', 'Chassis No', 'Expense Name', 'Expense Amount', 'Total Expense Amount', 'Action'],
+            colNames: ['iVehicleExpenseID', 'strRemarks', 'Expense Name', 'Vehicle ID', 'Chassis No', 'Date', 'No Of Expenses', 'Expense Amount', 'Total Expense Amount', 'Action'],
             colModel: [
                 { name: 'iVehicleExpenseID', index: 'iVehicleExpenseID', hidden: true, hidedlg: true },
 
                  { name: 'strRemarks', index: 'strRemarks', hidden: true, hidedlg: true },
 
-                 { name: 'iExpenseID', index: 'iExpenseID', hidden: true, hidedlg: true },
+                 { name: 'strExpenseName', index: 'strExpenseName', hidden: true, hidedlg: true },
 
-                { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+                   { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
 
-                 { name: 'strChassisNum', index: 'strChassisNum', align: 'center' },
+                    { name: 'strChassisNum', index: 'strChassisNum', align: 'center' },
 
-                { name: 'strExpenseName', index: 'strExpenseName', align: 'center' },
+                      { name: 'strExpenseDate', index: 'strExpenseDate', align: 'center' },
+
+                 { name: 'iExpenseID', index: 'iExpenseID', align: 'center' },
+
+              
+                
                 { name: 'iExpenseAmount', index: 'iExpenseAmount', align: 'center' },
                 { name: 'iTotalExpenseAmounrt', index: 'iTotalExpenseAmounrt', align: 'center' },
 
@@ -255,6 +266,8 @@
         var iVehicleID = rowData['iVehicleID'];
 
         var strChassisNum = rowData['strChassisNum'];
+        
+        var strExpenseDate = rowData['strExpenseDate'];
 
 
         var strRemarks = rowData['strRemarks'];
@@ -268,7 +281,7 @@
         var iTotalExpenseAmounrt = rowData['iTotalExpenseAmounrt'];
 
 
-
+        $("#txtSingleExpDate").val(strExpenseDate);
         $("#hfiVehicleExpenseID").val(iVehicleExpenseID);
         $("#hfVehicle").val(iVehicleID);
         $("#txtSearchVehicle").val(strChassisNum);
@@ -546,6 +559,7 @@
                       {
                           iVehicleExpenseID: iVehicleExpenseID,
                           iVehicleID: $("#hfVehicle").val(),
+                          strExpenseDate: $("#txtSingleExpDate").val(),
                           iExpenseID: ExpenseID,
                           iExpenseAmount: ExpenseAmount,
                           iTotalExpenseAmounrt: ExpenseTotalAmount,
@@ -595,13 +609,16 @@
 
 
     function SaveALLExpense(dataTosave) {
-        debugger;        
+        debugger;
+        var vehicleID = $("#hfVehicle").val();
+
         $.ajax({
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             type: 'POST',
             url: "/MExpenses/SaveVehicleExpense",
-            data: JSON.stringify({ 'expense': dataTosave }),
+            data: JSON.stringify({ 'expense': dataTosave, id: vehicleID }),
+           // data: JSON.stringify({ 'expense': dataTosave }),
             success: function (data) {
                 alert("Succsesfully Saved Single Vehicle Expense.");
 
@@ -644,7 +661,13 @@
 </script>
 
 
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+        //$('input[type=datetime]').datepicker();
+    });
 
+</script>
 
 
 <!-- JqGrid Scripts -->

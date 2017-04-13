@@ -16,6 +16,7 @@ namespace AuctionInventoryDAL.Entity
     {
         public long iVehicleExpenseID { get; set; }
         public Nullable<int> iPurchaseInvoiceID { get; set; }
+        public string strExpenseDate { get; set; }
         public Nullable<int> iVehicleID { get; set; }
         public Nullable<int> iExpenseID { get; set; }
         public Nullable<int> iExpenseAmount { get; set; }

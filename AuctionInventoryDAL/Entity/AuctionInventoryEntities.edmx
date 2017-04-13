@@ -347,6 +347,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           </Key>
           <Property Name="iVehicleExpenseID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="iPurchaseInvoiceID" Type="int" />
+          <Property Name="strExpenseDate" Type="nvarchar" MaxLength="50" />
           <Property Name="iVehicleID" Type="int" />
           <Property Name="iExpenseID" Type="int" />
           <Property Name="iExpenseAmount" Type="int" />
@@ -807,6 +808,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           </Key>
           <Property Name="iVehicleExpenseID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="iPurchaseInvoiceID" Type="Int32" />
+          <Property Name="strExpenseDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="iVehicleID" Type="Int32" />
           <Property Name="iExpenseID" Type="Int32" />
           <Property Name="iExpenseAmount" Type="Int32" />
@@ -1215,6 +1217,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
                 <ScalarProperty Name="iExpenseAmount" ColumnName="iExpenseAmount" />
                 <ScalarProperty Name="iExpenseID" ColumnName="iExpenseID" />
                 <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
+                <ScalarProperty Name="strExpenseDate" ColumnName="strExpenseDate" />
                 <ScalarProperty Name="iPurchaseInvoiceID" ColumnName="iPurchaseInvoiceID" />
                 <ScalarProperty Name="iVehicleExpenseID" ColumnName="iVehicleExpenseID" />
               </MappingFragment>

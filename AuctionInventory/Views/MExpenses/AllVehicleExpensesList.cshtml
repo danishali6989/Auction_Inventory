@@ -48,6 +48,12 @@
             <div class='form-group col-sm-2'>
                 <input type='button' value='Search' style='margin-left: -35px;' class='btn btn-success' id='JQGridFill' />
             </div>
+
+            <div class='form-group col-sm-2' style="margin-top:-23px;">
+                <label>Date:</label>
+                <input class='form-control datepicker input-group-sm' name='AllExpDate' placeholder='Enter drop of date...' id='txtAllExpDate' />
+            </div>
+
         </div>
 
 
@@ -67,7 +73,7 @@
 
 
         <div class="row" id="divForUpdatedataGrid">
-            <br />
+          
 
             <table id="UpdatedataGrid" class="table table-bordered table-striped"></table>
             <div id="UpdatepagingGrid"></div>
@@ -149,13 +155,17 @@
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
 
-            colNames: ['iVehicleExpenseID', 'iExpenseID', 'Invoice No', 'Expense Name', 'Expense Amount', 'Total Expense Amount', 'Action'],
+            colNames: ['iVehicleExpenseID', 'Expense Name', 'Invoice No', 'Date', 'No Of Expenses', 'Expense Amount', 'Total Expense Amount', 'Action'],
             colModel: [
                 { name: 'iVehicleExpenseID', index: 'iVehicleExpenseID', hidden: true, hidedlg: true },
-                { name: 'iExpenseID', index: 'iExpenseID', hidden: true, hidedlg: true },
+                
+                { name: 'strExpenseName', index: 'strExpenseName', hidden: true, hidedlg: true },
 
                 { name: 'iPurchaseInvoiceID', index: 'iPurchaseInvoiceID', align: 'center' },
-                { name: 'strExpenseName', index: 'strExpenseName', align: 'center'},
+
+                { name: 'strExpenseDate', index: 'strExpenseDate', align: 'center' },
+              
+                { name: 'iExpenseID', index: 'iExpenseID', align: 'center' },
                 { name: 'iExpenseAmount', index: 'iExpenseAmount', align: 'center' },
                 { name: 'iTotalExpenseAmounrt', index: 'iTotalExpenseAmounrt', align: 'center' },
 
@@ -225,7 +235,9 @@
         var iVehicleExpenseID = rowData['iVehicleExpenseID'];
         var iPurchaseInvoiceID = rowData['iPurchaseInvoiceID'];
 
+        var strExpenseDate = rowData['strExpenseDate'];
 
+        
 
         var iExpenseID = rowData['iExpenseID'];
 
@@ -239,7 +251,7 @@
 
         $("#hfiVehicleExpenseID").val(iVehicleExpenseID);
         $("#invno").val(iPurchaseInvoiceID);
-        // $("#hfExpense").val(iExpenseID);
+        $("#txtAllExpDate").val(strExpenseDate);
 
 
         //$("#totalSum").html(iTotalExpenseAmounrt);
@@ -328,6 +340,7 @@
                                 var value = result[i].strExpenseName;
                                 //$('.txtAmountClass').val(result[i].iExpenseAmount);
 
+                               
 
                                 var addVehicleID = false;
                                 $.map(arrExpenseID, function (elementOfArray, indexInArray) {
@@ -606,6 +619,7 @@
                           //iExpenseID: $("#hfExpense").val(),
 
                           iPurchaseInvoiceID: $("#invno").val(),
+                          strExpenseDate: $("#txtAllExpDate").val(),
                           iExpenseID: ExpenseID,
                           //iCategoryID: 2,
                          iVehicleExpenseID: iVehicleExpenseID,
@@ -685,30 +699,60 @@
     //}
 
 
-    function myFunction(id) {
+    //ConfirmDialog('Are you sure');
 
+    //function myFunction(id) {
+    //    $('<div></div>').appendTo('body')
+    //                    .html('<div><h6>Are you sure to remove this expense ?</h6></div>')
+    //                    .dialog({
+    //                        modal: true, zIndex: 10000, autoOpen: true,
+    //                        width: 'auto', resizable: false,
+    //                        buttons: {
+    //                            Yes: function () {
+    //                                $("body").on("click", ".remove", function () {
+    //                                    $(this).closest("div[name='divForExpense']").remove();
+    //                                    calculateSum();
+    //                                });
+    //                                arrExpenseID.splice($.inArray(id, arrExpenseID), 1);
+    //                                var test = $("#invno").val();
+    //                                alert(id); alert(test);
+
+    //                                $(this).dialog("close");
+    //                            },
+    //                            No: function () {
+                                   
+    //                                $(this).dialog("close");
+    //                            }
+    //                        },
+    //                        close: function (event, ui) {
+    //                            $(this).remove();
+    //                        }
+    //                    });
+    //};
+
+
+    function myFunction(id) {
+        debugger
         $("body").on("click", ".remove", function () {
             $(this).closest("div[name='divForExpense']").remove();
-
             calculateSum();
         });
-        //arrExpenseID.splice(id, 1);
-
-        arrExpenseID.splice($.inArray(id, arrExpenseID), 1);
-
-
+        arrExpenseID.splice($.inArray(id, arrExpenseID), 1);        
+        
     }
 
 
     function SaveALLExpense(arr) {
         debugger;
 
+        var invoiceID = $("#invno").val();
+
         $.ajax({
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             type: 'POST',
             url: "/MExpenses/SaveVehicleExpense",
-            data: JSON.stringify({ 'expense': arr }),
+            data: JSON.stringify({ 'expense': arr, id: invoiceID }),
             success: function (data) {
                 alert("Succsesfully Update All Vehicle Expense.");
                 window.location.href = "/MExpenses/AllVehicleExpensesList";
@@ -806,7 +850,13 @@
 
 
 </script>
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+        //$('input[type=datetime]').datepicker();
+    });
 
+</script>
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />

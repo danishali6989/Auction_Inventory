@@ -26,6 +26,12 @@
                 @*<div class='form-group col-sm-2'>
                     <input type='button' value='Search' style='margin-left: -35px;' class='btn btn-success' id='JQGridFill' />
                 </div>*@
+
+                <div class='form-group col-sm-2' style="margin-top: -24px;margin-left: 125px;">
+                    <label>Date:</label>
+                    <input class='form-control datepicker input-group-sm' name='SingleExpDate' placeholder='Enter drop of date...' id='txtSingleExpDate' />
+                </div>
+
             </div>
 
             @*<div class="col-sm-6">
@@ -381,6 +387,7 @@
                     var expenseAmount =
                           {
                               iVehicleID: $("#hfVehicle").val(),
+                              strExpenseDate: $("#txtSingleExpDate").val(),
                               iExpenseID: ExpenseID,
                               iExpenseAmount: ExpenseAmount,
                               iTotalExpenseAmounrt: ExpenseTotalAmount,
@@ -445,18 +452,14 @@
 
     function SaveALLExpense(dataTosave) {
         debugger;
-        //$.ajax({
-        //    type: "POST",
-        //    url: "/MExpenses/SaveAllExpenses",
-        //    data: { expense: dataTosave },
-        //    success: function (data) { alert("SUCCESS"); }
-        //});
+        var vehicleID = parseInt(0);
         $.ajax({
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             type: 'POST',
             url: "/MExpenses/SaveVehicleExpense",
-            data: JSON.stringify({ 'expense': dataTosave }),
+            data: JSON.stringify({ 'expense': dataTosave, 'id': vehicleID }),
+            //data: JSON.stringify({ 'expense': dataTosave }),
             success: function (data) {
                 alert("Succsesfully Saved Single Vehicle Expense.");
 
@@ -519,7 +522,13 @@
     }
 
 </script>
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+        //$('input[type=datetime]').datepicker();
+    });
 
+</script>
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
 <link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />

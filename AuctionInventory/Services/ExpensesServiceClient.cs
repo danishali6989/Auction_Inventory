@@ -123,14 +123,14 @@ namespace AuctionInventory.Services
 
 
 
-        public bool SaveDataVehicleExpense(List<VehicleExpenseModel> expenses)
+        public bool SaveDataVehicleExpense(List<VehicleExpenseModel> expenses, int id)
         {
             bool status = true;
             //Expenses expense = new Expenses();
             ExpensesRepository repo = new ExpensesRepository();
 
             string refenceNumber = CommonMethods.GetRefenceNumber(ShortCode.ExpenseKey, "1");
-            status = repo.SaveRepoVehicleExpense(ParserAddVehicleExpenses(expenses), refenceNumber);
+            status = repo.SaveRepoVehicleExpense(ParserAddVehicleExpenses(expenses), refenceNumber, id);
             return status;
         }
 
@@ -216,6 +216,8 @@ namespace AuctionInventory.Services
                     mVehicleExpense.iPurchaseInvoiceID = item.iPurchaseInvoiceID;
 
                     mVehicleExpense.iVehicleID = item.iVehicleID;
+
+                    mVehicleExpense.strExpenseDate = item.strExpenseDate;
 
                     mVehicleExpense.iVehicleExpenseID = item.iVehicleExpenseID;
 

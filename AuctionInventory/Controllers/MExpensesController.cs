@@ -347,7 +347,7 @@ namespace AuctionInventory.Controllers
                 listExpense = null;
                 throw e;
             }
-           
+
             return Json(listExpense, JsonRequestBehavior.AllowGet);
         }
 
@@ -534,10 +534,8 @@ namespace AuctionInventory.Controllers
 
 
 
-        [HttpPost]
-        // public ActionResult SaveAllVehicleExpense(string expense)
-        //public ActionResult SaveAllVehicleExpense(List<AllVehicleExpenseModel> expense)
-        public ActionResult SaveVehicleExpense(List<VehicleExpenseModel> expense)
+        [HttpPost]       
+        public ActionResult SaveVehicleExpense(List<VehicleExpenseModel> expense, int id)
         {
             bool status = false;
             try
@@ -545,7 +543,7 @@ namespace AuctionInventory.Controllers
                 if (expense != null && ModelState.IsValid)
                 {
                     ExpensesServiceClient service = new ExpensesServiceClient();
-                    status = service.SaveDataVehicleExpense(expense);
+                    status = service.SaveDataVehicleExpense(expense, id);
                     //return RedirectToAction("Index");
                 }
             }
@@ -554,7 +552,6 @@ namespace AuctionInventory.Controllers
                 ModelState.AddModelError("error", "Something Went Wrong");
                 status = false;
                 throw e;
-
 
             }
 
@@ -588,8 +585,6 @@ namespace AuctionInventory.Controllers
         //    //return View();
         //    return new JsonResult { Data = new { status = status } };
         //}
-
-
 
     }
 }

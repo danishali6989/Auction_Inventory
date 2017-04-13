@@ -35,6 +35,13 @@
                 <div class='form-group col-sm-2'>
                     <input type='button' value='Search' style='margin-left: -35px;' class='btn btn-success' id='JQGridFill' />
                 </div>
+
+                <div class='form-group col-sm-2' style="margin-top:-23px;">
+                    <label>Date:</label>
+                    <input class='form-control datepicker input-group-sm' name='AllExpDate' placeholder='Enter drop of date...' id='txtAllExpDate' />
+                </div>
+
+
             </div>
 
 
@@ -318,6 +325,8 @@
                           //iExpenseID: $("#hfExpense").val(),
 
                           iPurchaseInvoiceID: $("#invno").val(),
+                          strExpenseDate:$("#txtAllExpDate").val(),
+
                           iExpenseID: ExpenseID,
                           //iCategoryID: 2,
                           //iSubCategoryID: 1,
@@ -383,15 +392,16 @@
 
     function SaveALLExpense(arr) {
         debugger;
+        var invoiceID = parseInt(0);
 
         $.ajax({
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             type: 'POST',
             url: "/MExpenses/SaveVehicleExpense",
-            data: JSON.stringify({ 'expense': arr }),
+            data: JSON.stringify({ 'expense': arr, 'id': invoiceID }),
             success: function (data) {
-                alert("Succsesfully Saved All Vehicle Expense.");
+                alert("Succsesfully Update All Vehicle Expense.");
                 window.location.href = "/MExpenses/AllVehicleExpensesList";
             }
         });
@@ -501,7 +511,13 @@
 
 
 </script>
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+        //$('input[type=datetime]').datepicker();
+    });
 
+</script>
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
