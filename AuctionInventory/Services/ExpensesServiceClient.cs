@@ -125,6 +125,7 @@ namespace AuctionInventory.Services
 
         public bool SaveDataVehicleExpense(List<VehicleExpenseModel> expenses, int id)
         {
+            AuctionInventoryEntities auctionContext=new AuctionInventoryEntities();
             bool status = true;
             //Expenses expense = new Expenses();
             ExpensesRepository repo = new ExpensesRepository();

@@ -467,6 +467,8 @@ namespace AuctionInventoryDAL.Repositories
         {
             bool status = false;
             {
+                
+                //for all vehicle expense
                 if (id != 0)
                 {
 
@@ -480,6 +482,8 @@ namespace AuctionInventoryDAL.Repositories
 
                 }
 
+
+                //for single vehicle expense
                 if (id != 0)
                 {
 
@@ -493,7 +497,7 @@ namespace AuctionInventoryDAL.Repositories
 
                 }
 
-               
+                //Save for both
                     foreach (var item in expense)
                     {
                         //Save
@@ -501,6 +505,9 @@ namespace AuctionInventoryDAL.Repositories
                         auctionContext.VehicleExpenses.Add(item);
                     }
                     auctionContext.SaveChanges();
+
+
+
                 }
 
             

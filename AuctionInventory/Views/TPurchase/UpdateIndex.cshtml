@@ -101,12 +101,20 @@
                 <br />
                 <b>Invoice value AED </b>: 	د.إ <span id="spnINVAED"></span>
             </div>
-
+            <br /><br /><br /><br />
+            <table id="dataGrid" class="table table-bordered table-striped"></table>
+            <div id="pagingGrid"></div>
+           
+            <br />
             <div class="col-sm-6">
 
                 <div class="row">
+
+                    <div id="dialog" style="display: none" align="center">
+                        Do you want to Update this Purchase?
+                    </div>
                     <div class="col-sm-2">
-                        <input type="submit" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
+                        <input type="submit" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Update" />
                     </div>
                     @*<div class="col-sm-2">
                             <input type="button" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
@@ -120,13 +128,12 @@
                     <div class="col-sm-3">
                         <input type="button" class='popup btn btn-info' name="Save" value="Print Custom Invoice" />
                     </div>
+                    <input type="button" style=" margin-left: 535px; margin-top: -33px;" class="btn btn-warning col-md-2" value="Cancel" onclick="Cancel();" id="cancelVehiclesExpenseInfo">
+
                 </div>
             </div>
-            <br />
-            <br />
-
-            <table id="dataGrid" class="table table-bordered table-striped"></table>
-            <div id="pagingGrid"></div>
+           
+           
 
         </div>
 
@@ -175,6 +182,11 @@
 <!-- /.box-body -->
 
 <script type="text/javascript">
+
+    function Cancel() {
+        window.location.href = "/TPurchase/GetPurchaseList";
+    }
+
     $(function () { // will trigger when the document is ready
         $('.datepicker').datepicker(); //Initialise any date pickers
     });
@@ -286,79 +298,114 @@
 
 
     $("#btnSaveJQ").click(function () {
-        //debugger;
-        //var tes="salman"
-        //var alphanumers = /^[a-zA-Z0-9]+$/;
-        //if(!alphanumers.test(tes)){
-        //    alert("Special chareter found");
-        //    $("#textboxid").css({"background-color": "color"});
-        //    return false;
-        //}
-
-
-        //var alphanumers = /^[a-zA-Z0-9]+$/;
-        //if(!alphanumers.test($("#firstname").val())){
-        //    alert("Nickname can have only alphabets and numbers.");
-        //    return false;
-        //}
-
-    // var test=   $("#someid").val();
-
-
-        var purchase = {
-            PurchaseID: @Model.PurchaseID,
-            iPurchaseInvoiceNo: $('#invno').val(),
-            strPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
-            strSupplierName: $('#txtSearchSupplier').val(),
-            strMasterDecNo: $('#strMasterDecNo').val(),
-            strBLNo: $('#strBLNo').val(),
-            strArrivalDate: $('#strArrivalDate').val(),
-            dmlConversionRate: $('#dmlConversionRate').val()
-        }
-        var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
-
-        $.ajax({
-            type: "POST",
-            url: "/TPurchase/Save",
-            cache: false,
-            data: JSON.stringify({ purchase: purchase, griddata: griddata }),
-            // data: JSON.stringify(purchase),
-            dataType: this.dataType,
-            contentType: "application/json; charset=utf-8",
-            success: function (Data) {
-               
-                    window.location.href = "/TPurchase/GetPurchaseList";
-                   
-                
-                //var $result = $(Data).find(purID);
-                //alert($result);
-
-                //$('#result').html('"PassGriddata()" successfully called.');
-
-
-
-
-                //var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
-
-                //griddata = JSON.stringify({ 'griddata': griddata });
-                //$.ajax({
-                //    contentType: 'application/json; charset=utf-8',
-                //    dataType: 'json',
-                //    type: 'POST',
-                //    url: '/MVehicle/PassGriddata',
-                //    data: griddata,
-                //    success: function () {
-                //        $('#result').html('"PassGriddata()" successfully called.');
-                //    },
-                //    failure: function (response) {
-                //        $('#result').html(response);
-                //    }
-                //});
-            },
-            error: function (data) {
-                $("#error_message").html(data);
+        $(function () {
+            if ($(this).attr("rel") != "update") {
+                $('#dialog').dialog('open');
+                return false;
             }
         });
+
+        $("#dialog").dialog({
+            modal: true,
+            autoOpen: false,
+            title: "Confirmation",
+            width: 350,
+            height: 160,
+            buttons: [
+        {
+            id: "Yes",
+            text: "Yes",
+            click: function () {
+
+                //calling function here for update
+                //debugger;
+                //var tes="salman"
+                //var alphanumers = /^[a-zA-Z0-9]+$/;
+                //if(!alphanumers.test(tes)){
+                //    alert("Special chareter found");
+                //    $("#textboxid").css({"background-color": "color"});
+                //    return false;
+                //}
+
+
+                //var alphanumers = /^[a-zA-Z0-9]+$/;
+                //if(!alphanumers.test($("#firstname").val())){
+                //    alert("Nickname can have only alphabets and numbers.");
+                //    return false;
+                //}
+
+                // var test=   $("#someid").val();
+
+
+                var purchase = {
+                    PurchaseID: @Model.PurchaseID,
+                    iPurchaseInvoiceNo: $('#invno').val(),
+                    strPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
+                    strSupplierName: $('#txtSearchSupplier').val(),
+                    strMasterDecNo: $('#strMasterDecNo').val(),
+                    strBLNo: $('#strBLNo').val(),
+                    strArrivalDate: $('#strArrivalDate').val(),
+                    dmlConversionRate: $('#dmlConversionRate').val()
+                }
+                var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+
+                $.ajax({
+                    type: "POST",
+                    url: "/TPurchase/Save",
+                    cache: false,
+                    data: JSON.stringify({ purchase: purchase, griddata: griddata }),
+                    // data: JSON.stringify(purchase),
+                    dataType: this.dataType,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+               
+                        window.location.href = "/TPurchase/GetPurchaseList";
+                   
+                
+                        //var $result = $(Data).find(purID);
+                        //alert($result);
+
+                        //$('#result').html('"PassGriddata()" successfully called.');
+
+
+
+
+                        //var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+
+                        //griddata = JSON.stringify({ 'griddata': griddata });
+                        //$.ajax({
+                        //    contentType: 'application/json; charset=utf-8',
+                        //    dataType: 'json',
+                        //    type: 'POST',
+                        //    url: '/MVehicle/PassGriddata',
+                        //    data: griddata,
+                        //    success: function () {
+                        //        $('#result').html('"PassGriddata()" successfully called.');
+                        //    },
+                        //    failure: function (response) {
+                        //        $('#result').html(response);
+                        //    }
+                        //});
+                    },
+                    error: function (data) {
+                        $("#error_message").html(data);
+                    }
+                });
+                $(this).dialog('close');
+            }
+
+        },
+        {
+            id: "No",
+            text: "No",
+            click: function () {
+                $(this).dialog('close');
+            }
+        }
+            ]
+        });
+
+
 
     });
 

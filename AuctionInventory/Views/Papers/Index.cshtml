@@ -62,18 +62,30 @@
 
     <div id="divForAllBtn" style="display: none">
         <div style="margin-left: 222px;">
-            <input type="button" id="btnAdd" value="ADD " />
+            <div id="dialog" style="display: none" align="center">
+                Do you want to ADD ?
+            </div>
+
+            <input type="button" style="margin-left: -100px;" class="btn btn-success col-md-1" id="btnAdd" value="ADD " />
             @*<input type="button" id="btnUpdate" value="Update " />*@
-            <input type="button" id="btnPrint" value="Print Receipt " />
-            <input type="button" id="btnPending" value="Pending Bills " />
-            <input type="button" id="btnExpired" value="Expired Bills " />
+            <input type="button" style="margin-left: -10px;" class="btn btn-success col-md-2" id="btnPrint" value="Print Receipt " />
+            <input type="button" style="margin-left: 15px;" class="btn btn-success col-md-2" id="btnPending" value="Pending Bills " />
+            <input type="button" style="margin-left: 15px;" class="btn btn-success col-md-2" id="btnExpired" value="Expired Bills " />
+            <input type="button" style="margin-left: 15px;" class="btn btn-warning col-md-2" value="Cancel" onclick="Cancel();">
+
         </div>
 
     </div>
 </div>
 
 
+
 <script type="text/javascript">
+
+    function Cancel() {
+        window.location.href = "/Papers/PapersList";
+    }
+
     var counterImport = 0;
     var counterExport = 0;
     var PapertypeID;
@@ -108,7 +120,7 @@
                 /////////////////////////////////////  Grid for Import   //////////////////////////////////////////////
                 if (PapertypeID == 1) {
 
-                      $("#divForAppendedExportTextBox").html("");
+                    $("#divForAppendedExportTextBox").html("");
 
                     $("#divForImport").show();
                     $("#divForAppendedImportTextBox").show();
@@ -189,7 +201,7 @@
                     //////////////////////////////////////////// //Grid for Export///////////////////////////////////////////////////////////////////////////
 
                 else if (PapertypeID == 2) {
-                     $("#divForAppendedImportTextBox").html("");
+                    $("#divForAppendedImportTextBox").html("");
 
                     $("#divForExport").show();
                     $("#divForAppendedExportTextBox").show();
@@ -253,7 +265,7 @@
                               + "<div class='form-group col-sm-1'>" + "<label>" + "Bal" + "</label>" + "<input class='form-control input-group-sm'  type='text' name='DynamicExpBal' placeholder='Enter' id='txtExpBal" + counterExport + "' /></div>"
                               + "<div class='form-group col-sm-1'>" + "<label>" + "</label>" + "<input type='button' value='Remove' class='removeExport' id='btnRemoveExport' /></div>");
                                 // + "<input type='button' value='Remove' class='remove' id='btnRemove' />'</div>");
-                             
+
                                 $("#txtReceivingDate" + counterExport).datepicker();
                                 $("#txtSubmitDate" + counterExport).datepicker();
                             }
@@ -314,113 +326,156 @@
     var arrExportDataToTransfer = new Array();
     $("#btnAdd").click(function () {
         debugger
-        if (PapertypeID == 1) {
 
-            for (var j = 0; j < arrImportVehicleID.length;) {
 
-                for (var i = 0; i < counterImport; i++) {
 
-                    var vehicleID = arrImportVehicleID[j].VehicleID;
-                    var DecNo = $("#txtDecNo" + i).val();
-                    var DecDate = $("#txtDecDate" + i).val();
-                    var Deposit = $("#txtDeposit" + i).val();
-                    var Duty = $("#txtDuty" + i).val();
-                    var Paper = $("#txtPaper" + i).val();
-                    var Total = $("#txtTotal" + i).val();
-                    var Bal = $("#txtBal" + i).val();
-
-                    var paperImportData =
-                          {
-                              iVehicleID: vehicleID,
-                              iDecNo: DecNo,
-                              strDecDate: DecDate,
-                              dcmlImpDeposit: Deposit,
-                              dcmlDuty: Duty,
-                              dcmlPaper: Paper,
-                              dcmlTotal: Total,
-                              dcmlImpBalance: Bal
-
-                          }
-                    arrImportDataToTransfer.push(paperImportData);
-                    j++;
-                }
-                SaveImportData(arrImportDataToTransfer);
+        $(function () {
+            if ($(this).attr("rel") != "update") {
+                $('#dialog').dialog('open');
+                return false;
             }
+        });
 
-            function SaveImportData(arr) {
-                debugger;
+        $("#dialog").dialog({
+            modal: true,
+            autoOpen: false,
+            title: "Confirmation",
+            width: 350,
+            height: 160,
+            buttons: [
+        {
+            id: "Yes",
+            text: "Yes",
+            click: function () {
 
-                $.ajax({
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    type: 'POST',
-                    url: "/Papers/SaveImport",
-                    data: JSON.stringify({ 'importModel': arr }),
-                    success: function (data) {
-                        alert("Succsesfully Saved Import Data.");
-                        window.location.href = "/Papers/PapersList";
+                //calling function here for update
+                if (PapertypeID == 1) {
+
+                    for (var j = 0; j < arrImportVehicleID.length;) {
+
+                        for (var i = 0; i < counterImport; i++) {
+
+                            var vehicleID = arrImportVehicleID[j].VehicleID;
+                            var DecNo = $("#txtDecNo" + i).val();
+                            var DecDate = $("#txtDecDate" + i).val();
+                            var Deposit = $("#txtDeposit" + i).val();
+                            var Duty = $("#txtDuty" + i).val();
+                            var Paper = $("#txtPaper" + i).val();
+                            var Total = $("#txtTotal" + i).val();
+                            var Bal = $("#txtBal" + i).val();
+
+                            var paperImportData =
+                                  {
+                                      iVehicleID: vehicleID,
+                                      iDecNo: DecNo,
+                                      strDecDate: DecDate,
+                                      dcmlImpDeposit: Deposit,
+                                      dcmlDuty: Duty,
+                                      dcmlPaper: Paper,
+                                      dcmlTotal: Total,
+                                      dcmlImpBalance: Bal
+
+                                  }
+                            arrImportDataToTransfer.push(paperImportData);
+                            j++;
+                        }
+                        SaveImportData(arrImportDataToTransfer);
                     }
-                });
-            }
 
-        }
-        else if (PapertypeID == 2) {
-            debugger;
-            function getApproval(CID) {
-                var Approval = $("#ddlApproval").val();
+                    function SaveImportData(arr) {
+                        debugger;
 
-            }
-            // alert(Approval);
-
-            for (var j = 0; j < arrExportVehicleID.length;) {
-
-                for (var i = 0; i < counterExport; i++) {
-
-                    var vehicleID = arrExportVehicleID[j].VehicleID;
-                    var ReceivingDate = $("#txtReceivingDate" + i).val();
-                    var SubmitDate = $("#txtSubmitDate" + i).val();
-                    var Deduction = $("#txtDeduction" + i).val();
-                    var Fine = $("#txtFine" + i).val();
-                    var Misc = $("#txtMisc" + i).val();
-                    var ExpDeposit = $("#txtExpDeposit" + i).val();
-                    var ExpBal = $("#txtExpBal" + i).val();
-
-                    var paperExportData =
-                          {
-                              iVehicleID: vehicleID,
-                              strReceivingDate: ReceivingDate,
-                              strSubmitDate: SubmitDate,
-                              iCustApproval: Approval,
-                              dcmlDeduction: Deduction,
-                              dcmlFine: Fine,
-                              dcmlMisc: Misc,
-                              dcmlExportDeposit: ExpDeposit,
-                              dcmlExportBalance: ExpBal
-
-                          }
-                    arrExportDataToTransfer.push(paperExportData);
-                    j++;
-                }
-                SaveExportData(arrExportDataToTransfer);
-            }
-
-            function SaveExportData(arrExp) {
-                debugger;
-
-                $.ajax({
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    type: 'POST',
-                    url: "/Papers/SaveExport",
-                    data: JSON.stringify({ 'exportModel': arrExp }),
-                    success: function (data) {
-                        alert("Succsesfully Saved Export Data.");
-                        window.location.href = "/Papers/PapersList";
+                        $.ajax({
+                            contentType: 'application/json; charset=utf-8',
+                            dataType: 'json',
+                            type: 'POST',
+                            url: "/Papers/SaveImport",
+                            data: JSON.stringify({ 'importModel': arr }),
+                            success: function (data) {
+                                alert("Succsesfully Saved Import Data.");
+                                window.location.href = "/Papers/PapersList";
+                            }
+                        });
                     }
-                });
 
+                }
+                else if (PapertypeID == 2) {
+                    debugger;
+                    function getApproval(CID) {
+                        var Approval = $("#ddlApproval").val();
+
+                    }
+                    // alert(Approval);
+
+                    for (var j = 0; j < arrExportVehicleID.length;) {
+
+                        for (var i = 0; i < counterExport; i++) {
+
+                            var vehicleID = arrExportVehicleID[j].VehicleID;
+                            var ReceivingDate = $("#txtReceivingDate" + i).val();
+                            var SubmitDate = $("#txtSubmitDate" + i).val();
+                            var Deduction = $("#txtDeduction" + i).val();
+                            var Fine = $("#txtFine" + i).val();
+                            var Misc = $("#txtMisc" + i).val();
+                            var ExpDeposit = $("#txtExpDeposit" + i).val();
+                            var ExpBal = $("#txtExpBal" + i).val();
+
+                            var paperExportData =
+                                  {
+                                      iVehicleID: vehicleID,
+                                      strReceivingDate: ReceivingDate,
+                                      strSubmitDate: SubmitDate,
+                                      iCustApproval: Approval,
+                                      dcmlDeduction: Deduction,
+                                      dcmlFine: Fine,
+                                      dcmlMisc: Misc,
+                                      dcmlExportDeposit: ExpDeposit,
+                                      dcmlExportBalance: ExpBal
+
+                                  }
+                            arrExportDataToTransfer.push(paperExportData);
+                            j++;
+                        }
+                        SaveExportData(arrExportDataToTransfer);
+                    }
+
+                    function SaveExportData(arrExp) {
+                        debugger;
+
+                        $.ajax({
+                            contentType: 'application/json; charset=utf-8',
+                            dataType: 'json',
+                            type: 'POST',
+                            url: "/Papers/SaveExport",
+                            data: JSON.stringify({ 'exportModel': arrExp }),
+                            success: function (data) {
+                                alert("Succsesfully Saved Export Data.");
+                                window.location.href = "/Papers/PapersList";
+                            }
+                        });
+
+                    }
+                }
+                $(this).dialog('close');
+            }
+
+        },
+        {
+            id: "No",
+            text: "No",
+            click: function () {
+                $(this).dialog('close');
             }
         }
+            ]
+        });
+
+
+
+
+
+
+
     });
 
 </script>

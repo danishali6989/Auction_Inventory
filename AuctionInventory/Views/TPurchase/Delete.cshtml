@@ -132,7 +132,10 @@
 
         <div class="col-sm-2">
             <input type="submit" class='popup btn btn-info' id="btnDeleteJQ" name="Delete" value="Delete" />
+
+            
         </div>
+        <input type="button" style=" margin-left: -10px;" class="btn btn-warning col-md-1" value="Cancel" onclick="Cancel();" id="cancelVehiclesExpenseInfo">
 
     </div>
 </div>
@@ -141,6 +144,12 @@
 <!-- /.box-body -->
 
 <script type="text/javascript">
+
+
+    function Cancel() {
+        window.location.href = "/TPurchase/GetPurchaseList";
+    }
+
     jQuery(document).ready(function () {
         var request =@Model.PurchaseID
         jQuery.ajax({

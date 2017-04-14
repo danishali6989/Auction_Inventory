@@ -116,8 +116,11 @@
 
                 <div>
                     <br />
-
-                    <input type="button" style="margin-left: 330px;" class="btn btn-success col-md-2" id="btnSaveAllVehiclesExpense" value="Update">
+                    @*<asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="DeleteRecord" UseSubmitBehavior="false" />*@
+                    <div id="dialog" style="display: none" align="center">
+                        Do you want to Update this Expenses?
+                    </div>
+                    <input type="button" style="margin-left: 200px;" class="btn btn-success col-md-2" id="btnSaveAllVehiclesExpense" value="Update">
 
                     <input type="button" style="margin-left: 40px" class="btn btn-warning col-md-2" value="Cancel" onclick="CancelVehiclesExpenseInfo();" id="cancelVehiclesExpenseInfo">
                 </div>
@@ -608,48 +611,70 @@
 
         $("#btnSaveAllVehiclesExpense").click(function () {
             debugger
-            for (var i = 1; i < counter; i++) {
-                var ExpenseID = $("#lblExpenseID" + i).html();
-                //var ExpenseName = $("#lblExpense" + i).html();
-                var ExpenseAmount = $("#txtAmount" + i).val();
-                var ExpenseTotalAmount = parseInt($("#totalSum").html());
-                var iVehicleExpenseID = $("#iVehicleExpenseID" + i).html();
-                var expenseAmount =
-                      {
-                          //iExpenseID: $("#hfExpense").val(),
+           
+           
 
-                          iPurchaseInvoiceID: $("#invno").val(),
-                          strExpenseDate: $("#txtAllExpDate").val(),
-                          iExpenseID: ExpenseID,
-                          //iCategoryID: 2,
-                         iVehicleExpenseID: iVehicleExpenseID,
-                          iExpenseAmount: ExpenseAmount,
-                          iTotalExpenseAmounrt: ExpenseTotalAmount
 
-                      }
-
-                if (ExpenseAmount != 0 && ExpenseAmount != null)
-                {
-                    favorite.push(expenseAmount);
+            $(function () {
+                if ($(this).attr("rel") != "update") {
+                    $('#dialog').dialog('open');
+                    return false;
                 }
-               
-                //else {
-                //    $.ajax({
-                //        contentType: 'application/json; charset=utf-8',
-                //        dataType: 'json',
-                //        type: 'POST',
-                //        url: "/MExpenses/VehiclesByInvoiceID",
-                //        data: JSON.stringify({ 'id': iVehicleExpenseID }),
-                //        success: function (data) {
-                //            alert("Succsesfully Update All Vehicle Expense.");
-                //            window.location.href = "/MExpenses/AllVehicleExpensesList";
-                //        }
-                //    });
-                //}
+            });
+            
+                $("#dialog").dialog({
+                    modal: true,
+                    autoOpen: false,
+                    title: "Confirmation",
+                    width: 350,
+                    height: 160,
+                    buttons: [
+                {
+                    id: "Yes",
+                    text: "Yes",
+                    click: function () {
+
+                        //calling function here for update
+                        for (var i = 1; i < counter; i++) {
+                            var ExpenseID = $("#lblExpenseID" + i).html();
+                            //var ExpenseName = $("#lblExpense" + i).html();
+                            var ExpenseAmount = $("#txtAmount" + i).val();
+                            var ExpenseTotalAmount = parseInt($("#totalSum").html());
+                            var iVehicleExpenseID = $("#iVehicleExpenseID" + i).html();
+                            var expenseAmount =
+                                  {
+                                      //iExpenseID: $("#hfExpense").val(),
+
+                                      iPurchaseInvoiceID: $("#invno").val(),
+                                      strExpenseDate: $("#txtAllExpDate").val(),
+                                      iExpenseID: ExpenseID,
+                                      //iCategoryID: 2,
+                                      iVehicleExpenseID: iVehicleExpenseID,
+                                      iExpenseAmount: ExpenseAmount,
+                                      iTotalExpenseAmounrt: ExpenseTotalAmount
+
+                                  }
+
+                            if (ExpenseAmount != 0 && ExpenseAmount != null) {
+                                favorite.push(expenseAmount);
+                            }
 
 
-            }
-            SaveALLExpense(favorite);
+                        }
+                        SaveALLExpense(favorite);
+                        $(this).dialog('close');
+                    }
+
+                },
+                {
+                    id: "No",
+                    text: "No",
+                    click: function () {
+                        $(this).dialog('close');
+                    }
+                }
+                    ]
+                });
 
         });
 
@@ -740,6 +765,10 @@
         arrExpenseID.splice($.inArray(id, arrExpenseID), 1);        
         
     }
+
+
+
+
 
 
     function SaveALLExpense(arr) {
@@ -857,6 +886,13 @@
     });
 
 </script>
+
+
+
+
+
+
+
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />

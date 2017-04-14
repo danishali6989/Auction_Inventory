@@ -15,7 +15,9 @@
         <option value="2">Export</option>
     </select>
     <br><br>
-
+    <div id="dialog" style="display: none" align="center">
+        Do you want to ADD ?
+    </div>
     <div id="divForImport">
         <table id="dataGridImport" class="table table-bordered table-striped"></table>
         <div id="pagingGridImport"></div>
@@ -27,6 +29,10 @@
         <div id="pagingGridExport"></div>
     </div>
 </div>
+
+
+
+
 
 
 <script type="text/javascript">
@@ -182,16 +188,17 @@
         }
     }
 
+
     function saveImportRow(id) {
-       
+
         jQuery('#dataGridImport').saveRow(id);
-       // var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+        // var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
 
 
         var rowDataForImport = jQuery("#dataGridImport").getRowData(id);
         //var importID = rowData['iPaperDetailsForImportID'];
 
-       
+
         $.ajax({
             type: "POST",
             url: "/Papers/UpdateImportIndex",
@@ -216,7 +223,7 @@
         var rowDataForExport = jQuery("#dataGridExport").getRowData(id);
         //var importID = rowData['iPaperDetailsForImportID'];
 
-       
+
 
         $.ajax({
             type: "POST",
@@ -232,6 +239,8 @@
         });
 
     }
+
+   
 
 </script>
 

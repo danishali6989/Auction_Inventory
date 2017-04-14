@@ -28,7 +28,7 @@
         contentType: "application/json; charset=utf-8",
         success: function (data) {
             $("#invno").html(data);
-            
+
         }
     });
 </script>
@@ -105,32 +105,32 @@
 
 
         @*<!-- /modal For Purchase Alert -->
-        <div class="example-modal">
-            <div class="modal" id="alertModal" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h3 class="modal-title"></h3>
-                        </div>
-                        <div class="modal-body" id="Modal" style="border-bottom:1px solid #f4f4f4">
-                            <div class="box-body">
-                                <div id="alertDiv">
+            <div class="example-modal">
+                <div class="modal" id="alertModal" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h3 class="modal-title"></h3>
+                            </div>
+                            <div class="modal-body" id="Modal" style="border-bottom:1px solid #f4f4f4">
+                                <div class="box-body">
+                                    <div id="alertDiv">
+
+                                    </div>
 
                                 </div>
-
                             </div>
-                        </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <input type="button" class="btn btn-info pull-right" id="btnNewCustomerAdd" value="Save" />
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        </div><!-- /.example-modal -->
-        <!-- /End-modal  -->*@
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                <input type="button" class="btn btn-info pull-right" id="btnNewCustomerAdd" value="Save" />
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div><!-- /.example-modal -->
+            <!-- /End-modal  -->*@
 
 
 
@@ -167,7 +167,9 @@
                {
                    @class = "form-control",
                    @id = "txtSearchSupplier",
-                   @required = "required", @placeholder = "Search By Supplier FirstName"})
+                   @required = "required",
+                   @placeholder = "Search By Supplier FirstName"
+               })
                     @Html.ValidationMessageFor(a => a.strSupplierName)
                 </div>
             </div>
@@ -257,10 +259,10 @@
             <div class="col-sm-6">
                 <b>Invoice value JPY </b>: &yen; <span id="spnINVJPY"></span>
                 <br />
-                <b>Invoice value AED </b>: 	د.إ <span id="spnINVAED"></span>               
+                <b>Invoice value AED </b>: 	د.إ <span id="spnINVAED"></span>
             </div>
 
-            
+
             <br />
             <br />
 
@@ -271,22 +273,27 @@
             <div class="col-sm-6" style="margin-left:270px;">
 
                 <div class="row">
+
+                    <div id="dialog" style="display: none" align="center">
+                        Do you want to Save this Purchase?
+                    </div>
                     <div class="col-sm-2">
-                        <input type="submit" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
+                        <input type="submit" style="margin-left: -150px;" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
                     </div>
                     @*<div class="col-sm-2">
-                    <input type="button" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
-                </div>*@
+                            <input type="button" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
+                        </div>*@
                     <div class="col-sm-3">
-                        <input type="button" class='popup btn btn-info' id="btnRcvStock" name="Save" value="Stock Revice" />
+                        <input type="button" style="margin-left: -140px;" class='popup btn btn-info' id="btnRcvStock" name="Save" value="Stock Revice" />
                     </div>
                     <div class="col-sm-3">
-                        <input type="button" class='popup btn btn-info' name="Save" value="Print Invoice" onclick="generateInvoicePDF()" />
+                        <input type="button" style="margin-left: -135px;" class='popup btn btn-info' name="Save" value="Print Invoice" onclick="generateInvoicePDF()" />
                     </div>
                     <div class="col-sm-3">
-                        <input type="button" class='popup btn btn-info' name="Save" value="Print Custom Invoice" onclick="generateCustomPDF()" />
+                        <input type="button" style="margin-left: -135px;" class='popup btn btn-info' name="Save" value="Print Custom Invoice" onclick="generateCustomPDF()" />
                     </div>
 
+                    <input type="button" style=" margin-left: 395px; margin-top: -33px;" class="btn btn-warning col-md-2" value="Cancel" onclick="Cancel();" id="cancelVehiclesExpenseInfo">
 
 
 
@@ -302,6 +309,13 @@
 
 
 <script type="text/javascript">
+
+
+    function Cancel() {
+        window.location.href = "/TPurchase/GetPurchaseList";
+    }
+
+
     $(function () { // will trigger when the document is ready
         $('.datepicker').datepicker(); //Initialise any date pickers
     });
@@ -311,25 +325,25 @@
 
 
 <script>
-   
+
     function generateInvoicePDF() {
-       
+
         $.ajax({
             cache: false,
             type: "POST",
             url: "/TPurchase/GenerateInvoicePDF",
             dataType: 'json',
             success: function (result) {
-              
+
                 debugger;
-                var columns =['Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'JPY'];                
+                var columns = ['Lot No', 'Chasis No', 'Make', 'Model', 'Category', 'Year', 'Color', 'Origin', 'Location', 'JPY'];
 
                 var data = [];
                 for (var i = 1; i < result.length; i++) {
 
                     data.push([result[i].LotNum, result[i].ChassisNum, result[i].Make, result[i].iModel, result[i].Category, result[i].Year, result[i].color, result[i].Origin, result[i].Location, result[i].JPY]);
 
-                }                
+                }
                 var doc = new jsPDF();
                 doc.autoTable(columns, data);
                 doc.output("dataurlnewwindow");
@@ -367,7 +381,7 @@
             }
         });
     }
-    
+
 </script>
 
 
@@ -379,87 +393,87 @@
 
 
 @*<script>
-    function generate() {
-        debugger
+        function generate() {
+            debugger
 
-      // colNames: ['Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'CustomAssessed Value','Duty', 'JPY'],
-        //var columns = ["ID", "Country", "Rank", "Capital"];
-        //var data = [
-        //    [1, "Denmark", 7.526, "Copenhagen"],
-        //    [2, "Switzerland", 7.509, "Bern"],
-        //    [3, "Iceland", 7.501, "Reykjavík"],
-        //    [4, "Norway", 7.498, "Oslo"],
-        //    [5, "Finland", 7.413, "Helsinki"]
-        //];
-
-
-        var columns = ['LotNum', 'strChassisNum', 'strMake', 'iModel', 'strCategory'];
-        var data = [
-            [1, "Denmark", 7.526, "Copenhagen","Test"],
-            [2, "Switzerland", 7.509, "Bern", "Test"],
-            [3, "Iceland", 7.501, "Reykjavík", "Test"],
-            [4, "Norway", 7.498, "Oslo", "Test"],
-            [5, "Finland", 7.413, "Helsinki", "Test"]
-        ];
+          // colNames: ['Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'CustomAssessed Value','Duty', 'JPY'],
+            //var columns = ["ID", "Country", "Rank", "Capital"];
+            //var data = [
+            //    [1, "Denmark", 7.526, "Copenhagen"],
+            //    [2, "Switzerland", 7.509, "Bern"],
+            //    [3, "Iceland", 7.501, "Reykjavík"],
+            //    [4, "Norway", 7.498, "Oslo"],
+            //    [5, "Finland", 7.413, "Helsinki"]
+            //];
 
 
-
-     //   var data = $('#dataGrid').jqGrid('getGridParam', 'data');
+            var columns = ['LotNum', 'strChassisNum', 'strMake', 'iModel', 'strCategory'];
+            var data = [
+                [1, "Denmark", 7.526, "Copenhagen","Test"],
+                [2, "Switzerland", 7.509, "Bern", "Test"],
+                [3, "Iceland", 7.501, "Reykjavík", "Test"],
+                [4, "Norway", 7.498, "Oslo", "Test"],
+                [5, "Finland", 7.413, "Helsinki", "Test"]
+            ];
 
 
 
-    //    { name: 'iLotNum', index: 'iLotNum', editable: true },
-    //{ name: 'strChassisNum', index: 'strChassisNum', editable: true },
-    //{ name: 'strMake', index: 'strMake', editable: true },
-    //{ name: 'iModel', index: 'iModel', editable: true },
-    //{ name: 'strCategory', index: 'strCategory', editable: true },
-    //{ name: 'iYear', index: 'iYear', editable: true },
-    //{ name: 'strColor', index: 'strColor', editable: true },
-    //{ name: 'strOrigin', index: 'strOrigin', editable: true },
-    //{ name: 'strLocation', index: 'strLocation', editable: true },
-    //{ name: 'iCustomAssesVal', index: 'iCustomAssesVal', editable: true },
-    //{ name: 'iDuty', index: 'iDuty', editable: true },
-    //{ name: 'iCustomValInJPY', index: 'iCustomValInJPY', editable: true }
-                                
-
-        //var data = [
-        //    [1, "Denmark", 7.526, "Copenhagen"],
-        //    [2, "Switzerland", 7.509, "Bern"],
-        //    [3, "Iceland", 7.501, "Reykjavík"],
-        //    [4, "Norway", 7.498, "Oslo"],
-        //    [5, "Finland", 7.413, "Helsinki"]
-        //];
+         //   var data = $('#dataGrid').jqGrid('getGridParam', 'data');
 
 
-        var doc = new jsPDF();
-        doc.autoTable(columns, data);
-        doc.output("dataurlnewwindow");
-    }
-</script>*@
+
+        //    { name: 'iLotNum', index: 'iLotNum', editable: true },
+        //{ name: 'strChassisNum', index: 'strChassisNum', editable: true },
+        //{ name: 'strMake', index: 'strMake', editable: true },
+        //{ name: 'iModel', index: 'iModel', editable: true },
+        //{ name: 'strCategory', index: 'strCategory', editable: true },
+        //{ name: 'iYear', index: 'iYear', editable: true },
+        //{ name: 'strColor', index: 'strColor', editable: true },
+        //{ name: 'strOrigin', index: 'strOrigin', editable: true },
+        //{ name: 'strLocation', index: 'strLocation', editable: true },
+        //{ name: 'iCustomAssesVal', index: 'iCustomAssesVal', editable: true },
+        //{ name: 'iDuty', index: 'iDuty', editable: true },
+        //{ name: 'iCustomValInJPY', index: 'iCustomValInJPY', editable: true }
+
+
+            //var data = [
+            //    [1, "Denmark", 7.526, "Copenhagen"],
+            //    [2, "Switzerland", 7.509, "Bern"],
+            //    [3, "Iceland", 7.501, "Reykjavík"],
+            //    [4, "Norway", 7.498, "Oslo"],
+            //    [5, "Finland", 7.413, "Helsinki"]
+            //];
+
+
+            var doc = new jsPDF();
+            doc.autoTable(columns, data);
+            doc.output("dataurlnewwindow");
+        }
+    </script>*@
 
 
 
 
 
 @*<script>
-    $("#btnRcvStock").click(function () {
-        var id = $('#invno').val();
-        $.ajax({
-            type: "POST",
-            url: "/TPurchase/Save",
-            cache: false,
-            data: JSON.stringify({ id: id }),
-            // data: JSON.stringify(purchase),
-            dataType: this.dataType,
-            contentType: "application/json; charset=utf-8",
-            success: function (Data) {
+        $("#btnRcvStock").click(function () {
+            var id = $('#invno').val();
+            $.ajax({
+                type: "POST",
+                url: "/TPurchase/Save",
+                cache: false,
+                data: JSON.stringify({ id: id }),
+                // data: JSON.stringify(purchase),
+                dataType: this.dataType,
+                contentType: "application/json; charset=utf-8",
+                success: function (Data) {
 
-            }
+                }
+            });
+
         });
 
-    });
-
-</script>*@
+    </script>*@
 
 <script>
 
@@ -467,123 +481,158 @@
     $("#btnSaveJQ").click(function () {
         debugger;
 
-        // For Testing
-     //   var griddata1 = $('#dataGrid').jqGrid('getGridParam', 'data');
 
-        var validPurchase = ValidatePurchaseInfo();
-        if (validPurchase == true) {
-
-            //debugger;
-            //var tes = "salman"
-            //var alphanumers = /^[a-zA-Z0-9]+$/;
-            //if (!alphanumers.test(tes)) {
-            //    alert("Special chareter found");
-            //    $("#textboxid").css({ "background-color": "color" });
-            //    return false;
-            //}
-
-            var purchase = {
-                iPurchaseInvoiceNo: $('#invno').val(),
-                strPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
-                strSupplierName: $('#txtSearchSupplier').val(),
-                strMasterDecNo: $('#strMasterDecNo').val(),
-                strBLNo: $('#strBLNo').val(),
-                strArrivalDate: $('#strArrivalDate').val(),
-                dmlConversionRate: $('#dmlConversionRate').val()
+        $(function () {
+            if ($(this).attr("rel") != "update") {
+                $('#dialog').dialog('open');
+                return false;
             }
-            var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+        });
 
-            $.ajax({
-                type: "POST",
-                url: "/TPurchase/Save",
-                cache: false,
-                data: JSON.stringify({ purchase: purchase, griddata: griddata }),
-                // data: JSON.stringify(purchase),
-                dataType: this.dataType,
-                contentType: "application/json; charset=utf-8",
-                success: function (Data) {
+        $("#dialog").dialog({
+            modal: true,
+            autoOpen: false,
+            title: "Confirmation",
+            width: 350,
+            height: 160,
+            buttons: [
+        {
+            id: "Yes",
+            text: "Yes",
+            click: function () {
 
-                    alert("Data Saved You Can Generate PDF");
+                //calling function here for update
+                // For Testing
+                //   var griddata1 = $('#dataGrid').jqGrid('getGridParam', 'data');
 
-                   // window.location.href = "/TPurchase/GetPurchaseList";
+                var validPurchase = ValidatePurchaseInfo();
+                if (validPurchase == true) {
 
+                    //debugger;
+                    //var tes = "salman"
+                    //var alphanumers = /^[a-zA-Z0-9]+$/;
+                    //if (!alphanumers.test(tes)) {
+                    //    alert("Special chareter found");
+                    //    $("#textboxid").css({ "background-color": "color" });
+                    //    return false;
+                    //}
 
-
-
-                    // debugger;
-                    // To Do- Redirect after success result
-                    if (Data.status) {
-                        //var url = "/Artists/Details?NestId=" + NestId;
-                        //window.location.href = url;
-                       
-                        //window.location.href = "/TPurchase/GetPurchaseList";
-                        //alert("Data Saved")
+                    var purchase = {
+                        iPurchaseInvoiceNo: $('#invno').val(),
+                        strPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
+                        strSupplierName: $('#txtSearchSupplier').val(),
+                        strMasterDecNo: $('#strMasterDecNo').val(),
+                        strBLNo: $('#strBLNo').val(),
+                        strArrivalDate: $('#strArrivalDate').val(),
+                        dmlConversionRate: $('#dmlConversionRate').val()
                     }
-                    //var $result = $(Data).find(purID);
-                    //alert($result);
+                    var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
 
-                    //$('#result').html('"PassGriddata()" successfully called.');
+                    $.ajax({
+                        type: "POST",
+                        url: "/TPurchase/Save",
+                        cache: false,
+                        data: JSON.stringify({ purchase: purchase, griddata: griddata }),
+                        // data: JSON.stringify(purchase),
+                        dataType: this.dataType,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (Data) {
 
+                            alert("Data Saved You Can Generate PDF");
 
-
-
-                    //var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
-
-                    //griddata = JSON.stringify({ 'griddata': griddata });
-                    //$.ajax({
-                    //    contentType: 'application/json; charset=utf-8',
-                    //    dataType: 'json',
-                    //    type: 'POST',
-                    //    url: '/MVehicle/PassGriddata',
-                    //    data: griddata,
-                    //    success: function () {
-                    //        $('#result').html('"PassGriddata()" successfully called.');
-                    //    },
-                    //    failure: function (response) {
-                    //        $('#result').html(response);
-                    //    }
-                    //});
-                },
-                error: function (data) {
-                    $("#error_message").html(data);
-                }
-            });
-        }
+                            // window.location.href = "/TPurchase/GetPurchaseList";
 
 
-        else {
-            //$('#alertModal').modal('show');
-            if (document.getElementById('strPurchaseInvoiceDate').value == "") {
-                $('#strPurchaseInvoiceDate').css('border-color', 'red');
-            }
-            else
-               
-                if (document.getElementById('txtSearchSupplier').value == "") {
-                    $('#txtSearchSupplier').css('border-color', 'red');
-                } else
-                  
-                    if (document.getElementById('strMasterDecNo').value == "") {
-                        $('#strMasterDecNo').css('border-color', 'red');
-                    } else
-                      
-                        if (document.getElementById('strBLNo').value == "") {
-                            $('#strBLNo').css('border-color', 'red');
-                        } else
-                          
-                            if (document.getElementById('strArrivalDate').value == "") {
-                                $('#strArrivalDate').css('border-color', 'red');
+
+
+                            // debugger;
+                            // To Do- Redirect after success result
+                            if (Data.status) {
+                                //var url = "/Artists/Details?NestId=" + NestId;
+                                //window.location.href = url;
+
+                                //window.location.href = "/TPurchase/GetPurchaseList";
+                                //alert("Data Saved")
                             }
-            //$('#strPurchaseInvoiceDate').css('border-color', 'red');
-            //$("#txtSearchSupplier").css({ "border-color": "red" });
-            //$("#strMasterDecNo").css({ "border-color": "red" });
-            //$("#strBLNo").css({ "border-color": "red" });
-            //$("#strArrivalDate").css({ "border-color": "red" });
-            //$('#alertDiv').html("Plese fill all the fields");
-            //$('#txtSearchSupplier').html("Plese fill all the fields");
-            //$('#strMasterDecNo').html("Plese fill all the fields");
-            //$('#strBLNo').html("Plese fill all the fields");
-            //$('#strArrivalDate').html("Plese fill all the fields");
+                            //var $result = $(Data).find(purID);
+                            //alert($result);
+
+                            //$('#result').html('"PassGriddata()" successfully called.');
+
+
+
+
+                            //var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+
+                            //griddata = JSON.stringify({ 'griddata': griddata });
+                            //$.ajax({
+                            //    contentType: 'application/json; charset=utf-8',
+                            //    dataType: 'json',
+                            //    type: 'POST',
+                            //    url: '/MVehicle/PassGriddata',
+                            //    data: griddata,
+                            //    success: function () {
+                            //        $('#result').html('"PassGriddata()" successfully called.');
+                            //    },
+                            //    failure: function (response) {
+                            //        $('#result').html(response);
+                            //    }
+                            //});
+                        },
+                        error: function (data) {
+                            $("#error_message").html(data);
+                        }
+                    });
+                }
+
+
+                else {
+                    //$('#alertModal').modal('show');
+                    if (document.getElementById('strPurchaseInvoiceDate').value == "") {
+                        $('#strPurchaseInvoiceDate').css('border-color', 'red');
+                    }
+                    else
+
+                        if (document.getElementById('txtSearchSupplier').value == "") {
+                            $('#txtSearchSupplier').css('border-color', 'red');
+                        } else
+
+                            if (document.getElementById('strMasterDecNo').value == "") {
+                                $('#strMasterDecNo').css('border-color', 'red');
+                            } else
+
+                                if (document.getElementById('strBLNo').value == "") {
+                                    $('#strBLNo').css('border-color', 'red');
+                                } else
+
+                                    if (document.getElementById('strArrivalDate').value == "") {
+                                        $('#strArrivalDate').css('border-color', 'red');
+                                    }
+                    //$('#strPurchaseInvoiceDate').css('border-color', 'red');
+                    //$("#txtSearchSupplier").css({ "border-color": "red" });
+                    //$("#strMasterDecNo").css({ "border-color": "red" });
+                    //$("#strBLNo").css({ "border-color": "red" });
+                    //$("#strArrivalDate").css({ "border-color": "red" });
+                    //$('#alertDiv').html("Plese fill all the fields");
+                    //$('#txtSearchSupplier').html("Plese fill all the fields");
+                    //$('#strMasterDecNo').html("Plese fill all the fields");
+                    //$('#strBLNo').html("Plese fill all the fields");
+                    //$('#strArrivalDate').html("Plese fill all the fields");
+                }
+                $(this).dialog('close');
+            }
+
+        },
+        {
+            id: "No",
+            text: "No",
+            click: function () {
+                $(this).dialog('close');
+            }
         }
+            ]
+        });
+
 
 
 
@@ -631,10 +680,10 @@
                         var sumOfJPY = result.sumOfJPY
 
                         var sumOfAED = result.sumOfAED
-                       
+
                         $("#spnINVJPY").text(sumOfJPY);
                         $("#spnINVAED").text(sumOfAED);
-                       
+
 
                         var lastsel;
                         $('#dataGrid').jqGrid({
@@ -652,7 +701,7 @@
 
 
 
-                            colNames: ['Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'CustomAssessed Value','Duty', 'JPY'],
+                            colNames: ['Lot No', 'Chasis No', 'Make', 'Model', 'Category', 'Year', 'Color', 'Origin', 'Location', 'CustomAssessed Value', 'Duty', 'JPY'],
                             colModel: [
                                 { name: 'iLotNum', index: 'iLotNum', editable: true },
                                 { name: 'strChassisNum', index: 'strChassisNum', editable: true },
@@ -666,7 +715,7 @@
                                 { name: 'iCustomAssesVal', index: 'iCustomAssesVal', editable: true },
                                 { name: 'iDuty', index: 'iDuty', editable: true },
                                 { name: 'iCustomValInJPY', index: 'iCustomValInJPY', editable: true }
-                                
+
 
                                 //,{ name: 'act', index: 'act', width: 750 }
 
@@ -704,7 +753,7 @@
                             //cellEdit: true,
                             cellsubmit: 'clientArray',
                             onSelectRow: function (id) {
-                               
+
                                 if (id !== lastsel) {
 
 
