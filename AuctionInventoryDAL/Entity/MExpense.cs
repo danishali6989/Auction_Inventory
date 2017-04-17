@@ -19,6 +19,6 @@ namespace AuctionInventoryDAL.Entity
         public int iPurchaseInvoiceID { get; set; }
         public Nullable<int> iCategoryID { get; set; }
         public Nullable<int> iSubCategoryID { get; set; }
-        public Nullable<int> iExpenseAmount { get; set; }
+        public Nullable<decimal> dcmlExpenseAmount { get; set; }
     }
 }

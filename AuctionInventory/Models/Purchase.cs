@@ -31,6 +31,6 @@ namespace AuctionInventory.Models
         public Nullable<decimal> dmlConversionRate { get; set; }
         public Nullable<int> iAED { get; set; }
 
-
+        public string strPurchaseInvoiceNo { get; set; }
     }
 }

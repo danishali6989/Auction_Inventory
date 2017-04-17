@@ -41,8 +41,8 @@ namespace AuctionInventoryDAL.Repositories
                                    strExpenseName = t2.strExpenseName,
                                    strRemarks = AM.strRemarks,
 
-                                   iExpenseAmount = AM.iExpenseAmount,
-                                   iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
+                                   dcmlExpenseAmount = AM.dcmlExpenseAmount,
+                                   dcmlTotalExpenseAmount = AM.dcmlTotalExpenseAmount,
 
                                }).ToList();
             return listExpense;
@@ -63,8 +63,8 @@ namespace AuctionInventoryDAL.Repositories
 
                                    strExpenseName = t2.strExpenseName,
 
-                                   iExpenseAmount = AM.iExpenseAmount,
-                                   iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
+                                   dcmlExpenseAmount = AM.dcmlExpenseAmount,
+                                   dcmlTotalExpenseAmount = AM.dcmlTotalExpenseAmount,
 
                                }).ToList();
 
@@ -114,8 +114,8 @@ namespace AuctionInventoryDAL.Repositories
                                 strExpenseName = t2.strExpenseName,
                                 strExpenseDate = AM.strExpenseDate,
 
-                                iExpenseAmount = AM.iExpenseAmount,
-                                iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt
+                                dcmlExpenseAmount = AM.dcmlExpenseAmount,
+                                dcmlTotalExpenseAmount = AM.dcmlTotalExpenseAmount
                             }).ToList();
 
                 if (preResult.Count > 0)
@@ -124,15 +124,15 @@ namespace AuctionInventoryDAL.Repositories
                                     new
                                     {
                                         iVehicleID = y.Key,
-                                        iExpenseAmount = y.Sum(x => x.iExpenseAmount),
+                                        dcmlExpenseAmount = y.Sum(x => x.dcmlExpenseAmount),
                                         strChassisNum = y.First().strChassisNum,
                                         iVehicleExpenseID = y.First().iVehicleExpenseID,
                                         iExpenseID = y.Count(),
                                         strRemarks = y.First().strRemarks,
                                         strExpenseName = y.First().strExpenseName,
                                         strExpenseDate = y.First().strExpenseDate,
-                                        iTotalExpenseAmounrt = y.First().iTotalExpenseAmounrt,
-                                        iSpreadAmountPerVehicle = y.First().iTotalExpenseAmounrt
+                                        dcmlTotalExpenseAmount = y.First().dcmlTotalExpenseAmount,
+                                        iSpreadAmountPerVehicle = y.First().dcmlTotalExpenseAmount
                                     }).ToList();
 
 
@@ -150,8 +150,8 @@ namespace AuctionInventoryDAL.Repositories
                Convert.ToString(singleExp.strChassisNum),
                Convert.ToString( singleExp.strExpenseDate),
                 Convert.ToString(singleExp.iExpenseID),
-               Convert.ToString( singleExp.iExpenseAmount),
-               Convert.ToString(singleExp.iTotalExpenseAmounrt)
+               Convert.ToString( singleExp.dcmlExpenseAmount),
+               Convert.ToString(singleExp.dcmlTotalExpenseAmount)
                
                         }
                       }).ToArray();
@@ -194,16 +194,16 @@ namespace AuctionInventoryDAL.Repositories
                                iVehicleExpenseID = AM.iVehicleExpenseID,
                                iPurchaseInvoiceID = AM.iPurchaseInvoiceID,
                                iExpenseID = AM.iExpenseID,
-                               iExpenseAmount = AM.iExpenseAmount,
-                               iTotalExpenseAmounrt = AM.iTotalExpenseAmounrt,
-                               //iSpreadAmountPerVehicle = AM.iTotalExpenseAmounrt
+                               dcmlExpenseAmount = AM.dcmlExpenseAmount,
+                               dcmlTotalExpenseAmount = AM.dcmlTotalExpenseAmount,
+                               //iSpreadAmountPerVehicle = AM.dcmlTotalExpenseAmount
 
                            }).ToList()
                       select new
                       {
                           id = vehi.iVehicleExpenseID,
                           cell = new string[] {
-               Convert.ToString(vehi.iVehicleExpenseID),Convert.ToString(vehi.iPurchaseInvoiceID),Convert.ToString( vehi.iExpenseID),Convert.ToString( vehi.iExpenseAmount),Convert.ToString(vehi.iTotalExpenseAmounrt)
+               Convert.ToString(vehi.iVehicleExpenseID),Convert.ToString(vehi.iPurchaseInvoiceID),Convert.ToString( vehi.iExpenseID),Convert.ToString( vehi.dcmlExpenseAmount),Convert.ToString(vehi.dcmlTotalExpenseAmount)
                         }
                       }).ToArray()
                 };
@@ -234,9 +234,9 @@ namespace AuctionInventoryDAL.Repositories
                                      iPurchaseInvoiceID = a.iPurchaseInvoiceID,
                                      strExpenseDate = a.strExpenseDate,
                                      strExpenseName = b.strExpenseName,
-                                     iExpenseAmount = a.iExpenseAmount,
-                                     iTotalExpenseAmounrt = a.iTotalExpenseAmounrt,
-                                     iSpreadAmountPerVehicle = a.iTotalExpenseAmounrt
+                                     dcmlExpenseAmount = a.dcmlExpenseAmount,
+                                     dcmlTotalExpenseAmount = a.dcmlTotalExpenseAmount,
+                                     iSpreadAmountPerVehicle = a.dcmlTotalExpenseAmount
                                  }).ToList();
                 if (preResult.Count > 0)
                 {
@@ -244,7 +244,7 @@ namespace AuctionInventoryDAL.Repositories
                                     new
                                     {
                                         iPurchaseInvoiceID = y.Key,
-                                        iExpenseAmount = y.Sum(x => x.iExpenseAmount),
+                                        dcmlExpenseAmount = y.Sum(x => x.dcmlExpenseAmount),
                                         iExpenseKey = y.First().iExpenseKey,
                                         iVehicleExpenseID = y.First().iVehicleExpenseID,
                                         iExpenseID = y.Count(),
@@ -253,8 +253,8 @@ namespace AuctionInventoryDAL.Repositories
 
                                         strExpenseDate = y.First().strExpenseDate,
                                         strExpenseName = y.First().strExpenseName,
-                                        iTotalExpenseAmounrt = y.First().iTotalExpenseAmounrt,
-                                        iSpreadAmountPerVehicle = y.First().iTotalExpenseAmounrt
+                                        dcmlTotalExpenseAmount = y.First().dcmlTotalExpenseAmount,
+                                        iSpreadAmountPerVehicle = y.First().dcmlTotalExpenseAmount
                                     }).ToList();
 
 
@@ -269,8 +269,8 @@ namespace AuctionInventoryDAL.Repositories
                                         Convert.ToString(allExpense.strExpenseDate),
                                      Convert.ToString(allExpense.iExpenseID),
                                     
-                                     Convert.ToString( allExpense.iExpenseAmount),
-                                     Convert.ToString(allExpense.iTotalExpenseAmounrt)
+                                     Convert.ToString( allExpense.dcmlExpenseAmount),
+                                     Convert.ToString(allExpense.dcmlTotalExpenseAmount)
                                }
                                 }).ToArray();
 
@@ -365,7 +365,7 @@ namespace AuctionInventoryDAL.Repositories
                     exp.iPurchaseInvoiceID = expense.iPurchaseInvoiceID;
                     exp.iCategoryID = expense.iCategoryID;
                     exp.iSubCategoryID = expense.iSubCategoryID;
-                    exp.iExpenseAmount = expense.iExpenseAmount;
+                    exp.dcmlExpenseAmount = expense.dcmlExpenseAmount;
 
                 }
             }
@@ -416,8 +416,8 @@ namespace AuctionInventoryDAL.Repositories
         //                    mVehicleExpense.iVehicleID = item.iVehicleID;
 
         //                    mVehicleExpense.iExpenseID = item.iExpenseID;
-        //                    mVehicleExpense.iExpenseAmount = item.iExpenseAmount;
-        //                    mVehicleExpense.iTotalExpenseAmounrt = item.iTotalExpenseAmounrt;
+        //                    mVehicleExpense.dcmlExpenseAmount = item.dcmlExpenseAmount;
+        //                    mVehicleExpense.dcmlTotalExpenseAmount = item.dcmlTotalExpenseAmount;
 
         //                    mVehicleExpense.strRemarks = item.strRemarks ?? " ";
         //                   // mVehicleExpense.strExpenseKey = refenceNumber;
@@ -465,8 +465,11 @@ namespace AuctionInventoryDAL.Repositories
 
         public bool SaveRepoVehicleExpense(List<VehicleExpens> expense, string refenceNumber, int id)
         {
+            Vehicle vehicle = new Vehicle();
+            var spreadAmount=(decimal?)0;
             bool status = false;
             {
+
                 
                 //for all vehicle expense
                 if (id != 0)
@@ -478,6 +481,7 @@ namespace AuctionInventoryDAL.Repositories
                     {
                         auctionContext.VehicleExpenses.Remove(item);
                     }
+
                     auctionContext.SaveChanges();
 
                 }
@@ -497,26 +501,61 @@ namespace AuctionInventoryDAL.Repositories
 
                 }
 
+
+
+                //for Spread total expense amount on a particular vehicle 
+
+                var iPurchaseInvoiceID = expense.First().iPurchaseInvoiceID;
+
+                if (iPurchaseInvoiceID != null)
+                {
+                    var dcmlTotalExpenseAmount = expense.First().dcmlTotalExpenseAmount;
+
+                    var vehicleDataByInvoiceID = (from t1 in auctionContext.TPurchases
+                                                  join t2 in auctionContext.Vehicles on t1.PurchaseID equals t2.PurchaseID
+                                                  //join t3 in auctionContext.MColors on AM.iColor equals CM.iColorID
+                                                  where t1.iPurchaseInvoiceNo == iPurchaseInvoiceID
+                                                  // select t2);
+                                                  select new
+                                                  {
+                                                      iVehicleID = t2.iVehicleID,
+                                                      NoOfUnits = t1.Vehicles.Count
+
+                                                  }).ToList();
+
+                    spreadAmount = dcmlTotalExpenseAmount / vehicleDataByInvoiceID.FirstOrDefault().NoOfUnits;
+
+                    foreach (var data in vehicleDataByInvoiceID)
+                    {
+                        if (data.iVehicleID > 0)
+                        {
+                            //Edit Existing Record
+                            var vehi = auctionContext.Vehicles.Where(a => a.iVehicleID == data.iVehicleID).FirstOrDefault();
+                            if (vehi != null)
+                            {
+                                vehi.dcmlExpenseAmount = spreadAmount;
+                            }
+                        }
+                    }
+                    auctionContext.SaveChanges();
+
+                }
+
+
                 //Save for both
                     foreach (var item in expense)
                     {
+                        
                         //Save
+                        item.dcmlSpreadAmount = spreadAmount;
                         item.strExpenseKey = refenceNumber;
                         auctionContext.VehicleExpenses.Add(item);
                     }
                     auctionContext.SaveChanges();
-
-
-
                 }
-
             
             status = true;
             return status;
         }
-
-
-
-
     }
 }

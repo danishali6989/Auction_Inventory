@@ -5,11 +5,13 @@ using System.Web;
 using AuctionInventory.Models;
 using AuctionInventoryDAL.Repositories;
 using AuctionInventoryDAL.Entity;
+using AuctionInventory.Helpers;
 
 namespace AuctionInventory.Services
 {
     public class PurchaseServiceClient
     {
+        private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
 
         public List<Purchase> GetAllPurchase()
         {
@@ -24,6 +26,8 @@ namespace AuctionInventory.Services
             bool status = true;
             Purchase Pur = new Purchase();
             PurchaseRepository repo = new PurchaseRepository();
+          //  string purchaseInvoice=CommonMethods.GetPurchaseInvoiceNumber(PurchaseInvoiceNum.PurchaseInvoice,)
+           
             status = repo.SaveEdit(ParserAddPurchase(purchase), ParserAddListVehicle(griddata));
             return status;
         }

@@ -158,7 +158,7 @@ namespace AuctionInventory.Services
                 expense.iPurchaseInvoiceID = expenses.iPurchaseInvoiceID;
                 expense.iCategoryID = expenses.iCategoryID;
                 expense.iSubCategoryID = expenses.iSubCategoryID;
-                expense.iExpenseAmount = expenses.iExpenseAmount;
+                expense.dcmlExpenseAmount = expenses.dcmlExpenseAmount;
             }
             return expense;
         }
@@ -175,7 +175,7 @@ namespace AuctionInventory.Services
 
                 expenses.iCategoryID = data.iCategoryID ?? -1;
                 expenses.iSubCategoryID = data.iSubCategoryID ?? -1;
-                expenses.iExpenseAmount = data.iExpenseAmount ?? -1;
+                expenses.dcmlExpenseAmount = data.dcmlExpenseAmount ?? -1;
             }
             return expenses;
         }
@@ -194,7 +194,7 @@ namespace AuctionInventory.Services
                     expenses.iPurchaseInvoiceID = data.iPurchaseInvoiceID ?? -1;
                     expenses.iCategoryID = data.iCategoryID ?? -1;
                     expenses.iSubCategoryID = data.iSubCategoryID ?? -1;
-                    expenses.iExpenseAmount = data.iExpenseAmount ?? -1;
+                    expenses.dcmlExpenseAmount = data.dcmlExpenseAmount ?? -1;
                     listExpenses.Add(expenses);
                 }
             }
@@ -223,8 +223,12 @@ namespace AuctionInventory.Services
                     mVehicleExpense.iVehicleExpenseID = item.iVehicleExpenseID;
 
                     mVehicleExpense.iExpenseID = item.iExpenseID;
-                    mVehicleExpense.iExpenseAmount = item.iExpenseAmount;
-                    mVehicleExpense.iTotalExpenseAmounrt = item.iTotalExpenseAmounrt;
+                    mVehicleExpense.dcmlExpenseAmount = item.dcmlExpenseAmount;
+                    mVehicleExpense.dcmlTotalExpenseAmount = item.dcmlTotalExpenseAmount;
+
+                    mVehicleExpense.iVehicleExpenseTypeID = item.iVehicleExpenseTypeID;
+                    mVehicleExpense.dcmlSpreadAmount = item.dcmlSpreadAmount;
+                    mVehicleExpense.isSpread = item.isSpread;
 
                     mVehicleExpense.strRemarks = item.strRemarks ?? " ";
 
@@ -243,8 +247,8 @@ namespace AuctionInventory.Services
                
         //        expense.iVehicleID = expenses.iVehicleID;
         //        expense.iExpenseID = expenses.iExpenseID;
-        //        expense.iExpenseAmount = expenses.iExpenseAmount;
-        //        expense.iTotalExpenseAmounrt = expenses.iTotalExpenseAmounrt;
+        //        expense.dcmlExpenseAmount = expenses.dcmlExpenseAmount;
+        //        expense.dcmlTotalExpenseAmount = expenses.dcmlTotalExpenseAmount;
         //        expense.strRemarks = expenses.strRemarks ?? " ";
                 
         //    }

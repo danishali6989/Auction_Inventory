@@ -144,7 +144,7 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="iPurchaseInvoiceID" Type="int" Nullable="false" />
           <Property Name="iCategoryID" Type="int" />
           <Property Name="iSubCategoryID" Type="int" />
-          <Property Name="iExpenseAmount" Type="int" />
+          <Property Name="dcmlExpenseAmount" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -300,6 +300,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="strInvoiceValue" Type="nvarchar" MaxLength="50" />
           <Property Name="dmlConversionRate" Type="decimal" Precision="18" Scale="2" />
           <Property Name="iAED" Type="int" />
+          <Property Name="strPurchaseInvoiceNo" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="UserLogin">
           <Key>
@@ -340,6 +341,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iCustomValInJPY" Type="decimal" Precision="18" Scale="2" />
           <Property Name="IsStockRecieved" Type="bit" />
           <Property Name="PurchaseID" Type="bigint" Nullable="false" />
+          <Property Name="dcmlExpenseAmount" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="VehicleExpenses">
           <Key>
@@ -350,10 +352,13 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="strExpenseDate" Type="nvarchar" MaxLength="50" />
           <Property Name="iVehicleID" Type="int" />
           <Property Name="iExpenseID" Type="int" />
-          <Property Name="iExpenseAmount" Type="int" />
-          <Property Name="iTotalExpenseAmounrt" Type="int" />
+          <Property Name="dcmlExpenseAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlTotalExpenseAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="strRemarks" Type="nvarchar" MaxLength="200" />
           <Property Name="strExpenseKey" Type="nvarchar" MaxLength="200" />
+          <Property Name="iVehicleExpenseTypeID" Type="int" />
+          <Property Name="dcmlSpreadAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="isSpread" Type="bit" />
         </EntityType>
         <Association Name="FK_CityMaster_StateMaster">
           <End Role="StateMaster" Type="Self.StateMaster" Multiplicity="0..1" />
@@ -607,7 +612,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iPurchaseInvoiceID" Type="Int32" Nullable="false" />
           <Property Name="iCategoryID" Type="Int32" />
           <Property Name="iSubCategoryID" Type="Int32" />
-          <Property Name="iExpenseAmount" Type="Int32" />
+          <Property Name="dcmlExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="MStaff">
           <Key>
@@ -759,6 +764,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="strInvoiceValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="dmlConversionRate" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="iAED" Type="Int32" />
+          <Property Name="strPurchaseInvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Vehicles" Relationship="AuctionInventoryModel.FK_Vehicle_TPurchase" FromRole="TPurchase" ToRole="Vehicle" />
         </EntityType>
         <EntityType Name="UserLogin">
@@ -800,6 +806,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iCustomValInJPY" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="IsStockRecieved" Type="Boolean" />
           <Property Name="PurchaseID" Type="Int64" Nullable="false" />
+          <Property Name="dcmlExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="TPurchase" Relationship="AuctionInventoryModel.FK_Vehicle_TPurchase" FromRole="Vehicle" ToRole="TPurchase" />
         </EntityType>
         <EntityType Name="VehicleExpens">
@@ -811,10 +818,13 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="strExpenseDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="iVehicleID" Type="Int32" />
           <Property Name="iExpenseID" Type="Int32" />
-          <Property Name="iExpenseAmount" Type="Int32" />
-          <Property Name="iTotalExpenseAmounrt" Type="Int32" />
+          <Property Name="dcmlExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlTotalExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="strRemarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="strExpenseKey" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="iVehicleExpenseTypeID" Type="Int32" />
+          <Property Name="dcmlSpreadAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="isSpread" Type="Boolean" />
         </EntityType>
         <EntityType Name="ExpenseAmount">
           <Key>
@@ -997,7 +1007,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="MExpenses">
             <EntityTypeMapping TypeName="AuctionInventoryModel.MExpense">
               <MappingFragment StoreEntitySet="MExpense">
-                <ScalarProperty Name="iExpenseAmount" ColumnName="iExpenseAmount" />
+                <ScalarProperty Name="dcmlExpenseAmount" ColumnName="dcmlExpenseAmount" />
                 <ScalarProperty Name="iSubCategoryID" ColumnName="iSubCategoryID" />
                 <ScalarProperty Name="iCategoryID" ColumnName="iCategoryID" />
                 <ScalarProperty Name="iPurchaseInvoiceID" ColumnName="iPurchaseInvoiceID" />
@@ -1153,6 +1163,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="TPurchases">
             <EntityTypeMapping TypeName="AuctionInventoryModel.TPurchase">
               <MappingFragment StoreEntitySet="TPurchase">
+                <ScalarProperty Name="strPurchaseInvoiceNo" ColumnName="strPurchaseInvoiceNo" />
                 <ScalarProperty Name="iAED" ColumnName="iAED" />
                 <ScalarProperty Name="dmlConversionRate" ColumnName="dmlConversionRate" />
                 <ScalarProperty Name="strInvoiceValue" ColumnName="strInvoiceValue" />
@@ -1184,6 +1195,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="Vehicles">
             <EntityTypeMapping TypeName="AuctionInventoryModel.Vehicle">
               <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="dcmlExpenseAmount" ColumnName="dcmlExpenseAmount" />
                 <ScalarProperty Name="PurchaseID" ColumnName="PurchaseID" />
                 <ScalarProperty Name="IsStockRecieved" ColumnName="IsStockRecieved" />
                 <ScalarProperty Name="iCustomValInJPY" ColumnName="iCustomValInJPY" />
@@ -1211,10 +1223,13 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="VehicleExpenses">
             <EntityTypeMapping TypeName="AuctionInventoryModel.VehicleExpens">
               <MappingFragment StoreEntitySet="VehicleExpenses">
+                <ScalarProperty Name="isSpread" ColumnName="isSpread" />
+                <ScalarProperty Name="dcmlSpreadAmount" ColumnName="dcmlSpreadAmount" />
+                <ScalarProperty Name="iVehicleExpenseTypeID" ColumnName="iVehicleExpenseTypeID" />
                 <ScalarProperty Name="strExpenseKey" ColumnName="strExpenseKey" />
                 <ScalarProperty Name="strRemarks" ColumnName="strRemarks" />
-                <ScalarProperty Name="iTotalExpenseAmounrt" ColumnName="iTotalExpenseAmounrt" />
-                <ScalarProperty Name="iExpenseAmount" ColumnName="iExpenseAmount" />
+                <ScalarProperty Name="dcmlTotalExpenseAmount" ColumnName="dcmlTotalExpenseAmount" />
+                <ScalarProperty Name="dcmlExpenseAmount" ColumnName="dcmlExpenseAmount" />
                 <ScalarProperty Name="iExpenseID" ColumnName="iExpenseID" />
                 <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
                 <ScalarProperty Name="strExpenseDate" ColumnName="strExpenseDate" />

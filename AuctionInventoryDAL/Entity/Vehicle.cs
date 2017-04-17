@@ -35,6 +35,7 @@ namespace AuctionInventoryDAL.Entity
         public Nullable<decimal> iCustomValInJPY { get; set; }
         public Nullable<bool> IsStockRecieved { get; set; }
         public long PurchaseID { get; set; }
+        public Nullable<decimal> dcmlExpenseAmount { get; set; }
     
         public virtual TPurchase TPurchase { get; set; }
     }

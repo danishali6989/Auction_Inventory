@@ -135,6 +135,15 @@ namespace AuctionInventoryDAL.Repositories
         {
             bool status = false;
             var pur = auctionContext.TPurchases.Where(a => a.PurchaseID == purchase.PurchaseID).FirstOrDefault();
+
+
+           
+
+            //var test = (from max in auctionContext.TPurchases
+            //            where !String.IsNullOrEmpty(max.strPurchaseInvoiceNo)
+            //            select Convert.ToInt32(max.strPurchaseInvoiceNo)).Max();
+
+
             int? invNo = auctionContext.TPurchases.Max(i => i.iPurchaseInvoiceNo) ?? 0;
             invNo = invNo + 1;
 

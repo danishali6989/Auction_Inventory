@@ -29,6 +29,7 @@ namespace AuctionInventoryDAL.Entity
         public string strInvoiceValue { get; set; }
         public Nullable<decimal> dmlConversionRate { get; set; }
         public Nullable<int> iAED { get; set; }
+        public string strPurchaseInvoiceNo { get; set; }
     
         public virtual ICollection<Vehicle> Vehicles { get; set; }
     }

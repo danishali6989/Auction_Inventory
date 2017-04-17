@@ -19,9 +19,12 @@ namespace AuctionInventoryDAL.Entity
         public string strExpenseDate { get; set; }
         public Nullable<int> iVehicleID { get; set; }
         public Nullable<int> iExpenseID { get; set; }
-        public Nullable<int> iExpenseAmount { get; set; }
-        public Nullable<int> iTotalExpenseAmounrt { get; set; }
+        public Nullable<decimal> dcmlExpenseAmount { get; set; }
+        public Nullable<decimal> dcmlTotalExpenseAmount { get; set; }
         public string strRemarks { get; set; }
         public string strExpenseKey { get; set; }
+        public Nullable<int> iVehicleExpenseTypeID { get; set; }
+        public Nullable<decimal> dcmlSpreadAmount { get; set; }
+        public Nullable<bool> isSpread { get; set; }
     }
 }

@@ -30,7 +30,7 @@
         <EntityTypeShape EntityType="AuctionInventoryModel.UserLogin" Width="1.5" PointX="13.75" PointY="3.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.Vehicle" Width="1.5" PointX="3" PointY="4.125" />
         <EntityTypeShape EntityType="AuctionInventoryModel.VehicleExpens" Width="1.5" PointX="13.75" PointY="7.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.ExpenseAmount" Width="1.5" PointX="13.75" PointY="11.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.ExpenseAmount" Width="1.5" PointX="13.75" PointY="12.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.MailModel" Width="1.5" PointX="7.75" PointY="14.75" />
         <AssociationConnector Association="AuctionInventoryModel.FK_CityMaster_StateMaster" />
         <AssociationConnector Association="AuctionInventoryModel.FK_StateMaster_CountryMaster" />

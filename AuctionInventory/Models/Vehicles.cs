@@ -33,6 +33,7 @@ namespace AuctionInventory.Models
         public Nullable<bool> IsStockRecieved { get; set; }
         public long PurchaseID { get; set; }
 
+        public Nullable<decimal> dcmlExpenseAmount { get; set; }
         public virtual TPurchase TPurchase { get; set; }
 
     }

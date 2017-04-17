@@ -181,7 +181,43 @@ namespace AuctionInventory.Helpers
             return refenceNumber;
         }
 
+
+        public static string GetPurchaseInvoiceNumber(string PurchaseInvoice, string ID)
+        {
+
+            string sDate = DateTime.Now.ToString();
+            DateTime datevalue = (Convert.ToDateTime(sDate.ToString()));
+            string yy = datevalue.Year.ToString();
+            string purchaseInvoice = PurchaseInvoice + yy + "-" + ID;
+            return purchaseInvoice;
+        }
     }
+
+    public static class PurchaseInvoiceNum
+    {
+        public static string PurchaseInvoice
+        {
+            get { return "PUR-"; }
+        }
+    }
+
+
+    //public static class PurchaseInvoiceID
+    //{
+    //    AuctionInventoryEntities db = new AuctionInventoryEntities();
+        
+    //    public string PurchaseInvoiceID
+    //    {
+    //        get 
+    //        {
+
+    //            var result = (from m in db.TPurchases
+
+    //               select m).OrderByDescending(a => int.Parse(a.strSupplierName)).FirstOrDefault();
+                
+    //        }
+    //    }
+    //}
 
 
     public static class ShortCode

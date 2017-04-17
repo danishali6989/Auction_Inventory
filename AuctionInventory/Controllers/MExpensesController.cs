@@ -80,7 +80,7 @@ namespace AuctionInventory.Controllers
                 {
                     ExpensesServiceClient service = new ExpensesServiceClient();
                     status = service.SaveData(expense);
-                    return RedirectToAction("Index");
+                    //return RedirectToAction("Index");
                 }
             }
             catch (Exception e)
@@ -92,8 +92,8 @@ namespace AuctionInventory.Controllers
 
             }
 
-            return View();
-            // return new JsonResult { Data = new { status = status } };
+            //return View();
+            return new JsonResult { Data = new { status = status } };
         }
 
 

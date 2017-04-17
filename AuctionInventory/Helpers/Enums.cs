@@ -17,6 +17,11 @@ namespace AuctionInventory.Helpers
             XYZRole = 5
         }
 
+        public enum VehicleExpenseType
+        {
+            AllVehicleExpense=1,
+            SingleVehicleExpense=2
+        }
 
     }
 }

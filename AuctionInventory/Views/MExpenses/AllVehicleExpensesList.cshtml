@@ -22,7 +22,8 @@
 
     <div id="divDetails" class="row">
         <input type="hidden" id="hfiVehicleExpenseID" />
-
+        
+       
         @*<div class='form-group col-sm-4'>
                 <label>Purchase Inv No: </label>
                 <input type="text" class='form-control input-group-sm' id="invno" placeholder="Search By Invoice ID" />
@@ -169,8 +170,8 @@
                 { name: 'strExpenseDate', index: 'strExpenseDate', align: 'center' },
               
                 { name: 'iExpenseID', index: 'iExpenseID', align: 'center' },
-                { name: 'iExpenseAmount', index: 'iExpenseAmount', align: 'center' },
-                { name: 'iTotalExpenseAmounrt', index: 'iTotalExpenseAmounrt', align: 'center' },
+                { name: 'dcmlExpenseAmount', index: 'dcmlExpenseAmount', align: 'center' },
+                { name: 'dcmlTotalExpenseAmount', index: 'dcmlTotalExpenseAmount', align: 'center' },
 
                 //{ name: 'act', index: 'act', width: 350 },
                 //{
@@ -246,9 +247,9 @@
 
         var strExpenseName = rowData['strExpenseName'];
 
-        var iExpenseAmount = rowData['iExpenseAmount'];
+        var dcmlExpenseAmount = rowData['dcmlExpenseAmount'];
 
-        var iTotalExpenseAmounrt = rowData['iTotalExpenseAmounrt'];
+        var dcmlTotalExpenseAmount = rowData['dcmlTotalExpenseAmount'];
 
 
 
@@ -376,7 +377,7 @@
                                     + "<label  class='form-control input-group-sm'  style='background-color:orange' id='lblExpense" + counter + "'>" + value + ":</label></div>"
                                      + "<div class='form-group col-sm-2'>"
                                     + "<input  type='number' class='txtAmountClass form-control input-group-sm'  style='margin-left: -20px;' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount"
-                                    + counter + "' value='" + result[i].iExpenseAmount + "' /></div>"
+                                    + counter + "' value='" + result[i].dcmlExpenseAmount + "' /></div>"
                                      + "<div class='form-group col-sm-2'>"
                                     + "<input type='button' value='Remove' style='margin-left: -35px;'   onclick='myFunction(" + id + ")' class='remove btn btn-success' id='btnRemove"
                                     + counter + "' /></div></div>");
@@ -447,6 +448,8 @@
             jQuery("#UpdatedataGrid").jqGrid('navGrid', '#UpdatepagingGrid', { edit: false, add: false, del: false, search: false, rel: false });
 
         }
+
+   
     });
 
 
@@ -650,8 +653,9 @@
                                       iExpenseID: ExpenseID,
                                       //iCategoryID: 2,
                                       iVehicleExpenseID: iVehicleExpenseID,
-                                      iExpenseAmount: ExpenseAmount,
-                                      iTotalExpenseAmounrt: ExpenseTotalAmount
+                                      dcmlExpenseAmount: ExpenseAmount,
+                                      dcmlTotalExpenseAmount: ExpenseTotalAmount,
+                                      iVehicleExpenseTypeID: 1
 
                                   }
 
@@ -776,6 +780,8 @@
 
         var invoiceID = $("#invno").val();
 
+       
+
         $.ajax({
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
@@ -814,8 +820,9 @@
                       iExpenseID: ExpenseID,
                       //iCategoryID: 2,
                       //iSubCategoryID: 1,
-                      iExpenseAmount: ExpenseAmount,
-                      iTotalExpenseAmounrt: ExpenseTotalAmount
+                      dcmlExpenseAmount: ExpenseAmount,
+                      dcmlTotalExpenseAmount: ExpenseTotalAmount,
+                      iVehicleExpenseTypeID: 1
 
                   }
 

@@ -1,5 +1,4 @@
-﻿@model AuctionInventory.Models.Expenses
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,121 +13,66 @@
     }
 </style>
 <h2>Save</h2>
-@*@using (Html.BeginForm("Save", "MExpenses", FormMethod.Post, new { id = "popupForm" }))
-    {*@
-@*if (Model != null && Model.iExpenseID > 0)
-    {
-        @Html.HiddenFor(a => a.iExpenseID)
-    }*@
-
-@Html.HiddenFor(a => a.iExpenseID)
-
-<div class="form-group">
-    <label>Expense Name</label>
-    @Html.TextBoxFor(a => a.strExpenseName, new { @class = "form-control", @id = "strExpenseName" })
-    @Html.ValidationMessageFor(m => m.strExpenseName, "", new { @class = "error" })
 
 
-</div>
+<input type="hidden" id="iExpenseID" />
 
-@*<div class="form-group">
-        <label class="control-label col-md-2">Expense Category</label>
-        <div class="col-md-10">
-            @Html.DropDownListFor(m => m.iCategoryID,
-              new SelectList(ViewBag.StateList, "StateId", "StateName"),
-              "Select state",
-              new { @class = "form-control", @onchange = "FillCity()" })
-            @Html.ValidationMessageFor(m => m.iCategoryID, "", new { @class = "text-danger" })
+
+    <div class='form-group col-sm-4' style="margin-top: -24px;margin-left: 125px;">
+        <label>Expense Name:</label>
+        <input class='form-control input-group-sm' name='ExpenseName' placeholder='Enter expense name' id='strExpenseName' />
+        <br />
+        <label>Select Expense Category:</label>
+        <select class='form-control input-group-sm' id="ddlcategory" onchange="getvalCat(this);">
+            <option value="0">Select</option>
+            <option value="1">General Expense</option>
+            <option value="2">Vehicle Expense</option>
+        </select>
+        <br />
+        <div style="display:none" id="divddlSubCategory">
+            <label>Select Vehicle Category:</label>
+            <select class='form-control input-group-sm' id="ddlsubcategory" onchange="getvalCat(this);">
+                <option value="0">Select</option>
+                <option value="1">All Vehicle</option>
+                <option value="2">Single Vehicle</option>
+            </select>
         </div>
-    </div>
+        
+        <br />
+        <input id="btnSaveExpense" class='btn btn-success col-sm-4' type="button" value="Save" />
 
-    <div class="form-group">
-        <label class="control-label col-md-2">Expense SubCategory</label>
-        <div class="col-md-10">
-            @Html.DropDownListFor(m => m.iSubCategoryID,
-       new SelectList(Enumerable.Empty<SelectListItem>(), "CityId", "CityName"),
-              "Select city",
-              new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.iSubCategoryID, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
+       </div>
 
-<div>
-    <select id="ddlcategory" onchange="getvalCat(this);">
+@*<div class='form-group col-sm-2'>
+    <select class='form-control input-group-sm' id="ddlcategory" onchange="getvalCat(this);">
         <option value="0">Select</option>
         <option value="1">General Expense</option>
         <option value="2">Vehicle Expense</option>
     </select>
 </div>
 
-@*<div>
-        <select id="ddlcategory">
-            <option value="0">Select</option>
-            <option value="1">General Expense</option>
-            <option value="2">Vehicle Expense</option>
-        </select>
-    </div>*@
-<div>
-    <select id="ddlsubcategory" style="display:none" onchange="getvalCat(this);">
+<br />
+<div class='form-group col-sm-2'>
+    <select class='form-control input-group-sm' id="ddlsubcategory" style="display:none" onchange="getvalCat(this);">
         <option value="0">Select</option>
         <option value="1">All Vehicle</option>
         <option value="2">Single Vehicle</option>
     </select>
 </div>
-<div>
+<br />*@
+@*<div>
+    <input id="btnSaveExpense" class='btn btn-success col-sm-2' type="button" value="Save" />
+
     <input type="submit" id="btnSaveExpense" value="Save" />
-</div>
-@*}*@
+</div>*@
+
 
 <script>
 
 
-
-
-
-
-    //$("#btnSaveExpense").click(function () {
-
-    //    var expense1 = {
-    //        strExpenseName: $('#strExpenseName').val(),
-    //        ddlcategory: $("#ddlcategory").change(function () {
-    //            var id = $(this).find(":selected").val()
-    //            alert(id);
-    //            if ($("#ddlcategory").val() == 2) { $("#ddlsubcategory").css("display", "block"); }
-    //        }),
-    //        ddlsubcategory: $("#ddlsubcategory").change(function () {
-    //            var id = $(this).find(":selected").val()
-    //            alert(id);
-    //        })
-
-    //    }
-    //    alert(expense1);
-    //    $.ajax({
-    //        type: "POST",
-    //        url: "/MExpenses/Save",
-    //        cache: false,
-    //        data: JSON.stringify({ expense: expense1 }),
-    //        // data: JSON.stringify(purchase),
-    //        dataType: 'json',
-    //        contentType: "application/json; charset=utf-8",
-    //        success: function (Data) {
-    //            window.location.href = "/MExpenses/Index";
-
-    //        },
-    //        error: function (data) {
-    //            $("#error_message").html(data);
-    //        }
-    //    });
-
-    //});
-
-
-
-
-
     function getvalCat(sel) {
 
-        if ($("#ddlcategory").val() == 2) { $("#ddlsubcategory").css("display", "block"); }
+        if ($("#ddlcategory").val() == 2) { $("#divddlSubCategory").css("display", "block"); }
 
     }
 
@@ -159,18 +103,6 @@
         });
 
     });
-
-
-    //ddlcategory: $("#ddlcategory").change(function () {
-    //    var id = $(this).find(":selected").val()
-    //    alert(id);
-    //    if ($("#ddlcategory").val() == 2) { $("#ddlsubcategory").css("display", "block"); }
-    //}),
-    //    ddlsubcategory: $("#ddlsubcategory").change(function () {
-    //        var id = $(this).find(":selected").val()
-    //        alert(id);
-    //    })
-
 
 
 </script>
