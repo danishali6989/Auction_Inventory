@@ -145,9 +145,11 @@ namespace AuctionInventory.Services
                 tPurchase.strMasterDecNo = purchase.strMasterDecNo ?? " ";
                 tPurchase.strBLNo = purchase.strBLNo ?? " ";
                 tPurchase.strArrivalDate = purchase.strArrivalDate ?? " ";
-                tPurchase.strInvoiceValue = purchase.strInvoiceValue ?? " ";
+                tPurchase.strPurchaseInvoiceNo = purchase.strPurchaseInvoiceNo ?? " ";
                 tPurchase.dmlConversionRate = purchase.dmlConversionRate;
                 tPurchase.iAED = purchase.iAED;
+                tPurchase.strPurchaseInvoiceNo = purchase.strPurchaseInvoiceNo ?? " ";
+                  
             }
             return tPurchase;
         }
@@ -171,6 +173,7 @@ namespace AuctionInventory.Services
                     purchase.strInvoiceValue = data.strInvoiceValue ?? " ";
                     purchase.dmlConversionRate = data.dmlConversionRate ?? 0;
                     purchase.iAED = data.iAED ?? 0;
+                    purchase.strPurchaseInvoiceNo = data.strPurchaseInvoiceNo ?? " ";
                     listPurchase.Add(purchase);
 
                 }
@@ -195,6 +198,8 @@ namespace AuctionInventory.Services
                 purchase.strInvoiceValue = data.strInvoiceValue ?? " ";
                 purchase.dmlConversionRate = data.dmlConversionRate ?? 0;
                 purchase.iAED = data.iAED ;
+                purchase.strPurchaseInvoiceNo = data.strPurchaseInvoiceNo ?? " ";
+                  
             }
             return purchase;
         }

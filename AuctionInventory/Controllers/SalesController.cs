@@ -66,6 +66,7 @@ namespace AuctionInventory.Controllers
             var listVehicle = (
                 from t1 in dc.SalesVehicles
                 join t2 in dc.Vehicles on t1.iVehicleID equals t2.iVehicleID
+
                 where t1.iSaleFrontEndID == id
 
                

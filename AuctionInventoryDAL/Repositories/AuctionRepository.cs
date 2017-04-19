@@ -65,7 +65,9 @@ namespace AuctionInventoryDAL.Repositories
                      {
                          id = vehi.iVehicleID,
                          cell = new string[] {
-               Convert.ToString(vehi.iVehicleID),Convert.ToString(vehi.iLotNum),Convert.ToString( vehi.strChassisNum),Convert.ToString(vehi.iModel),Convert.ToString( vehi.iYear),Convert.ToString(vehi.color),Convert.ToString( vehi.iCustomValInJPY),Convert.ToString(vehi.iCustomAssesVal)
+               Convert.ToString(vehi.iVehicleID),Convert.ToString(vehi.iLotNum),Convert.ToString( vehi.strChassisNum)
+               ,Convert.ToString(vehi.iModel),Convert.ToString( vehi.iYear),Convert.ToString(vehi.color)
+               ,Convert.ToString( vehi.iCustomValInJPY),Convert.ToString(vehi.iCustomAssesVal)
                         }
                      }).ToArray();
 
@@ -172,7 +174,7 @@ namespace AuctionInventoryDAL.Repositories
 
                            select t2).OrderBy(a => a.iVehicleID).ToList();
            var vehicle = auction.Select(i =>
-            new { LotNum = i.iLotNum, ChassisNum = i.strChassisNum, iModel = i.iModel, Year = i.iYear, color = i.strColor, JPY = i.iCustomAssesVal }).ToList();
+            new { LotNum = i.iLotNum, ChassisNum = i.strChassisNum, iModel = i.iModel, Year = i.iYear, color = i.strColor, JPY = i.iCustomValInJPY }).ToList();
 
             return vehicle;
         }

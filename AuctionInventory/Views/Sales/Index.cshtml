@@ -52,7 +52,9 @@
 
         </div>
         <div class="form-group col-xs-4">
-            <h3><label class="label label-warning form-control input-group-lg">Sales Inv No: Sale-@(@DateTime.Now.Year % 100)-<span id="txtInvoiceNum"></span></label></h3>
+            <input type="hidden" id="txtInvoiceNum" />
+            @*<input type="hidden" id="strSalesInvoiceNo" />*@
+            <h3><label id="invoiceLbl" class="label label-warning form-control input-group-lg">Sales Inv No: Sale-@(@DateTime.Now.Year % 100)-<span id="spnInvoiceNum"></span></label></h3>
         </div>
 
     </div>
@@ -204,23 +206,26 @@
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
 
-            colNames: ['iSaleID', 'iSaleFrontEndID', 'iSalesInvoiceID', 'iImpExpTransfer', 'iPaymentType', 'iBuyerID', 'BuyerName', 'SalesDate', 'SellingPrice', 'Deposit', 'Advance', 'Balance', 'Installment', 'CashType', 'PaperMode', 'Action'],
+            colNames: ['iSaleID', 'iSaleFrontEndID', 'iSalesInvoiceID', 'Sales Invoice No', 'iImpExpTransfer', 'iPaymentType', 'iBuyerID', 'BuyerName', 'SalesDate', 'SellingPrice', 'Deposit', 'Advance', 'Balance', 'Installment', 'CashType', 'PaperMode', 'Action'],
             colModel: [
                 { name: 'iSaleID', index: 'iSaleID', hidden: true, hidedlg: true },
                 { name: 'iSaleFrontEndID', index: 'iSaleFrontEndID', hidden: true, hidedlg: true },
                 { name: 'iSalesInvoiceID', index: 'iSalesInvoiceID', hidden: true, hidedlg: true },
+                 //{ name: 'strSalesInvoiceNo', index: 'strSalesInvoiceNo', hidden: true, hidedlg: true },
+                { name: 'strSalesInvoiceNo', index: 'strSalesInvoiceNo', align: 'center' },
+
                  { name: 'iImpExpTransfer', index: 'iImpExpTransfer', hidden: true, hidedlg: true },
                   { name: 'iPaymentType', index: 'iPaymentType', hidden: true, hidedlg: true },
                   { name: 'iBuyerID', index: 'iBuyerID', hidden: true, hidedlg: true },
-                { name: 'strBuyerName', index: 'strBuyerName' },
-                { name: 'strSalesDate', index: 'strSalesDate' },
-                { name: 'dmlSellingPrice', index: 'dmlSellingPrice' },
-                { name: 'dmlDeposit', index: 'dmlDeposit' },
-                { name: 'dmlAdvance', index: 'dmlAdvance' },
-                { name: 'dmlBalance', index: 'dmlBalance' },
-                { name: 'iInstallment', index: 'iInstallment' },
-                { name: 'strCashName', index: 'strCashName' },
-                { name: 'strPaperModeName', index: 'strPaperModeName' },
+                { name: 'strBuyerName', index: 'strBuyerName', align: 'center' },
+                { name: 'strSalesDate', index: 'strSalesDate', align: 'center' },
+                { name: 'dmlSellingPrice', index: 'dmlSellingPrice', align: 'center' },
+                { name: 'dmlDeposit', index: 'dmlDeposit', align: 'center' },
+                { name: 'dmlAdvance', index: 'dmlAdvance', align: 'center' },
+                { name: 'dmlBalance', index: 'dmlBalance', align: 'center' },
+                { name: 'iInstallment', index: 'iInstallment', align: 'center' },
+                { name: 'strCashName', index: 'strCashName', align: 'center' },
+                { name: 'strPaperModeName', index: 'strPaperModeName', align: 'center' },
 
                 //{ name: 'act', index: 'act', width: 350 },
                 //{
@@ -242,7 +247,7 @@
 
 
             ],
-            width: 1050,
+            width: 1100,
             height: 250,
             rowNum: 10,
             loadonce: true,
@@ -285,7 +290,11 @@
        
 
         var iSaleFrontEndID = rowData['iSaleFrontEndID'];
+
+        
         var iSalesInvoiceID = rowData['iSalesInvoiceID'];
+
+        var strSalesInvoiceNo = rowData['strSalesInvoiceNo'];
 
         var iBuyerID = rowData['iBuyerID'];
 
@@ -321,12 +330,118 @@
         $("#txtAdvance").val(dmlAdvance); $("#txtSaleBalance").val(dmlBalance); $("#txtInstallment").val(iInstallment);
         //$("input[name='nam_GroupMode']:checked").val(strCashName); 
         //$("input[name='PaymentOption']:checked").val(strPaperModeName);
-        $("#txtInvoiceNum").html(iSalesInvoiceID);
+       
         $("#iImpExpTransfer").val(iImpExpTransfer);
         $("#iPaymentType").val(iPaymentType);
 
+        $("#txtInvoiceNum").val(iSalesInvoiceID);
+
+
+        $("#spnInvoiceNum").text(iSalesInvoiceID);
+
+     
+
+        //$("#strSalesInvoiceNo").val(strSalesInvoiceNo);
+
+       // $("#invoiceLbl").html(strSalesInvoiceNo);
+        $(function () {
+
+            //////////////this is used to fill the grid at load time by all vehicle
+
+            $('#dataGrid').jqGrid({
+                caption: "Vehicle List",
+                url: '/Sales/GetData/',
+                datatype: "json",
+                contentType: "application/json; charset-utf-8",
+                mtype: 'GET',
+                colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY'],
+                colModel: [
+                    { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+                    { name: 'iLotNum', index: 'iLotNum' },
+                    { name: 'strChassisNum', index: 'strChassisNum' },
+                    { name: 'iModel', index: 'iModel' },
+                    { name: 'iYear', index: 'iYear' },
+                    { name: 'strColor', index: 'strColor' },
+                    { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
+
+                ],
+                width: 'auto',
+                rowNum: 10,
+                loadonce: true,
+                rowList: [10, 20, 30],
+                pager: 'pagingGrid',
+                caption: 'Select Vehicle to Add',
+
+                beforeSelectRow: function (rowid, celname, value, iRow, iCol) {
+                    debugger
+                    var rowData = jQuery("#dataGrid").getRowData(rowid);
+                    var rowDataVehicleID = rowData['iVehicleID'];
+
+
+                    var addVehicleID = false;
+                    $.map(arr, function (elementOfArray, indexInArray) {
+                        if (elementOfArray.VehicleID == rowDataVehicleID) {
+
+                            addVehicleID = true;
+                        }
+                    })
+                    if (!addVehicleID) {
+                        arr.push({ VehicleID: rowDataVehicleID })
+                        $('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
+
+                    }
+
+                }
+
+            });
+            jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+            jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+
+
+            //$('#GridAddVehicle').jqGrid({
+            //    caption: "ADD Single Vehicle",
+            //    //data: SingleVehicle,
+            //    //datatype: "local",
+            //    colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'],
+            //    colModel: [
+            //        { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+            //        { name: 'iLotNum', index: 'iLotNum' },
+            //        { name: 'strChassisNum', index: 'strChassisNum' },
+            //        { name: 'iModel', index: 'iModel' },
+            //        { name: 'iYear', index: 'iYear' },
+            //        { name: 'strColor', index: 'strColor' },
+            //        { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
+
+            //        {
+            //            name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
+            //            formatter: function (cellvalue, options, rowObject) {
+            //                // return '<a href="/MAreas/Edit/' + options.rowId + '">' + "<img src='../Images/edit%20(2).png' '/>" + '</a>' + "     " + '<a href="/MAreas/Delete/' + options.rowId + '">' + "<img src='../Images/delete%20(2).png' />" + '</a>';
+            //                //return $('#GridAddVehicle').jqGrid('delRowData', options.rowId);
+            //                return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"jQuery('#GridAddVehicle').delRowData('" + options.rowId + "');\"  />";
+            //            }
+
+            //        },
+
+            //    ],
+            //    //width: 'auto',
+            //    width: 900,
+            //    //height: 250,
+            //    rowNum: 10,
+            //    loadonce: false,
+            //    rowList: [10, 20, 30],
+            //    pager: 'pagingGridAddVehicle',
+            //});
+            //jQuery("#GridAddVehicle").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+            //jQuery("#GridAddVehicle").jqGrid('navGrid', '#pagingGridAddVehicle', { edit: false, add: false, del: false, search: false, rel: false });
+
+        });
+
+
+
 
         /////////taking sales FrontEnd id and pass to controller for getting all the vehicles associated with that frontEnd id
+
         var request = iSaleFrontEndID;
         jQuery.ajax({
             url: '/Sales/GetSaleVehicleBySalesFrntID/',
@@ -338,18 +453,25 @@
                 debugger
                // arr.push(result);
 
-                var listVehicle = result.listVehicle;
-
                 
+
+                var listVehicle = result.listVehicle;
+               
+                for (var i = 0; i < listVehicle.length; i++) {
+                   
+                    arr.push({ VehicleID: listVehicle[i].iVehicleID })
+                    //arr.push(listVehicle[i].iVehicleID)
+                }
 
                 $('#GridAddVehicle').jqGrid({
                     caption: "ADD Single Vehicle",
                     data: listVehicle,
                     datatype: "local",
-                    colNames: ['iSalesVehicleID', 'ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'],
+                    colNames: ['ID', 'iSalesVehicleID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'],
                     colModel: [
-                        { name: 'iSalesVehicleID', index: 'iSalesVehicleID', hidden: true, hidedlg: true },
+                        
                         { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+                        { name: 'iSalesVehicleID', index: 'iSalesVehicleID', hidden: true, hidedlg: true },
                         { name: 'iLotNum', index: 'iLotNum' },
                         { name: 'strChassisNum', index: 'strChassisNum' },
                         { name: 'iModel', index: 'iModel' },
@@ -420,113 +542,26 @@
    ////////////////this function is used to delete vehicle from grid and array as well 
 
     function delRowData(rowid) {
-
+        
         debugger
-        jQuery('#GridAddVehicle').delRowData(rowid);
-        var rowData = jQuery("#dataGrid").getRowData(rowid);
+        
+        var rowData = jQuery("#GridAddVehicle").getRowData(rowid);
         var rowDataVehicleID = rowData['iVehicleID'];
-
+        jQuery('#GridAddVehicle').delRowData(rowid);
         $.map(arr, function (elementOfArray, indexInArray) {
             if (elementOfArray.VehicleID == rowDataVehicleID) {
 
                 arr.pop(rowDataVehicleID);
+               
 
             }
         })
+
+        
     }
 
 
-    $(function () {
-
-        //////////////this is used to fill the grid at load time by all vehicle
-
-        $('#dataGrid').jqGrid({
-            caption: "Vehicle List",
-            url: '/Sales/GetData/',
-            datatype: "json",
-            contentType: "application/json; charset-utf-8",
-            mtype: 'GET',
-            colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY'],
-            colModel: [
-                { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
-                { name: 'iLotNum', index: 'iLotNum' },
-                { name: 'strChassisNum', index: 'strChassisNum' },
-                { name: 'iModel', index: 'iModel' },
-                { name: 'iYear', index: 'iYear' },
-                { name: 'strColor', index: 'strColor' },
-                { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
-
-            ],
-            width: 'auto',
-            rowNum: 10,
-            loadonce: true,
-            rowList: [10, 20, 30],
-            pager: 'pagingGrid',
-            caption: 'Select Vehicle to Add',
-
-            beforeSelectRow: function (rowid, celname, value, iRow, iCol) {
-                debugger
-                var rowData = jQuery("#dataGrid").getRowData(rowid);
-                var rowDataVehicleID = rowData['iVehicleID'];
-
-
-                var addVehicleID = false;
-                $.map(arr, function (elementOfArray, indexInArray) {
-                    if (elementOfArray.VehicleID == rowDataVehicleID) {
-
-                        addVehicleID = true;
-                    }
-                })
-                if (!addVehicleID) {
-                    arr.push({ VehicleID: rowDataVehicleID })
-                    $('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
-
-                }
-
-            }
-
-        });
-        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
-        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
-
-
-        //$('#GridAddVehicle').jqGrid({
-        //    caption: "ADD Single Vehicle",
-        //    //data: SingleVehicle,
-        //    //datatype: "local",
-        //    colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'],
-        //    colModel: [
-        //        { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
-        //        { name: 'iLotNum', index: 'iLotNum' },
-        //        { name: 'strChassisNum', index: 'strChassisNum' },
-        //        { name: 'iModel', index: 'iModel' },
-        //        { name: 'iYear', index: 'iYear' },
-        //        { name: 'strColor', index: 'strColor' },
-        //        { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
-
-        //        {
-        //            name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
-        //            formatter: function (cellvalue, options, rowObject) {
-        //                // return '<a href="/MAreas/Edit/' + options.rowId + '">' + "<img src='../Images/edit%20(2).png' '/>" + '</a>' + "     " + '<a href="/MAreas/Delete/' + options.rowId + '">' + "<img src='../Images/delete%20(2).png' />" + '</a>';
-        //                //return $('#GridAddVehicle').jqGrid('delRowData', options.rowId);
-        //                return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"jQuery('#GridAddVehicle').delRowData('" + options.rowId + "');\"  />";
-        //            }
-
-        //        },
-
-        //    ],
-        //    //width: 'auto',
-        //    width: 900,
-        //    //height: 250,
-        //    rowNum: 10,
-        //    loadonce: false,
-        //    rowList: [10, 20, 30],
-        //    pager: 'pagingGridAddVehicle',
-        //});
-        //jQuery("#GridAddVehicle").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
-        //jQuery("#GridAddVehicle").jqGrid('navGrid', '#pagingGridAddVehicle', { edit: false, add: false, del: false, search: false, rel: false });
-
-    });
+   
 
 
 </script>
@@ -599,11 +634,15 @@
 
 <script>
 
-    var parameters = [];
+    var parameters =new Array();
     var paperModeID;
     $("#updateSaleInfo").click(function () {
-
+        parameters = new Array();
         debugger;
+
+        var data = $('#invoiceLbl').text().split(':');
+
+        $("#invoiceLbl").html(data[1]);
 
         $(function () {
             if ($(this).attr("rel") != "update") {
@@ -645,6 +684,7 @@
                 })
 
 
+
                 var ids = jQuery("#GridAddVehicle").jqGrid('getDataIDs');
 
                 var hfSaleFrontEndID = $('#hfSaleFrontEndID').html();
@@ -655,18 +695,15 @@
 
 
 
-                for (var i = 0; i < ids.length; i++) {
-                    //alert(arr[i]);
+                for (var i = 0; i < arr.length; i++) {
+                   
 
                     parameters.push({
-                        iVehicleID: ids[i],
+                        iVehicleID: arr[i].VehicleID,
                         iSaleFrontEndID: hfSaleFrontEndID
                     });
                 }
 
-                //    alert(("#hfCustomer").text());
-                //alert(("#hfSaleFrontEndID").text());
-                //alert(("#txtCustomerName").html());
 
 
                 var SaleData = {
@@ -675,7 +712,11 @@
                     iSaleID: $("#hfSaleID").val(),
                     strBuyerName: $("#txtCustomerName").val(),
                     strSalesDate: $("#salesDate").val(),
-                    iSalesInvoiceID: $("#txtInvoiceNum").html(),
+
+                   // iSalesInvoiceID: $("#txtInvoiceNum").text(),
+                    iSalesInvoiceID: $("#txtInvoiceNum").val(),
+                   
+
                     dmlSellingPrice: $("#txtSellingPrice").val(),
                     dmlDeposit: $("#txtDeposit").val(),
                     dmlAdvance: $("#txtAdvance").val(),
@@ -683,7 +724,8 @@
                     iInstallment: $("#txtInstallment").val(),
                     iPaymentType: paymentStatus,
                     iImpExpTransfer: paperModeID,
-
+                   // strSalesInvoiceNo: $("#strSalesInvoiceNo").val()
+                    strSalesInvoiceNo:$("#invoiceLbl").html()
                 }
 
 
@@ -696,7 +738,7 @@
                     dataType: this.dataType,
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
-                        alert("Save data Successfully");
+                        //alert("Save data Successfully");
                         window.location.href = "/Sales/Index";
 
                     },

@@ -20,8 +20,6 @@ namespace AuctionInventoryDAL.Repositories
             var sales = auctionContext.Sales.Where(a => a.iSaleID == sale.iSaleID).FirstOrDefault();
 
 
-
-
             int? invNo = auctionContext.Sales.Max(i => i.iSalesInvoiceID) ?? 0;
             invNo = invNo + 1;
             int? salesFrontEndID = auctionContext.Sales.Max(i => i.iSaleFrontEndID) ?? 0;
@@ -45,6 +43,7 @@ namespace AuctionInventoryDAL.Repositories
                     sales.dmlAdvance = sale.dmlAdvance;
                     sales.dmlBalance = sale.dmlBalance;
 
+                    sales.strSalesInvoiceNo = sale.strSalesInvoiceNo;
 
                     sales.iInstallment = sale.iInstallment;
                     sales.iPaymentType = sale.iPaymentType;
@@ -66,38 +65,22 @@ namespace AuctionInventoryDAL.Repositories
 
             foreach (var items in saleVehicles)
             {
+                var salesVehicle = auctionContext.SalesVehicles.Where(a => a.iSaleFrontEndID == items.iSaleFrontEndID).ToList();
 
-                var salesVehicle = auctionContext.SalesVehicles.Where(a => a.iSaleFrontEndID == items.iSaleFrontEndID).FirstOrDefault();
-
-                var deleteSalesVehicle = auctionContext.SalesVehicles.Where(a => a.iSaleFrontEndID == items.iSaleFrontEndID).ToList();
-                if (salesVehicle.iSaleFrontEndID > 0)
+                if (salesVehicle.Count>0)
                 {
-                    //Edit Existing Record
-
-                    foreach (var del in deleteSalesVehicle)
+                    foreach (var deletesaleVehicle in salesVehicle)
                     {
-                        auctionContext.SalesVehicles.Remove(del);
+                        auctionContext.SalesVehicles.Remove(deletesaleVehicle);
                     }
-
-
-                    if (salesVehicle != null)
-                    {
-                       
-                        
-                        items.iSaleFrontEndID = salesVehicle.iSaleFrontEndID;
-                        auctionContext.SalesVehicles.Add(items);
-
-                       
-                    }
-
+                    //auctionContext.SaveChanges();
                 }
-
-                else
-                {
-                    //Save
-                    items.iSaleFrontEndID = salesFrontEndID;
-                    auctionContext.SalesVehicles.Add(items);
-                }
+            }
+            foreach (var item in saleVehicles)
+            {
+                //Save
+                ///////items.iSaleFrontEndID = salesFrontEndID;
+                auctionContext.SalesVehicles.Add(item);
             }
 
             auctionContext.SaveChanges();
@@ -105,6 +88,101 @@ namespace AuctionInventoryDAL.Repositories
             return status;
 
         }
+
+
+        ////old code for save before 18-04-17
+        //public bool SaveRepository(Sale sale, List<SalesVehicle> saleVehicles)
+        //{
+        //    bool status = false;
+
+        //    var sales = auctionContext.Sales.Where(a => a.iSaleID == sale.iSaleID).FirstOrDefault();
+
+
+
+
+        //    int? invNo = auctionContext.Sales.Max(i => i.iSalesInvoiceID) ?? 0;
+        //    invNo = invNo + 1;
+        //    int? salesFrontEndID = auctionContext.Sales.Max(i => i.iSaleFrontEndID) ?? 0;
+        //    salesFrontEndID = salesFrontEndID + 1;
+
+        //    if (sale.iSaleID > 0)
+        //    {
+        //        //Edit Existing Record
+
+        //        if (sales != null)
+        //        {
+
+        //            sales.iSaleID = sale.iSaleID;
+        //            sales.iSaleFrontEndID = sale.iSaleFrontEndID;
+        //            sales.strBuyerName = sale.strBuyerName;
+        //            sales.iBuyerID = sale.iBuyerID;
+        //            sales.strSalesDate = sale.strSalesDate;
+
+        //            sales.dmlSellingPrice = sale.dmlSellingPrice;
+        //            sales.dmlDeposit = sale.dmlDeposit;
+        //            sales.dmlAdvance = sale.dmlAdvance;
+        //            sales.dmlBalance = sale.dmlBalance;
+
+
+        //            sales.iInstallment = sale.iInstallment;
+        //            sales.iPaymentType = sale.iPaymentType;
+        //            sales.iImpExpTransfer = sale.iImpExpTransfer;
+        //            sales.iSalesInvoiceID = sale.iSalesInvoiceID;
+
+
+        //        }
+        //    }
+
+        //    else
+        //    {
+        //        //Save
+        //        sale.iSalesInvoiceID = invNo;
+        //        sale.iSaleFrontEndID = salesFrontEndID;
+        //        auctionContext.Sales.Add(sale);
+        //    }
+
+
+        //    foreach (var items in saleVehicles)
+        //    {
+
+        //        var salesVehicle = auctionContext.SalesVehicles.Where(a => a.iSaleFrontEndID == items.iSaleFrontEndID).FirstOrDefault();
+
+        //        var deleteSalesVehicle = auctionContext.SalesVehicles.Where(a => a.iSaleFrontEndID == items.iSaleFrontEndID).ToList();
+        //        if (salesVehicle.iSaleFrontEndID > 0)
+        //        {
+        //            //Edit Existing Record
+
+        //            foreach (var del in deleteSalesVehicle)
+        //            {
+        //                auctionContext.SalesVehicles.Remove(del);
+        //            }
+
+
+        //            if (salesVehicle != null)
+        //            {
+
+
+        //                items.iSaleFrontEndID = salesVehicle.iSaleFrontEndID;
+        //                auctionContext.SalesVehicles.Add(items);
+
+
+        //            }
+
+        //        }
+
+        //        else
+        //        {
+        //            //Save
+        //            items.iSaleFrontEndID = salesFrontEndID;
+        //            auctionContext.SalesVehicles.Add(items);
+        //        }
+        //    }
+
+        //    auctionContext.SaveChanges();
+        //    status = true;
+        //    return status;
+
+        //}
 
 
         public dynamic GetVehiclesData()
@@ -166,6 +244,9 @@ namespace AuctionInventoryDAL.Repositories
                                iSaleID = AM.iSaleID,
                                iSaleFrontEndID = AM.iSaleFrontEndID,
                                iSalesInvoiceID = AM.iSalesInvoiceID,
+
+                                strSalesInvoiceNo = AM.strSalesInvoiceNo,
+
                                iImpExpTransfer = AM.iImpExpTransfer,
                                iPaymentType = AM.iPaymentType,
 
@@ -181,12 +262,13 @@ namespace AuctionInventoryDAL.Repositories
                                strCashName = t3.strCashName,
                                strPaperModeName = t2.strPaperModeName
 
-                           }).ToList()
+                           }).OrderBy(a=>a.strSalesInvoiceNo).ToList()
                       select new
                       {
                           id = sales.iSaleID,
                           cell = new string[] {
                Convert.ToString(sales.iSaleID),Convert.ToString(sales.iSaleFrontEndID),Convert.ToString(sales.iSalesInvoiceID),
+               Convert.ToString(sales.strSalesInvoiceNo),
                Convert.ToString(sales.iImpExpTransfer),Convert.ToString(sales.iPaymentType),Convert.ToString(sales.iBuyerID)
                ,Convert.ToString( sales.strBuyerName),Convert.ToString(sales.strSalesDate)
                ,Convert.ToString( sales.dmlSellingPrice),Convert.ToString(sales.dmlDeposit),Convert.ToString( sales.dmlAdvance),Convert.ToString(sales.dmlBalance)

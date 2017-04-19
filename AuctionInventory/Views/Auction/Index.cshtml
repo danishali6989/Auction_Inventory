@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h3>AuctionList</h3>
+<h3>Auction</h3>
 
 
 <div class="col-sm-6">
@@ -41,6 +41,9 @@
 </div>*@
 <div>
     <br />
+    <div id="dialog" style="display: none" align="center">
+        Do you want to Save this Auction?
+    </div>
     <input type="button" style="margin-left: 320px" class="btn btn-success col-md-2" id="saveAuctionList" value="Save" />
     <input type="button" style="margin-left: 40px" class="btn btn-success col-md-2" value="Print" onclick="generateAuctionPDF()" />
 </div>
@@ -161,15 +164,30 @@
                 { name: 'strColor', index: 'strColor', align: 'center' },
                 { name: 'iCustomValInJPY', index: 'iCustomValInJPY', align: 'center' },
 
-                {
-                    name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
-                    formatter: function (cellvalue, options, rowObject) {
-                        // return '<a href="/MAreas/Edit/' + options.rowId + '">' + "<img src='../Images/edit%20(2).png' '/>" + '</a>' + "     " + '<a href="/MAreas/Delete/' + options.rowId + '">' + "<img src='../Images/delete%20(2).png' />" + '</a>';
-                        //return $('#GridAddVehicle').jqGrid('delRowData', options.rowId);
-                        return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"jQuery('#GridAddVehicle').delRowData('" + options.rowId + "');\"  />";
-                    }
 
-                },
+
+                   {
+                       name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
+                       formatter: function (cellvalue, options, rowObject) {
+
+                           //return "<input class='popup delete btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"jQuery('#GridAddVehicle').delRowData('" + options.rowId + "');\"  />";
+
+                           return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"delRowData('" + options.rowId + "');\"  />";
+                       }
+
+                   },
+
+
+
+                //{
+                //    name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        // return '<a href="/MAreas/Edit/' + options.rowId + '">' + "<img src='../Images/edit%20(2).png' '/>" + '</a>' + "     " + '<a href="/MAreas/Delete/' + options.rowId + '">' + "<img src='../Images/delete%20(2).png' />" + '</a>';
+                //        //return $('#GridAddVehicle').jqGrid('delRowData', options.rowId);
+                //        return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"jQuery('#GridAddVehicle').delRowData('" + options.rowId + "');\"  />";
+                //    }
+
+                //},
 
             ],
             width: 'auto',
@@ -184,83 +202,141 @@
         jQuery("#GridAddVehicle").jqGrid('navGrid', '#pagingGridAddVehicle', { edit: false, add: false, del: false, search: false, rel: false });
 
     });
+
+    ////////////////this function is used to delete vehicle from grid and array as well 
+
+    function delRowData(rowid) {
+        arr = new Array();
+        debugger
+
+        var rowData = jQuery("#GridAddVehicle").getRowData(rowid);
+        var rowDataVehicleID = rowData['iVehicleID'];
+        jQuery('#GridAddVehicle').delRowData(rowid);
+        $.map(arr, function (elementOfArray, indexInArray) {
+            if (elementOfArray.VehicleID == rowDataVehicleID) {
+
+                arr.pop(rowDataVehicleID);
+
+
+            }
+        })
+
+
+    }
+
     var parameters = [];
+
+
     $("#saveAuctionList").click(function () {
+        arr = new Array();
         debugger;
 
+        $(function () {
+            if ($(this).attr("rel") != "update") {
+                $('#dialog').dialog('open');
+                return false;
+            }
+        });
 
+        $("#dialog").dialog({
+            modal: true,
+            autoOpen: false,
+            title: "Confirmation",
+            width: 350,
+            height: 160,
+            buttons: [
+        {
+            id: "Yes",
+            text: "Yes",
+            click: function () {
 
-        var ids = jQuery("#GridAddVehicle").jqGrid('getDataIDs');
+                //calling function here for update
+                var ids = jQuery("#GridAddVehicle").jqGrid('getDataIDs');
 
-        var date = $('#auctionDate').val();
-        var AuctionfrontID = $('#AuctionFrontEndID').val();
-        //var gridDataVehicleID = JSON.stringify(arr);
+                var date = $('#auctionDate').val();
+                var AuctionfrontID = $('#AuctionFrontEndID').val();
+                //var gridDataVehicleID = JSON.stringify(arr);
 
-        for (var i = 0; i < ids.length; i++) {
-            //alert(arr[i]);
+                for (var i = 0; i < ids.length; i++) {
+                    //alert(arr[i]);
 
-            parameters.push({
-                iVehicleID: ids[i],
-                strAuctionDate: date,
-                iAuctionFrontEndID: AuctionfrontID
-            });
-        }
-
-
-
-        //for (var i = 0; i < arr.length; i++) {
-
-        //    parameters.push({
-        //        iVehicleID: gridDataVehicleID,
-        //        strAuctionDate: date
-        //    });
-
-        //}
-
-
-        // TODO: maybe you want to assign an unique id to your table element
-
-        //var gridDataVehicleID = JSON.stringify(arr);
-        //var date = $('#auctionDate').val();
-        //$(gridDataVehicleID).each(function () {
-
-        //    parameters.push({
-        //        iVehicleID: gridDataVehicleID,
-        //        strAuctionDate: date
-        //    });
-        //});
+                    parameters.push({
+                        iVehicleID: ids[i],
+                        strAuctionDate: date,
+                        iAuctionFrontEndID: AuctionfrontID
+                    });
+                }
 
 
 
+                //for (var i = 0; i < arr.length; i++) {
 
-        //var auctionList = {
-        //    iVehicleID: gridDataVehicleID,
-        //    strAuctionDate: date,
-        //}
-        debugger
-        $.ajax({
-            type: "POST",
-            url: "/Auction/Save",
-            cache: false,
-            data: JSON.stringify({ auctionList: parameters }),
-            // data: JSON.stringify(purchase),
-            dataType: this.dataType,
-            contentType: "application/json; charset=utf-8",
-            success: function (Data) {
+                //    parameters.push({
+                //        iVehicleID: gridDataVehicleID,
+                //        strAuctionDate: date
+                //    });
 
-                //$("#divShowPrintbtn").show();
-                alert("Data Saved You Can Print AuctionList");
+                //}
+
+
+                // TODO: maybe you want to assign an unique id to your table element
+
+                //var gridDataVehicleID = JSON.stringify(arr);
+                //var date = $('#auctionDate').val();
+                //$(gridDataVehicleID).each(function () {
+
+                //    parameters.push({
+                //        iVehicleID: gridDataVehicleID,
+                //        strAuctionDate: date
+                //    });
+                //});
+
+
+
+
+                //var auctionList = {
+                //    iVehicleID: gridDataVehicleID,
+                //    strAuctionDate: date,
+                //}
+                debugger
+                $.ajax({
+                    type: "POST",
+                    url: "/Auction/Save",
+                    cache: false,
+                    data: JSON.stringify({ auctionList: parameters }),
+                    // data: JSON.stringify(purchase),
+                    dataType: this.dataType,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+                        //$("#divShowPrintbtn").show();
+                        alert("Data Saved You Can Print AuctionList");
+                    }
+
+
+                    //success: function (Data) {
+                    //    $('#msg').html(Data).fadeIn('slow');
+                    //    //$('#msg').html("data insert successfully").fadeIn('slow') //also show a success message
+                    //    $('#msg').delay(5000).fadeOut('slow');
+                    //},
+
+
+                });
+                $(this).dialog('close');
             }
 
-
-            //success: function (Data) {
-            //    $('#msg').html(Data).fadeIn('slow');
-            //    //$('#msg').html("data insert successfully").fadeIn('slow') //also show a success message
-            //    $('#msg').delay(5000).fadeOut('slow');
-            //},
-
-
+        },
+        {
+            id: "No",
+            text: "No",
+            click: function () {
+                $(this).dialog('close');
+            }
+        }
+            ]
         });
+
+       
 
     });
 

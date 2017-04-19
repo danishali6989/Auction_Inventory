@@ -30,7 +30,7 @@
         
      </div>
     <div class="form-group col-xs-4">
-        <h3><label  class="label label-warning form-control input-group-lg">Sales Inv No: Sale-@(@DateTime.Now.Year % 100)-<span id="txtInvoiceNum"></span></label></h3>
+        <h3><label id="invoiceLbl" class="label label-warning form-control input-group-lg">Sales Inv No: Sale-@(@DateTime.Now.Year % 100)-<span id="txtInvoiceNum"></span></label></h3>
     </div>
    
 </div>
@@ -426,6 +426,11 @@
             
         debugger;
 
+        var data = $('#invoiceLbl').text().split(':');
+
+        $("#invoiceLbl").html(data[1]);
+
+      
         $(function () {
             if ($(this).attr("rel") != "update") {
                 $('#dialog').dialog('open');
@@ -496,6 +501,7 @@
                     iInstallment: $("#txtInstallment").val(),
                     iPaymentType: paymentStatus,
                     iImpExpTransfer: chkBoxvalue,
+                    strSalesInvoiceNo: $("#invoiceLbl").text()
 
                 }
 

@@ -29,6 +29,8 @@
                     <label class='form-control input-group-sm' id='lblExpense'></label>
                 </div>*@
                 <div class='form-group col-sm-3'>
+                    <input type="hidden" id="hfStrPurchaseInvoiceNo" />
+
                     <input type='number' id="invno" class='form-control input-group-sm' style='margin-left: -20px;' placeholder='Search By Invoice ID' />
                 </div>
 
@@ -175,6 +177,7 @@
 </script>
 
 <script type="text/javascript">
+   
     $("#JQGridFill").click(function () {
 
         var request = $('#invno').val();
@@ -188,6 +191,8 @@
             contentType: "application/json; charset=utf-8",
             success: function (result) {
                 var listPurchase = result.listPurchase
+                $('#hfStrPurchaseInvoiceNo').val(listPurchase[0].strPurchaseInvoiceNo);
+               
                 bindGrid(listPurchase);
                 $('#AddExpenseDynamic').show();
             }
@@ -202,7 +207,7 @@
                 // colNames: ['Action', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Assessed Value', 'AED'],
                 colNames: ['Invoice No', 'Invoice Date', 'No Of units', 'Master Dec No', 'BL NO'],
                 colModel: [
-                    { name: 'iPurchaseInvoiceNo', index: 'iPurchaseInvoiceNo', align: 'center' },
+                    { name: 'strPurchaseInvoiceNo', index: 'strPurchaseInvoiceNo', align: 'center' },
                     { name: 'strPurchaseInvoiceDate', index: 'strPurchaseInvoiceDate', align: 'center' },
                     { name: 'NoOfUnits', index: 'NoOfUnits', align: 'center' },
                     { name: 'strMasterDecNo', index: 'strMasterDecNo', align: 'center' },
@@ -225,6 +230,7 @@
             jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false, rel: false });
 
         }
+
     });
 
 </script>
@@ -317,8 +323,7 @@
 
         $("#btnSaveAllVehiclesExpense").click(function () {
             debugger
-
-
+           
 
             $(function () {
                 if ($(this).attr("rel") != "update") {
@@ -340,6 +345,8 @@
                 click: function () {
 
                     //calling function here for update
+
+
                     for (var i = 1; i < counter; i++) {
                         var ExpenseID = $("#lblExpenseID" + i).html();
                         //var ExpenseName = $("#lblExpense" + i).html();
@@ -357,7 +364,8 @@
                                   //iSubCategoryID: 1,
                                   dcmlExpenseAmount: ExpenseAmount,
                                   dcmlTotalExpenseAmount: ExpenseTotalAmount,
-                                  iVehicleExpenseTypeID:1
+                                  iVehicleExpenseTypeID: 1,
+                                  strPurchaseInvoiceNo: $('#hfStrPurchaseInvoiceNo').val()
 
                               }
                         favorite.push(expenseAmount);

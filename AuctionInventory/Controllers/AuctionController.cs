@@ -21,6 +21,10 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
+        //public ActionResult AuctionList()
+        //{
+        //    return View();
+        //}
 
         [HttpGet]
         public ActionResult GetData()

@@ -66,7 +66,9 @@ namespace AuctionInventory.Services
                 eSale.iSaleFrontEndID = mSale.iSaleFrontEndID;
                 eSale.strBuyerName = mSale.strBuyerName ?? " ";
                 eSale.iBuyerID = mSale.iBuyerID;
-               
+
+                eSale.strSalesInvoiceNo = mSale.strSalesInvoiceNo ?? " ";
+
                 eSale.strSalesDate = mSale.strSalesDate ?? " ";
                 eSale.dmlSellingPrice = mSale.dmlSellingPrice;
                 eSale.dmlDeposit = mSale.dmlDeposit;

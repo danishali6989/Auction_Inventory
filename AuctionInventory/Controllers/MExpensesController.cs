@@ -92,8 +92,8 @@ namespace AuctionInventory.Controllers
 
             }
 
-            //return View();
-            return new JsonResult { Data = new { status = status } };
+            return RedirectToAction("Index");
+            //return new JsonResult { Data = new { status = status } };
         }
 
 

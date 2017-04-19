@@ -222,6 +222,8 @@ namespace AuctionInventory.Services
 
                     mVehicleExpense.iVehicleExpenseID = item.iVehicleExpenseID;
 
+                    mVehicleExpense.strPurchaseInvoiceNo = item.strPurchaseInvoiceNo;
+
                     mVehicleExpense.iExpenseID = item.iExpenseID;
                     mVehicleExpense.dcmlExpenseAmount = item.dcmlExpenseAmount;
                     mVehicleExpense.dcmlTotalExpenseAmount = item.dcmlTotalExpenseAmount;

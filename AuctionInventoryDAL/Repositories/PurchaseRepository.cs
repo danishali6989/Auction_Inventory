@@ -169,8 +169,11 @@ namespace AuctionInventoryDAL.Repositories
             }
             else
             {
+               
+
                 //Save
                 purchase.iPurchaseInvoiceNo = invNo;
+                //purchase.strPurchaseInvoiceNo = invNo;
                 auctionContext.TPurchases.Add(purchase);
             }
             auctionContext.SaveChanges();

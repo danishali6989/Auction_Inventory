@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AuctionInventory.Models.Expenses
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,96 +14,20 @@
     }
 </style>
 <h2>Save</h2>
-
-
-<input type="hidden" id="iExpenseID" />
-
-
-    <div class='form-group col-sm-4' style="margin-top: -24px;margin-left: 125px;">
-        <label>Expense Name:</label>
-        <input class='form-control input-group-sm' name='ExpenseName' placeholder='Enter expense name' id='strExpenseName' />
-        <br />
-        <label>Select Expense Category:</label>
-        <select class='form-control input-group-sm' id="ddlcategory" onchange="getvalCat(this);">
-            <option value="0">Select</option>
-            <option value="1">General Expense</option>
-            <option value="2">Vehicle Expense</option>
-        </select>
-        <br />
-        <div style="display:none" id="divddlSubCategory">
-            <label>Select Vehicle Category:</label>
-            <select class='form-control input-group-sm' id="ddlsubcategory" onchange="getvalCat(this);">
-                <option value="0">Select</option>
-                <option value="1">All Vehicle</option>
-                <option value="2">Single Vehicle</option>
-            </select>
-        </div>
-        
-        <br />
-        <input id="btnSaveExpense" class='btn btn-success col-sm-4' type="button" value="Save" />
-
-       </div>
-
-@*<div class='form-group col-sm-2'>
-    <select class='form-control input-group-sm' id="ddlcategory" onchange="getvalCat(this);">
-        <option value="0">Select</option>
-        <option value="1">General Expense</option>
-        <option value="2">Vehicle Expense</option>
-    </select>
-</div>
-
-<br />
-<div class='form-group col-sm-2'>
-    <select class='form-control input-group-sm' id="ddlsubcategory" style="display:none" onchange="getvalCat(this);">
-        <option value="0">Select</option>
-        <option value="1">All Vehicle</option>
-        <option value="2">Single Vehicle</option>
-    </select>
-</div>
-<br />*@
-@*<div>
-    <input id="btnSaveExpense" class='btn btn-success col-sm-2' type="button" value="Save" />
-
-    <input type="submit" id="btnSaveExpense" value="Save" />
-</div>*@
-
-
-<script>
-
-
-    function getvalCat(sel) {
-
-        if ($("#ddlcategory").val() == 2) { $("#divddlSubCategory").css("display", "block"); }
-
+@using (Html.BeginForm("Save", "MExpenses", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.iExpenseID > 0)
+    {
+        @Html.HiddenFor(a => a.iExpenseID)
     }
-
-    $("#btnSaveExpense").click(function () {
-
-
-        var expense1 = {
-            strExpenseName: $('#strExpenseName').val(),
-            iCategoryID: $("#ddlcategory").val(),
-            iSubCategoryID: $("#ddlsubcategory").val()
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/MExpenses/Save",
-            cache: false,
-            data: JSON.stringify({ expense: expense1 }),
-            // data: JSON.stringify(purchase),
-            dataType: 'json',
-            contentType: "application/json; charset=utf-8",
-            success: function (Data) {
-                window.location.href = "/MExpenses/Index";
-
-            },
-            error: function (data) {
-                $("#error_message").html(data);
-            }
-        });
-
-    });
+    <div class="form-group">
+        <label>Expense Name</label>
+        @Html.TextBoxFor(a => a.strExpenseName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.strExpenseName)
+    </div>
+    <div>
+        <input type="submit" value="Save" />
+    </div>
+}
 
 
-</script>

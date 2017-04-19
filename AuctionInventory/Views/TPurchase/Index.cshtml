@@ -137,7 +137,7 @@
         <div id="divDetails" class="row">
             @Html.ValidationSummary(true)
             @*@Html.HiddenFor(a => a.PurchaseID, new {  @id = "PurchaseID" })*@
-            <label>Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>
+            <label id="invoiceLbl">Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>
             <br />
 
             @*@Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })*@
@@ -481,6 +481,11 @@
     $("#btnSaveJQ").click(function () {
         debugger;
 
+      
+        var data = $('#invoiceLbl').text().split(':');
+
+        $("#invoiceLbl").html(data[1]);
+
 
         $(function () {
             if ($(this).attr("rel") != "update") {
@@ -500,7 +505,7 @@
             id: "Yes",
             text: "Yes",
             click: function () {
-
+                debugger;
                 //calling function here for update
                 // For Testing
                 //   var griddata1 = $('#dataGrid').jqGrid('getGridParam', 'data');
@@ -517,6 +522,8 @@
                     //    return false;
                     //}
 
+                  
+
                     var purchase = {
                         iPurchaseInvoiceNo: $('#invno').val(),
                         strPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
@@ -524,7 +531,8 @@
                         strMasterDecNo: $('#strMasterDecNo').val(),
                         strBLNo: $('#strBLNo').val(),
                         strArrivalDate: $('#strArrivalDate').val(),
-                        dmlConversionRate: $('#dmlConversionRate').val()
+                        dmlConversionRate: $('#dmlConversionRate').val(),
+                        strPurchaseInvoiceNo: $('#invoiceLbl').text()
                     }
                     var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
 

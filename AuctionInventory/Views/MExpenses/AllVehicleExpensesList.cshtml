@@ -22,7 +22,7 @@
 
     <div id="divDetails" class="row">
         <input type="hidden" id="hfiVehicleExpenseID" />
-        
+        <input type="hidden" id="hfStrPurchaseInvoiceNo" />
        
         @*<div class='form-group col-sm-4'>
                 <label>Purchase Inv No: </label>
@@ -159,13 +159,15 @@
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
 
-            colNames: ['iVehicleExpenseID', 'Expense Name', 'Invoice No', 'Date', 'No Of Expenses', 'Expense Amount', 'Total Expense Amount', 'Action'],
+            colNames: ['iVehicleExpenseID', 'Expense Name', 'InvoiceID', 'Invoice No', 'Date', 'No Of Expenses', 'Expense Amount', 'Total Expense Amount', 'Action'],
             colModel: [
                 { name: 'iVehicleExpenseID', index: 'iVehicleExpenseID', hidden: true, hidedlg: true },
                 
                 { name: 'strExpenseName', index: 'strExpenseName', hidden: true, hidedlg: true },
 
-                { name: 'iPurchaseInvoiceID', index: 'iPurchaseInvoiceID', align: 'center' },
+                 { name: 'iPurchaseInvoiceID', index: 'iPurchaseInvoiceID', hidden: true, hidedlg: true },
+
+                { name: 'strPurchaseInvoiceNo', index: 'strPurchaseInvoiceNo', align: 'center' },
 
                 { name: 'strExpenseDate', index: 'strExpenseDate', align: 'center' },
               
@@ -241,7 +243,7 @@
 
         var strExpenseDate = rowData['strExpenseDate'];
 
-        
+        var strPurchaseInvoiceNo = rowData['strPurchaseInvoiceNo'];
 
         var iExpenseID = rowData['iExpenseID'];
 
@@ -257,7 +259,7 @@
         $("#invno").val(iPurchaseInvoiceID);
         $("#txtAllExpDate").val(strExpenseDate);
 
-
+        $("#hfStrPurchaseInvoiceNo").val(strPurchaseInvoiceNo);
         //$("#totalSum").html(iTotalExpenseAmounrt);
 
 
@@ -284,7 +286,7 @@
                         // colNames: ['Action', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Assessed Value', 'AED'],
                         colNames: ['Invoice No', 'Invoice Date', 'No Of units', 'Master Dec No', 'BL NO'],
                         colModel: [
-                            { name: 'iPurchaseInvoiceNo', index: 'iPurchaseInvoiceNo', align: 'center' },
+                            { name: 'strPurchaseInvoiceNo', index: 'strPurchaseInvoiceNo', align: 'center' },
                             { name: 'strPurchaseInvoiceDate', index: 'strPurchaseInvoiceDate', align: 'center' },
                             { name: 'NoOfUnits', index: 'NoOfUnits', align: 'center' },
                             { name: 'strMasterDecNo', index: 'strMasterDecNo', align: 'center' },
@@ -655,7 +657,8 @@
                                       iVehicleExpenseID: iVehicleExpenseID,
                                       dcmlExpenseAmount: ExpenseAmount,
                                       dcmlTotalExpenseAmount: ExpenseTotalAmount,
-                                      iVehicleExpenseTypeID: 1
+                                      iVehicleExpenseTypeID: 1,
+                                      strPurchaseInvoiceNo: $("#hfStrPurchaseInvoiceNo").val()
 
                                   }
 

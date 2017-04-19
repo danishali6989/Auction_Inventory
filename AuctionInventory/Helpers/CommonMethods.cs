@@ -202,22 +202,38 @@ namespace AuctionInventory.Helpers
     }
 
 
-    //public static class PurchaseInvoiceID
-    //{
-    //    AuctionInventoryEntities db = new AuctionInventoryEntities();
-        
-    //    public string PurchaseInvoiceID
-    //    {
-    //        get 
-    //        {
+//    public static class PurchaseInvoiceID
+//    {
+//        AuctionInventoryEntities db = new AuctionInventoryEntities();
 
-    //            var result = (from m in db.TPurchases
+//        public string PurchaseInvoiceID
+//        {
+//            get
+//            {
 
-    //               select m).OrderByDescending(a => int.Parse(a.strSupplierName)).FirstOrDefault();
-                
-    //        }
-    //    }
-    //}
+
+               
+
+
+//                var test = (from max in db.TPurchases
+//                            where !String.IsNullOrEmpty(max.strPurchaseInvoiceNo)
+//                           //Where(x => Char.IsDigit(x)).ToArray()
+//                            select Int32.Parse(max.strPurchaseInvoiceNo));
+               
+//(SELECT max(strPurchaseInvoiceNo) from max)
+
+
+//                //select Convert.ToInt32(max.strPurchaseInvoiceNo)).Max();
+
+
+//                string result = new String("y0urstr1ngW1thNumb3rs".
+//  Where(x => Char.IsDigit(x)).ToArray());
+
+//                return result;
+               
+//            }
+//        }
+//    }
 
 
     public static class ShortCode

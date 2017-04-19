@@ -59,6 +59,7 @@ namespace AuctionInventoryDAL.Repositories
                                {
                                    iVehicleExpenseID = AM.iVehicleExpenseID,
                                    iPurchaseInvoiceID = AM.iPurchaseInvoiceID,
+                                   strPurchaseInvoiceNo = AM.strPurchaseInvoiceNo,
                                    iExpenseID = AM.iExpenseID,
 
                                    strExpenseName = t2.strExpenseName,
@@ -80,6 +81,7 @@ namespace AuctionInventoryDAL.Repositories
                                 select new
                                 {
                                     iPurchaseInvoiceNo = t1.iPurchaseInvoiceNo,
+                                    strPurchaseInvoiceNo = t1.strPurchaseInvoiceNo,
                                     strPurchaseInvoiceDate = t1.strPurchaseInvoiceDate,
                                     NoOfUnits = t1.Vehicles.Count,
                                     strMasterDecNo = t1.strMasterDecNo,
@@ -193,6 +195,7 @@ namespace AuctionInventoryDAL.Repositories
                            {
                                iVehicleExpenseID = AM.iVehicleExpenseID,
                                iPurchaseInvoiceID = AM.iPurchaseInvoiceID,
+                               strPurchaseInvoiceNo = AM.strPurchaseInvoiceNo,
                                iExpenseID = AM.iExpenseID,
                                dcmlExpenseAmount = AM.dcmlExpenseAmount,
                                dcmlTotalExpenseAmount = AM.dcmlTotalExpenseAmount,
@@ -203,7 +206,7 @@ namespace AuctionInventoryDAL.Repositories
                       {
                           id = vehi.iVehicleExpenseID,
                           cell = new string[] {
-               Convert.ToString(vehi.iVehicleExpenseID),Convert.ToString(vehi.iPurchaseInvoiceID),Convert.ToString( vehi.iExpenseID),Convert.ToString( vehi.dcmlExpenseAmount),Convert.ToString(vehi.dcmlTotalExpenseAmount)
+               Convert.ToString(vehi.iVehicleExpenseID),Convert.ToString(vehi.iPurchaseInvoiceID),Convert.ToString(vehi.strPurchaseInvoiceNo),Convert.ToString( vehi.iExpenseID),Convert.ToString( vehi.dcmlExpenseAmount),Convert.ToString(vehi.dcmlTotalExpenseAmount)
                         }
                       }).ToArray()
                 };
@@ -231,6 +234,8 @@ namespace AuctionInventoryDAL.Repositories
 
                                      //NoOfExpenses = a.Expenses.Count,
 
+                                     strPurchaseInvoiceNo = a.strPurchaseInvoiceNo,
+
                                      iPurchaseInvoiceID = a.iPurchaseInvoiceID,
                                      strExpenseDate = a.strExpenseDate,
                                      strExpenseName = b.strExpenseName,
@@ -240,11 +245,12 @@ namespace AuctionInventoryDAL.Repositories
                                  }).ToList();
                 if (preResult.Count > 0)
                 {
-                    var results = preResult.GroupBy(x => x.iPurchaseInvoiceID).Select(y =>
+                    var results = preResult.GroupBy(x => x.strPurchaseInvoiceNo).Select(y =>
                                     new
                                     {
-                                        iPurchaseInvoiceID = y.Key,
+                                        strPurchaseInvoiceNo = y.Key,
                                         dcmlExpenseAmount = y.Sum(x => x.dcmlExpenseAmount),
+                                        iPurchaseInvoiceID = y.First().iPurchaseInvoiceID,
                                         iExpenseKey = y.First().iExpenseKey,
                                         iVehicleExpenseID = y.First().iVehicleExpenseID,
                                         iExpenseID = y.Count(),
@@ -266,6 +272,7 @@ namespace AuctionInventoryDAL.Repositories
                                      Convert.ToString(allExpense.iVehicleExpenseID),
                                       Convert.ToString( allExpense.strExpenseName),
                                        Convert.ToString(allExpense.iPurchaseInvoiceID),
+                                       Convert.ToString(allExpense.strPurchaseInvoiceNo),
                                         Convert.ToString(allExpense.strExpenseDate),
                                      Convert.ToString(allExpense.iExpenseID),
                                     

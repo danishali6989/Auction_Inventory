@@ -258,6 +258,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iPaymentType" Type="int" />
           <Property Name="iImpExpTransfer" Type="int" />
           <Property Name="iSalesInvoiceID" Type="int" />
+          <Property Name="strSalesInvoiceNo" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="SalesVehicle">
           <Key>
@@ -359,6 +360,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iVehicleExpenseTypeID" Type="int" />
           <Property Name="dcmlSpreadAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="isSpread" Type="bit" />
+          <Property Name="strPurchaseInvoiceNo" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_CityMaster_StateMaster">
           <End Role="StateMaster" Type="Self.StateMaster" Multiplicity="0..1" />
@@ -720,6 +722,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iPaymentType" Type="Int32" />
           <Property Name="iImpExpTransfer" Type="Int32" />
           <Property Name="iSalesInvoiceID" Type="Int32" />
+          <Property Name="strSalesInvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SalesVehicle">
           <Key>
@@ -825,6 +828,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iVehicleExpenseTypeID" Type="Int32" />
           <Property Name="dcmlSpreadAmount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="isSpread" Type="Boolean" />
+          <Property Name="strPurchaseInvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ExpenseAmount">
           <Key>
@@ -1114,6 +1118,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="Sales">
             <EntityTypeMapping TypeName="AuctionInventoryModel.Sale">
               <MappingFragment StoreEntitySet="Sales">
+                <ScalarProperty Name="strSalesInvoiceNo" ColumnName="strSalesInvoiceNo" />
                 <ScalarProperty Name="iSalesInvoiceID" ColumnName="iSalesInvoiceID" />
                 <ScalarProperty Name="iImpExpTransfer" ColumnName="iImpExpTransfer" />
                 <ScalarProperty Name="iPaymentType" ColumnName="iPaymentType" />
@@ -1223,6 +1228,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="VehicleExpenses">
             <EntityTypeMapping TypeName="AuctionInventoryModel.VehicleExpens">
               <MappingFragment StoreEntitySet="VehicleExpenses">
+                <ScalarProperty Name="strPurchaseInvoiceNo" ColumnName="strPurchaseInvoiceNo" />
                 <ScalarProperty Name="isSpread" ColumnName="isSpread" />
                 <ScalarProperty Name="dcmlSpreadAmount" ColumnName="dcmlSpreadAmount" />
                 <ScalarProperty Name="iVehicleExpenseTypeID" ColumnName="iVehicleExpenseTypeID" />

@@ -19,5 +19,6 @@ namespace AuctionInventory.Models
         public Nullable<int> iVehicleExpenseTypeID { get; set; }
         public Nullable<decimal> dcmlSpreadAmount { get; set; }
         public Nullable<bool> isSpread { get; set; }
+        public string strPurchaseInvoiceNo { get; set; }
     }
 }
