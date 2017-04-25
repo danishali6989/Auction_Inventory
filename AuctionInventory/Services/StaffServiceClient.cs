@@ -10,12 +10,11 @@ namespace AuctionInventory.Services
 {
     public class StaffServiceClient
     {
-        public List<Staff> GetAllStaff()
+        public dynamic GetAllStaff()
         {
-            List<Staff> listStaff = new List<Staff>();
-            StaffRepository repo = new StaffRepository();
-            dynamic Staff = repo.GetAll();
-            listStaff = ParserGetAllStaff(Staff);
+           
+            StaffRepository repo = new StaffRepository();           
+            var listStaff = repo.GetAll();
             return listStaff;
         }
         public bool SaveData(Staff staff)
@@ -60,17 +59,19 @@ namespace AuctionInventory.Services
                 mStaff.strFirstName = staff.strFirstName ?? " ";
                 mStaff.strMiddleName = staff.strMiddleName ?? " ";
                 mStaff.strLastName = staff.strLastName ?? " ";
-                mStaff.strNationalityAddress = staff.strNationalityAddress ?? " ";
-                mStaff.iNationality = staff.iNationality;
+                mStaff.iCountryID = staff.iCountryID;
+                mStaff.iCityID = staff.iCityID;
+                mStaff.strArea = staff.strArea ?? " ";
+                mStaff.iPhoneNumber = staff.iPhoneNumber;
                 mStaff.strEmailID = staff.strEmailID ?? " ";
-                mStaff.iNationalityContact = staff.iNationalityContact;
+               
                 mStaff.iIDNO = staff.iIDNO;
                 mStaff.strMISC = staff.strMISC ?? " ";
                 mStaff.strPassport = staff.strPassport ?? " ";
                 mStaff.strPassportExpiry = staff.strPassportExpiry ?? " ";
                 mStaff.strVisa = staff.strVisa ?? " ";
                 mStaff.strVisaExpiry = staff.strVisaExpiry ?? " ";
-                mStaff.strCurrentAddress = staff.strCurrentAddress ?? " ";
+                mStaff.strAddress = staff.strAddress ?? " ";
                 mStaff.iDesignation = staff.iDesignation;
                 mStaff.dmlSalary = staff.dmlSalary;
                 mStaff.DOB = staff.DOB ?? " ";
@@ -86,21 +87,24 @@ namespace AuctionInventory.Services
 
             if (data != null)
             {
-                staff.iStaffID = data.iStaffID ;
+               
+                staff.iStaffID = data.iStaffID;
                 staff.strFirstName = data.strFirstName ?? " ";
                 staff.strMiddleName = data.strMiddleName ?? " ";
                 staff.strLastName = data.strLastName ?? " ";
-                staff.strNationalityAddress = data.strNationalityAddress ?? " ";
-                staff.iNationality = data.iNationality ;
+                staff.iCountryID = data.iCountryID;
+                staff.iCityID = data.iCityID;
+                staff.strArea = data.strArea ?? " ";
+                staff.iPhoneNumber = data.iPhoneNumber;
                 staff.strEmailID = data.strEmailID ?? " ";
-                staff.iNationalityContact = data.iNationalityContact ;
-                staff.iIDNO = data.iIDNO ;
+
+                staff.iIDNO = data.iIDNO;
                 staff.strMISC = data.strMISC ?? " ";
                 staff.strPassport = data.strPassport ?? " ";
                 staff.strPassportExpiry = data.strPassportExpiry ?? " ";
                 staff.strVisa = data.strVisa ?? " ";
                 staff.strVisaExpiry = data.strVisaExpiry ?? " ";
-                staff.strCurrentAddress = data.strCurrentAddress ?? " ";
+                staff.strAddress = data.strAddress ?? " ";
                 staff.iDesignation = data.iDesignation;
                 staff.dmlSalary = data.dmlSalary;
                 staff.DOB = data.DOB ?? " ";
@@ -118,23 +122,26 @@ namespace AuctionInventory.Services
                 if (data != null)
                 {
                     Staff staff = new Staff();
-                    staff.iStaffID = data.iStaffID ;
+                   
+                    staff.iStaffID = data.iStaffID;
                     staff.strFirstName = data.strFirstName ?? " ";
                     staff.strMiddleName = data.strMiddleName ?? " ";
                     staff.strLastName = data.strLastName ?? " ";
-                    staff.strNationalityAddress = data.strNationalityAddress ?? " ";
-                    staff.iNationality = data.iNationality;
+                    staff.iCountryID = data.iCountryID;
+                    staff.iCityID = data.iCityID;
+                    staff.strArea = data.strArea ?? " ";
+                    staff.iPhoneNumber = data.iPhoneNumber;
                     staff.strEmailID = data.strEmailID ?? " ";
-                    staff.iNationalityContact = data.iNationalityContact ;
-                    staff.iIDNO = data.iIDNO ;
+
+                    staff.iIDNO = data.iIDNO;
                     staff.strMISC = data.strMISC ?? " ";
                     staff.strPassport = data.strPassport ?? " ";
                     staff.strPassportExpiry = data.strPassportExpiry ?? " ";
                     staff.strVisa = data.strVisa ?? " ";
                     staff.strVisaExpiry = data.strVisaExpiry ?? " ";
-                    staff.strCurrentAddress = data.strCurrentAddress ?? " ";
+                    staff.strAddress = data.strAddress ?? " ";
                     staff.iDesignation = data.iDesignation;
-                    staff.dmlSalary = data.dmlSalary ;
+                    staff.dmlSalary = data.dmlSalary;
                     staff.DOB = data.DOB ?? " ";
                     staff.DOJ = data.DOJ ?? " ";
                     staff.strRemark = data.strRemark ?? " ";

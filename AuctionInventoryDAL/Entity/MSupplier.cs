@@ -25,8 +25,8 @@ namespace AuctionInventoryDAL.Entity
         public string strAddress { get; set; }
         public Nullable<int> iPincode { get; set; }
         public Nullable<int> iCurrency { get; set; }
-        public string SupplierPhoto { get; set; }
         public string SupplierDate { get; set; }
         public string Password { get; set; }
+        public string SupplierPhoto { get; set; }
     }
 }

@@ -21,10 +21,99 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
-        //public ActionResult AuctionList()
-        //{
-        //    return View();
-        //}
+        public ActionResult AuctionList()
+        {
+            return View();
+        }
+
+
+        [HttpGet]
+        public ActionResult GetAuctionListData()
+        {
+            dynamic auctionList = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    AuctionServiceClient service = new AuctionServiceClient();
+
+                    auctionList = service.GetAuctionListData();
+
+
+                    //var jsonData = new
+                    //{
+                    //    total = 1,
+                    //    page = 1,
+                    //    // records = dc.Vehicles.ToList().Count,
+                    //    rows = test
+                    //};
+
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                auctionList = null;
+                throw ex;
+            }
+            return Json(auctionList, JsonRequestBehavior.AllowGet);
+            //return Json(null, JsonRequestBehavior.AllowGet);
+            // return Json(listVehicles, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        [HttpPost]
+        public ActionResult GetGetAuctionListDataBYAuctionFrntID(int id)
+        {
+            AuctionInventoryEntities dc = new AuctionInventoryEntities();
+            //List<Vehicle> listVehicle = (from t1 in auctionContext.Vehicles
+            var listVehicle = (
+                from t1 in dc.AuctionLists
+                join t2 in dc.Vehicles on t1.iVehicleID equals t2.iVehicleID
+
+                where t1.iAuctionFrontEndID == id
+
+
+                select new
+                {
+
+                    iAuctionFrontEndID = t1.iAuctionFrontEndID,
+                    iVehicleID = t2.iVehicleID,
+                    iLotNum = t2.iLotNum,
+                    strChassisNum = t2.strChassisNum,
+                    //strMake = t2.strMake,
+                    iModel = t2.iModel,
+                    //strCategory = t2.strCategory,
+                    iYear = t2.iYear,
+                    strColor = t2.strColor,
+                    // strOrigin = t2.strOrigin,
+                    //strLocation = t2.strLocation,
+                    //iCustomAssesVal = t2.iCustomAssesVal,
+                    //iDuty = t2.iDuty,
+                    iCustomValInJPY = t2.iCustomValInJPY
+                    //,strGrade =t1.strGrade,                                             
+
+
+                    //dmlKM = t1.dmlKM,
+
+                    //iDoor = t1.iDoor,
+
+                    //weight = t1.weight,
+                    //strHSCode = t1.strHSCode,
+                    //ATMT = t1.ATMT,
+
+
+
+                }).ToList();
+
+
+            return Json(new { listVehicle }, JsonRequestBehavior.AllowGet);
+        }
+
+
 
         [HttpGet]
         public ActionResult GetData()
@@ -35,8 +124,8 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     AuctionServiceClient service = new AuctionServiceClient();
-                   
-                     listVehicles = service.GetAuctionListData();
+
+                    listVehicles = service.GetAuctionListVehicles();
 
 
                     //var jsonData = new

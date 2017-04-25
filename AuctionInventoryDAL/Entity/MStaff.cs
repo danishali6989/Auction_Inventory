@@ -18,9 +18,10 @@ namespace AuctionInventoryDAL.Entity
         public string strFirstName { get; set; }
         public string strMiddleName { get; set; }
         public string strLastName { get; set; }
-        public string strNationalityAddress { get; set; }
-        public Nullable<int> iNationality { get; set; }
-        public Nullable<int> iNationalityContact { get; set; }
+        public Nullable<int> iCountryID { get; set; }
+        public Nullable<int> iCityID { get; set; }
+        public string strArea { get; set; }
+        public Nullable<int> iPhoneNumber { get; set; }
         public string strEmailID { get; set; }
         public Nullable<int> iIDNO { get; set; }
         public string strMISC { get; set; }
@@ -28,7 +29,7 @@ namespace AuctionInventoryDAL.Entity
         public string strPassportExpiry { get; set; }
         public string strVisa { get; set; }
         public string strVisaExpiry { get; set; }
-        public string strCurrentAddress { get; set; }
+        public string strAddress { get; set; }
         public Nullable<int> iDesignation { get; set; }
         public Nullable<decimal> dmlSalary { get; set; }
         public string DOB { get; set; }

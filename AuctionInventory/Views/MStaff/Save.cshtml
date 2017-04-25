@@ -1,4 +1,4 @@
-﻿
+﻿@model AuctionInventory.Models.Staff
 @{
     ViewBag.Title = "Save";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,7 +14,7 @@
         color: red;
     }
 </style>
-@model AuctionInventory.Models.Staff
+
 <h2>Save</h2>
 @using (Html.BeginForm("save", "MStaff", FormMethod.Post, new { id = "popupForm" }))
 {
@@ -23,144 +23,251 @@
         @Html.HiddenFor(a => a.iStaffID)
     }
 
-    <div class="form-group">
-        <label>First Name</label>
-        @Html.TextBoxFor(a => a.strFirstName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strFirstName, "", new { @class = "error" })
+
+    <div class="row">
 
 
+       <div class="col-md-4">
+            <label>First Name</label>
+            @Html.TextBoxFor(a => a.strFirstName, new { @class = "form-control  input-group-lg", @placeholder = "Enter First Name" })
+            @Html.ValidationMessageFor(m => m.strFirstName, "", new { @class = "error" })
+
+
+        </div>
+       <div class="col-md-4">
+            <label>Middle Name</label>
+            @Html.TextBoxFor(a => a.strMiddleName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Middle Name" })
+            @Html.ValidationMessageFor(m => m.strMiddleName, "", new { @class = "error" })
+
+
+        </div>
+       <div class="col-md-4">
+            <label>Last Name</label>
+            @Html.TextBoxFor(a => a.strLastName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Last Name" })
+            @Html.ValidationMessageFor(m => m.strLastName, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Country </label>
+            @Html.DropDownListFor(m => m.iCountryID, (IEnumerable<SelectListItem>)ViewBag.Country, null, new { @class = "form-control", @id = "ddlCountry" })
+            @Html.ValidationMessageFor(m => m.iCountryID, "", new { @class = "error" })
+        </div>
+        <div class="col-md-4">
+            <label>City </label>
+            @Html.DropDownListFor(m => m.iCityID, (IEnumerable<SelectListItem>)ViewBag.City, null, new { @class = "form-control", @id = "ddlCity" })
+            @Html.ValidationMessageFor(m => m.iCityID, "", new { @class = "error" })
+        </div>
+
+       <div class="col-md-4">
+            <label>Area</label>
+            @Html.TextBoxFor(a => a.strArea, new { @class = "form-control  input-group-lg", @placeholder = "Enter Area" })
+            @Html.ValidationMessageFor(m => m.strArea, "", new { @class = "error" })
+        </div>
+      
+
+       <div class="col-md-4">
+            <label>Phone Number</label>
+            @Html.TextBoxFor(a => a.iPhoneNumber, new { @class = "form-control  input-group-lg", @placeholder = "Enter Phone Number" })
+            @Html.ValidationMessageFor(m => m.iPhoneNumber, "", new { @class = "error" })
+        </div>
+    
+
+
+        <div class="col-md-4">
+            <label>Passport</label>
+            @Html.TextBoxFor(a => a.strPassport, new { @class = "form-control  input-group-lg", @placeholder = "Enter Passport Number" })
+            @Html.ValidationMessageFor(m => m.strPassport, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Passport Expiry</label>
+            @Html.TextBoxFor(a => a.strPassportExpiry, new { @class = "form-control datepicker  input-group-lg", @placeholder = "Enter Drop Off Date..." })
+            @Html.ValidationMessageFor(m => m.strPassportExpiry, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Email</label>
+            @Html.TextBoxFor(a => a.strEmailID, new { @class = "form-control  input-group-lg", @placeholder = "Enter Email Address " })
+            @Html.ValidationMessageFor(m => m.strEmailID, "", new { @class = "error" })
+        </div>
+        <div class="col-md-4">
+            <label>Visa</label>
+            @Html.TextBoxFor(a => a.strVisa, new { @class = "form-control  input-group-lg", @placeholder = "Enter Visa Number" })
+            @Html.ValidationMessageFor(m => m.strVisa, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Visa Expiry</label>
+            @Html.TextBoxFor(a => a.strVisaExpiry, new { @class = "form-control datepicker  input-group-lg", @placeholder = "Enter Drop Off Date..." })
+            @Html.ValidationMessageFor(m => m.strVisaExpiry, "", new { @class = "error" })
+
+
+        </div>
+
+       <div class="col-md-4">
+            <label>ID NO</label>
+            @Html.TextBoxFor(a => a.iIDNO, new { @class = "form-control  input-group-lg", @placeholder = "Enter ID  Number" })
+            @Html.ValidationMessageFor(m => m.iIDNO, "", new { @class = "error" })
+
+
+        </div>
+       <div class="col-md-4">
+            <label>Miscellaneous</label>
+            @Html.TextBoxFor(a => a.strMISC, new { @class = "form-control  input-group-lg", @placeholder = "Enter Miscellaneous" })
+            @Html.ValidationMessageFor(m => m.strMISC, "", new { @class = "error" })
+
+
+        </div>
+      
+        @*<div class="col-md-4">
+            <label>Designation </label>
+            @Html.DropDownListFor(m => m.iDesignation, (IEnumerable<SelectListItem>)ViewBag.Designation, null, new { @class = "form-control", @id = "ddlCity" })
+            @Html.ValidationMessageFor(m => m.iDesignation, "", new { @class = "error" })
+        </div>*@
+       <div class="col-md-4">
+            <label>Designation</label>
+            @Html.TextBoxFor(a => a.iDesignation, new { @class = "form-control  input-group-lg", @placeholder = "Enter Designation Number" })
+            @Html.ValidationMessageFor(m => m.iDesignation, "", new { @class = "error" })
+
+
+        </div>
+       <div class="col-md-4">
+            <label>Salary</label>
+            @Html.TextBoxFor(a => a.dmlSalary, new { @class = "form-control  input-group-lg", @placeholder = "Enter Salary" })
+            @Html.ValidationMessageFor(m => m.dmlSalary, "", new { @class = "error" })
+
+
+        </div>
+       <div class="col-md-4">
+            <label>DOB</label>
+            @Html.TextBoxFor(a => a.DOB, new { @class = "form-control datepicker  input-group-lg", @placeholder = "Enter Drop Off Date..." })
+            @Html.ValidationMessageFor(m => m.DOB, "", new { @class = "error" })
+
+
+        </div>
+       <div class="col-md-4">
+            <label>DOJ</label>
+            @Html.TextBoxFor(a => a.DOJ, new { @class = "form-control datepicker  input-group-lg", @placeholder = "Enter Drop Off Date..." })
+            @Html.ValidationMessageFor(m => m.DOJ, "", new { @class = "error" })
+
+
+        </div>
+       <div class="col-md-4">
+            <label>Remark</label>
+            @Html.TextBoxFor(a => a.strRemark, new { @class = "form-control  input-group-lg", @placeholder = "Enter Remark" })
+            @Html.ValidationMessageFor(m => m.strRemark, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Address</label>
+            @Html.TextBoxFor(a => a.strAddress, new { @class = "form-control  input-group-lg", @placeholder = "Enter Address" })
+            @Html.ValidationMessageFor(m => m.strAddress, "", new { @class = "error" })
+
+
+        </div>
     </div>
-    <div class="form-group">
-        <label>Middle Name</label>
-        @Html.TextBoxFor(a => a.strMiddleName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strMiddleName, "", new { @class = "error" })
+  
+     <div>
+        <br />
+@if (Model != null && Model.iStaffID > 0 && Model.iStaffID != null)
+      
+        {
+            <input type="submit" style="margin-left: 400px;" id="btnUpdate" class="btn btn-warning col-md-1" value="Update">
+        }
+        else
+        {
+            <input type="submit" style="margin-left: 400px;" id="btnSave" class="btn btn-success col-md-1" value="Save">
+        }
 
+        @*<input type="submit" value="Save" />*@
 
-    </div>
-    <div class="form-group">
-        <label>Last Name</label>
-        @Html.TextBoxFor(a => a.strLastName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strLastName, "", new { @class = "error" })
+        <input type="button" style="margin-left: 40px;" class="btn btn-warning col-md-1" value="Cancel" onclick="CancelStaffInfo();" />
 
-
-    </div>
-    <div class="form-group">
-        <label>Nationality Address</label>
-        @Html.TextBoxFor(a => a.strNationalityAddress, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strNationalityAddress, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>Nationality</label>
-        @Html.TextBoxFor(a => a.iNationality, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.iNationality, "", new { @class = "error" })
-
-
-    </div>
-
-    <div class="form-group">
-        <label>Nationality Contact</label>
-        @Html.TextBoxFor(a => a.iNationalityContact, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.iNationalityContact, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>Email</label>
-        @Html.TextBoxFor(a => a.strEmailID, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strEmailID, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>ID NO</label>
-        @Html.TextBoxFor(a => a.iIDNO, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.iIDNO, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>Miscellaneous</label>
-        @Html.TextBoxFor(a => a.strMISC, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strMISC, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>Passport</label>
-        @Html.TextBoxFor(a => a.strPassport, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strPassport, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>Passport Expiry</label>
-        @Html.TextBoxFor(a => a.strPassportExpiry, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strPassportExpiry, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>Visa</label>
-        @Html.TextBoxFor(a => a.strVisa, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strVisa, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>Visa Expiry</label>
-        @Html.TextBoxFor(a => a.strVisaExpiry, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strVisaExpiry, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>Current Address</label>
-        @Html.TextBoxFor(a => a.strCurrentAddress, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strCurrentAddress, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>Designation</label>
-        @Html.TextBoxFor(a => a.iDesignation, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.iDesignation, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>Salary</label>
-        @Html.TextBoxFor(a => a.dmlSalary, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.dmlSalary, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>DOB</label>
-        @Html.TextBoxFor(a => a.DOB, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.DOB, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>DOJ</label>
-        @Html.TextBoxFor(a => a.DOJ, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.DOJ, "", new { @class = "error" })
-
-
-    </div>
-    <div class="form-group">
-        <label>Remark</label>
-        @Html.TextBoxFor(a => a.strRemark, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.strRemark, "", new { @class = "error" })
-
-
-    </div>
-   
-    <div>
-        <input type="submit" value="Save" />
     </div>
 }
+@{
+    <input type="hidden" id="hdniCity" value="@Model.iCityID" />
+}
+
+<script type="text/javascript">
+
+    function CancelStaffInfo() {
+        window.location.href = "/MStaff/Index";
+    }
 
 
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+        //$('input[type=datetime]').datepicker();
+    });
+
+</script>
+
+
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+      
+        $("#ddlCity").empty();
+        $.ajax({
+            type: "post",
+            url: "/MStaff/GetCity",
+            data: { countryID: $('#ddlCountry').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                $.each(data, function (i, city) {
+
+                    if ($("#hdniCity").val() == city.Value) {
+                        $("#ddlCity").append('<option value="' + city.Value + '" selected>' + city.Text + '</option>');
+                    }
+                    else {
+                        $("#ddlCity").append('<option value="' + city.Value + '" >' + city.Text + '</option>');
+                    }
+
+
+                });
+
+            }
+        });
+
+    });
+
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#ddlCountry').change(function () {
+            $("#ddlCity").empty();
+            $.ajax({
+                type: "post",
+                url: "/MStaff/GetCity",
+                data: { countryID: $('#ddlCountry').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+
+
+                    $.each(data, function (i, city) {
+                        $("#ddlCity").append('<option value="' + city.Value + '">' +
+                             city.Text + '</option>');
+                        // here we are adding option for States
+
+                    });
+
+                }
+            });
+        });
+    });
+</script>  

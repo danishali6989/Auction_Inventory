@@ -93,7 +93,7 @@
 
     var arr = new Array();
     $(function () {
-
+        //arr = new Array();
         $('#dataGrid').jqGrid({
             caption: "Auction List",
             url: '/Auction/GetData/',
@@ -206,18 +206,20 @@
     ////////////////this function is used to delete vehicle from grid and array as well 
 
     function delRowData(rowid) {
-        arr = new Array();
-        debugger
-
+        debugger;
+        //arr = new Array();
+       
+      
         var rowData = jQuery("#GridAddVehicle").getRowData(rowid);
         var rowDataVehicleID = rowData['iVehicleID'];
+       
         jQuery('#GridAddVehicle').delRowData(rowid);
         $.map(arr, function (elementOfArray, indexInArray) {
             if (elementOfArray.VehicleID == rowDataVehicleID) {
 
-                arr.pop(rowDataVehicleID);
-
-
+                //arr.pop(rowDataVehicleID);
+                arr.pop({ VehicleID: rowDataVehicleID })
+               
             }
         })
 
@@ -308,9 +310,9 @@
                     dataType: this.dataType,
                     contentType: "application/json; charset=utf-8",
                     success: function (Data) {
-
+                        window.location.href = "/Auction/AuctionList";
                         //$("#divShowPrintbtn").show();
-                        alert("Data Saved You Can Print AuctionList");
+                        //alert("Data Saved You Can Print AuctionList");
                     }
 
 

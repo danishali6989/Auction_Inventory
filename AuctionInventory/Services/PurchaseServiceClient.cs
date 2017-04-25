@@ -13,12 +13,11 @@ namespace AuctionInventory.Services
     {
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
 
-        public List<Purchase> GetAllPurchase()
+        public dynamic GetAllPurchase()
         {
-            List<Purchase> listPurchase = new List<Purchase>();
+            
             PurchaseRepository repo = new PurchaseRepository();
-            dynamic pur = repo.GetAll();
-            listPurchase = ParserGetAllPurchase(pur);
+            var listPurchase = repo.GetAll();          
             return listPurchase;
         }
         public bool SaveData(Purchase purchase, List<Vehicles> griddata)

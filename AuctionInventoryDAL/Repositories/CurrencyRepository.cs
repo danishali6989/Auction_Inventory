@@ -11,11 +11,39 @@ namespace AuctionInventoryDAL.Repositories
         #region CRUD
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
 
-        public List<MCurrency> GetAll()
+        public dynamic GetAll()
         {
-            List<MCurrency> listcurrency = new List<MCurrency>();
-            listcurrency = (from r in auctionContext.MCurrencies select r).OrderBy(a => a.strCurrencyName).ToList();
-            return listcurrency;
+            //List<MCurrency> listcurrency = new List<MCurrency>();
+            //listcurrency = (from r in auctionContext.MCurrencies select r).OrderBy(a => a.strCurrencyName).ToList();
+            //return listcurrency;
+
+            var jsonData = new
+            {
+                total = 1,
+                page = 1,
+                records = auctionContext.MCurrencies.ToList().Count,
+                rows = (
+                  from currency in
+                      (from AM in auctionContext.MCurrencies
+
+                       select new
+                       {
+                           CurrencyID = AM.CurrencyID,
+                           strCurrencyName = AM.strCurrencyName,
+                           strCurrencyShortName = AM.strCurrencyShortName
+
+                       }).OrderBy(a => a.strCurrencyName).ToList()
+                  select new
+                  {
+                      id = currency.CurrencyID,
+                      cell = new string[] {
+               Convert.ToString(currency.CurrencyID),Convert.ToString(currency.strCurrencyName),Convert.ToString(currency.strCurrencyShortName)
+                        }
+                  }).ToArray()
+            };
+            return jsonData;
+
+
         }
         public MCurrency Get(int id)
         {

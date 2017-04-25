@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AuctionInventory.Models.Supplier
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -15,66 +16,90 @@
     }
 </style>
 
-<div style="width:90%; margin:70px auto" class="tablecontainer">
-    <a class="popup btn btn-primary" href="/MSupplier/save/0" style="margin-bottom:20px; margin-top:20px;">Add New Supplier</a>
-    <table id="myDatatable">
-        <thead>
-            <tr>
+<div class="box-body">
+    <div>
+        <a class="popup btn btn-primary" href="/MSupplier/save/0" style="margin-bottom:20px; margin-top:20px;">Add New Supplier</a>
 
-                <th>Name</th>
-                <th>Email ID</th>
-                <th>Phone Number</th>
-                <th>Address</th>
-                <th>Pincode</th>
-                <th>Currency</th>
-                <th>Supplier Photo</th>
-                <th>Supplier Date</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-    </table>
+    </div>
+    <br />
+    <div>
+        <table id="dataGrid" class="table table-bordered table-striped"></table>
+        <div id="pagingGrid"></div>
+        <br><br>
+    </div>
 </div>
-
-
 <script>
+    $(function () {
 
-    $(document).ready(function () {
-        var oTable = $('#myDatatable').DataTable({
-            "scrollY": 400,
-            "scrollX": true,
-            "ajax": {
-                "url": '/MSupplier/GetAllSuppliers',
-                "type": "get",
-                "datatype": "json"
-            },
+        //this grid is used to fill the Supplier list
 
-            "columns": [
-                { "data": "FullName", "width": 150 },
-                { "data": "strEmailID", "autoWidth": true },
-                { "data": "iPhoneNumber", "autoWidth": true },
-                { "data": "strAddress", "autoWidth": true },
-                { "data": "iPincode", "autoWidth": true },
-                { "data": "iCurrency", "autoWidth": true },
-                { "data": "SupplierPhoto", "autoWidth": true },
-                { "data": "SupplierDate", "autoWidth": true },
+        $('#dataGrid').jqGrid({
+            caption: "All Supplier List",
+            url: '/MSupplier/GetAllSuppliers',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
 
+            colNames: ['iSupplierID', 'Supplier Photo', 'Supplier Name', 'Phone Number', 'Email', 'Address', 'Date', 'Currency', 'Category', 'Action'],
+            colModel: [
+                { name: 'iSupplierID', index: 'iSupplierID', hidden: true, hidedlg: true },
                 {
-                  
-                    "data": "iSupplierID", "width": "50px", "render": function (data) {
-                        return '<a class="popup"  href="/MSupplier/save/' + data + '">Edit</a>';
+                    name: 'SupplierPhoto',
+                    index: 'SupplierPhoto',
+                    //align: 'left',
+                    search: false,
+                    width: 70,
+                    align: 'center',
+
+                    formatter: function (cellvalue, options, rowObject) {
+                        alert(cellvalue);
+
+                        //cellvalue = "http://rs164.pbsrc.com/albums/u8/hemi1hemi/COLOR/COLOR19_zpsbf4e102c.jpg~c200";
+                       
+                        //    return '<img src="/MSupplier/RetrieveImage/' + options.rowId + '" alt="" height="60" width="50" class="img-circle"/>';
+
+                        return '<img src="'+cellvalue+'" alt="" height="60" width="50" class="img-circle"/>';
 
                     }
                 },
-                {
-                    "data": "iSupplierID", "width": "50px", "render": function (data) {
-                        return '<a class="popup" href="/MSupplier/delete/' + data + '">Delete</a>';
-                    }
-                }
-            ]
-        })
-    })
+                { name: 'strFirstName', index: 'strFirstName', align: 'center' },
+                { name: 'iPhoneNumber', index: 'iPhoneNumber', align: 'center' },
+                 { name: 'strEmailID', index: 'strEmailID', align: 'center', width: 250 },
+                 { name: 'strAddress', index: 'strAddress', align: 'center' },
+                 { name: 'SupplierDate', index: 'SupplierDate', align: 'center', width: 100 },
+            { name: 'strCurrencyName', index: 'strCurrencyName', align: 'center', width: 100 },
+             { name: 'strCategoryName', index: 'strCategoryName', align: 'center', width: 100 },
+                   {
+                       name: 'Action', index: 'Action', align: 'center', width: 250, search: false, title: false,
+                       formatter: function (cellvalue, options, rowObject) {
+
+                           return '<a class="popup btn btn-warning"  href="/MSupplier/Save/' + options.rowId + '">Edit</a>' + "   " + '<a class="popup btn btn-danger"  href="/MSupplier/Delete/' + options.rowId + '">Delete</a>';
+                       }
+
+                   },
+            ],
+            width: 1050,
+            height: 450,
+            rowNum: 10,
+            loadonce: true,
+            ignoreCase: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGrid',
+        });
+        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+    });
+
 </script>
 
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>
 
 

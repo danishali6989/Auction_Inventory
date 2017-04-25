@@ -18,12 +18,20 @@ namespace AuctionInventory.Services
             return status;
         }
 
-
         public dynamic GetAuctionListData()
         {
             //List<Vehicles> listVehicles = new List<Vehicles>();
             AuctionRepository repo = new AuctionRepository();
-            dynamic vehicle = repo.GetRepoAuctionList();
+            dynamic vehicle = repo.GetAuctionListData();
+           // listVehicles = ParserGetAllVehicles(vehicle);
+            return vehicle;           
+        }
+
+        public dynamic GetAuctionListVehicles()
+        {
+            //List<Vehicles> listVehicles = new List<Vehicles>();
+            AuctionRepository repo = new AuctionRepository();
+            dynamic vehicle = repo.GetRepoAuctionListVehicles();
            // listVehicles = ParserGetAllVehicles(vehicle);
             return vehicle;           
         }

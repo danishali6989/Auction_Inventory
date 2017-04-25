@@ -11,12 +11,21 @@ namespace AuctionInventory.Services
 {
     public class SupplierServiceClient
     {
-        public List<Supplier> GetAllSuppliers()
+
+        public dynamic RetrieveImage(int id)
         {
-            List<Supplier> listSupplier = new List<Supplier>();
+
             SupplierRepository repo = new SupplierRepository();
-            dynamic supplier = repo.GetAll();
-            listSupplier = ParserGetAllSuppliers(supplier);
+
+            var ImageSupplierlist = repo.RetrieveImage(id);
+            return ImageSupplierlist;
+        }
+        public dynamic GetAllSuppliers()
+        {
+            
+            SupplierRepository repo = new SupplierRepository();
+           
+           var listSupplier = repo.GetAll();
             return listSupplier;
         }
 
@@ -31,13 +40,13 @@ namespace AuctionInventory.Services
             return supplier;
         }
 
-        public bool SaveEdit(Supplier supplier)
+        public bool SaveEdit(Supplier supplier, HttpPostedFileBase file)
         {
             AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
             SupplierRepository repoSupplier = new SupplierRepository();
             string password = CommonMethods.GetPassword();
 
-            if (repoSupplier.SaveEdit(GetMSupplier(supplier), password)) //Checking Supplkier insert status
+            if (repoSupplier.SaveEdit(GetMSupplier(supplier), file, password)) //Checking Supplkier insert status
 
             {
 
@@ -89,7 +98,7 @@ namespace AuctionInventory.Services
                     supplier.strAddress = data.strAddress ?? " ";
                     supplier.iPincode = data.iPincode ?? " ";
                     supplier.iCurrency = data.iCurrency ?? " ";
-                    supplier.SupplierPhoto = data.SupplierPhoto ?? " ";
+                    supplier.SupplierPhoto = data.SupplierPhoto;
                     supplier.SupplierDate = data.SupplierDate ?? " ";
 
                     listSupplier.Add(supplier);
@@ -115,7 +124,7 @@ namespace AuctionInventory.Services
                 supplier.strAddress = data.strAddress ?? " ";
                 supplier.iPincode = data.iPincode ?? " ";
                 supplier.iCurrency = data.iCurrency ?? " ";
-                supplier.SupplierPhoto = data.SupplierPhoto ?? " ";
+                supplier.SupplierPhoto = data.SupplierPhoto;
                 supplier.SupplierDate = data.SupplierDate ?? " ";
             }
             return supplier;
@@ -138,7 +147,7 @@ namespace AuctionInventory.Services
                 supplier.strAddress = data.strAddress ?? " ";
                 supplier.iPincode = data.iPincode ?? " ";
                 supplier.iCurrency = data.iCurrency ?? " ";
-                supplier.SupplierPhoto = data.SupplierPhoto ?? " ";
+                supplier.SupplierPhoto = data.SupplierPhoto;
                 supplier.SupplierDate = data.SupplierDate ?? " ";
             }
             return supplier;

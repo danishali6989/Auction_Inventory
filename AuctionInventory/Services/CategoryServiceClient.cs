@@ -37,12 +37,12 @@ namespace AuctionInventory.Services
         }
 
 
-        public List<Category> GetAllCategory()
+        public dynamic GetAllCategory()
         {
-            List<Category> categoryList = new List<Category>();
+            
             CategoryRepository repo = new CategoryRepository();
-            dynamic category = repo.GetAll();
-            categoryList = ParserGetAllCategory(category);
+          
+           var categoryList = repo.GetAll();
             return categoryList;
         }
         public bool SaveData(Category category)
@@ -82,7 +82,10 @@ namespace AuctionInventory.Services
 
             if (category != null)
             {
-                mCategory.iCategoryID = category.iCategoryID;
+               // mCategory.iCategoryID = category.iCategoryID;
+                int iCategoryID = 0;
+                int.TryParse(category.iCategoryID.ToString(), out iCategoryID);
+                mCategory.iCategoryID = iCategoryID;
                 mCategory.strCategoryName = category.strCategoryName ?? " ";
             }
             return mCategory;

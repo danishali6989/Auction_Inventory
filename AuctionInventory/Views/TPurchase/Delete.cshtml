@@ -20,9 +20,7 @@
     }
 </style>
 
-@using (Html.BeginForm("delete", "TPurchase", FormMethod.Post, new { id = "popupForm" }))
-{
-    
+
 <div id="boxbody" style="width:90%; margin:0px auto" class="tablecontainer">
     <div class="box-body">
         <div id="divDetails" class="row">
@@ -33,7 +31,7 @@
                 <div class="form-group">
                     <label>Purchase Inv No: </label>
                     @*<label>Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>*@
-                    @Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })
+                    @Html.TextBoxFor(a => a.strPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })
 
                 </div>
             </div>
@@ -103,8 +101,45 @@
                 <br />
                 <b>Invoice value AED </b>: 	د.إ <span id="spnINVAED"></span>
             </div>
-           
-            @*<div class="col-sm-6">
+            <br /><br /><br /><br />
+            <table id="dataGrid" class="table table-bordered table-striped"></table>
+            <div id="pagingGrid"></div>
+
+            <br />
+            <div class="col-sm-6">
+
+                <div class="row">
+
+                    <div id="dialog" style="display: none" align="center">
+                        Do you want to Update this Purchase?
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="submit" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Delete" />
+                    </div>
+                  
+                    <input type="button" style=" margin-left: 535px; margin-top: -33px;" class="btn btn-warning col-md-2" value="Cancel" onclick="Cancel();" id="cancelVehiclesExpenseInfo">
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+        @*<table id="dataGrid" class="table table-bordered table-striped"></table>
+            <div id="pagingGrid"></div>*@
+
+        @*<div class="row" id="divParsedExcel" style="display:none">
+
+                <div class="col-sm-6">
+                    <b>Invoice value JPY </b>: &yen; <span id="spnINVJPY"></span>
+                    <br />
+                    <b>Invoice value AED </b>: 	د.إ <span id="spnINVAED"></span>
+                </div>
+
+                <div class="col-sm-6">
 
                     <div class="row">
                         <div class="col-sm-2">
@@ -121,39 +156,170 @@
                             <input type="button" class='popup btn btn-info' name="Save" value="Print Custom Invoice" />
                         </div>
                     </div>
-                </div>*@
-            <br />
-            <br />
+                </div>
+                <br />
+                <br />
 
-            <table id="dataGrid" class="table table-bordered table-striped"></table>
-            <div id="pagingGrid"></div>
 
-        </div>
 
-        <div class="col-sm-2">
-            <input type="submit" class='popup btn btn-info' id="btnDeleteJQ" name="Delete" value="Delete" />
+            </div>*@
 
-            
-        </div>
-        <input type="button" style=" margin-left: -10px;" class="btn btn-warning col-md-1" value="Cancel" onclick="Cancel();" id="cancelVehiclesExpenseInfo">
 
     </div>
 </div>
-}
 
 <!-- /.box-body -->
 
 <script type="text/javascript">
 
-
     function Cancel() {
         window.location.href = "/TPurchase/GetPurchaseList";
     }
 
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#txtSearchSupplier").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/TPurchase/AutoComplete/',
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (!data.length) {
+                            var result = [
+                             {
+                                 label: 'No matches found',
+                                 value: response.term
+                             }
+                            ];
+                            response(result);
+                        }
+                        else {
+                            // normal response
+                            response($.map(data, function (item) {
+                                return {
+
+                                    label: item.strFirstName,
+                                    value: item.strFirstName
+                                }
+                            }));
+                        }
+                    }
+
+
+                    //success: function (data) {
+                    //    var items = $.map(data, function (item) {
+                    //        return {
+                    //            strFirstName: item.strFirstName,
+                    //            //strLastName : item.strLastName,
+                    //            //strEmailID : item.strEmailID,
+                    //            iSupplierID: item.iSupplierID,
+                    //            value: item.strFirstName
+
+                    //            //,value: item.strLastName,
+                    //            //value: item.strEmailID
+
+                    //        };
+                    //    });
+                    //    response(items);
+                    //}
+                });
+            },
+            select: function (event, i) {
+
+                event.preventDefault();
+
+                $("#txtSearchSupplier").val(i.item.value);
+                //$("#txtSearchSupplier").val(i.item.strLastName);
+                //$("#txtSearchSupplier").val(i.item.strEmailID);
+                $("#hfSupplier").val(i.item.iSupplierID);
+                return false;
+            },
+            minLength: 1
+        });
+    });
+</script>
+@*<script type="text/javascript">
+        $(function () {
+            $("#txtSearchSupplier").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/TPurchase/AutoComplete/',
+                        data: "{ 'prefix': '" + request.term + "'}",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            var items = $.map(data, function (item) {
+                                return {
+                                    strFirstName: item.strFirstName,
+                                    iSupplierID: item.iSupplierID,
+                                    value: item.strFirstName
+
+                                };
+                            });
+                            response(items);
+                        }
+                    });
+                },
+                select: function (event, i) {
+
+                    event.preventDefault();
+                    $("#txtSearchSupplier").val(i.item.strFirstName);
+                    $("#hfSupplier").val(i.item.iSupplierID);
+
+                    return false;
+                },
+                minLength: 1
+            });
+        });
+    </script>*@
+
+
+<script>
+
+
+    $("#btnSaveJQ").click(function () {
+
+
+        $.ajax({
+            type: "post",
+            url: "/TPurchase/Delete",
+            data: { id: @Model.PurchaseID },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+
+                window.location.href = "/TPurchase/GetPurchaseList";
+
+
+            },
+            error: function (data) {
+                $("#error_message").html(data);
+            }
+        });
+
+    });
+
+
+
+
+</script>
+
+
+<script type="text/javascript">
     jQuery(document).ready(function () {
         var request =@Model.PurchaseID
         jQuery.ajax({
-            url: '/MVehicle/GetData/',
+            url: '/TPurchase/GetData/',
             data: "{ 'id': '" + request + "'}",
             dataType: "json",
             type: "POST",
@@ -174,88 +340,93 @@
             }
         });
 
-
         function bindGrid(listVehicle) {
 
 
+            var lastsel;
             $('#dataGrid').jqGrid({
-
+               
                 data: listVehicle,
                 datatype: "local",
+                // colNames: ['Action', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Assessed Value', 'AED'],
                 colNames: ['ID','Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'CustomAssessed Value','Duty', 'JPY'],
                 colModel: [
                     { name: 'iVehicleID', index: 'iVehicleID',hidden: true, editable: true, editrules: { edithidden: false }, hidedlg: true },
-                    { name: 'iLotNum', index: 'iLotNum' },
-                    { name: 'strChassisNum', index: 'strChassisNum' },
-                    { name: 'strMake', index: 'strMake' },
-                    { name: 'iModel', index: 'iModel' },
-                    { name: 'strCategory', index: 'strCategory'},
-                    { name: 'iYear', index: 'iYear' },
-                    { name: 'strColor', index: 'strColor' },
-                    { name: 'strOrigin', index: 'strOrigin' },
-                    { name: 'strLocation', index: 'strLocation' },
-                    { name: 'iCustomAssesVal', index: 'iCustomAssesVal' },
-                    { name: 'iDuty', index: 'iDuty' },
-                    { name: 'iCustomValInJPY', index: 'iCustomValInJPY' }
+                    { name: 'iLotNum', index: 'iLotNum', editable: true },
+                    { name: 'strChassisNum', index: 'strChassisNum', editable: true },
+                    { name: 'strMake', index: 'strMake', editable: true },
+                    { name: 'iModel', index: 'iModel', editable: true },
+                    { name: 'strCategory', index: 'strCategory', editable: true },
+                    { name: 'iYear', index: 'iYear', editable: true },
+                    { name: 'strColor', index: 'strColor', editable: true },
+                    { name: 'strOrigin', index: 'strOrigin', editable: true },
+                    { name: 'strLocation', index: 'strLocation', editable: true },
+                    { name: 'iCustomAssesVal', index: 'iCustomAssesVal', editable: true },
+                    { name: 'iDuty', index: 'iDuty', editable: true },
+                    { name: 'iCustomValInJPY', index: 'iCustomValInJPY', editable: true }
 
+                  
 
                 ],
                 width: 1050,
                 height: 250,
                 rowNum: 10,
-                loadonce: true,
+              
                 rowList: [10, 20, 30],
                 pager: 'pagingGrid',
+                editurl: '/MVehicle/Save/',
+              
+                cellsubmit: 'clientArray',
+                onSelectRow: function (id) {
 
+                    if (id !== lastsel) {
+
+
+                        jQuery('#dataGrid').jqGrid('saveRow', lastsel);
+
+                        lastsel = id;
+
+                    }
+                    jQuery('#dataGrid').jqGrid('editRow', id, true);
+                    return true;
+
+                },
             });
             jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
             jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false, rel: false });
+
         }
     });
 
-
-</script>
-
-
-
-<script>
-
-
-    $("#btnDeleteJQ").click(function () {
+    function SaveRow(id) {
         debugger;
-        var purchase =@Model.PurchaseID
-        @*var purchase = {
-            PurchaseID:@Model.PurchaseID,
-            iPurchaseInvoiceNo: $('#invno').val(),
-            strPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
-            strSupplierName: $('#txtSearchSupplier').val(),
-            strMasterDecNo: $('#strMasterDecNo').val(),
-            strBLNo: $('#strBLNo').val(),
-            strArrivalDate: $('#strArrivalDate').val(),
-            dmlConversionRate: $('#dmlConversionRate').val()
-        }
-        var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');*@
+        var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+       
+        var vehicle=  griddata[id-1];
+
 
         $.ajax({
             type: "POST",
-            url: "/TPurchase/Delete",
+            url: '/MVehicle/Save/',
             cache: false,
-            data: JSON.stringify({ purchase: purchase}),
-            // data: JSON.stringify(purchase),
-            dataType: this.dataType,
+            data: JSON.stringify({vehicle: vehicle }),
+            dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (Data) {
+                //window.location.href = "/TPurchase/Index";
 
-                window.location.href = "/TPurchase/GetPurchaseList";
+                if (Data.status) {
+
+                    alert("Data Saved");
+                }
 
             },
             error: function (data) {
-                $("#error_message").html(data);
+                alert("Not able to Update Data !!!!");
             }
         });
 
-    });
-
+    }
 </script>
 
 

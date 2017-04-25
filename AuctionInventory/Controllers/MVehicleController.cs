@@ -123,18 +123,18 @@ namespace AuctionInventory.Controllers
         #region CRUD
         public ActionResult GetAllVehicle()
         {
-
-            List<Vehicles> vehicle = new List<Vehicles>();
+            dynamic vehicle = 0;
+            
             try
             {
                 if (ModelState.IsValid)
                 {
                     VehicleServiceClient vehicleServiceClient = new VehicleServiceClient();
                     vehicle = vehicleServiceClient.GetAllVehicle();
-                    if (vehicle.Count == 0 || vehicle == null)
-                    {
-                        ModelState.AddModelError("error", "No Record Found");
-                    }
+                    //if (vehicle.Count == 0 || vehicle == null)
+                    //{
+                    //    ModelState.AddModelError("error", "No Record Found");
+                    //}
                 }
             }
             // Please through Exeption Everywhere
@@ -145,7 +145,7 @@ namespace AuctionInventory.Controllers
                 throw e;
 
             }
-            return Json(new { data = vehicle }, JsonRequestBehavior.AllowGet);
+            return Json(vehicle, JsonRequestBehavior.AllowGet);
 
         }
         [HttpGet]

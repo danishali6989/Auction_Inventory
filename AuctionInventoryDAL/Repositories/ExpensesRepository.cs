@@ -472,7 +472,7 @@ namespace AuctionInventoryDAL.Repositories
 
         public bool SaveRepoVehicleExpense(List<VehicleExpens> expense, string refenceNumber, int id)
         {
-            Vehicle vehicle = new Vehicle();
+           
             var spreadAmount=(decimal?)0;
             bool status = false;
             {

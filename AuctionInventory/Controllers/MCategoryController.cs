@@ -22,17 +22,18 @@ namespace AuctionInventory.Controllers
         #region CRUD
         public ActionResult GetAllCategory()
         {
-            List<Category> category = new List<Category>();
+            dynamic category = 0;
+           
             try
             {
                 if (ModelState.IsValid)
                 {
                     CategoryServiceClient categoryServiceClient = new CategoryServiceClient();
                     category = categoryServiceClient.GetAllCategory();
-                    if (category.Count == 0 || category == null)
-                    {
-                        ModelState.AddModelError("error", "No Record Found");
-                    }
+                    //if (category.Count == 0 || category == null)
+                    //{
+                    //    ModelState.AddModelError("error", "No Record Found");
+                    //}
 
 
                 }
@@ -43,7 +44,7 @@ namespace AuctionInventory.Controllers
                 category = null;
                 throw e;
             }
-            return Json(new { data = category }, JsonRequestBehavior.AllowGet);
+            return Json( category , JsonRequestBehavior.AllowGet);
 
         }
         [HttpGet]
@@ -57,6 +58,7 @@ namespace AuctionInventory.Controllers
 
                     Services.CategoryServiceClient categoryServiceClient = new Services.CategoryServiceClient();
                     category = categoryServiceClient.GetCategory(id);
+                    //ViewBag.Status = "Update";
                 }
             }
             catch (Exception e)
@@ -90,7 +92,7 @@ namespace AuctionInventory.Controllers
                 throw e;
 
             }
-            return View();
+            return View(category);
            
             //return View();
            // return new JsonResult { Data = new { status = status } };

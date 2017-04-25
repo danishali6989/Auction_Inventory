@@ -1,5 +1,4 @@
-﻿
-@model AuctionInventory.Models.Category
+﻿@model AuctionInventory.Models.Category
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -14,21 +13,41 @@
         color: red;
     }
 </style>
-<h2>Save</h2>
-@using (Html.BeginForm("Save", "MCategory", FormMethod.Post, new { id = "popupForm" }))
 
+@using (Html.BeginForm("Save", "MCategory", FormMethod.Post, new { id = "popupForm" }))
 {
-    if(Model!=null&&Model.iCategoryID>0)
+    @Html.ValidationSummary(true)
+    if (Model != null && Model.iCategoryID > 0)
     {
-        @Html.HiddenFor(a=>a.iCategoryID)
+        @Html.HiddenFor(a => a.iCategoryID)
     }
-    <div class="form-group">
+    <div class="form-group col-xs-5">
         <label>Category Name</label>
-        @Html.TextBoxFor(a => a.strCategoryName, new { @class = "form-control" })
+        @Html.TextBoxFor(a => a.strCategoryName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Category Name" })
         @Html.ValidationMessageFor(m => m.strCategoryName, "", new { @class = "error" })
-        
+
     </div>
+
     <div>
-        <input type="submit" value="Save" />
+        @if (Model != null && Model.iCategoryID > 0 && Model.iCategoryID != null)
+        {
+            <input type="submit" style="margin-left: -350px; margin-top: 100px;" class="btn btn-warning col-md-1" value="Update">
+        }
+        else
+        {
+            <input type="submit" style="margin-left: -350px; margin-top: 100px;" class="btn btn-success col-md-1" value="Save">
+        }
+
+        @*<input type="submit" value="Save" />*@
+
+        <input type="button" style="margin-left: -210px;margin-top: 100px;" class="btn btn-warning col-md-1" value="Cancel" onclick="CancelCategoryInfo();" />
+
     </div>
 }
+<script>
+    function CancelCategoryInfo() {
+        window.location.href = "/MCategory/Index";
+    }
+
+</script>
+

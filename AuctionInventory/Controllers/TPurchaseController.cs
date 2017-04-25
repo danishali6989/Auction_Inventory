@@ -150,17 +150,18 @@ namespace AuctionInventory.Controllers
         #region CRUD
         public ActionResult GetAllPurchase()
         {
-            List<Purchase> purchase = new List<Purchase>();
+            dynamic purchase = 0;
+          
             try
             {
                 if (ModelState.IsValid)
                 {
                     PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
                     purchase = purchaseServiceClient.GetAllPurchase();
-                    if (purchase.Count == 0 || purchase == null)
-                    {
-                        ModelState.AddModelError("error", "No Record Found");
-                    }
+                    //if (purchase.Count == 0 || purchase == null)
+                    //{
+                    //    ModelState.AddModelError("error", "No Record Found");
+                    //}
                 }
             }
             catch (Exception e)
@@ -169,7 +170,7 @@ namespace AuctionInventory.Controllers
                 purchase = null;
                 throw e;
             }
-            return Json(new { data = purchase }, JsonRequestBehavior.AllowGet);
+            return Json(purchase, JsonRequestBehavior.AllowGet);
 
         }
         [HttpGet]

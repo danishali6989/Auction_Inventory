@@ -12,11 +12,58 @@ namespace AuctionInventoryDAL.Repositories
         #region CRUD
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
 
-        public List<MCustomer> GetAll()
+        public dynamic GetAll()
         {
-            List<MCustomer> listCustomer = new List<MCustomer>();
-            listCustomer = (from r in auctionContext.MCustomers select r).OrderBy(a => a.strFirstName).ToList();
-            return listCustomer;
+            var jsonData = new
+            {
+                total = 1,
+                page = 1,
+                records = auctionContext.MCustomers.ToList().Count,
+                rows = (
+                  from customers in
+                      (from AM in auctionContext.MCustomers
+                      
+                       join t1 in auctionContext.MCountries on AM.iCountry equals t1.iCountry
+                       join t2 in auctionContext.MCities on AM.iCity equals t2.iCity
+
+                       select new
+                       {
+                           iCustomerID = AM.iCustomerID,
+                           strFirstName = AM.strFirstName,
+                           strLastName = AM.strLastName,
+                           iCountry = t1.strCountryName,
+                           iCity = t2.strCityName,
+                           strEmailID = AM.strEmailID,
+                           iPhoneNumber = AM.iPhoneNumber,
+                           strAddress = AM.strAddress,
+                           iPincode = AM.iPincode,
+                           strCreditLimit = AM.strCreditLimit,
+                           //iPersonID = AM.iPersonID,
+                           //strPersonFirstName = AM.strPersonFirstName,
+                           //strPersonMiddleName = AM.strPersonMiddleName,
+                           //strPersonLastName = AM.strPersonLastName,
+                           //strCompanyName = AM.strCompanyName,
+                           //CustomerPhoto = AM.CustomerPhoto,
+                           //CustomerDate = AM.CustomerDate
+
+                       }).OrderBy(a => a.strFirstName).ToList()
+                  select new
+                  {
+                      id = customers.iCustomerID,
+                      cell = new string[] {
+               Convert.ToString(customers.iCustomerID),Convert.ToString(customers.strFirstName+" "+customers.strLastName),
+               Convert.ToString(customers.iCountry),Convert.ToString(customers.iCity),
+               Convert.ToString(customers.strEmailID),Convert.ToString(customers.iPhoneNumber),
+               Convert.ToString(customers.iPincode),Convert.ToString(customers.strCreditLimit),
+               Convert.ToString(customers.strAddress)
+               
+               //,Convert.ToString(customers.iPersonID),
+               //Convert.ToString(customers.strPersonFirstName+" "+customers.strPersonLastName),Convert.ToString(customers.strCompanyName),
+               //Convert.ToString(customers.CustomerPhoto),Convert.ToString(customers.CustomerDate)
+                        }
+                  }).ToArray()
+            };
+            return jsonData;
         }
         public MCustomer Get(int id)
         {

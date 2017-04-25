@@ -12,12 +12,42 @@ namespace AuctionInventoryDAL.Repositories
         #region CRUD
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
 
-        public List<MCategory> GetAll()
+        public dynamic GetAll()
         {
-            List<MCategory> categoryList = new List<MCategory>();
-            categoryList = (from r in auctionContext.MCategories select r).OrderBy(a => a.strCategoryName).ToList();
-            return categoryList;
+            //List<MCategory> categoryList = new List<MCategory>();
+            //categoryList = (from r in auctionContext.MCategories select r).OrderBy(a => a.strCategoryName).ToList();
+            //return categoryList;
+
+                var jsonData = new
+                {
+                    total = 1,
+                    page = 1,
+                    records = auctionContext.MCategories.ToList().Count,
+                    rows = (
+                      from category in
+                          (from AM in auctionContext.MCategories
+                          
+                           select new
+                           {
+                               iCategoryID = AM.iCategoryID,
+                               strCategoryName = AM.strCategoryName
+
+                           }).OrderBy(a => a.strCategoryName).ToList()
+                      select new
+                      {
+                          id = category.iCategoryID,
+                          cell = new string[] {
+               Convert.ToString(category.iCategoryID),Convert.ToString(category.strCategoryName)
+                        }
+                      }).ToArray()
+                };
+                return jsonData;
+            
+            //return View();
         }
+
+
+        
 
         public MCategory Get(int id)
         {

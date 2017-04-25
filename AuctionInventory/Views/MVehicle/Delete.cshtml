@@ -7,90 +7,149 @@
 @using (Html.BeginForm("delete", "MVehicle", FormMethod.Post, new { id = "popupForm" }))
 {
     @Html.HiddenFor(a => a.iVehicleID)
-    <div class="form-group">
-        <label>Lot Number </label>
-        <p>@Model.iLotNum </p>
-    </div>
+   <div class="row">
 
-    <div class="form-group">
-        <label>Grade </label>
-        <p>@Model.strGrade </p>
-    </div>
 
-    <div class="form-group">
-        <label>Chassis Number </label>
-        <p>@Model.strChassisNum </p>
-    </div>
-    <div class="form-group">
-        <label>Category </label>
-        <p>@Model.strCategory </p>
-    </div>
 
-    <div class="form-group">
-        <label>Make </label>
-        <p>@Model.strMake </p>
-    </div>
+        <div class="col-md-4">
+            <label>Lot Number</label>
+            @Html.TextBoxFor(a => a.iLotNum, new { @class = "form-control  input-group-lg", @placeholder = "Enter Lot Number" })
+            @Html.ValidationMessageFor(m => m.iLotNum, "", new { @class = "error" })
 
-    <div class="form-group">
-        <label>Model </label>
-        <p>@Model.iModel </p>
-    </div>
-    <div class="form-group">
-        <label>Year </label>
-        <p>@Model.iYear </p>
-    </div>
 
-    <div class="form-group">
-        <label>Color </label>
-        <p>@Model.iColor </p>
-    </div>
+        </div>
+        <div class="col-md-4">
+            <label>Grade </label>
+            @Html.TextBoxFor(a => a.strGrade, new { @class = "form-control  input-group-lg", @placeholder = "Enter Grade" })
+            @Html.ValidationMessageFor(m => m.strGrade, "", new { @class = "error" })
 
-    <div class="form-group">
-        <label>KM </label>
-        <p>@Model.dmlKM </p>
-    </div>
-    <div class="form-group">
-        <label>Origin </label>
-        <p>@Model.strOrigin </p>
-    </div>
 
-    <div class="form-group">
-        <label>Door </label>
-        <p>@Model.iDoor </p>
-    </div>
+        </div>
+        <div class="col-md-4">
+            <label>Chassis Number</label>
+            @Html.TextBoxFor(a => a.strChassisNum, new { @class = "form-control  input-group-lg", @placeholder = "Enter Chassis Number" })
+            @Html.ValidationMessageFor(m => m.strChassisNum, "", new { @class = "error" })
 
-    <div class="form-group">
-        <label>Location </label>
-        <p>@Model.strLocation </p>
-    </div>
-    <div class="form-group">
-        <label>weight </label>
-        <p>@Model.weight </p>
-    </div>
 
-    <div class="form-group">
-        <label>HSCode </label>
-        <p>@Model.strHSCode </p>
-    </div>
+        </div>
+        <div class="col-md-4">
+            <label>Category </label>
+            @Html.TextBoxFor(a => a.strCategory, new { @class = "form-control  input-group-lg", @placeholder = "Enter Category" })
+            @Html.ValidationMessageFor(m => m.strCategory, "", new { @class = "error" })
 
-    <div class="form-group">
-        <label>ATMT </label>
-        <p>@Model.ATMT </p>
-    </div>
-    <div class="form-group">
-        <label>Custom Asses Val </label>
-        <p>@Model.iCustomAssesVal </p>
-    </div>
 
-    <div class="form-group">
-        <label>Duty  </label>
-        <p>@Model.iDuty  </p>
+        </div>
+        <div class="col-md-4">
+            <label>Make </label>
+            @Html.TextBoxFor(a => a.strMake, new { @class = "form-control  input-group-lg", @placeholder = "Enter Make" })
+            @Html.ValidationMessageFor(m => m.strMake, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Model </label>
+            @Html.TextBoxFor(a => a.iModel, new { @class = "form-control  input-group-lg", @placeholder = "Enter Model" })
+            @Html.ValidationMessageFor(m => m.iModel, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Year </label>
+            @Html.TextBoxFor(a => a.iYear, new { @class = "form-control  input-group-lg", @placeholder = "Enter Year" })
+            @Html.ValidationMessageFor(m => m.iYear, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Color </label>
+            @Html.TextBoxFor(a => a.strColor, new { @class = "form-control  input-group-lg", @placeholder = "Enter Color" })
+            @Html.ValidationMessageFor(m => m.strColor, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>KM </label>
+            @Html.TextBoxFor(a => a.dmlKM, new { @class = "form-control  input-group-lg", @placeholder = "Enter KM" })
+            @Html.ValidationMessageFor(m => m.dmlKM, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Origin </label>
+            @Html.TextBoxFor(a => a.strOrigin, new { @class = "form-control  input-group-lg", @placeholder = "Enter Origin" })
+            @Html.ValidationMessageFor(m => m.strOrigin, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Door </label>
+            @Html.TextBoxFor(a => a.iDoor, new { @class = "form-control  input-group-lg", @placeholder = "Enter Door" })
+            @Html.ValidationMessageFor(m => m.iDoor, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Location </label>
+            @Html.TextBoxFor(a => a.strLocation, new { @class = "form-control  input-group-lg", @placeholder = "Enter Location" })
+            @Html.ValidationMessageFor(m => m.strLocation, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>weight </label>
+            @Html.TextBoxFor(a => a.weight, new { @class = "form-control  input-group-lg", @placeholder = "Enter weight" })
+            @Html.ValidationMessageFor(m => m.weight, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>HSCode </label>
+            @Html.TextBoxFor(a => a.strHSCode, new { @class = "form-control  input-group-lg", @placeholder = "Enter HSCode" })
+            @Html.ValidationMessageFor(m => m.strHSCode, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>ATMT </label>
+            @Html.TextBoxFor(a => a.ATMT, new { @class = "form-control  input-group-lg", @placeholder = "Enter ATMT" })
+            @Html.ValidationMessageFor(m => m.ATMT, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Custom Asses Val</label>
+            @Html.TextBoxFor(a => a.iCustomAssesVal, new { @class = "form-control  input-group-lg", @placeholder = "Enter Custom Asses Val" })
+            @Html.ValidationMessageFor(m => m.iCustomAssesVal, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Duty </label>
+            @Html.TextBoxFor(a => a.iDuty, new { @class = "form-control  input-group-lg", @placeholder = "Enter Duty" })
+            @Html.ValidationMessageFor(m => m.iDuty, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Custom Val In JPY</label>
+            @Html.TextBoxFor(a => a.iCustomValInJPY, new { @class = "form-control  input-group-lg", @placeholder = "Enter Custom Val In JPY" })
+            @Html.ValidationMessageFor(m => m.iCustomValInJPY, "", new { @class = "error" })
+
+
+        </div>
     </div>
-    <div class="form-group">
-        <label>Custom Val In JPY  </label>
-        <p>@Model.iCustomValInJPY  </p>
-    </div>
-    <div>
-        <input type="submit" value="Delete" />
+     <div>
+        <br />
+        @*<input type="submit" value="Delete" />*@
+        <input type="submit" style="margin-left: 400px;" class="btn btn-danger col-md-1" value="Delete">
+        
+        <input type="button" style="margin-left: 40px;" class="btn btn-warning col-md-1" value="Cancel" onclick="CancelVehicleInfo();" />
+
     </div>
 }
+<script>
+    function CancelVehicleInfo() {
+        window.location.href = "/MVehicle/Index";
+    }
+
+</script>

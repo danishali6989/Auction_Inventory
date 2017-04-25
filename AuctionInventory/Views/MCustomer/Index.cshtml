@@ -15,121 +15,91 @@
         border-color: #333;
     }
 </style>
-<div style="width:90%; margin:70px auto" class="tablecontainer">
-    <a class="popup btn btn-primary" href="/MCustomer/save/0" style="margin-bottom:20px; margin-top:20px;">Add New Customer</a>
-    <table id="myDatatable">
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Middle Name</th>
-                <th>Last Name</th>
-                <th>Country</th>
-                <th>City</th>
-                <th>Email ID</th>
-                <th>Phone Number</th>
-                <th>Address</th>
-                <th>Pincode</th>
-                <th>Credit Limit</th>
-                <th>PersonID</th>
-                <th>Person FirstName</th>
-                <th>Person MiddleName</th>
-                <th>Person LastName</th>
-                <th>Company Name</th>
-                <th>Customer Photo</th>
-                <th>Customer Date</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-    </table>
+
+
+
+<div class="box-body">
+    <div>
+        <a class="popup btn btn-primary" href="/MCustomer/save/0" style="margin-bottom:20px; margin-top:20px;">Add New Customer</a>
+
+    </div>
+    <br />
+    <div>
+        <table id="dataGrid" class="table table-bordered table-striped"></table>
+        <div id="pagingGrid"></div>
+        <br><br>
+    </div>
 </div>
+
+
+
+
 <script>
-    $(document).ready(function () {
-        var oTable = $('#myDatatable').DataTable({
-            "scrollY": 200,
-            "scrollX": true,
-            "ajax": {
-                "url": '/MCustomer/GetAllCustomers',
-                "type": "get",
-                "datatype": "json"
-            },
-            "columns": [
-                { "data": "strFirstName", "autoWidth": true },
-                { "data": "strMiddleName", "autoWidth": true },
-                { "data": "strLastName", "autoWidth": true },
-                { "data": "iCountry", "autoWidth": true },
-                { "data": "iCity", "autoWidth": true },
-                 { "data": "strEmailID", "autoWidth": true },
-                { "data": "iPhoneNumber", "autoWidth": true },
-                { "data": "strAddress", "autoWidth": true },
-                { "data": "iPincode", "autoWidth": true },
-                { "data": "strCreditLimit", "autoWidth": true },
-                 { "data": "iPersonID", "autoWidth": true },
-                { "data": "strPersonFirstName", "autoWidth": true },
-                { "data": "strPersonMiddleName", "autoWidth": true },
-                { "data": "strPersonLastName", "autoWidth": true },
-                { "data": "strCompanyName", "autoWidth": true },
-                { "data": "CustomerPhoto", "autoWidth": true },
-                { "data": "CustomerDate", "autoWidth": true },
-                {
-                    "data": "iCustomerID", "width": "50px", "render": function (data) {
-                        return '<a class="popup" href="/MCustomer/save/' + data + '">Edit</a>';
-                    }
-                },
-                {
-                    "data": "iCustomerID", "width": "50px", "render": function (data) {
-                        return '<a class="popup" href="/MCustomer/delete/' + data + '">Delete</a>';
-                    }
-                }
-            ]
-        })
-        //$('.tablecontainer').on('click', 'a.popup', function (e) {
-        //    e.preventDefault();
-        //    OpenPopup($(this).attr('href'));
-        //})
-        function OpenPopup(pageUrl) {
-            var $pageContent = $('<div/>');
-            $pageContent.load(pageUrl, function () {
-                $('#popupForm', $pageContent).removeData('validator');
-                $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
-                $.validator.unobtrusive.parse('form');
+    $(function () {
 
-            });
+        //this grid is used to fill the Customers list
 
-            $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
-                      .html($pageContent)
-                      .dialog({
-                          draggable: false,
-                          autoOpen: false,
-                          resizable: false,
-                          model: true,
-                          title: 'Popup Dialog',
-                          height: 550,
-                          width: 600,
-                          close: function () {
-                              $dialog.dialog('destroy').remove();
-                          }
-                      })
+        $('#dataGrid').jqGrid({
+            caption: "Customers List",
+            url: '/MCustomer/GetAllCustomers',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
 
-            $('.popupWindow').on('submit', '#popupForm', function (e) {
-                var url = $('#popupForm')[0].action;
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: $('#popupForm').serialize(),
-                    success: function (data) {
-                        if (data.status) {
-                            $dialog.dialog('close');
-                            oTable.ajax.reload();
-                        }
-                    }
-                })
+            colNames: ['iCustomerID', 'Customer Name', 'Country', 'City', 'Email', 'Phone Number', 'Pincode', 'Credit Limit', 'Address', 'Action'],
+            colModel: [
+                { name: 'iCustomerID', index: 'iCustomerID', hidden: true, hidedlg: true },
+                { name: 'strFirstName', index: 'strFirstName', align: 'center' },
+                { name: 'iCountry', index: 'iCountry', align: 'center' },
+                { name: 'iCity', index: 'iCity', align: 'center' },
+                 { name: 'strEmailID', index: 'strEmailID', align: 'center', width: 250 },
+                { name: 'iPhoneNumber', index: 'iPhoneNumber', align: 'center' },
+               
+                 { name: 'iPincode', index: 'iPincode', align: 'center', width: 100 },
+                { name: 'strCreditLimit', index: 'strCreditLimit', align: 'center', width: 100 },
+                { name: 'strAddress', index: 'strAddress', align: 'center' },
+               
+                //{ name: 'iPersonID', index: 'iPersonID', hidden: true, hidedlg: true },
+                //{ name: 'strPersonFirstName', index: 'strPersonFirstName', align: 'center' },
+                //{ name: 'strCompanyName', index: 'strCompanyName', align: 'center' },
+                //{ name: 'CustomerPhoto', index: 'CustomerPhoto', align: 'center' },
+                //{ name: 'CustomerDate', index: 'CustomerDate', align: 'center' },
 
-                e.preventDefault();
-            })
 
-            $dialog.dialog('open');
-        }
-    })
+                   {
+                       name: 'Action', index: 'Action', align: 'center', width: 250, search: false, title: false,
+                       formatter: function (cellvalue, options, rowObject) {
+
+                           return '<a class="popup btn btn-warning"  href="/MCustomer/Save/' + options.rowId + '">Edit</a>' + "   " + '<a class="popup btn btn-danger"  href="/MCustomer/Delete/' + options.rowId + '">Delete</a>';
+
+                           //return  "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Edit'  onclick=\"editRowData('" + options.rowId + "');\"  />";
+                       }
+
+                   },
+
+
+
+            ],
+            width: 1050,
+            height: 450,
+            rowNum: 10,
+            loadonce: true,
+            ignoreCase: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGrid',
+        });
+        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+    });
 </script>
+
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>
 

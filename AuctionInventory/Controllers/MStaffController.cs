@@ -14,6 +14,8 @@ namespace AuctionInventory.Controllers
     [Authorize]
     public class MStaffController : Controller
     {
+        AuctionInventoryEntities db = new AuctionInventoryEntities();
+       
         // GET: MStaff
         public ActionResult Index()
         {
@@ -25,23 +27,15 @@ namespace AuctionInventory.Controllers
         #region CRUD
         public ActionResult GetAllStaff()
         {
-            List<Staff> staff = new List<Staff>();
+            dynamic staff = 0;
+           
             try
             {
                 if (ModelState.IsValid)
                 {
                     StaffServiceClient staffServiceClient = new StaffServiceClient();
                     staff = staffServiceClient.GetAllStaff();
-                    if (staff.Any())
-                    {
-                        staff.ForEach(x => x.FullName = CommonMethods.GetFullName(x.strFirstName, x.strMiddleName, x.strLastName));
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("error", "No Record Found");
-                    }
-
-
+                   
                 }
             }
              catch(Exception e)
@@ -51,7 +45,7 @@ namespace AuctionInventory.Controllers
                 throw e;
 
             }
-            return Json(new { data = staff }, JsonRequestBehavior.AllowGet);
+            return Json(staff, JsonRequestBehavior.AllowGet);
 
         }
         [HttpGet]
@@ -65,6 +59,12 @@ namespace AuctionInventory.Controllers
                     StaffServiceClient staffServiceClient = new StaffServiceClient();
                    
                     staff = staffServiceClient.GetStaff(id);
+
+                    ViewBag.Country = new SelectList(db.MCountries, "iCountry", "strCountryName", staff.iCountryID);
+                    var countryList = db.MCities.Where(x => x.iCountry == staff.iCountryID).ToList();
+
+                    ViewBag.City = new SelectList(countryList, "iCity", "strCityName", staff.iCityID);
+
                 }
             }
              catch(Exception e)
@@ -80,6 +80,10 @@ namespace AuctionInventory.Controllers
         public ActionResult Save(Staff staff)
         {
             UserLogin profile = (UserLogin)Session["UserProfile"];
+            ViewBag.Country = new SelectList(db.MCountries, "iCountry", "strCountryName", staff.iCountryID);
+            var countryList = db.MCities.Where(x => x.iCountry == staff.iCountryID).ToList();
+
+            ViewBag.City = new SelectList(countryList, "iCity", "strCityName", staff.iCityID);
             bool status = false;
             try
             {
@@ -98,8 +102,34 @@ namespace AuctionInventory.Controllers
                 throw e;
 
             }
-            return View();
+            return View(staff);
          //   return new JsonResult { Data = new { status = status } };
+        }
+
+
+        [HttpPost]
+        public ActionResult GetCity(string countryID)
+        {
+
+            // ViewBag.City = new SelectList(db.MCities, "iCity", "strCityName", customers.iCity);
+
+
+            int countryId;
+            List<SelectListItem> cityNames = new List<SelectListItem>();
+
+            //ViewBag.City = new List<SelectListItem>();
+
+            if (!string.IsNullOrEmpty(countryID))
+            {
+                countryId = Convert.ToInt32(countryID);
+                List<MCity> cityLists = db.MCities.Where(x => x.iCountry == countryId).ToList();
+                cityLists.ForEach(x =>
+                {
+                    cityNames.Add(new SelectListItem { Text = x.strCityName, Value = x.iCity.ToString() });
+                });
+            }
+            ViewBag.City = cityNames;
+            return Json(ViewBag.City, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -114,6 +144,10 @@ namespace AuctionInventory.Controllers
                     StaffServiceClient staffServiceClient = new StaffServiceClient();
 
                     staff = staffServiceClient.GetStaff(id);
+                    ViewBag.Country = new SelectList(db.MCountries, "iCountry", "strCountryName", staff.iCountryID);
+                    var countryList = db.MCities.Where(x => x.iCountry == staff.iCountryID).ToList();
+
+                    ViewBag.City = new SelectList(countryList, "iCity", "strCityName", staff.iCityID);
                 }
             }
              catch(Exception e)
@@ -137,6 +171,7 @@ namespace AuctionInventory.Controllers
                     StaffServiceClient staffServiceClient = new StaffServiceClient();
 
                     status = staffServiceClient.Delete(id);
+                    return RedirectToAction("Index");
                 }
             }
              catch(Exception e)
@@ -145,7 +180,7 @@ namespace AuctionInventory.Controllers
                 status = false;
                 throw e;
             }
-            return View("Index");
+            return View();
             //return new JsonResult { Data = new { status = status } };
 
         }

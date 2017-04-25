@@ -22,17 +22,18 @@ namespace AuctionInventory.Controllers
         #region CRUD
         public ActionResult GetAllCurrency()
         {
-            List<Currency> currency = new List<Currency>();
+            dynamic currency = 0;
+           
             try
             {
                 if (ModelState.IsValid)
                 {
                     Services.CurrencyServiceClient currencyServiceClient = new Services.CurrencyServiceClient();
                     currency = currencyServiceClient.GetAllCurrency();
-                    if (currency.Count == 0 || currency == null)
-                    {
-                        ModelState.AddModelError("error", "No Record Found");
-                    }
+                    //if (currency.Count == 0 || currency == null)
+                    //{
+                    //    ModelState.AddModelError("error", "No Record Found");
+                    //}
                     
                 }
             }
@@ -43,7 +44,7 @@ namespace AuctionInventory.Controllers
                 throw e;
 
             }
-            return Json(new { data = currency }, JsonRequestBehavior.AllowGet);
+            return Json(currency, JsonRequestBehavior.AllowGet);
 
         }
         [HttpGet]
@@ -57,6 +58,8 @@ namespace AuctionInventory.Controllers
                     Services.CurrencyServiceClient currencyServiceClient = new Services.CurrencyServiceClient();
                     
                     currency = currencyServiceClient.GetCurrency(id);
+                    //ViewBag.Status = "Save";
+                    //ViewBag.Status = "Update";
                 }
             }
              catch(Exception e)

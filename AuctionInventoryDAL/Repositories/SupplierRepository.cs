@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AuctionInventoryDAL.Entity;
 using System.Net.Mail;
 using System.Net;
+using System.Web;
+using System.IO;
 
 namespace AuctionInventoryDAL.Repositories
 {
@@ -14,12 +16,57 @@ namespace AuctionInventoryDAL.Repositories
         #region CRUD
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
 
-        public List<MSupplier> GetAll()
+        public dynamic GetAll()
         {
-            List<MSupplier> listsupplier = new List<MSupplier>();
-            listsupplier = (from r in auctionContext.MSuppliers  select r).OrderBy(a => a.strFirstName).ToList();
-            return listsupplier;
+            var jsonData = new
+            {
+                total = 1,
+                page = 1,
+                records = auctionContext.MSuppliers.ToList().Count,
+                rows = (
+                  from supplier in
+                      (from AM in auctionContext.MSuppliers
+                       join t1 in auctionContext.MCurrencies on AM.iCurrency equals t1.CurrencyID
+                       join t2 in auctionContext.MCategories on AM.iSupplierCategory equals t2.iCategoryID
+                       
+                       
+                       select new
+                       {
+                           SupplierPhoto = AM.SupplierPhoto,
+                           iSupplierID = AM.iSupplierID,
+                           strFirstName = AM.strFirstName,
+                           strLastName = AM.strLastName,
+
+                           //iSupplierServiceType = AM.iSupplierServiceType,
+                           //iSupplierCategory = AM.iSupplierCategory,
+
+                           iPhoneNumber = AM.iPhoneNumber,
+                           strEmailID = AM.strEmailID,
+
+                           strAddress = AM.strAddress,
+                           SupplierDate = AM.SupplierDate,
+                           strCurrencyName = t1.strCurrencyName,
+                           strCategoryName = t2.strCategoryName,
+                          
+
+                       }).OrderBy(a => a.strFirstName).ToList()
+                  select new
+                  {
+                      id = supplier.iSupplierID,
+                      cell = new string[] {
+               Convert.ToString(supplier.iSupplierID),
+               Convert.ToString(supplier.SupplierPhoto),
+               Convert.ToString(supplier.strFirstName+" "+supplier.strLastName),             
+              Convert.ToString(supplier.iPhoneNumber),Convert.ToString(supplier.strEmailID),
+              Convert.ToString(supplier.strAddress), Convert.ToString(supplier.SupplierDate), Convert.ToString(supplier.strCurrencyName)
+              , Convert.ToString(supplier.strCategoryName)
+                      }
+                  }).ToArray()
+            };
+            return jsonData;
         }
+
+     
 
         public MSupplier Get(int id)
         {
@@ -28,7 +75,7 @@ namespace AuctionInventoryDAL.Repositories
             return supplier;
         }
 
-        public bool SaveEdit(MSupplier supplier, string password)
+        public bool SaveEdit(MSupplier supplier, HttpPostedFileBase file, string password)
         {
             bool status = false;
             if (supplier.iSupplierID > 0)
@@ -55,6 +102,21 @@ namespace AuctionInventoryDAL.Repositories
             else
             {
                 //Save
+
+                //save image into database
+
+
+                if (file != null)
+                {
+                    string pic = System.IO.Path.GetFileName(file.FileName);
+                    string path = System.IO.Path.Combine(
+                         System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic);
+                    file.SaveAs(path);
+
+                    supplier.SupplierPhoto = path;
+                    auctionContext.SaveChanges();
+                }
+
                 auctionContext.MSuppliers.Add(supplier);
                 auctionContext.SaveChanges();
                 SendEmail(supplier, password);
@@ -134,6 +196,30 @@ namespace AuctionInventoryDAL.Repositories
 
 
 
+
+        public dynamic RetrieveImage(int id)
+        {
+            var cover = (from supplier in auctionContext.MSuppliers 
+                        where supplier.iSupplierID == id 
+                        select supplier.SupplierPhoto).FirstOrDefault();
+         
+           return cover;
+            
+        }
+        //public byte[] ConvertToBytes(HttpPostedFileBase image)
+        //{
+        //    byte[] imageBytes = null;
+        //    BinaryReader reader = new BinaryReader(image.InputStream);
+        //    imageBytes = reader.ReadBytes((int)image.ContentLength);
+        //    return imageBytes;
+        //}
+
+        //public byte[] GetImageFromDataBase(int Id)
+        //{
+        //    var q = from supplier in auctionContext.MSuppliers where supplier.iSupplierID == Id select supplier.SupplierPhoto;
+        //    byte[] cover = q.First();
+        //    return cover;
+        //}
         #endregion
 
     }

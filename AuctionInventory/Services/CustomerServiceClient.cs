@@ -11,12 +11,11 @@ namespace AuctionInventory.Services
     public class CustomerServiceClient
     {
 
-        public List<Customer> GetAllCustomers()
+        public dynamic GetAllCustomers()
         {
-            List<Customer> listCustomers = new List<Customer>();
-            CustomersRepository repo = new CustomersRepository();
-            dynamic cust = repo.GetAll();
-            listCustomers = ParserGetAllCustomers(cust);
+           
+            CustomersRepository repo = new CustomersRepository();           
+           var listCustomers = repo.GetAll();
             return listCustomers;
         }
         public bool SaveData(Customer customer)

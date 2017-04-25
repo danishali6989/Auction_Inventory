@@ -12,11 +12,42 @@ namespace AuctionInventoryDAL.Repositories
         #region CRUD
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
 
-        public List<Vehicle> GetAll()
+        public dynamic GetAll()
         {
-            List<Vehicle> vehicle = new List<Vehicle>();
-            vehicle = (from a in auctionContext.Vehicles select a).OrderBy(a => a.iLotNum).ToList();
-            return vehicle;
+            var jsonData = new
+            {
+                total = 1,
+                page = 1,
+                records = auctionContext.Vehicles.ToList().Count,
+                rows = (
+                  from vehicle in
+                      (from AM in auctionContext.Vehicles
+
+                       select new
+                       {
+                          iVehicleID = AM.iVehicleID,
+                              iLotNum = AM.iLotNum,
+                              strChassisNum = AM.strChassisNum,
+                              iModel = AM.iModel,
+                              iYear = AM.iYear,
+                              color = AM.strColor,
+                          iDuty = AM.iDuty,
+                              iCustomValInJPY = AM.iCustomValInJPY,
+                              iCustomAssesVal = AM.iCustomAssesVal
+
+                          }).ToList()
+                     select new
+                     {
+                         id = vehicle.iVehicleID,
+                         cell = new string[] {
+               Convert.ToString(vehicle.iVehicleID),Convert.ToString(vehicle.iLotNum),Convert.ToString( vehicle.strChassisNum)
+               ,Convert.ToString(vehicle.iModel),Convert.ToString( vehicle.iYear),Convert.ToString(vehicle.color),Convert.ToString(vehicle.iDuty)
+               ,Convert.ToString( vehicle.iCustomValInJPY)
+               //,Convert.ToString(vehicle.iCustomAssesVal)
+                        }
+                     }).ToArray()
+            };
+            return jsonData;
         }
         
         public Vehicle Get(int id)

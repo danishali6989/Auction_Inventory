@@ -24,32 +24,28 @@ namespace AuctionInventory.Controllers
         }
                
         #region CRUD
+       
         public ActionResult GetAllSuppliers()
         {
-            List<Supplier> listSupplier = new List<Supplier>();
+            dynamic listSupplier = 0;
             try
             {
                 if (ModelState.IsValid)
                 {
                     Services.SupplierServiceClient supplierServiceClient = new Services.SupplierServiceClient();
                     listSupplier = supplierServiceClient.GetAllSuppliers();
-                    if (listSupplier.Any())
-                    {
-                        listSupplier.ForEach(x => x.FullName = CommonMethods.GetFullName(x.strFirstName, x.strMiddleName, x.strLastName));
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("error", "No Record Found");
-                    }
+                    //ViewBag.ImageData = listSupplier.SupplierPhoto;
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Wrong");
-                throw ex;
-            }
-            return Json(new { data = listSupplier }, JsonRequestBehavior.AllowGet);
+                listSupplier = null;
+                throw e;
 
+            }
+            return Json(listSupplier, JsonRequestBehavior.AllowGet);
+           
         }
       
         [HttpGet]
@@ -57,25 +53,8 @@ namespace AuctionInventory.Controllers
         {
             Supplier supplier = new Supplier();
 
-            //ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
-            //ViewBag.currency = new SelectList(db.MCurrencies, "CurrencyID", "strCurrencyName", supplier.iCurrency);
-
-
-            //var list = (from c in db.MCategories
-            //            select new SelectListItem
-            //            {
-            //                Text = c.strCategoryName,
-            //                Value = c.iCategoryID.ToString()
-            //            }).ToList();
-            //ViewBag.category = list;
-
             ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
             ViewBag.currency = new SelectList(db.MCurrencies, "CurrencyID", "strCurrencyName", supplier.iCurrency);
-
-
-          
-            //supplier.SupplierCategoryList = new SelectList(db.MCategories, "iCategoryID", "strCategoryName");
-            //supplier.iSupplierCategory = db.MCategories.Find(id);
             try
             {
                 if (ModelState.IsValid)
@@ -83,9 +62,7 @@ namespace AuctionInventory.Controllers
 
                     Services.SupplierServiceClient supplierServiceClient = new Services.SupplierServiceClient();
                     supplier = supplierServiceClient.GetSupplier(id);
-                    //supplier.iSupplierCategory = db.MCategories.Find(id);
-                    //ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
-           
+                  
                 }
             }
             catch (Exception e)
@@ -96,7 +73,7 @@ namespace AuctionInventory.Controllers
             }
 
            // return View()
-            return View("Save", supplier);
+            return View(supplier);
            // return View(supplier);
         }
 
@@ -105,23 +82,24 @@ namespace AuctionInventory.Controllers
         public ActionResult Save(Supplier supplier)
         {
             bool status = false;
+            ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
+            ViewBag.currency = new SelectList(db.MCurrencies, "CurrencyID", "strCurrencyName", supplier.iCurrency);
             using (var trans = new TransactionScope(TransactionScopeOption.RequiresNew))
             {
                 try
                 {
                     if (ModelState.IsValid)
                     {
+                       
                         // Adding Supplier Code
-                        Services.SupplierServiceClient supplierServiceClient = new Services.SupplierServiceClient();
-                       
-                        status = supplierServiceClient.SaveEdit(supplier);
-                        ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
-                        ViewBag.currency = new SelectList(db.MCurrencies, "CurrencyID", "strCurrencyName", supplier.iCurrency);
-                        
-                        
-                        //ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
-                       
 
+                        HttpPostedFileBase file = Request.Files["ImageData"];
+
+                        Services.SupplierServiceClient supplierServiceClient = new Services.SupplierServiceClient();
+
+                        status = supplierServiceClient.SaveEdit(supplier, file);
+
+                       
                         if (supplier == null)
                         {
                             ModelState.AddModelError("error", "No Record found");
@@ -147,7 +125,7 @@ namespace AuctionInventory.Controllers
 
                 }
             }
-            return View();
+            return View(supplier);
            // return View("Index");
 
         }
@@ -157,6 +135,9 @@ namespace AuctionInventory.Controllers
         public ActionResult Delete(int id)
         {
             Supplier supplier = new Supplier();
+
+            ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
+            ViewBag.currency = new SelectList(db.MCurrencies, "CurrencyID", "strCurrencyName", supplier.iCurrency);
             try
             {
                 if (ModelState.IsValid)
@@ -207,6 +188,40 @@ namespace AuctionInventory.Controllers
         }
 
         #endregion
+
+
+
+        //for image Retrieve from db      
+        public ActionResult RetrieveImage(int id)
+        {
+            dynamic cover = 0;
+          
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Services.SupplierServiceClient supplierServiceClient = new Services.SupplierServiceClient();
+                    cover = supplierServiceClient.RetrieveImage(id);
+                    if (cover != null)
+                    {
+                        //return File(cover, "image/jpg");
+                        return Json(cover, JsonRequestBehavior.AllowGet);
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                cover = null;
+                throw e;
+
+            }
+            return null;
+
+
+        }
+
 
 
     }

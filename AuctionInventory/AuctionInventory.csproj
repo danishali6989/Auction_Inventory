@@ -171,6 +171,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AuctionController.cs" />
+    <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MCategoryController.cs" />
@@ -1066,6 +1067,7 @@
     <Content Include="Content\Style\Site.css" />
     <Content Include="Images\delete %282%29.png" />
     <Content Include="Images\edit %282%29.png" />
+    <Content Include="Scripts\default.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Content\bootstrap\css\bootstrap.css.map" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
@@ -1217,11 +1219,15 @@
     <Content Include="Views\Sales\UpdateSaleVehicle.cshtml" />
     <Content Include="Views\MExpenses\AllVehicleExpensesList.cshtml" />
     <Content Include="Views\MExpenses\SingleVehicleExpensesList.cshtml" />
+    <Content Include="Views\Gallery\Index.cshtml" />
+    <Content Include="Views\Gallery\AddPicture.cshtml" />
+    <Content Include="Views\Gallery\FileUpload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Scripts\Admin\" />
     <Folder Include="Content\Scripts\User\" />
+    <Folder Include="Images\Profiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Fonts\glyphicons-halflings-regular.woff" />

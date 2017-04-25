@@ -10,12 +10,11 @@ namespace AuctionInventory.Services
 {
     public class VehicleServiceClient
     {
-        public List<Vehicles> GetAllVehicle()
+        public dynamic GetAllVehicle()
         {
-            List<Vehicles> listVehicle = new List<Vehicles>();
+           
             VehicleRepository repo = new VehicleRepository();
-            dynamic vehicle = repo.GetAll();
-            listVehicle = ParserGetAllVehicles(vehicle);
+            var listVehicle = repo.GetAll();            
             return listVehicle;
         }
         public bool SaveData(Vehicles vehicle)

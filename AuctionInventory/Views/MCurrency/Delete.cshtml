@@ -11,18 +11,34 @@
 @using (Html.BeginForm("delete", "MCurrency", FormMethod.Post, new { id = "popupForm" }))
 {
     @Html.HiddenFor(a => a.CurrencyID)
-    <div class="form-group">
-        <label>Currency Name</label>
-        <p>@Model.strCurrencyName</p>
-    </div>
+    <div class="form-group col-xs-5">
+        <div class="form-group">
+            <label>Currency Name</label>
+            @Html.TextBoxFor(a => a.strCurrencyName, new { @class = "form-control input-group-lg", @placeholder = "Enter Currency Name" })
+            @Html.ValidationMessageFor(m => m.strCurrencyName, "", new { @class = "error" })
 
-    <div class="form-group">
-        <label>Currency ShortName</label>
-        <p>@Model.strCurrencyShortName</p>
+        </div>
+        <div class="form-group">
+            <label>Currency ShortName</label>
+            @Html.TextBoxFor(a => a.strCurrencyShortName, new { @class = "form-control input-group-lg", @placeholder = "Enter Currency Short Name" })
+            @Html.ValidationMessageFor(m => m.strCurrencyShortName, "", new { @class = "error" })
+
+        </div>
     </div>
     
-    <div>
-        <input type="submit" value="Delete" />
+      <div>
+          
+        @*<input type="submit" value="Delete" />*@
+        <input type="submit" style="margin-left: -350px; margin-top: 180px; " class="btn btn-danger col-md-1" value="Delete">
+        
+        <input type="button" style="margin-left: -210px; margin-top: 180px; " class="btn btn-warning col-md-1" value="Cancel" onclick="CancelCurrencyInfo();" />
+
     </div>
 }
 
+<script>
+    function CancelCurrencyInfo() {
+        window.location.href = "/MCurrency/Index";
+    }
+
+</script>

@@ -16,123 +16,80 @@
         border-color: #333;
     }
 </style>
-<div style="width:90%; margin:70px auto" class="tablecontainer">
-    <a class="popup btn btn-primary" href="/MVehicle/save/0" style="margin-bottom:20px; margin-top:20px;">Add New Vehicle</a>
-    <table id="myDatatable">
-        <thead>
-            <tr>
-                <th>Lot Number</th>
-                <th>Grade</th>
-                <th>Chassis Number</th>
-                <th>Category</th>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Year</th>
-                <th>Color</th>
-                <th>KM</th>
-                <th>Origin</th>
-                <th>Door</th>
-                <th>Location</th>
-                <th>weight</th>
-                <th>HSCode</th>
-                <th>ATMT</th>
-                <th>Custom Asses Val</th>
-                <th>Duty</th>
-                <th>Custom Val In JPY</th>                
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-    </table>
+
+
+
+
+<div class="box-body">
+    <div>
+        <a class="popup btn btn-primary" href="/MVehicle/save/0" style="margin-bottom:20px; margin-top:20px;">Add New Vehicle</a>
+
+    </div>
+    <br />
+    <div>
+        <table id="dataGrid" class="table table-bordered table-striped"></table>
+        <div id="pagingGrid"></div>
+        <br><br>
+    </div>
 </div>
+
 <script>
-    $(document).ready(function () {
-        var oTable = $('#myDatatable').DataTable({
-            "scrollY": 200,
-            "scrollX": true,
-            "ajax": {
-                "url":'/MVehicle/GetAllVehicle',
-                "type":"get",
-                "datatype":"json"
-            },
-            "columns": [
-                { "data": "iLotNum", "autoWidth": true },
-                { "data": "strGrade", "autoWidth": true },
-                { "data": "strChassisNum", "autoWidth": true },
-                { "data": "strCategory", "autoWidth": true },
-                { "data": "strMake", "autoWidth": true },
-                { "data": "iModel", "autoWidth": true },
-                { "data": "iYear", "autoWidth": true },
-                { "data": "iColor", "autoWidth": true },
-                { "data": "dmlKM", "autoWidth": true },
-                { "data": "strOrigin", "autoWidth": true },
-                { "data": "iDoor", "autoWidth": true },
-                { "data": "strLocation", "autoWidth": true },
-                { "data": "weight", "autoWidth": true },
-                { "data": "strHSCode", "autoWidth": true },
-                { "data": "ATMT", "autoWidth": true },
-                { "data": "iCustomAssesVal", "autoWidth": true },
-                { "data": "iDuty", "autoWidth": true },
-                { "data": "iCustomValInJPY", "autoWidth": true },
-                {
-                    "data": "iVehicleID", "width": "50px", "render": function (data) {
-                        return '<a class="popup" href="/MVehicle/save/' + data + '">Edit</a>';
-                    }
-                },
-                {
-                    "data": "iVehicleID", "width": "50px", "render": function (data) {
-                        return '<a class="popup" href="/MVehicle/delete/' + data + '">Delete</a>';
-                    }
-                }
-            ]
-        })
-        //$('.tablecontainer').on('click', 'a.popup', function (e) {
-        //    e.preventDefault();
-        //    OpenPopup($(this).attr('href'));
-        //})
-        function OpenPopup(pageUrl) {
-            var $pageContent = $('<div/>');
-            $pageContent.load(pageUrl, function () {
-                $('#popupForm', $pageContent).removeData('validator');
-                $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
-                $.validator.unobtrusive.parse('form');
+    $(function () {
+        //arr = new Array();
+        $('#dataGrid').jqGrid({
 
-            });
+            url: '/MVehicle/GetAllVehicle/',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+            colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color','Duty', 'JPY','Action'],
+            colModel: [
+                { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+                { name: 'iLotNum', index: 'iLotNum', align: 'center' },
+                { name: 'strChassisNum', index: 'strChassisNum', align: 'center' },
+                { name: 'iModel', index: 'iModel', align: 'center' },
+                { name: 'iYear', index: 'iYear', align: 'center' },
+                { name: 'strColor', index: 'strColor', align: 'center' },
+                 { name: 'iDuty', index: 'iDuty', align: 'center' },
+                { name: 'iCustomValInJPY', index: 'iCustomValInJPY', align: 'center' },
 
-            $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
-                      .html($pageContent)
-                      .dialog({
-                          draggable: false,
-                          autoOpen: false,
-                          resizable: false,
-                          model: true,
-                          title: 'Popup Dialog',
-                          height: 550,
-                          width: 600,
-                          close: function () {
-                              $dialog.dialog('destroy').remove();
-                          }
-                      })
 
-            $('.popupWindow').on('submit', '#popupForm', function (e) {
-                var url = $('#popupForm')[0].action;
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: $('#popupForm').serialize(),
-                    success: function (data) {
-                        if (data.status) {
-                            $dialog.dialog('close');
-                            oTable.ajax.reload();
-                        }
-                    }
-                })
+                 {
+                     name: 'Action', index: 'Action', align: 'center', width: 250, search: false, title: false,
+                     formatter: function (cellvalue, options, rowObject) {
 
-                e.preventDefault();
-            })
+                         return '<a class="popup btn btn-warning"  href="/MVehicle/Save/' + options.rowId + '">Edit</a>' + "   " + '<a class="popup btn btn-danger"  href="/MVehicle/Delete/' + options.rowId + '">Delete</a>';
 
-            $dialog.dialog('open');
-        }
-    })
+                         //return  "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Edit'  onclick=\"editRowData('" + options.rowId + "');\"  />";
+                     }
+
+                 },
+
+            ],
+            width: 1050,
+            height: 'auto',
+            rowNum: 10,
+            loadonce: true,
+            ignoreCase: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGrid',
+          
+
+        });
+    jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+    jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+
+
+    });
 </script>
+
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>
 

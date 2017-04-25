@@ -90,10 +90,16 @@
     <Compile Include="Entity\MCategory.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\MCity.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\MColor.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\MCompany.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\MCountry.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\MCurrency.cs">

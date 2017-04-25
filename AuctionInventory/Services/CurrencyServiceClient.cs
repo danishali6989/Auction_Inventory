@@ -10,13 +10,12 @@ namespace AuctionInventory.Services
 {
     public class CurrencyServiceClient
     {
-        public List<Currency> GetAllCurrency()
+        public dynamic GetAllCurrency()
         {
-            List<Currency> listCurrency = new List<Currency>();
+           
             CurrencyRepository repo = new CurrencyRepository();
-            dynamic currency = repo.GetAll();
-            listCurrency = ParserGetAllCurrency(currency);
-            return listCurrency;
+            var currency = repo.GetAll();
+            return currency;
         }
         public bool SaveData(Currency currency)
         {

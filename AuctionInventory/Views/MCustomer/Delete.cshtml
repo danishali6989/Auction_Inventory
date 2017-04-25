@@ -2,92 +2,241 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Delete Employee</h2>
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    .error {
+        color: red;
+    }
+
+    fieldset {
+        border: 0;
+        margin: 0;
+        min-width: 0;
+        border: 2px solid Black;
+        display: inline-block;
+    }
+
+    legend {
+        border: 2px solid Black;
+        padding: 0 !important;
+        display: inline-block;
+    }
+</style>
+
 @using (Html.BeginForm("delete", "MCustomer", FormMethod.Post, new { id = "popupForm" }))
 {
     @Html.HiddenFor(a => a.iCustomerID)
-    <div class="form-group">
-        <label>First Name</label>
-        <p>@Model.strFirstName </p>
-    </div>
+    
+     <fieldset>
+        <legend>Customer Information:</legend>
+        <div class="row">
 
-    <div class="form-group">
-        <label>Middle Name </label>
-        <p>@Model.strMiddleName </p>
-    </div>
+          
+                <div class="col-md-4" style="margin-left: 760px;">
+                    <label>Customer Date </label>
+                    @Html.TextBoxFor(a => a.CustomerDate, new { @class = "form-control datepicker input-group-lg", @placeholder = "Enter drop off date..." })
+                    @Html.ValidationMessageFor(m => m.CustomerDate, "", new { @class = "error" })
 
-    <div class="form-group">
-        <label>Last Name </label>
-        <p>@Model.strLastName </p>
-    </div>
+                </div>
+            </div>
 
-    <div class="form-group">
-        <label>Country </label>
-        <p>@Model.iCountry </p>
-    </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>First Name</label>
+                @Html.TextBoxFor(a => a.strFirstName, new { @class = "form-control  input-group-lg", @placeholder = "Enter First Name" })
+                @Html.ValidationMessageFor(m => m.strFirstName, "", new { @class = "error" })
 
-    <div class="form-group">
-        <label>City </label>
-        <p>@Model.iCity </p>
-    </div>
-    <div class="form-group">
-        <label>Email ID </label>
-        <p>@Model.strEmailID </p>
-    </div>
 
-    <div class="form-group">
-        <label>Phone Number </label>
-        <p>@Model.iPhoneNumber </p>
-    </div>
+            </div>
+            <div class="col-md-4">
+                <label>Middle Name</label>
+                @Html.TextBoxFor(a => a.strMiddleName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Middle Name" })
+                @Html.ValidationMessageFor(m => m.strMiddleName, "", new { @class = "error" })
 
-    <div class="form-group">
-        <label>Address </label>
-        <p>@Model.strAddress </p>
-    </div>
-    <div class="form-group">
-        <label>Pincode </label>
-        <p>@Model.iPincode </p>
-    </div>
 
-    <div class="form-group">
-        <label>Credit Limit </label>
-        <p>@Model.strCreditLimit </p>
-    </div>
+            </div>
+            <div class="col-md-4">
+                <label>Last Name </label>
+                @Html.TextBoxFor(a => a.strLastName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Last Name" })
+                @Html.ValidationMessageFor(m => m.strLastName, "", new { @class = "error" })
 
-    <div class="form-group">
-        <label>PersonID </label>
-        <p>@Model.iPersonID </p>
-    </div>
-    <div class="form-group">
-        <label>Person FirstName </label>
-        <p>@Model.strPersonFirstName </p>
-    </div>
+            </div>
 
-    <div class="form-group">
-        <label>Person MiddleName</label>
-        <p>@Model.strPersonMiddleName</p>
-    </div>
 
-    <div class="form-group">
-        <label>Person LastName </label>
-        <p>@Model.strPersonLastName </p>
-    </div>
-    <div class="form-group">
-        <label>Company Name </label>
-        <p>@Model.strCompanyName </p>
-    </div>
+            <div class="col-md-4">
+                <label>Country </label>
 
-    <div class="form-group">
-        <label>Customer Photo </label>
-        <p>@Model.CustomerPhoto </p>
-    </div>
+                @Html.DropDownListFor(m => m.iCountry, (IEnumerable<SelectListItem>)ViewBag.Country, null, new { @class = "form-control", @id = "ddlCountry" })
+                @Html.ValidationMessageFor(m => m.iCountry, "", new { @class = "error" })
 
-    <div class="form-group">
-        <label>Customer Date </label>
-        <p>@Model.CustomerDate </p>
-    </div>
-   
+
+                @*@Html.TextBoxFor(a => a.iCountry, new { @class = "form-control  input-group-lg", @placeholder = "Enter Country Name" })
+                @Html.ValidationMessageFor(m => m.iCountry, "", new { @class = "error" })*@
+
+
+            </div>
+            <div class="col-md-4">
+                <label>City </label>
+                @*@Html.DropDownListFor(m => m.iCity, new SelectList(string.Empty, "Value", "Text"), "Select City", new { @class = "form-control", @id = "ddlCity" })
+                @Html.ValidationMessageFor(m => m.iCity, "", new { @class = "error" })*@
+
+                @Html.DropDownListFor(m => m.iCity, (IEnumerable<SelectListItem>)ViewBag.City,null, new { @class = "form-control", @id = "ddlCity" })
+                @Html.ValidationMessageFor(m => m.iCity, "", new { @class = "error" })
+            
+</div>
+
+            <div class="col-md-4">
+                <label>Email </label>
+                @Html.TextBoxFor(a => a.strEmailID, new { @class = "form-control  input-group-lg", @placeholder = "Enter Email Address" })
+                @Html.ValidationMessageFor(m => m.strEmailID, "", new { @class = "error" })
+            </div>
+
+
+
+            <div class="col-md-4">
+                <label>Phone Number </label>
+                @Html.TextBoxFor(a => a.iPhoneNumber, new { @class = "form-control  input-group-lg", @placeholder = "Enter Phone Number" })
+                @Html.ValidationMessageFor(m => m.iPhoneNumber, "", new { @class = "error" })
+
+
+            </div>
+            <div class="col-md-4">
+                <label>Address </label>
+                @Html.TextBoxFor(a => a.strAddress, new { @class = "form-control  input-group-lg", @placeholder = "Enter Address" })
+                @Html.ValidationMessageFor(m => m.strAddress, "", new { @class = "error" })
+
+
+            </div>
+            <div class="col-md-4">
+                <label>Pincode </label>
+                @Html.TextBoxFor(a => a.iPincode, new { @class = "form-control  input-group-lg", @placeholder = "Enter Pincode", @type = "number" })
+                @Html.ValidationMessageFor(m => m.iPincode, "", new { @class = "error" })
+
+            </div>
+            <br />
+        
+                <div class="col-md-4">
+                  
+                    <label>Credit Limit </label>
+                    @Html.TextBoxFor(a => a.strCreditLimit, new { @class = "form-control  input-group-lg", @placeholder = "Enter Credit Limit", @type = "number" })
+                    @Html.ValidationMessageFor(m => m.strCreditLimit, "", new { @class = "error" })
+
+                </div>
+            </div>
+           
+        <br />
+    </fieldset>
+    <hr />
+    <fieldset>
+        <legend>Person Information:</legend>
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <label>PersonID </label>
+                @Html.TextBoxFor(a => a.iPersonID, new { @class = "form-control  input-group-lg", @placeholder = "Enter Category Name" })
+                @Html.ValidationMessageFor(m => m.iPersonID, "", new { @class = "error" })
+
+
+            </div>
+            <div class="col-md-6">
+                <label>Company Name </label>
+                @Html.TextBoxFor(a => a.strCompanyName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Company Name" })
+                @Html.ValidationMessageFor(m => m.strCompanyName, "", new { @class = "error" })
+
+
+            </div>
+            <div class="col-md-4">
+                <label>Person FirstName </label>
+                @Html.TextBoxFor(a => a.strPersonFirstName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Person First Name" })
+                @Html.ValidationMessageFor(m => m.strPersonFirstName, "", new { @class = "error" })
+
+            </div>
+
+            <div class="col-md-4">
+                <label>Person MiddleName</label>
+                @Html.TextBoxFor(a => a.strPersonMiddleName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Person Middle Name" })
+                @Html.ValidationMessageFor(m => m.strPersonMiddleName, "", new { @class = "error" })
+
+
+            </div>
+            <div class="col-md-4">
+                <label>Person LastName </label>
+                @Html.TextBoxFor(a => a.strPersonLastName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Person Last Name" })
+                @Html.ValidationMessageFor(m => m.strPersonLastName, "", new { @class = "error" })
+
+
+            </div>
+       
+
+            @*<div class="form-group">
+                    <label>Customer Photo </label>
+                    @Html.TextBoxFor(a => a.CustomerPhoto, new { @class = "form-control  input-group-lg", @placeholder = "Enter Category Name" })
+                    @Html.ValidationMessageFor(m => m.CustomerPhoto, "", new { @class = "error" })
+
+
+                </div>*@
+
+        </div>
+        <br />
+
+    </fieldset>
+
     <div>
-        <input type="submit" value="Delete" />
+        <br />
+        @*<input type="submit" value="Delete" />*@
+        <input type="submit" style="margin-left: 400px;" class="btn btn-danger col-md-1" value="Delete">
+        
+        <input type="button" style="margin-left: 40px;" class="btn btn-warning col-md-1" value="Cancel" onclick="CancelCustomerInfo();" />
+
     </div>
 }
+@{
+    <input type="hidden" id="hdniCity" value="@Model.iCity" />
+}
+<script type="text/javascript">
+
+    function CancelCustomerInfo() {
+        window.location.href = "/MCustomer/Index";
+    }
+
+</script>
+
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        $("#ddlCity").empty();
+        $.ajax({
+            type: "post",
+            url: "/MCustomer/GetCity",
+            data: { countryID: $('#ddlCountry').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                $.each(data, function (i, city) {
+
+                    if ($("#hdniCity").val() == city.Value) {
+                        $("#ddlCity").append('<option value="' + city.Value + '" selected>' + city.Text + '</option>');
+                    }
+                    else {
+                        $("#ddlCity").append('<option value="' + city.Value + '" >' + city.Text + '</option>');
+                    }
+
+
+                });
+
+            }
+        });
+
+    });
+
+</script>
+

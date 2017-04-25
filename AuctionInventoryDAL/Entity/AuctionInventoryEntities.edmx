@@ -82,6 +82,14 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="iCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="strCategoryName" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="MCity">
+          <Key>
+            <PropertyRef Name="iCity" />
+          </Key>
+          <Property Name="iCity" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="strCityName" Type="nvarchar" MaxLength="50" />
+          <Property Name="iCountry" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="MColor">
           <Key>
             <PropertyRef Name="iColorID" />
@@ -103,6 +111,13 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="iPhoneNumber" Type="int" />
           <Property Name="iOfcPhoneNumber" Type="int" />
           <Property Name="strAddress" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="MCountry">
+          <Key>
+            <PropertyRef Name="iCountry" />
+          </Key>
+          <Property Name="iCountry" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="strCountryName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="MCurrency">
           <Key>
@@ -154,9 +169,10 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="strFirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="strMiddleName" Type="nvarchar" MaxLength="50" />
           <Property Name="strLastName" Type="nvarchar" MaxLength="50" />
-          <Property Name="strNationalityAddress" Type="nvarchar" MaxLength="100" />
-          <Property Name="iNationality" Type="int" />
-          <Property Name="iNationalityContact" Type="int" />
+          <Property Name="iCountryID" Type="int" />
+          <Property Name="iCityID" Type="int" />
+          <Property Name="strArea" Type="nvarchar" MaxLength="200" />
+          <Property Name="iPhoneNumber" Type="int" />
           <Property Name="strEmailID" Type="nvarchar" MaxLength="50" />
           <Property Name="iIDNO" Type="int" />
           <Property Name="strMISC" Type="nvarchar" MaxLength="200" />
@@ -164,7 +180,7 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="strPassportExpiry" Type="nvarchar" MaxLength="50" />
           <Property Name="strVisa" Type="nvarchar" MaxLength="50" />
           <Property Name="strVisaExpiry" Type="nvarchar" MaxLength="50" />
-          <Property Name="strCurrentAddress" Type="nvarchar" MaxLength="200" />
+          <Property Name="strAddress" Type="nvarchar" MaxLength="200" />
           <Property Name="iDesignation" Type="int" />
           <Property Name="dmlSalary" Type="decimal" Precision="18" Scale="2" />
           <Property Name="DOB" Type="nvarchar" MaxLength="50" />
@@ -186,9 +202,9 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="strAddress" Type="nvarchar" MaxLength="100" />
           <Property Name="iPincode" Type="int" />
           <Property Name="iCurrency" Type="int" />
-          <Property Name="SupplierPhoto" Type="nvarchar" MaxLength="200" />
           <Property Name="SupplierDate" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="SupplierPhoto" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="PaperDetailsForExport">
           <Key>
@@ -405,8 +421,10 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySet Name="CountryMaster" EntityType="Self.CountryMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MCategory" EntityType="Self.MCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MCity" EntityType="Self.MCity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MColor" EntityType="Self.MColor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MCompany" EntityType="Self.MCompany" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MCountry" EntityType="Self.MCountry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MCurrency" EntityType="Self.MCurrency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MCustomer" EntityType="Self.MCustomer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MExpense" EntityType="Self.MExpense" Schema="dbo" store:Type="Tables" />
@@ -463,8 +481,10 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySet Name="CountryMasters" EntityType="AuctionInventoryModel.CountryMaster" />
           <EntitySet Name="Employees" EntityType="AuctionInventoryModel.Employee" />
           <EntitySet Name="MCategories" EntityType="AuctionInventoryModel.MCategory" />
+          <EntitySet Name="MCities" EntityType="AuctionInventoryModel.MCity" />
           <EntitySet Name="MColors" EntityType="AuctionInventoryModel.MColor" />
           <EntitySet Name="MCompanies" EntityType="AuctionInventoryModel.MCompany" />
+          <EntitySet Name="MCountries" EntityType="AuctionInventoryModel.MCountry" />
           <EntitySet Name="MCurrencies" EntityType="AuctionInventoryModel.MCurrency" />
           <EntitySet Name="MCustomers" EntityType="AuctionInventoryModel.MCustomer" />
           <EntitySet Name="MExpenses" EntityType="AuctionInventoryModel.MExpense" />
@@ -552,6 +572,14 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="strCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="MCity">
+          <Key>
+            <PropertyRef Name="iCity" />
+          </Key>
+          <Property Name="iCity" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="strCityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="iCountry" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="MColor">
           <Key>
             <PropertyRef Name="iColorID" />
@@ -573,6 +601,13 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iPhoneNumber" Type="Int32" />
           <Property Name="iOfcPhoneNumber" Type="Int32" />
           <Property Name="strAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MCountry">
+          <Key>
+            <PropertyRef Name="iCountry" />
+          </Key>
+          <Property Name="iCountry" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="strCountryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="MCurrency">
           <Key>
@@ -624,9 +659,10 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="strFirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strMiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="strNationalityAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="iNationality" Type="Int32" />
-          <Property Name="iNationalityContact" Type="Int32" />
+          <Property Name="iCountryID" Type="Int32" />
+          <Property Name="iCityID" Type="Int32" />
+          <Property Name="strArea" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="iPhoneNumber" Type="Int32" />
           <Property Name="strEmailID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="iIDNO" Type="Int32" />
           <Property Name="strMISC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -634,7 +670,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="strPassportExpiry" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strVisa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strVisaExpiry" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="strCurrentAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="strAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="iDesignation" Type="Int32" />
           <Property Name="dmlSalary" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="DOB" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -656,9 +692,9 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="strAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="iPincode" Type="Int32" />
           <Property Name="iCurrency" Type="Int32" />
-          <Property Name="SupplierPhoto" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="SupplierDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SupplierPhoto" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PaperDetailsForExport">
           <Key>
@@ -951,6 +987,15 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MCities">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.MCity">
+              <MappingFragment StoreEntitySet="MCity">
+                <ScalarProperty Name="iCountry" ColumnName="iCountry" />
+                <ScalarProperty Name="strCityName" ColumnName="strCityName" />
+                <ScalarProperty Name="iCity" ColumnName="iCity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="MColors">
             <EntityTypeMapping TypeName="AuctionInventoryModel.MColor">
               <MappingFragment StoreEntitySet="MColor">
@@ -972,6 +1017,14 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
                 <ScalarProperty Name="strArea" ColumnName="strArea" />
                 <ScalarProperty Name="strCompanyName" ColumnName="strCompanyName" />
                 <ScalarProperty Name="iCompanyID" ColumnName="iCompanyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MCountries">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.MCountry">
+              <MappingFragment StoreEntitySet="MCountry">
+                <ScalarProperty Name="strCountryName" ColumnName="strCountryName" />
+                <ScalarProperty Name="iCountry" ColumnName="iCountry" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1028,7 +1081,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
                 <ScalarProperty Name="DOB" ColumnName="DOB" />
                 <ScalarProperty Name="dmlSalary" ColumnName="dmlSalary" />
                 <ScalarProperty Name="iDesignation" ColumnName="iDesignation" />
-                <ScalarProperty Name="strCurrentAddress" ColumnName="strCurrentAddress" />
+                <ScalarProperty Name="strAddress" ColumnName="strAddress" />
                 <ScalarProperty Name="strVisaExpiry" ColumnName="strVisaExpiry" />
                 <ScalarProperty Name="strVisa" ColumnName="strVisa" />
                 <ScalarProperty Name="strPassportExpiry" ColumnName="strPassportExpiry" />
@@ -1036,9 +1089,10 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
                 <ScalarProperty Name="strMISC" ColumnName="strMISC" />
                 <ScalarProperty Name="iIDNO" ColumnName="iIDNO" />
                 <ScalarProperty Name="strEmailID" ColumnName="strEmailID" />
-                <ScalarProperty Name="iNationalityContact" ColumnName="iNationalityContact" />
-                <ScalarProperty Name="iNationality" ColumnName="iNationality" />
-                <ScalarProperty Name="strNationalityAddress" ColumnName="strNationalityAddress" />
+                <ScalarProperty Name="iPhoneNumber" ColumnName="iPhoneNumber" />
+                <ScalarProperty Name="strArea" ColumnName="strArea" />
+                <ScalarProperty Name="iCityID" ColumnName="iCityID" />
+                <ScalarProperty Name="iCountryID" ColumnName="iCountryID" />
                 <ScalarProperty Name="strLastName" ColumnName="strLastName" />
                 <ScalarProperty Name="strMiddleName" ColumnName="strMiddleName" />
                 <ScalarProperty Name="strFirstName" ColumnName="strFirstName" />
@@ -1049,9 +1103,9 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="MSuppliers">
             <EntityTypeMapping TypeName="AuctionInventoryModel.MSupplier">
               <MappingFragment StoreEntitySet="MSupplier">
+                <ScalarProperty Name="SupplierPhoto" ColumnName="SupplierPhoto" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="SupplierDate" ColumnName="SupplierDate" />
-                <ScalarProperty Name="SupplierPhoto" ColumnName="SupplierPhoto" />
                 <ScalarProperty Name="iCurrency" ColumnName="iCurrency" />
                 <ScalarProperty Name="iPincode" ColumnName="iPincode" />
                 <ScalarProperty Name="strAddress" ColumnName="strAddress" />

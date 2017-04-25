@@ -542,7 +542,7 @@
    ////////////////this function is used to delete vehicle from grid and array as well 
 
     function delRowData(rowid) {
-        
+        //arr = new Array();
         debugger
         
         var rowData = jQuery("#GridAddVehicle").getRowData(rowid);
@@ -551,8 +551,8 @@
         $.map(arr, function (elementOfArray, indexInArray) {
             if (elementOfArray.VehicleID == rowDataVehicleID) {
 
-                arr.pop(rowDataVehicleID);
-               
+                //arr.pop(rowDataVehicleID);
+                arr.pop({ VehicleID: rowDataVehicleID })
 
             }
         })
