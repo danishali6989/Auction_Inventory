@@ -1,6 +1,7 @@
-﻿@using AuctionInventory.Services;
+﻿@model AuctionInventory.Models.Supplier
+@using AuctionInventory.Services;
 @using AuctionInventoryDAL.Repositories;
-@model AuctionInventory.Models.Supplier
+
 
 
 @{
@@ -29,14 +30,18 @@
 
     <div class="row">
         <div style="margin-left: 100px;margin-top: -60px;">
+           
             <label>Supplier Photo</label>
             <br />
             <div id="dvPreview">
             </div>
             <br />
-            @*@Html.TextBoxFor(m => m.SupplierPhoto, new { name="ImageData", id="ImageData", type = "file", height="60", width="50", @class="img-circle", onchange="fileCheck(this);" })*@
+            @*@Html.TextBoxFor(m => m.SupplierPhoto, new { @name="ImageData", @id="ImageData", @type = "file", @height="60", @width="50", @class="img-circle", onchange="fileCheck(this);" })*@
 
-             <input type="file" name="ImageData" id="ImageData" alt="" height="60" width="50" class="img-circle" onchange="fileCheck(this);" />
+            <input type="file" name="ImageData" id="ImageData" alt="" height="60" width="50" class="btn btn-success" onchange="fileCheck(this);" />
+
+
+            @*<input type="file" name="ImageData" id="ImageData" alt="" class="btn btn-success" onchange="fileCheck(this);" data-classbutton="btn btn-primary" data-input="false" data-classicon="icon-plus" data-buttontext="Your label here.">*@
 
             @*@Html.ValidationMessageFor(model => model.SupplierPhoto, "", new { @class = "error" })*@
             <br />
@@ -123,8 +128,8 @@
 
     <div>
         <br />
-        @if (Model != null && Model.iSupplierID > 0 && Model.iSupplierID != null)
 
+        @if (Model != null && Model.iSupplierID > 0 && Model.iSupplierID != null)
         {
             <input type="submit" style="margin-left: 400px;" id="btnUpdate" class="btn btn-warning col-md-1" value="Update">
         }
@@ -141,15 +146,20 @@
 }
 
 <script type="text/javascript">
-    $(function () {
+    var test=@Model.iSupplierID;
+    if(test==0){
+        $(function () {
 
-        $("#dvPreview").append("<img height='120' width='80' class='img-circle'  style='background-color: lightgrey'/>");
+            $("#dvPreview").append("<img height='120' width='80' class='img-circle'  style='background-color: lightgrey'/>");
+        
+        });
+    }
 
-    });
 
-     
 
     function fileCheck(obj) {
+       
+        
         var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
         if ($.inArray($(obj).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
             alert("Only '.jpeg','.jpg', '.png', '.gif', '.bmp' formats are allowed.");
@@ -168,8 +178,12 @@
 
 </script>
 
+
 <script>
+   
+
     $(function () {
+          
         $("#ImageData").change(function () {
             $("#dvPreview").html("");
             if (typeof (FileReader) != "undefined") {
@@ -185,4 +199,50 @@
             }
         });
     });
+
+    if(test>0 && test!=null){
+      
+        $("#dvPreview").hide();
+       
+      
+       
+            $.ajax({
+                type: "POST",
+                url: "/MSupplier/RetrieveImage",
+                cache: false,
+                data: JSON.stringify({ id: test }),
+                dataType: this.dataType,
+                contentType: "application/json; charset=utf-8",
+                success: function (Data) {
+                  
+                    var imageURL = Data.replace('..','');
+
+
+                    //var image = Data.replace('..\Images\Profiles\',''); 
+                    //$("#dvPreview").val(image);
+                  
+                    $("#dvPreview").html("");
+                    if (typeof (FileReader) != "undefined") {
+                        $("#dvPreview").show();
+
+                        $("#dvPreview").append("<img src='" +imageURL + "' alt='imageURL' height='120' width='80' class='img-circle'/>");
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("#dvPreview img").attr("src", e.target.result);
+                        }
+                        reader.readAsDataURL($(this)[0].files[0]);
+                    } else {
+                        alert("This browser does not support FileReader.");
+                    }
+
+                }
+            });
+
+    }
+
+   
+
+
+
 </script>
+

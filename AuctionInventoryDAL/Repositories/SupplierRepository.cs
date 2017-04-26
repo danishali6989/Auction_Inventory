@@ -80,6 +80,22 @@ namespace AuctionInventoryDAL.Repositories
             bool status = false;
             if (supplier.iSupplierID > 0)
             {
+                if (file != null)
+                {
+                    string pic = System.IO.Path.GetFileName(file.FileName);
+                    //string path = System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic);
+
+
+                    string path = @"..\Images\Profiles\" + pic;
+
+
+
+                    file.SaveAs(System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic));
+
+                    supplier.SupplierPhoto = path;
+                    // auctionContext.SaveChanges();
+                }
+
                 //Edit Existing Record
                 var supp = auctionContext.MSuppliers.Where(a => a.iSupplierID == supplier.iSupplierID).FirstOrDefault();
                 if (supp != null)
@@ -109,12 +125,17 @@ namespace AuctionInventoryDAL.Repositories
                 if (file != null)
                 {
                     string pic = System.IO.Path.GetFileName(file.FileName);
-                    string path = System.IO.Path.Combine(
-                         System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic);
-                    file.SaveAs(path);
+                    //string path = System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic);
+                    
+                    
+                    string path = @"..\Images\Profiles\"+ pic;
+
+
+
+                    file.SaveAs(System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic));
 
                     supplier.SupplierPhoto = path;
-                    auctionContext.SaveChanges();
+                   // auctionContext.SaveChanges();
                 }
 
                 auctionContext.MSuppliers.Add(supplier);

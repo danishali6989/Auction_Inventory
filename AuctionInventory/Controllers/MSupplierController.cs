@@ -55,6 +55,7 @@ namespace AuctionInventory.Controllers
 
             ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
             ViewBag.currency = new SelectList(db.MCurrencies, "CurrencyID", "strCurrencyName", supplier.iCurrency);
+           
             try
             {
                 if (ModelState.IsValid)
@@ -62,7 +63,7 @@ namespace AuctionInventory.Controllers
 
                     Services.SupplierServiceClient supplierServiceClient = new Services.SupplierServiceClient();
                     supplier = supplierServiceClient.GetSupplier(id);
-                  
+                    
                 }
             }
             catch (Exception e)
@@ -172,6 +173,7 @@ namespace AuctionInventory.Controllers
                         ModelState.AddModelError("error", "Record Can not be Zero");
                     }
                     status = supplierServiceClient.Delete(id);
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception e)
@@ -191,7 +193,8 @@ namespace AuctionInventory.Controllers
 
 
 
-        //for image Retrieve from db      
+        //for image Retrieve from db  
+         [HttpPost]
         public ActionResult RetrieveImage(int id)
         {
             dynamic cover = 0;

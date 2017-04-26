@@ -4,31 +4,55 @@
     //Layout = null;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Delete Employee</h2>
+
 @using (Html.BeginForm("delete", "MSupplier", FormMethod.Post, new { id = "popupForm" }))
 {
     @Html.HiddenFor(a => a.iSupplierID)
+    
+    
     <div class="row">
-        <div class="col-md-4">
+        <div style="margin-left: 100px;margin-top: -60px;">
+           
+            <label>Supplier Photo</label>
+            <br />
+            <div id="dvPreview">
+            </div>
+            <br />
+            @*@Html.TextBoxFor(m => m.SupplierPhoto, new { @name="ImageData", @id="ImageData", @type = "file", @height="60", @width="50", @class="img-circle", onchange="fileCheck(this);" })*@
+
+            <input type="file" name="ImageData" id="ImageData" alt="" height="60" width="50" class="img-circle" onchange="fileCheck(this);" />
+
+            @*@Html.ValidationMessageFor(model => model.SupplierPhoto, "", new { @class = "error" })*@
+            <br />
+        </div>
+
+        <div class="col-md-3">
 
             <label>First Name</label>
             @Html.TextBoxFor(a => a.strFirstName, new { @class = "form-control  input-group-lg", @placeholder = "Enter First Name" })
             @Html.ValidationMessageFor(m => m.strFirstName, "", new { @class = "error" })
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label>Middle Name</label>
             @Html.TextBoxFor(a => a.strMiddleName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Middle Name" })
             @Html.ValidationMessageFor(a => a.strMiddleName, "", new { @class = "error" })
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label>Last Name</label>
             @Html.TextBoxFor(a => a.strLastName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Last Name" })
             @Html.ValidationMessageFor(a => a.strLastName, "", new { @class = "error" })
 
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+            <label>Date</label>
+            @Html.TextBoxFor(a => a.SupplierDate, new { @class = "form-control datepicker  input-group-lg", @placeholder = "Enter drop off date... " })
+            @Html.ValidationMessageFor(a => a.SupplierDate, "", new { @class = "error" })
+
+        </div>
+
+        <div class="col-md-3">
             <label>Supplier Category</label>
-           
+
 
             @Html.DropDownListFor(m => m.iSupplierCategory, (IEnumerable<SelectListItem>)ViewBag.category, "Select Category", new { @class = "form-control  input-group-lg" })
             @Html.ValidationMessageFor(a => a.iSupplierCategory, "", new { @class = "error" })
@@ -38,31 +62,31 @@
                 @Html.TextBoxFor(a => a.iSupplierServiceType, new { @class = "form-control  input-group-lg", @placeholder = "Enter First " })
 
             </div>*@
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label>Email</label>
             @Html.TextBoxFor(a => a.strEmailID, new { @class = "form-control  input-group-lg", @placeholder = "Enter Email " })
             @Html.ValidationMessageFor(a => a.strEmailID, "", new { @class = "error" })
 
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label>Phone Number</label>
             @Html.TextBoxFor(a => a.iPhoneNumber, new { @class = "form-control  input-group-lg", @placeholder = "Enter Phone Number " })
             @Html.ValidationMessageFor(a => a.iPhoneNumber, "", new { @class = "error" })
 
 
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label>Address</label>
             @Html.TextBoxFor(a => a.strAddress, new { @class = "form-control  input-group-lg", @placeholder = "Enter Address " })
             @Html.ValidationMessageFor(a => a.strAddress, "", new { @class = "error" })
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label>Pincode</label>
             @Html.TextBoxFor(a => a.iPincode, new { @class = "form-control", @placeholder = "Enter Pincode ", @type = "number" })
 
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label>Currency</label>
             @Html.DropDownListFor(m => m.iCurrency, (IEnumerable<SelectListItem>)ViewBag.currency, "Select Currency", new { @class = "form-control  input-group-lg" })
             @Html.ValidationMessageFor(a => a.iCurrency, "", new { @class = "error" })
@@ -73,13 +97,11 @@
                 @Html.TextBoxFor(a => a.SupplierPhoto, new { @class = "form-control  input-group-lg", @placeholder = "Enter First " })
                 @Html.ValidationMessageFor(a => a.SupplierPhoto)
             </div>*@
-        <div class="col-md-4">
-            <label>Supplier Date</label>
-            @Html.TextBoxFor(a => a.SupplierDate, new { @class = "form-control datepicker  input-group-lg", @placeholder = "Enter drop off date... " })
-            @Html.ValidationMessageFor(a => a.SupplierDate, "", new { @class = "error" })
 
-        </div>
+
+
     </div>
+
     <div>
         <br />
         @*<input type="submit" value="Delete" />*@
@@ -89,13 +111,101 @@
 
     </div>
 }
+
 <script type="text/javascript">
+    var test=@Model.iSupplierID;
+    if(test==0){
+        $(function () {
+
+            $("#dvPreview").append("<img height='120' width='80' class='img-circle'  style='background-color: lightgrey'/>");
+
+        });
+    }
+
+
+
+    function fileCheck(obj) {
+
+
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+        if ($.inArray($(obj).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Only '.jpeg','.jpg', '.png', '.gif', '.bmp' formats are allowed.");
+        }
+    }
 
     function CancelSupplierInfo() {
         window.location.href = "/MSupplier/Index";
     }
 
 
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker(); //Initialise any date pickers
+    });
+
 
 </script>
+
+
+<script>
+
+
+    $(function () {
+
+        $("#ImageData").change(function () {
+            $("#dvPreview").html("");
+            if (typeof (FileReader) != "undefined") {
+                $("#dvPreview").show();
+                $("#dvPreview").append("<img height='120' width='80' class='img-circle'/>");
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#dvPreview img").attr("src", e.target.result);
+                }
+                reader.readAsDataURL($(this)[0].files[0]);
+            } else {
+                alert("This browser does not support FileReader.");
+            }
+        });
+    });
+
+    if(test>0 && test!=null){
+
+        $("#dvPreview").hide();
+        $.ajax({
+            type: "POST",
+            url: "/MSupplier/RetrieveImage",
+            cache: false,
+            data: JSON.stringify({ id: test }),
+            dataType: this.dataType,
+            contentType: "application/json; charset=utf-8",
+            success: function (Data) {
+
+                var imageURL = Data.replace('..','');
+
+                $("#dvPreview").html("");
+                if (typeof (FileReader) != "undefined") {
+                    $("#dvPreview").show();
+
+                    $("#dvPreview").append("<img src='" +imageURL + "' alt='imageURL' height='120' width='80' class='img-circle'/>");
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("#dvPreview img").attr("src", e.target.result);
+                    }
+                    reader.readAsDataURL($(this)[0].files[0]);
+                } else {
+                    alert("This browser does not support FileReader.");
+                }
+
+            }
+        });
+
+    }
+
+
+
+
+
+</script>
+
+
+
 

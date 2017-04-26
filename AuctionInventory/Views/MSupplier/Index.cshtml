@@ -19,7 +19,7 @@
 <div class="box-body">
     <div>
         <a class="popup btn btn-primary" href="/MSupplier/save/0" style="margin-bottom:20px; margin-top:20px;">Add New Supplier</a>
-
+       
     </div>
     <br />
     <div>
@@ -52,12 +52,10 @@
                     align: 'center',
 
                     formatter: function (cellvalue, options, rowObject) {
-                        alert(cellvalue);
-
-                        //cellvalue = "http://rs164.pbsrc.com/albums/u8/hemi1hemi/COLOR/COLOR19_zpsbf4e102c.jpg~c200";
-                       
-                        //    return '<img src="/MSupplier/RetrieveImage/' + options.rowId + '" alt="" height="60" width="50" class="img-circle"/>';
-
+                   
+                        //cellvalue = '"..\" + " +cellvalue + "';
+                        //cellvalue = "~\" + cellvalue;
+                     
                         return '<img src="'+cellvalue+'" alt="" height="60" width="50" class="img-circle"/>';
 
                     }
