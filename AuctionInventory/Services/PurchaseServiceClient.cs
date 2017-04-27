@@ -20,6 +20,23 @@ namespace AuctionInventory.Services
             var listPurchase = repo.GetAll();          
             return listPurchase;
         }
+
+        public dynamic GetAllPurchaseReportByDate(string fromDate, string toDate)
+        {
+
+            PurchaseRepository repo = new PurchaseRepository();
+            var listPurchase = repo.GetAllPurchaseReportByDate(fromDate, toDate);
+            return listPurchase;
+        }
+
+        public dynamic GetAllPurchaseReport()
+        {
+
+            PurchaseRepository repo = new PurchaseRepository();
+            var listPurchase = repo.GetAllPurchaseReport();
+            return listPurchase;
+        }
+
         public bool SaveData(Purchase purchase, List<Vehicles> griddata)
         {
             bool status = true;

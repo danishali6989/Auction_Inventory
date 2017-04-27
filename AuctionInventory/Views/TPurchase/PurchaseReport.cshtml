@@ -1,0 +1,157 @@
+﻿@model IEnumerable<AuctionInventory.Models.Vehicles>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>PurchaseReport</h2>
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+    /*we have overrides the css to change border color of menus*/
+    .navbar-inverse {
+        background-color: #337ab7;
+        border-color: #333;
+    }
+
+    #divDetails #divParsedExcel {
+        margin-right: 5%;
+        margin-left: 5%;
+    }
+</style>
+<div class="box-body">
+
+    <div class='form-group col-sm-3'>
+        <label>From Date:</label>
+        <input class='form-control datepicker input-group-sm' placeholder='Enter drop of date...' id='fromDate' />
+    </div>
+    <div class='form-group col-sm-3'>
+        <label>To Date:</label>
+        <input class='form-control datepicker input-group-sm' placeholder='Enter drop of date...' id='toDate' />
+       
+    </div>
+    <div class='form-group col-sm-3' style="margin-top:25px;">
+        
+        <input type="button" class="btn btn-success  input-group-sm" value="Sort List By Date" id="btnDate" />
+    </div>
+    <br />
+    <div id="divDataGrid">
+        <br /><br /><br />
+        <table id="dataGrid" class="table table-bordered table-striped"></table>
+        <div id="pagingGrid"></div>
+        <br><br>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#dataGrid').jqGrid({
+
+            url: '/TPurchase/GetAllPurchaseReport/',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+            colNames: ['Purchase ID', 'InvoiceNo', 'Purchase Invoice', 'InvoiceDate', 'SupplierName', 'MasterDecNo', 'BLNo', 'ArrivalDate', 'ConversionRate', 'AED'],
+            colModel: [
+                 { name: 'PurchaseID', index: 'PurchaseID', hidden: true, hidedlg: true },
+                  { name: 'iPurchaseInvoiceNo', index: 'iPurchaseInvoiceNo', hidden: true, hidedlg: true },
+                { name: 'strPurchaseInvoiceNo', index: 'strPurchaseInvoiceNo', align: 'center' },
+                { name: 'strPurchaseInvoiceDate', index: 'strPurchaseInvoiceDate', align: 'center' },
+                { name: 'strSupplierName', index: 'strSupplierName', align: 'center' },
+                { name: 'strMasterDecNo', index: 'strMasterDecNo', align: 'center' },
+                { name: 'strBLNo', index: 'strBLNo', align: 'center' },
+                { name: 'strArrivalDate', index: 'strArrivalDate', align: 'center' },
+                { name: 'dmlConversionRate', index: 'dmlConversionRate', align: 'center' },
+                 { name: 'iAED', index: 'iAED', align: 'center' },
+                //{ name: 'act', index: 'act', width: 350 }
+
+                //{
+                //    name: 'Action', index: 'Action', align: 'center', width: 200, search: false, title: false,
+                //    formatter: function (cellvalue, options, rowObject) {
+                //        //return '<a class=" btn btn-info" href="/TPurchase/UpdateIndex/' + options.rowId + '">' + "Edit" + '</a>' + "     " + '<a class="btn btn-info" href="/TPurchase/Delete/' + options.rowId + '">' + "Delete" + '</a>';
+                //        return '<a class="popup btn btn-warning"  href="/TPurchase/UpdateIndex/' + options.rowId + '">Edit</a>' + "   " + '<a class="popup btn btn-danger"  href="/TPurchase/Delete/' + options.rowId + '">Delete</a>';
+
+                //    }
+                //},
+
+            ],
+            width: 1050,
+            height: 250,
+            rowNum: 10,
+            loadonce: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGrid',
+            caption: "Purchase List",
+            //cellEdit: true,
+            //cellsubmit: 'clientArray',
+            //gridComplete: function () {
+
+            //    var ids = jQuery("#dataGrid").jqGrid('getDataIDs');
+
+            //    for (var i = 0; i < ids.length; i++) {
+            //        var cl = ids[i];
+            //        be = "<input class='popup btn btn-info' style='margin-right: 5%; margin-left: 8%;' type='button' value='Edit' onclick=\"jQuery('#dataGrid').editRow('" + cl + "');\"  />";
+            //        se = "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Save' onclick=\"jQuery('#dataGrid').saveRow('" + cl + "');\"  />";
+            //        ce = "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Cancel' onclick=\"jQuery('#dataGrid').restoreRow('" + cl + "');\" />";
+            //        jQuery("#dataGrid").jqGrid('setRowData', ids[i], { act: be + se + ce });
+            //    }
+            //},
+        });
+        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+    });
+</script>
+
+<script>
+   
+
+    
+    $("#btnDate").click(function () {
+
+
+        var fromDate = $("#fromDate").val();
+        var toDate = $("#toDate").val();
+        alert(fromDate);
+        alert(toDate);
+            $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: '/TPurchase/GetAllPurchaseReportByDate/',
+                data: JSON.stringify({ 'fromDate': fromDate, 'toDate': toDate }),
+                success: function (data) {
+                    //$('#divDataGrid').show();
+                    var purchaseTReportList = data.purchaseTReportList;
+
+                    $("#dataGrid").val(purchaseTReportList);
+                }
+            });
+        });
+    
+
+
+
+
+</script>
+
+<script type="text/javascript">
+    $(function () {
+
+        $('.datepicker').datepicker();
+
+    });
+
+</script>
+
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>
+
+

@@ -1222,6 +1222,7 @@
     <Content Include="Views\Gallery\Index.cshtml" />
     <Content Include="Views\Gallery\AddPicture.cshtml" />
     <Content Include="Views\Gallery\FileUpload.cshtml" />
+    <Content Include="Views\TPurchase\PurchaseReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

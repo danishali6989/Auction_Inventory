@@ -20,7 +20,8 @@
             <br />
             @*@Html.TextBoxFor(m => m.SupplierPhoto, new { @name="ImageData", @id="ImageData", @type = "file", @height="60", @width="50", @class="img-circle", onchange="fileCheck(this);" })*@
 
-            <input type="file" name="ImageData" id="ImageData" alt="" height="60" width="50" class="img-circle" onchange="fileCheck(this);" />
+            <input class='btn btn-success' type="button" name="Submit" value="Choose File" id="browse" />
+            <input type="file" name="ImageData" id="ImageData" alt="" style="display:none" onchange="fileCheck(this);" />
 
             @*@Html.ValidationMessageFor(model => model.SupplierPhoto, "", new { @class = "error" })*@
             <br />
@@ -113,6 +114,13 @@
 }
 
 <script type="text/javascript">
+
+
+    $('#browse').bind('click', function (e) {
+        $('#ImageData').click();
+    });
+
+
     var test=@Model.iSupplierID;
     if(test==0){
         $(function () {

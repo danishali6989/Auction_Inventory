@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Web;
 using System.IO;
+using System.Threading;
 
 namespace AuctionInventoryDAL.Repositories
 {
@@ -16,6 +17,7 @@ namespace AuctionInventoryDAL.Repositories
         #region CRUD
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
 
+      
         public dynamic GetAll()
         {
             var jsonData = new
@@ -28,8 +30,8 @@ namespace AuctionInventoryDAL.Repositories
                       (from AM in auctionContext.MSuppliers
                        join t1 in auctionContext.MCurrencies on AM.iCurrency equals t1.CurrencyID
                        join t2 in auctionContext.MCategories on AM.iSupplierCategory equals t2.iCategoryID
-                       
-                       
+
+
                        select new
                        {
                            SupplierPhoto = AM.SupplierPhoto,
@@ -47,7 +49,7 @@ namespace AuctionInventoryDAL.Repositories
                            SupplierDate = AM.SupplierDate,
                            strCurrencyName = t1.strCurrencyName,
                            strCategoryName = t2.strCategoryName,
-                          
+
 
                        }).OrderBy(a => a.strFirstName).ToList()
                   select new
@@ -66,7 +68,6 @@ namespace AuctionInventoryDAL.Repositories
             return jsonData;
         }
 
-     
 
         public MSupplier Get(int id)
         {
@@ -126,16 +127,16 @@ namespace AuctionInventoryDAL.Repositories
                 {
                     string pic = System.IO.Path.GetFileName(file.FileName);
                     //string path = System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic);
-                    
-                    
-                    string path = @"..\Images\Profiles\"+ pic;
+
+
+                    string path = @"..\Images\Profiles\" + pic;
 
 
 
                     file.SaveAs(System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic));
 
                     supplier.SupplierPhoto = path;
-                   // auctionContext.SaveChanges();
+                    // auctionContext.SaveChanges();
                 }
 
                 auctionContext.MSuppliers.Add(supplier);
@@ -148,59 +149,85 @@ namespace AuctionInventoryDAL.Repositories
             return status;
         }
 
-        public bool SendEmail(MSupplier supplier, string password)
+        //public  bool SendEmail(MSupplier supplier, string password)
+        //{
+        //    bool status = false;
+
+
+        //    MailMessage mail = new MailMessage();
+        //    SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+        //    mail.From = new MailAddress("shahzadq0077@gmail.com");
+        //    mail.To.Add("shahzadq58@gmail.com");
+        //    mail.Subject = "Test Mail";
+        //    mail.Body = "Your Login ID Is   " + supplier.strEmailID + " And Your Password Is  " + password;
+
+        //    SmtpServer.Port = 587;
+        //    SmtpServer.Credentials = new System.Net.NetworkCredential("auctioninventorydubai@gmail.com", "smart123");
+        //    SmtpServer.EnableSsl = true;
+        //    SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+        //    SmtpServer.Send(mail);
+        //    SmtpServer.Dispose();
+
+        //    status = true;
+        //    return status;
+
+        //}
+
+
+
+        //public  async Task SendEmail(MSupplier supplier, string password)
+        //{
+
+        //    using (SmtpClient smtpClient = new SmtpClient("smtp.gmail.com"))
+        //    {
+        //        MailMessage mail = new MailMessage();
+        //        mail.From = new MailAddress("shahzadq0077@gmail.com");
+        //        mail.To.Add("shahzadq58@gmail.com");
+        //        mail.Subject = "Test Mail";
+        //        mail.Body = "Your Login ID Is   " + supplier.strEmailID + " And Your Password Is  " + password;
+
+        //        smtpClient.Port = 587;
+        //        smtpClient.Credentials = new System.Net.NetworkCredential("auctioninventorydubai@gmail.com", "smart123");
+        //        smtpClient.EnableSsl = true;
+        //        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+        //        await smtpClient.SendMailAsync(mail);
+        //        //smtpClient.Dispose();
+
+        //    }
+
+
+        //} 
+
+
+        private void SendEmail(MSupplier supplier, string password)
         {
-            bool status = false;
+            Thread email = new Thread(delegate()
+            {
+                using (SmtpClient smtpClient = new SmtpClient("smtp.gmail.com"))
+                {
+                    MailMessage mail = new MailMessage();
+                    mail.From = new MailAddress("shahzadq0077@gmail.com");
+                    mail.To.Add("shahzadq58@gmail.com");
+                    mail.Subject = "Test Mail";
+                    mail.Body = "Your Login ID Is   " + supplier.strEmailID + " And Your Password Is  " + password;
 
+                    smtpClient.Port = 587;
+                    smtpClient.Credentials = new System.Net.NetworkCredential("auctioninventorydubai@gmail.com", "smart123");
+                    smtpClient.EnableSsl = true;
+                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtpClient.Send(mail);
+                    //smtpClient.Dispose();
 
-            MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                }
+            });
 
-            mail.From = new MailAddress("shahzadq0077@gmail.com");
-            mail.To.Add("shahzadq58@gmail.com");
-            mail.Subject = "Test Mail";
-            mail.Body = "Your Login ID Is   " + supplier.strEmailID + " And Your Password Is  " + password;
-
-            SmtpServer.Port = 587;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("auctioninventorydubai@gmail.com", "smart123");
-            SmtpServer.EnableSsl = true;
-            SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
-            SmtpServer.Send(mail);
-            SmtpServer.Dispose();
-
-
-
-            //using (MailMessage mm = new MailMessage("shahzadq0077@gmail.com", supplier.strEmailID))
-            //{
-            //    // Now access this
-            //    // string password = supplier.Password;
-            //    mm.Subject = "static...........";
-            //    mm.Body = "Your Login ID Is   " + supplier.strEmailID + " And Your Password Is  " + password;
-
-            //    //if (model.Attachment.ContentLength > 0)
-            //    //{
-            //    //    string fileName = Path.GetFileName(model.Attachment.FileName);
-            //    //    mm.Attachments.Add(new Attachment(model.Attachment.InputStream, fileName));
-            //    //}
-            //    mm.IsBodyHtml = false;
-            //    using (SmtpClient smtp = new SmtpClient())
-            //    {
-            //        smtp.Host = "smtp.gmail.com";
-            //        smtp.EnableSsl = true;
-            //        NetworkCredential NetworkCred = new NetworkCredential("auctioninventorydubai@gmail.com", "smart123");
-            //        smtp.UseDefaultCredentials = true;
-            //        smtp.Credentials = NetworkCred;
-            //        smtp.Port = 587;
-            //        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            //        smtp.Send(mm);
-            //        smtp.Dispose();
-
-            //    }
-            //}
-            status = true;
-            return status;
+            email.IsBackground = true;
+            email.Start();
 
         }
+
+
 
         public bool Delete(int id)
         {
@@ -220,12 +247,14 @@ namespace AuctionInventoryDAL.Repositories
 
         public dynamic RetrieveImage(int id)
         {
-            var cover = (from supplier in auctionContext.MSuppliers 
-                        where supplier.iSupplierID == id 
-                        select supplier.SupplierPhoto).FirstOrDefault();
-         
-           return cover;
             
+            var cover = (from supplier in auctionContext.MSuppliers
+                         where supplier.iSupplierID == id
+                         select supplier.SupplierPhoto).FirstOrDefault();
+
+            return cover;
+           
+
         }
         //public byte[] ConvertToBytes(HttpPostedFileBase image)
         //{

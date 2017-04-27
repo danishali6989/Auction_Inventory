@@ -20,23 +20,23 @@ namespace AuctionInventory.Models
 
         public int iSupplierID { get; set; }
 
-        [Required(ErrorMessage = "FirstName is required")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+        [Required(ErrorMessage = "First Name Is Required")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters Only")]
         public string strFirstName { get; set; }
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters Only")]
         public string strMiddleName { get; set; }
 
-        [Required(ErrorMessage = "LastName is required")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+        [Required(ErrorMessage = "Last Name Is Required")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters Only")]
         public string strLastName { get; set; }
 
         public Nullable<int> iSupplierCategory { get; set; }
         public Nullable<int> iSupplierServiceType { get; set; }
         [Display(Name = "Email address")]
-        [Required(ErrorMessage = "The email address is required")]
+        [Required(ErrorMessage = "Email Address Is Required")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string strEmailID { get; set; }
-        [Required(ErrorMessage = "Your must provide a PhoneNumber")]
+        [Required(ErrorMessage = "You Must Provide A Phone Number")]
         [Display(Name = "PhoneNumber")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
@@ -47,7 +47,7 @@ namespace AuctionInventory.Models
         public Nullable<int> iPincode { get; set; }
         public Nullable<int> iCurrency { get; set; }
         public string SupplierPhoto { get; set; }
-        [Required(ErrorMessage = "Plese select Supplier Date ")]
+        [Required(ErrorMessage = "Plese Select Supplier Date ")]
 
         public string SupplierDate { get; set; }
 

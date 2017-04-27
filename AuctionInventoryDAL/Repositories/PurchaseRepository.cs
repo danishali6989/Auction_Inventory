@@ -63,6 +63,115 @@ namespace AuctionInventoryDAL.Repositories
             return jsonData;
         }
 
+
+
+        public dynamic GetAllPurchaseReportByDate(string fromDate, string toDate)
+        {
+
+           
+            var jsonData = new
+            {
+                total = 1,
+                page = 1,
+                records = auctionContext.TPurchases.ToList().Count,
+                rows = (
+                  from purchase in
+                      (from AM in auctionContext.TPurchases
+
+                     
+
+                       where DateTime.ParseExact(AM.strPurchaseInvoiceDate,
+                                        "MM/dd/yyyy",
+                                       null) >=
+                       Convert.ToDateTime(fromDate) && DateTime.ParseExact(AM.strPurchaseInvoiceDate,
+                                        "MM/dd/yyyy",
+                                       null) <= Convert.ToDateTime(toDate)
+                       select new
+                       {
+                           PurchaseID = AM.PurchaseID,
+                           iPurchaseInvoiceNo = AM.iPurchaseInvoiceNo,
+                           strPurchaseInvoiceNo = AM.strPurchaseInvoiceNo,
+
+                           strPurchaseInvoiceDate = AM.strPurchaseInvoiceDate,
+                           strSupplierName = AM.strSupplierName,
+                           strMasterDecNo = AM.strMasterDecNo,
+                           strBLNo = AM.strBLNo,
+                           strArrivalDate = AM.strArrivalDate,
+                           dmlConversionRate = AM.dmlConversionRate,
+                           iAED = AM.iAED,
+
+
+                       }).OrderBy(a => a.iPurchaseInvoiceNo).ToList()
+                  select new
+                  {
+                      id = purchase.PurchaseID,
+                      cell = new string[] {
+               Convert.ToString(purchase.PurchaseID),Convert.ToString(purchase.iPurchaseInvoiceNo),
+               Convert.ToString(purchase.strPurchaseInvoiceNo),Convert.ToString(purchase.strPurchaseInvoiceDate),
+               Convert.ToString(purchase.strSupplierName),Convert.ToString(purchase.strMasterDecNo),
+               Convert.ToString(purchase.strBLNo),Convert.ToString(purchase.strArrivalDate),
+               Convert.ToString(purchase.dmlConversionRate),
+               Convert.ToString(purchase.iAED)
+               
+               //,Convert.ToString(customers.iPersonID),
+               //Convert.ToString(customers.strPersonFirstName+" "+customers.strPersonLastName),Convert.ToString(customers.strCompanyName),
+               //Convert.ToString(customers.CustomerPhoto),Convert.ToString(customers.CustomerDate)
+                        }
+                  }).ToArray()
+            };
+            return jsonData;
+        }
+
+        public dynamic GetAllPurchaseReport()
+        {
+            var jsonData = new
+            {
+                total = 1,
+                page = 1,
+                records = auctionContext.TPurchases.ToList().Count,
+                rows = (
+                  from purchase in
+                      (from AM in auctionContext.TPurchases
+
+                       //join t1 in auctionContext.MCountries on AM.iCountry equals t1.iCountry
+                       //join t2 in auctionContext.MCities on AM.iCity equals t2.iCity
+
+                       select new
+                       {
+                           PurchaseID = AM.PurchaseID,
+                           iPurchaseInvoiceNo = AM.iPurchaseInvoiceNo,
+                           strPurchaseInvoiceNo = AM.strPurchaseInvoiceNo,
+
+                           strPurchaseInvoiceDate = AM.strPurchaseInvoiceDate,
+                           strSupplierName = AM.strSupplierName,
+                           strMasterDecNo = AM.strMasterDecNo,
+                           strBLNo = AM.strBLNo,
+                           strArrivalDate = AM.strArrivalDate,
+                           dmlConversionRate = AM.dmlConversionRate,
+                           iAED = AM.iAED,
+
+
+                       }).OrderBy(a => a.iPurchaseInvoiceNo).ToList()
+                  select new
+                  {
+                      id = purchase.PurchaseID,
+                      cell = new string[] {
+               Convert.ToString(purchase.PurchaseID),Convert.ToString(purchase.iPurchaseInvoiceNo),
+               Convert.ToString(purchase.strPurchaseInvoiceNo),Convert.ToString(purchase.strPurchaseInvoiceDate),
+               Convert.ToString(purchase.strSupplierName),Convert.ToString(purchase.strMasterDecNo),
+               Convert.ToString(purchase.strBLNo),Convert.ToString(purchase.strArrivalDate),
+               Convert.ToString(purchase.dmlConversionRate),
+               Convert.ToString(purchase.iAED)
+               
+               //,Convert.ToString(customers.iPersonID),
+               //Convert.ToString(customers.strPersonFirstName+" "+customers.strPersonLastName),Convert.ToString(customers.strCompanyName),
+               //Convert.ToString(customers.CustomerPhoto),Convert.ToString(customers.CustomerDate)
+                        }
+                  }).ToArray()
+            };
+            return jsonData;
+        }
+
         public TPurchase Get(int id)
         {
             TPurchase purchase = new TPurchase();
