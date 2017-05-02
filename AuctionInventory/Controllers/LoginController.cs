@@ -26,7 +26,20 @@ namespace AuctionInventory.Controllers
                     {
                         FormsAuthentication.SetAuthCookie(userLogin.UserName, false);
                         Session["UserProfile"] = userLogin;
-                        return RedirectToAction("DashBoard", "Home");
+
+                        if (userLogin.RoleId == (int)Helpers.Enums.Roles.SuperAdmin)
+                        {
+                            return RedirectToAction("DashBoard", "Home");
+                        }
+                        else if (userLogin.RoleId == (int)Helpers.Enums.Roles.AdminSupplier)
+                        {
+                            return RedirectToAction("SupplierDashBoard", "Home");
+                        }
+                        else
+                        {
+                            return RedirectToAction("WrongPage", "Home");
+                        }
+
                     }
                     else
                     {

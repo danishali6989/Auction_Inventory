@@ -16,11 +16,18 @@ namespace AuctionInventory.Controllers
         {
             return View();
         }
+        public ActionResult SupplierDashBoard()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
             return View();
         }
-
+        public ActionResult WrongPage()
+        {
+            return View();
+        }
         #region CRUD
 
         public ActionResult GetEmployees()

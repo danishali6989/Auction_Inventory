@@ -1220,6 +1220,8 @@
     <Content Include="Views\MExpenses\SingleVehicleExpensesList.cshtml" />
     <Content Include="Views\TPurchase\PurchaseReport.cshtml" />
     <Content Include="Views\Sales\SalesReport.cshtml" />
+    <Content Include="Views\Home\SupplierDashBoard.cshtml" />
+    <Content Include="Views\Home\WrongPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
