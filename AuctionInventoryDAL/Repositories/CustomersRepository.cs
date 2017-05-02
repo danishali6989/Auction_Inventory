@@ -90,7 +90,7 @@ namespace AuctionInventoryDAL.Repositories
                     cust.strAddress = customer.strAddress;
                     cust.iPincode = customer.iPincode;
                     cust.strCreditLimit = customer.strCreditLimit;
-                    cust.iPersonID = customer.iPersonID;
+                  
                     cust.strPersonFirstName = customer.strPersonFirstName;
                     cust.strPersonMiddleName = customer.strPersonMiddleName;
                     cust.strPersonLastName = customer.strPersonLastName;

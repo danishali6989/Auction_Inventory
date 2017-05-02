@@ -44,8 +44,10 @@
     <div id="dialog" style="display: none" align="center">
         Do you want to Save this Auction?
     </div>
-    <input type="button" style="margin-left: 320px" class="btn btn-success col-md-2" id="saveAuctionList" value="Save" />
-    <input type="button" style="margin-left: 40px" class="btn btn-success col-md-2" value="Print" onclick="generateAuctionPDF()" />
+    <input type="button" style="margin-left: 200px" class="btn btn-success col-md-2" id="saveAuctionList" value="Save" />
+    <input type="button" style="margin-left: 40px;display:none" class="btn btn-success col-md-2" id="btnPrint" value="Print" onclick="generateAuctionPDF()" />
+    <input type="button" style=" margin-left: 40px;" class="btn btn-warning col-md-2" value="Cancel" onclick="Cancel();" id="cancelVehiclesExpenseInfo">
+
 </div>
 
 @*<div id="divShowPrintbtn" style="display:none">
@@ -54,6 +56,9 @@
     </div>*@
 
 <script type="text/javascript">
+    function Cancel() {
+        window.location.href = "/Auction/AuctionList";
+    }
     $.ajax({
         url: '/Auction/GetAuctionFrontEndID/',
         dataType: "json",
@@ -135,6 +140,8 @@
                     $('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
 
                     $('#divAddVehicle').show();
+                    $('#btnPrint').show();
+                    
                 }
 
 

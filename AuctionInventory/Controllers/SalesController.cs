@@ -248,8 +248,6 @@ namespace AuctionInventory.Controllers
         }
 
 
-        
-
 
         [HttpPost]
         public ActionResult GetInvoice()
@@ -325,8 +323,65 @@ namespace AuctionInventory.Controllers
 
         }
 
+        public ActionResult SalesReport()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public JsonResult GetAllSalesReportByDate(DateTime fromDate, DateTime toDate)
+        {
+            dynamic salesReportByDate = 0;
 
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SaleServiceClient saleServiceClient = new SaleServiceClient();
+                    salesReportByDate = saleServiceClient.GetAllSalesReportByDate(fromDate, toDate);
+
+                   
+                    //if (purchase.Count == 0 || purchase == null)
+                    //{
+                    //    ModelState.AddModelError("error", "No Record Found");
+                    //}
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                salesReportByDate = null;
+                throw e;
+            }
+
+            //return Json(purchaseReportByDate, JsonRequestBehavior.AllowGet);
+            return Json(new { salesReportByDate }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        //[HttpPost]       
+        //public ActionResult Delete(int id)
+        //{
+        //    bool status = false;
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            SaleServiceClient saleServiceClient = new SaleServiceClient();
+        //            status = saleServiceClient.Delete(id);
+        //            return RedirectToAction("Index");
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ModelState.AddModelError("error", "Something Went Wrong!");
+        //        status = false;
+        //        throw e;
+        //    }
+
+        //    return new JsonResult { Data = new { status = status } };
+
+        //}
 
     }
 }

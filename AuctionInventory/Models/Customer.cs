@@ -39,7 +39,7 @@ namespace AuctionInventory.Models
         public Nullable<int> iPincode { get; set; }
          [Required(ErrorMessage = "Your must provide a Credit Limit")]
         public string strCreditLimit { get; set; }
-        public Nullable<int> iPersonID { get; set; }
+      
         public string strPersonFirstName { get; set; }
         public string strPersonMiddleName { get; set; }
         public string strPersonLastName { get; set; }

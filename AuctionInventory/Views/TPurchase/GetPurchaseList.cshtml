@@ -41,7 +41,7 @@
                 datatype: "json",
                 contentType: "application/json; charset-utf-8",
                 mtype: 'GET',
-                colNames: ['Purchase ID', 'InvoiceNo', 'Purchase Invoice', 'InvoiceDate', 'SupplierName', 'MasterDecNo', 'BLNo', 'ArrivalDate', 'ConversionRate', 'AED', 'Action'],
+                colNames: ['Purchase ID', 'InvoiceNo', 'Purchase Invoice', 'InvoiceDate', 'SupplierName', 'MasterDecNo', 'BLNo', 'ArrivalDate', 'ConversionRate', 'AED', 'JPY', 'Action'],
                 colModel: [
                      { name: 'PurchaseID', index: 'PurchaseID', hidden: true, hidedlg: true },
                       { name: 'iPurchaseInvoiceNo', index: 'iPurchaseInvoiceNo', hidden: true, hidedlg: true },
@@ -52,11 +52,12 @@
                     { name: 'strBLNo', index: 'strBLNo', align: 'center' },
                     { name: 'strArrivalDate', index: 'strArrivalDate', align: 'center' },
                     { name: 'dmlConversionRate', index: 'dmlConversionRate', align: 'center' },
-                     { name: 'iAED', index: 'iAED', align: 'center' },
+                     { name: 'dcmlAED', index: 'dcmlAED', align: 'center' },
+                      { name: 'dcmlJYP', index: 'dcmlJYP', align: 'center' },
                     //{ name: 'act', index: 'act', width: 350 }
 
                     {
-                        name: 'Action', index: 'Action', align: 'center', width: 200, search: false, title: false,
+                        name: 'Action', index: 'Action', align: 'center', width: 250, search: false, title: false,
                         formatter: function (cellvalue, options, rowObject) {
                             //return '<a class=" btn btn-info" href="/TPurchase/UpdateIndex/' + options.rowId + '">' + "Edit" + '</a>' + "     " + '<a class="btn btn-info" href="/TPurchase/Delete/' + options.rowId + '">' + "Delete" + '</a>';
                             return '<a class="popup btn btn-warning"  href="/TPurchase/UpdateIndex/' + options.rowId + '">Edit</a>' + "   " + '<a class="popup btn btn-danger"  href="/TPurchase/Delete/' + options.rowId + '">Delete</a>';
@@ -69,6 +70,7 @@
                 height: 250,
                 rowNum: 10,
                 loadonce: true,
+                ignoreCase: true,
                 rowList: [10, 20, 30],
                 pager: 'pagingGrid',
                 caption: "Purchase List",

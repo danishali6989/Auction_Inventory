@@ -1,5 +1,4 @@
-﻿@model IEnumerable<AuctionInventory.Models.Vehicles>
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>PurchaseReport</h2>
@@ -27,10 +26,10 @@
     <div class='form-group col-sm-3'>
         <label>To Date:</label>
         <input class='form-control datepicker input-group-sm' placeholder='Enter drop of date...' id='toDate' />
-       
+
     </div>
     <div class='form-group col-sm-3' style="margin-top:25px;">
-        
+
         <input type="button" class="btn btn-success  input-group-sm" value="Sort List By Date" id="btnDate" />
     </div>
     <br />
@@ -40,6 +39,19 @@
         <div id="pagingGrid"></div>
         <br><br>
     </div>
+    <br />
+    <div id="divDataGridByDate">
+        <br /><br /><br />
+        <table id="dataGridByDate" class="table table-bordered table-striped"></table>
+        <div id="pagingGridByDate"></div>
+        <br><br>
+    </div>
+    <br />
+    <div class='form-group col-sm-2' style="display: none; margin-left: 400px; " id="divBtnPrint">
+
+        <input type="button" class="btn btn-success  input-group-sm" value="Print Report" id="btnPrint" onclick="generatePurchaseReportPDF()" />
+    </div>
+
 </div>
 
 <script>
@@ -48,11 +60,11 @@
 
         $('#dataGrid').jqGrid({
 
-            url: '/TPurchase/GetAllPurchaseReport/',
+            url: '/TPurchase/GetAllPurchase/',
             datatype: "json",
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
-            colNames: ['Purchase ID', 'InvoiceNo', 'Purchase Invoice', 'InvoiceDate', 'SupplierName', 'MasterDecNo', 'BLNo', 'ArrivalDate', 'ConversionRate', 'AED'],
+            colNames: ['Purchase ID', 'InvoiceNo', 'Purchase Invoice', 'InvoiceDate', 'SupplierName', 'MasterDecNo', 'BLNo', 'ArrivalDate', 'ConversionRate', 'AED', 'JYP'],
             colModel: [
                  { name: 'PurchaseID', index: 'PurchaseID', hidden: true, hidedlg: true },
                   { name: 'iPurchaseInvoiceNo', index: 'iPurchaseInvoiceNo', hidden: true, hidedlg: true },
@@ -63,7 +75,8 @@
                 { name: 'strBLNo', index: 'strBLNo', align: 'center' },
                 { name: 'strArrivalDate', index: 'strArrivalDate', align: 'center' },
                 { name: 'dmlConversionRate', index: 'dmlConversionRate', align: 'center' },
-                 { name: 'iAED', index: 'iAED', align: 'center' },
+                 { name: 'dcmlAED', index: 'dcmlAED', align: 'center' },
+                      { name: 'dcmlJYP', index: 'dcmlJYP', align: 'center' },
                 //{ name: 'act', index: 'act', width: 350 }
 
                 //{
@@ -80,6 +93,7 @@
             height: 250,
             rowNum: 10,
             loadonce: true,
+            ignoreCase: true,
             rowList: [10, 20, 30],
             pager: 'pagingGrid',
             caption: "Purchase List",
@@ -101,37 +115,103 @@
         jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
         jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
 
+
+
+
+
     });
 </script>
 
 <script>
-   
 
-    
+
+
     $("#btnDate").click(function () {
 
-
+                      
         var fromDate = $("#fromDate").val();
         var toDate = $("#toDate").val();
-        alert(fromDate);
-        alert(toDate);
-            $.ajax({
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                type: 'POST',
-                url: '/TPurchase/GetAllPurchaseReportByDate/',
-                data: JSON.stringify({ 'fromDate': fromDate, 'toDate': toDate }),
-                success: function (data) {
-                    //$('#divDataGrid').show();
-                    var purchaseTReportList = data.purchaseTReportList;
+        //alert(fromDate);
+        //alert(toDate);
+        $.ajax({
+            url: '/TPurchase/GetAllPurchaseReportByDate/',
+            dataType: 'json',
+            type: 'POST',
+            data: JSON.stringify({ 'fromDate': fromDate, 'toDate': toDate }),
+            contentType: 'application/json; charset=utf-8',
 
-                    $("#dataGrid").val(purchaseTReportList);
-                }
-            });
+            success: function (result) {
+                $("#dataGridByDate").jqGrid('GridUnload');
+                $('#divBtnPrint').show();
+
+                var purchaseReportByDate = result.purchaseReportByDate;               
+
+                $('#dataGridByDate').jqGrid({
+                    data: purchaseReportByDate,
+                    datatype: "local",
+
+                    colNames: ['Purchase Invoice', 'InvoiceDate', 'SupplierName', 'MasterDecNo', 'BLNo', 'ArrivalDate', 'AED', 'JPY'],
+                    colModel: [
+                        
+                        { name: 'strPurchaseInvoiceNo', index: 'strPurchaseInvoiceNo', align: 'center' },
+                        {
+                            name: 'strPurchaseInvoiceDate', index: 'strPurchaseInvoiceDate', align: 'center'
+                        },
+                        { name: 'strSupplierName', index: 'strSupplierName', align: 'center' },
+                        { name: 'strMasterDecNo', index: 'strMasterDecNo', align: 'center' },
+                        { name: 'strBLNo', index: 'strBLNo', align: 'center' },
+                        {
+                            name: 'strArrivalDate', index: 'strArrivalDate', align: 'center'
+
+                        },
+                        
+                        { name: 'dcmlAED', index: 'dcmlAED', align: 'center' },
+                      { name: 'dcmlJYP', index: 'dcmlJYP', align: 'center' },
+
+
+                    ],
+                    width: 1050,
+                    height: 250,
+                    rowNum: 10,
+                    ignoreCase: true,
+                    rowList: [10, 20, 30],
+                    pager: 'pagingGridByDate',
+                    caption: "Purchase Report List Between Two Dates",
+
+
+                });
+                jQuery("#dataGridByDate").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+                jQuery("#dataGridByDate").jqGrid('navGrid', '#pagingGridByDate', { edit: false, add: false, del: false, search: false });
+
+
+                $('#divDataGrid').hide();
+                $('#divDataGridByDate').show();
+
+            }
         });
-    
+    });
 
 
+    function generatePurchaseReportPDF() {
+        debugger
+        
+        var griddata = jQuery("#dataGridByDate").getRowData();       
+      
+
+        var columns = ['PurchaseInv', 'InvDate', 'SupplierName', 'MstrDecNo', 'BLNo', 'ArvlDate', 'AED', 'JPY'];
+
+       
+        var data = [];
+        for (var i = 0; i < griddata.length; i++) {
+
+            data.push([griddata[i].strPurchaseInvoiceNo, griddata[i].strPurchaseInvoiceDate, griddata[i].strSupplierName, griddata[i].strMasterDecNo, griddata[i].strBLNo, griddata[i].strArrivalDate, griddata[i].dcmlAED, griddata[i].dcmlJYP]);
+
+        }
+        var doc = new jsPDF();
+        doc.autoTable(columns, data);
+        doc.output("dataurlnewwindow");
+
+    }
 
 
 </script>
@@ -139,7 +219,7 @@
 <script type="text/javascript">
     $(function () {
 
-        $('.datepicker').datepicker();
+        $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
 
     });
 
@@ -150,8 +230,10 @@
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
 <link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
 <script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
-<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+@*<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>*@
 <script src="~/scripts/grid.locale-en.js"></script>
 <script src="~/scripts/jquery.jqgrid.min.js"></script>
 
+<script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
+<script src="~/Content/plugins/jsPDF/jspdf.plugin.autotable.js"></script>
 

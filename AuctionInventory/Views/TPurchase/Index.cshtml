@@ -259,7 +259,7 @@
             <div class="col-sm-6">
                 <b>Invoice value JPY </b>: &yen; <span id="spnINVJPY"></span>
                 <br />
-                <b>Invoice value AED </b>: 	د.إ <span id="spnINVAED"></span>
+                <b>Invoice value AED </b>: 	د.إ  <span id="spnINVAED"></span>
             </div>
 
 
@@ -317,7 +317,9 @@
 
 
     $(function () { // will trigger when the document is ready
-        $('.datepicker').datepicker(); //Initialise any date pickers
+        $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy' }); //Initialise any date pickers
+
+        
     });
 
 </script>
@@ -481,10 +483,138 @@
     $("#btnSaveJQ").click(function () {
         debugger;
 
-      
+        alert($('#spnINVAED').text() + "    JPY" + $('#spnINVJPY').text());
+        
         var data = $('#invoiceLbl').text().split(':');
 
         $("#invoiceLbl").html(data[1]);
+
+        //// For Testing
+        ////   var griddata1 = $('#dataGrid').jqGrid('getGridParam', 'data');
+
+        //var validPurchase = ValidatePurchaseInfo();
+        //if (validPurchase == true) {
+
+        //    //debugger;
+        //    //var tes = "salman"
+        //    //var alphanumers = /^[a-zA-Z0-9]+$/;
+        //    //if (!alphanumers.test(tes)) {
+        //    //    alert("Special chareter found");
+        //    //    $("#textboxid").css({ "background-color": "color" });
+        //    //    return false;
+        //    //}
+
+
+
+        //    var purchase = {
+        //        iPurchaseInvoiceNo: $('#invno').val(),
+        //        strPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
+        //        strSupplierName: $('#txtSearchSupplier').val(),
+        //        strMasterDecNo: $('#strMasterDecNo').val(),
+        //        strBLNo: $('#strBLNo').val(),
+        //        strArrivalDate: $('#strArrivalDate').val(),
+        //        dmlConversionRate: $('#dmlConversionRate').val(),
+        //        dtPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
+        //        strPurchaseInvoiceNo: $('#invoiceLbl').text(),
+        //        dcmlAED: $('#spnINVAED').text(),
+        //        dcmlJYP: $('#spnINVJPY').text()
+
+
+        //    }
+        //    var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/TPurchase/Save",
+        //        cache: false,
+        //        data: JSON.stringify({ purchase: purchase, griddata: griddata }),
+        //        // data: JSON.stringify(purchase),
+        //        dataType: this.dataType,
+        //        contentType: "application/json; charset=utf-8",
+        //        success: function (Data) {
+
+        //            alert("Data Saved You Can Generate PDF");
+
+        //            // window.location.href = "/TPurchase/GetPurchaseList";
+
+
+
+
+        //            // debugger;
+        //            // To Do- Redirect after success result
+        //            if (Data.status) {
+        //                //var url = "/Artists/Details?NestId=" + NestId;
+        //                //window.location.href = url;
+
+        //                //window.location.href = "/TPurchase/GetPurchaseList";
+        //                //alert("Data Saved")
+        //            }
+        //            //var $result = $(Data).find(purID);
+        //            //alert($result);
+
+        //            //$('#result').html('"PassGriddata()" successfully called.');
+
+
+
+
+        //            //var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+
+        //            //griddata = JSON.stringify({ 'griddata': griddata });
+        //            //$.ajax({
+        //            //    contentType: 'application/json; charset=utf-8',
+        //            //    dataType: 'json',
+        //            //    type: 'POST',
+        //            //    url: '/MVehicle/PassGriddata',
+        //            //    data: griddata,
+        //            //    success: function () {
+        //            //        $('#result').html('"PassGriddata()" successfully called.');
+        //            //    },
+        //            //    failure: function (response) {
+        //            //        $('#result').html(response);
+        //            //    }
+        //            //});
+        //        },
+        //        error: function (data) {
+        //            $("#error_message").html(data);
+        //        }
+        //    });
+        //}
+
+
+        //else {
+        //    //$('#alertModal').modal('show');
+        //    if (document.getElementById('strPurchaseInvoiceDate').value == "") {
+        //        $('#strPurchaseInvoiceDate').css('border-color', 'red');
+        //    }
+        //    else
+
+        //        if (document.getElementById('txtSearchSupplier').value == "") {
+        //            $('#txtSearchSupplier').css('border-color', 'red');
+        //        } else
+
+        //            if (document.getElementById('strMasterDecNo').value == "") {
+        //                $('#strMasterDecNo').css('border-color', 'red');
+        //            } else
+
+        //                if (document.getElementById('strBLNo').value == "") {
+        //                    $('#strBLNo').css('border-color', 'red');
+        //                } else
+
+        //                    if (document.getElementById('strArrivalDate').value == "") {
+        //                        $('#strArrivalDate').css('border-color', 'red');
+        //                    }
+        //    //$('#strPurchaseInvoiceDate').css('border-color', 'red');
+        //    //$("#txtSearchSupplier").css({ "border-color": "red" });
+        //    //$("#strMasterDecNo").css({ "border-color": "red" });
+        //    //$("#strBLNo").css({ "border-color": "red" });
+        //    //$("#strArrivalDate").css({ "border-color": "red" });
+        //    //$('#alertDiv').html("Plese fill all the fields");
+        //    //$('#txtSearchSupplier').html("Plese fill all the fields");
+        //    //$('#strMasterDecNo').html("Plese fill all the fields");
+        //    //$('#strBLNo').html("Plese fill all the fields");
+        //    //$('#strArrivalDate').html("Plese fill all the fields");
+        //}
+
 
 
         $(function () {
@@ -532,7 +662,12 @@
                         strBLNo: $('#strBLNo').val(),
                         strArrivalDate: $('#strArrivalDate').val(),
                         dmlConversionRate: $('#dmlConversionRate').val(),
-                        strPurchaseInvoiceNo: $('#invoiceLbl').text()
+                        dtPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
+                        strPurchaseInvoiceNo: $('#invoiceLbl').text(),
+                        dcmlAED: $('#spnINVAED').text(),
+                        dcmlJYP: $('#spnINVJPY').text()
+
+
                     }
                     var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
 
@@ -754,7 +889,7 @@
                             width: 1050,
                             height: 250,
                             rowNum: 10,
-                            //loadonce: true,
+                            ignoreCase: true,
                             rowList: [10, 20, 30],
                             pager: 'pagingGrid',
                             caption: 'Select Invoice to edit',

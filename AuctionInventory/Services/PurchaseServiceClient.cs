@@ -21,7 +21,7 @@ namespace AuctionInventory.Services
             return listPurchase;
         }
 
-        public dynamic GetAllPurchaseReportByDate(string fromDate, string toDate)
+        public dynamic GetAllPurchaseReportByDate(DateTime fromDate, DateTime toDate)
         {
 
             PurchaseRepository repo = new PurchaseRepository();
@@ -29,13 +29,13 @@ namespace AuctionInventory.Services
             return listPurchase;
         }
 
-        public dynamic GetAllPurchaseReport()
-        {
+        //public dynamic GetAllPurchaseReport()
+        //{
 
-            PurchaseRepository repo = new PurchaseRepository();
-            var listPurchase = repo.GetAllPurchaseReport();
-            return listPurchase;
-        }
+        //    PurchaseRepository repo = new PurchaseRepository();
+        //    var listPurchase = repo.GetAllPurchaseReport();
+        //    return listPurchase;
+        //}
 
         public bool SaveData(Purchase purchase, List<Vehicles> griddata)
         {
@@ -163,9 +163,10 @@ namespace AuctionInventory.Services
                 tPurchase.strArrivalDate = purchase.strArrivalDate ?? " ";
                 tPurchase.strPurchaseInvoiceNo = purchase.strPurchaseInvoiceNo ?? " ";
                 tPurchase.dmlConversionRate = purchase.dmlConversionRate;
-                tPurchase.iAED = purchase.iAED;
+                tPurchase.dcmlAED = purchase.dcmlAED;
+                tPurchase.dcmlJYP = purchase.dcmlJYP;
                 tPurchase.strPurchaseInvoiceNo = purchase.strPurchaseInvoiceNo ?? " ";
-                  
+                tPurchase.dtPurchaseInvoiceDate = purchase.dtPurchaseInvoiceDate;
             }
             return tPurchase;
         }
@@ -188,8 +189,10 @@ namespace AuctionInventory.Services
                     purchase.strArrivalDate = data.strArrivalDate ?? " ";
                     purchase.strInvoiceValue = data.strInvoiceValue ?? " ";
                     purchase.dmlConversionRate = data.dmlConversionRate ?? 0;
-                    purchase.iAED = data.iAED ?? 0;
+                    purchase.dcmlAED = data.dcmlAED ?? 0;
+                    purchase.dcmlJYP = data.dcmlJYP ?? 0;
                     purchase.strPurchaseInvoiceNo = data.strPurchaseInvoiceNo ?? " ";
+                    purchase.dtPurchaseInvoiceDate = data.dtPurchaseInvoiceDate;
                     listPurchase.Add(purchase);
 
                 }
@@ -213,8 +216,11 @@ namespace AuctionInventory.Services
                 purchase.strArrivalDate = data.strArrivalDate ?? " ";
                 purchase.strInvoiceValue = data.strInvoiceValue ?? " ";
                 purchase.dmlConversionRate = data.dmlConversionRate ?? 0;
-                purchase.iAED = data.iAED ;
+                purchase.dcmlAED = data.dcmlAED ?? 0;
+                purchase.dcmlJYP = data.dcmlJYP ?? 0;
                 purchase.strPurchaseInvoiceNo = data.strPurchaseInvoiceNo ?? " ";
+                purchase.dtPurchaseInvoiceDate = data.dtPurchaseInvoiceDate;
+
                   
             }
             return purchase;

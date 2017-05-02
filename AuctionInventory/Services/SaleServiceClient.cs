@@ -26,6 +26,14 @@ namespace AuctionInventory.Services
 
         }
 
+       public dynamic GetAllSalesReportByDate(DateTime fromDate, DateTime toDate)
+       {
+
+           SaleRepository repo = new SaleRepository();
+           var listSales = repo.GetAllSalesReportByDate(fromDate, toDate);
+           return listSales;
+       }
+
        public dynamic GetSalesData()
         {
             SaleRepository repo = new SaleRepository();
@@ -55,6 +63,15 @@ namespace AuctionInventory.Services
 
         }
 
+
+       //public bool Delete(int id)
+       //{
+       //    bool status = false;
+       //    SaleRepository repo = new SaleRepository();
+       //    status = repo.Delete(id);
+       //    return status;
+       //}
+
         #region Parser
         private Sale ParserAddSale(SaleModel mSale)
         {
@@ -78,6 +95,7 @@ namespace AuctionInventory.Services
                 eSale.iPaymentType = mSale.iPaymentType;
                 eSale.iImpExpTransfer = mSale.iImpExpTransfer;
                 eSale.iSalesInvoiceID = mSale.iSalesInvoiceID;
+                eSale.dtSalesDate = mSale.dtSalesDate;
             }
             return eSale;
         }

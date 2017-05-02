@@ -29,8 +29,13 @@ namespace AuctionInventory.Models
 
         public string strInvoiceValue { get; set; }
         public Nullable<decimal> dmlConversionRate { get; set; }
-        public Nullable<int> iAED { get; set; }
+        public Nullable<decimal> dcmlAED { get; set; }
+        public Nullable<decimal> dcmlJYP { get; set; }
 
         public string strPurchaseInvoiceNo { get; set; }
+
+
+        public Nullable<System.DateTime> dtPurchaseInvoiceDate { get; set; }
+
     }
 }

@@ -182,42 +182,42 @@ namespace AuctionInventory.Controllers
         }
 
 
-        public ActionResult GetAllPurchaseReport()
-        {
-            dynamic purchase = 0;
+        //public ActionResult GetAllPurchaseReport()
+        //{
+        //    dynamic purchase = 0;
           
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
-                    purchase = purchaseServiceClient.GetAllPurchaseReport();
-                    //if (purchase.Count == 0 || purchase == null)
-                    //{
-                    //    ModelState.AddModelError("error", "No Record Found");
-                    //}
-                }
-            }
-            catch (Exception e)
-            {
-                ModelState.AddModelError("error", "Something Wrong");
-                purchase = null;
-                throw e;
-            }
-            return Json(purchase, JsonRequestBehavior.AllowGet);
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
+        //            purchase = purchaseServiceClient.GetAllPurchaseReport();
+        //            //if (purchase.Count == 0 || purchase == null)
+        //            //{
+        //            //    ModelState.AddModelError("error", "No Record Found");
+        //            //}
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ModelState.AddModelError("error", "Something Wrong");
+        //        purchase = null;
+        //        throw e;
+        //    }
+        //    return Json(purchase, JsonRequestBehavior.AllowGet);
 
-        }
-
-        public ActionResult GetAllPurchaseReportByDate(string fromDate, string toDate)
+        //}
+        [HttpPost]
+        public JsonResult GetAllPurchaseReportByDate(DateTime fromDate, DateTime toDate)
         {
-            dynamic purchase = 0;
+            dynamic purchaseReportByDate = 0;
             
             try
             {
                 if (ModelState.IsValid)
                 {
                     PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
-                    purchase = purchaseServiceClient.GetAllPurchaseReportByDate(fromDate, toDate);
+                    purchaseReportByDate = purchaseServiceClient.GetAllPurchaseReportByDate(fromDate, toDate);
                     //if (purchase.Count == 0 || purchase == null)
                     //{
                     //    ModelState.AddModelError("error", "No Record Found");
@@ -227,11 +227,13 @@ namespace AuctionInventory.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Wrong");
-                purchase = null;
+                purchaseReportByDate = null;
                 throw e;
             }
-            return Json(purchase, JsonRequestBehavior.AllowGet);
-
+           
+            //return Json(purchaseReportByDate, JsonRequestBehavior.AllowGet);
+            return Json(new { purchaseReportByDate }, JsonRequestBehavior.AllowGet);
+            
         }
 
 

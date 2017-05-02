@@ -67,12 +67,12 @@ namespace AuctionInventory.Services
                 mCustomer.strAddress = customer.strAddress ?? " ";
                 mCustomer.iPincode = customer.iPincode;
                 mCustomer.strCreditLimit = customer.strCreditLimit ?? " ";
-                mCustomer.iPersonID = customer.iPersonID ;
+              
                 mCustomer.strPersonFirstName = customer.strPersonFirstName ?? " ";
                 mCustomer.strPersonMiddleName = customer.strPersonMiddleName ?? " ";
                 mCustomer.strPersonLastName = customer.strPersonLastName ?? " ";
                 mCustomer.strCompanyName = customer.strCompanyName ?? " ";
-                mCustomer.iPersonID = customer.iPersonID;
+              
                 mCustomer.CustomerPhoto = customer.CustomerPhoto ?? " ";
                 mCustomer.CustomerDate = customer.CustomerDate ?? " ";
             }
@@ -99,12 +99,12 @@ namespace AuctionInventory.Services
                     customer.strAddress = data.strAddress ?? " ";
                     customer.iPincode = data.iPincode;
                     customer.strCreditLimit = data.strCreditLimit ?? " ";
-                    customer.iPersonID = data.iPersonID;
+                 
                     customer.strPersonFirstName = data.strPersonFirstName ?? " ";
                     customer.strPersonMiddleName = data.strPersonMiddleName ?? " ";
                     customer.strPersonLastName = data.strPersonLastName ?? " ";
                     customer.strCompanyName = data.strCompanyName ?? " ";
-                    customer.iPersonID = data.iPersonID;
+                 
                     customer.CustomerPhoto = data.CustomerPhoto ?? " ";
                     customer.CustomerDate = data.CustomerDate ?? " ";
                     listCustomer.Add(customer);
@@ -131,12 +131,12 @@ namespace AuctionInventory.Services
                 customer.strAddress = data.strAddress ?? " ";
                 customer.iPincode = data.iPincode;
                 customer.strCreditLimit = data.strCreditLimit ?? " ";
-                customer.iPersonID = data.iPersonID;
+            
                 customer.strPersonFirstName = data.strPersonFirstName ?? " ";
                 customer.strPersonMiddleName = data.strPersonMiddleName ?? " ";
                 customer.strPersonLastName = data.strPersonLastName ?? " ";
                 customer.strCompanyName = data.strCompanyName ?? " ";
-                customer.iPersonID = data.iPersonID;
+             
                 customer.CustomerPhoto = data.CustomerPhoto ?? " ";
                 customer.CustomerDate = data.CustomerDate ?? " ";
             }

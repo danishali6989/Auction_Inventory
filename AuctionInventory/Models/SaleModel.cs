@@ -22,5 +22,6 @@ namespace AuctionInventory.Models
         public Nullable<int> iImpExpTransfer { get; set; }
         public Nullable<int> iSalesInvoiceID { get; set; }
         public string strSalesInvoiceNo { get; set; }
+        public Nullable<System.DateTime> dtSalesDate { get; set; }
     }
 }

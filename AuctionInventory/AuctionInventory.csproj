@@ -171,7 +171,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AuctionController.cs" />
-    <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MCategoryController.cs" />
@@ -1219,10 +1218,8 @@
     <Content Include="Views\Sales\UpdateSaleVehicle.cshtml" />
     <Content Include="Views\MExpenses\AllVehicleExpensesList.cshtml" />
     <Content Include="Views\MExpenses\SingleVehicleExpensesList.cshtml" />
-    <Content Include="Views\Gallery\Index.cshtml" />
-    <Content Include="Views\Gallery\AddPicture.cshtml" />
-    <Content Include="Views\Gallery\FileUpload.cshtml" />
     <Content Include="Views\TPurchase\PurchaseReport.cshtml" />
+    <Content Include="Views\Sales\SalesReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

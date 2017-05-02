@@ -188,7 +188,7 @@
     }
 
     $(function () { // will trigger when the document is ready
-        $('.datepicker').datepicker(); //Initialise any date pickers
+        $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy'  }); //Initialise any date pickers
     });
 </script>
 
@@ -345,6 +345,7 @@
                     strMasterDecNo: $('#strMasterDecNo').val(),
                     strBLNo: $('#strBLNo').val(),
                     strArrivalDate: $('#strArrivalDate').val(),
+                    dtPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
                     dmlConversionRate: $('#dmlConversionRate').val()
                 }
                 var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
@@ -532,7 +533,7 @@
                 width: 1050,
                 height: 250,
                 rowNum: 10,
-                //loadonce: true,
+                ignoreCase: true,
                 rowList: [10, 20, 30],
                 pager: 'pagingGrid',
                 editurl: '/MVehicle/Save/',

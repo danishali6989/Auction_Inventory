@@ -30,7 +30,7 @@
         
      </div>
     <div class="form-group col-xs-4">
-        <h3><label id="invoiceLbl" class="label label-warning form-control input-group-lg">Sales Inv No: Sale-@(@DateTime.Now.Year % 100)-<span id="txtInvoiceNum"></span></label></h3>
+        <h3><label id="invoiceLbl" class="label label-warning form-control input-group-lg">Sales Inv No: SI-@(@DateTime.Now.Year % 100)-<span id="txtInvoiceNum"></span></label></h3>
     </div>
    
 </div>
@@ -251,7 +251,7 @@
 
 <script type="text/javascript">
     $(function () { // will trigger when the document is ready
-        $('.datepicker').datepicker(); //Initialise any date pickers
+        $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy' }); //Initialise any date pickers
     });
 </script>
 
@@ -501,6 +501,7 @@
                     iInstallment: $("#txtInstallment").val(),
                     iPaymentType: paymentStatus,
                     iImpExpTransfer: chkBoxvalue,
+                    dtSalesDate: $("#salesDate").val(),
                     strSalesInvoiceNo: $("#invoiceLbl").text()
 
                 }

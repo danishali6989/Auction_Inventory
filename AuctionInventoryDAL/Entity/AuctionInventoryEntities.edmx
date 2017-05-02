@@ -142,7 +142,6 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="strAddress" Type="nvarchar" MaxLength="100" />
           <Property Name="iPincode" Type="int" />
           <Property Name="strCreditLimit" Type="nvarchar" MaxLength="50" />
-          <Property Name="iPersonID" Type="int" />
           <Property Name="strPersonFirstName" Type="nvarchar" MaxLength="50" />
           <Property Name="strPersonMiddleName" Type="nvarchar" MaxLength="50" />
           <Property Name="strPersonLastName" Type="nvarchar" MaxLength="50" />
@@ -275,6 +274,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iImpExpTransfer" Type="int" />
           <Property Name="iSalesInvoiceID" Type="int" />
           <Property Name="strSalesInvoiceNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="dtSalesDate" Type="datetime" />
         </EntityType>
         <EntityType Name="SalesVehicle">
           <Key>
@@ -316,8 +316,10 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="strArrivalDate" Type="nvarchar" MaxLength="50" />
           <Property Name="strInvoiceValue" Type="nvarchar" MaxLength="50" />
           <Property Name="dmlConversionRate" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="iAED" Type="int" />
           <Property Name="strPurchaseInvoiceNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="dtPurchaseInvoiceDate" Type="datetime" />
+          <Property Name="dcmlAED" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlJYP" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="UserLogin">
           <Key>
@@ -632,7 +634,6 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="strAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="iPincode" Type="Int32" />
           <Property Name="strCreditLimit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="iPersonID" Type="Int32" />
           <Property Name="strPersonFirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strPersonMiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strPersonLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -759,6 +760,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="iImpExpTransfer" Type="Int32" />
           <Property Name="iSalesInvoiceID" Type="Int32" />
           <Property Name="strSalesInvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dtSalesDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="SalesVehicle">
           <Key>
@@ -802,8 +804,10 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="strArrivalDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strInvoiceValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="dmlConversionRate" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="iAED" Type="Int32" />
           <Property Name="strPurchaseInvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dtPurchaseInvoiceDate" Type="DateTime" Precision="3" />
+          <Property Name="dcmlAED" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlJYP" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="Vehicles" Relationship="AuctionInventoryModel.FK_Vehicle_TPurchase" FromRole="TPurchase" ToRole="Vehicle" />
         </EntityType>
         <EntityType Name="UserLogin">
@@ -1046,7 +1050,6 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
                 <ScalarProperty Name="strPersonLastName" ColumnName="strPersonLastName" />
                 <ScalarProperty Name="strPersonMiddleName" ColumnName="strPersonMiddleName" />
                 <ScalarProperty Name="strPersonFirstName" ColumnName="strPersonFirstName" />
-                <ScalarProperty Name="iPersonID" ColumnName="iPersonID" />
                 <ScalarProperty Name="strCreditLimit" ColumnName="strCreditLimit" />
                 <ScalarProperty Name="iPincode" ColumnName="iPincode" />
                 <ScalarProperty Name="strAddress" ColumnName="strAddress" />
@@ -1172,6 +1175,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="Sales">
             <EntityTypeMapping TypeName="AuctionInventoryModel.Sale">
               <MappingFragment StoreEntitySet="Sales">
+                <ScalarProperty Name="dtSalesDate" ColumnName="dtSalesDate" />
                 <ScalarProperty Name="strSalesInvoiceNo" ColumnName="strSalesInvoiceNo" />
                 <ScalarProperty Name="iSalesInvoiceID" ColumnName="iSalesInvoiceID" />
                 <ScalarProperty Name="iImpExpTransfer" ColumnName="iImpExpTransfer" />
@@ -1222,8 +1226,10 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <EntitySetMapping Name="TPurchases">
             <EntityTypeMapping TypeName="AuctionInventoryModel.TPurchase">
               <MappingFragment StoreEntitySet="TPurchase">
+                <ScalarProperty Name="dcmlJYP" ColumnName="dcmlJYP" />
+                <ScalarProperty Name="dcmlAED" ColumnName="dcmlAED" />
+                <ScalarProperty Name="dtPurchaseInvoiceDate" ColumnName="dtPurchaseInvoiceDate" />
                 <ScalarProperty Name="strPurchaseInvoiceNo" ColumnName="strPurchaseInvoiceNo" />
-                <ScalarProperty Name="iAED" ColumnName="iAED" />
                 <ScalarProperty Name="dmlConversionRate" ColumnName="dmlConversionRate" />
                 <ScalarProperty Name="strInvoiceValue" ColumnName="strInvoiceValue" />
                 <ScalarProperty Name="strArrivalDate" ColumnName="strArrivalDate" />

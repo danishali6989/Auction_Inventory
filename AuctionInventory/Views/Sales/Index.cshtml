@@ -54,7 +54,7 @@
         <div class="form-group col-xs-4">
             <input type="hidden" id="txtInvoiceNum" />
             @*<input type="hidden" id="strSalesInvoiceNo" />*@
-            <h3><label id="invoiceLbl" class="label label-warning form-control input-group-lg">Sales Inv No: Sale-@(@DateTime.Now.Year % 100)-<span id="spnInvoiceNum"></span></label></h3>
+            <h3><label id="invoiceLbl" class="label label-warning form-control input-group-lg">Sales Inv No: SI-@(@DateTime.Now.Year % 100)-<span id="spnInvoiceNum"></span></label></h3>
         </div>
 
     </div>
@@ -227,20 +227,14 @@
                 { name: 'strCashName', index: 'strCashName', align: 'center' },
                 { name: 'strPaperModeName', index: 'strPaperModeName', align: 'center' },
 
-                //{ name: 'act', index: 'act', width: 350 },
-                //{
-                //    name: 'Action', index: 'Action', align: 'center', width: 200, search: false, title: false,
-                //    formatter: function (cellvalue, options, rowObject) {
-                //        return '<a class="popup btn btn-info" href="/Sales/UpdateSaleVehicle/' + options.rowId + '">' + "Edit" + '</a>' + "     " + '<a class="popup btn btn-info" href="/Sales/DeleteSales/' + options.rowId + '">' + "Delete" + '</a>';
-
-                //    }
-                //},
+                
 
                  {
                      name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
                      formatter: function (cellvalue, options, rowObject) {
 
-                         return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Edit' onclick=\"editRowData('" + options.rowId + "');\"  />";
+                         return "<input class='popup btn btn-warning' style='margin-right: 5%; ' type='button' value='Edit' onclick=\"editRowData('" + options.rowId + "');\"  />";
+                         //+ "   " + '<a class="popup btn btn-danger"  href="/Sales/Delete/' + options.rowId + '">Delete</a>';
                      }
 
                  },
@@ -568,7 +562,7 @@
 
 <script type="text/javascript">
     $(function () { // will trigger when the document is ready
-        $('.datepicker').datepicker(); //Initialise any date pickers
+        $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy' });//Initialise any date pickers
     });
 </script>
 
@@ -724,7 +718,7 @@
                     iInstallment: $("#txtInstallment").val(),
                     iPaymentType: paymentStatus,
                     iImpExpTransfer: paperModeID,
-                   // strSalesInvoiceNo: $("#strSalesInvoiceNo").val()
+                    dtSalesDate: $("#salesDate").val(),
                     strSalesInvoiceNo:$("#invoiceLbl").html()
                 }
 

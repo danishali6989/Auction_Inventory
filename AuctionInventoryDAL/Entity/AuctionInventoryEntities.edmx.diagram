@@ -28,7 +28,7 @@
         <EntityTypeShape EntityType="AuctionInventoryModel.SalesVehicle" Width="1.5" PointX="13.75" PointY="0.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.SingleVehicleExpense" Width="1.5" PointX="13.75" PointY="3.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.StateMaster" Width="1.5" PointX="3" PointY="0.875" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.TPurchase" Width="1.5" PointX="0.75" PointY="5.125" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.TPurchase" Width="1.5" PointX="0.75" PointY="5" />
         <EntityTypeShape EntityType="AuctionInventoryModel.UserLogin" Width="1.5" PointX="13.75" PointY="6.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.Vehicle" Width="1.5" PointX="3" PointY="4.125" />
         <EntityTypeShape EntityType="AuctionInventoryModel.VehicleExpens" Width="1.5" PointX="13.75" PointY="10.75" />

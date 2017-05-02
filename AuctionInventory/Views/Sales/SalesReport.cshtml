@@ -1,0 +1,338 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SalesReport</h2>
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+    /*we have overrides the css to change border color of menus*/
+    .navbar-inverse {
+        background-color: #337ab7;
+        border-color: #333;
+    }
+
+    #divDetails #divParsedExcel {
+        margin-right: 5%;
+        margin-left: 5%;
+    }
+</style>
+<div class="box-body">
+    <input type="hidden" id="hdnSellingPrice" />
+    <div class='form-group col-sm-3'>
+        <label>From Date:</label>
+        <input class='form-control datepicker input-group-sm' placeholder='Enter drop of date...' id='fromDate' />
+    </div>
+    <div class='form-group col-sm-3'>
+        <label>To Date:</label>
+        <input class='form-control datepicker input-group-sm' placeholder='Enter drop of date...' id='toDate' />
+
+    </div>
+    <div class='form-group col-sm-3' style="margin-top:25px;">
+
+        <input type="button" class="btn btn-success  input-group-sm" value="Sort List By Date" id="btnDate" />
+    </div>
+    <br />
+    <div id="divDataGrid">
+        <br /><br /><br />
+        <table id="dataGrid" class="table table-bordered table-striped"></table>
+        <div id="pagingGrid"></div>
+        <br><br>
+    </div>
+    <br />
+    <div id="divDataGridByDate">
+        <br /><br /><br />
+        <table id="dataGridByDate" class="table table-bordered table-striped"></table>
+        <div id="pagingGridByDate"></div>
+        <br><br>
+    </div>
+    <br />
+    <div class='form-group col-sm-2' style="display: none; margin-left: 400px; " id="divBtnPrint">
+
+        <input type="button" class="btn btn-success  input-group-sm" value="Print Report" id="btnPrint" onclick="generateSalesReportPDF()" />
+
+        </div>
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+            //this grid is used to fill the sales list
+
+        $('#dataGrid').jqGrid({
+                caption: "Sales List",
+                url: '/Sales/GetSalesData/',
+                datatype: "json",
+                contentType: "application/json; charset-utf-8",
+                mtype: 'GET',
+
+                colNames: ['iSaleID', 'iSaleFrontEndID', 'iSalesInvoiceID', 'Sales Invoice No', 'iImpExpTransfer', 'iPaymentType', 'iBuyerID', 'BuyerName', 'SalesDate', 'SellingPrice', 'Deposit', 'Advance', 'Balance', 'Installment', 'CashType', 'PaperMode'],
+                colModel: [
+                    { name: 'iSaleID', index: 'iSaleID', hidden: true, hidedlg: true },
+                    { name: 'iSaleFrontEndID', index: 'iSaleFrontEndID', hidden: true, hidedlg: true },
+                    { name: 'iSalesInvoiceID', index: 'iSalesInvoiceID', hidden: true, hidedlg: true },
+                     //{ name: 'strSalesInvoiceNo', index: 'strSalesInvoiceNo', hidden: true, hidedlg: true },
+                    { name: 'strSalesInvoiceNo', index: 'strSalesInvoiceNo', align: 'center' },
+
+                     { name: 'iImpExpTransfer', index: 'iImpExpTransfer', hidden: true, hidedlg: true },
+                      { name: 'iPaymentType', index: 'iPaymentType', hidden: true, hidedlg: true },
+                      { name: 'iBuyerID', index: 'iBuyerID', hidden: true, hidedlg: true },
+                    { name: 'strBuyerName', index: 'strBuyerName', align: 'center' },
+                    { name: 'strSalesDate', index: 'strSalesDate', align: 'center' },
+                    { name: 'dmlSellingPrice', index: 'dmlSellingPrice', align: 'center' },
+                    { name: 'dmlDeposit', index: 'dmlDeposit', align: 'center' },
+                    { name: 'dmlAdvance', index: 'dmlAdvance', align: 'center' },
+                    { name: 'dmlBalance', index: 'dmlBalance', align: 'center' },
+                    { name: 'iInstallment', index: 'iInstallment', align: 'center' },
+                    { name: 'strCashName', index: 'strCashName', align: 'center' },
+                    { name: 'strPaperModeName', index: 'strPaperModeName', align: 'center' },
+
+                ],
+                width: 1100,
+                height: 250,
+                rowNum: 10,
+                loadonce: true,
+                ignoreCase: true,
+                rowList: [10, 20, 30],
+                pager: 'pagingGrid',
+
+            });
+        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+        });
+</script>
+
+<script>
+
+
+
+    $("#btnDate").click(function () {
+
+      
+
+        var fromDate = $("#fromDate").val();
+        var toDate = $("#toDate").val();
+        //alert(fromDate);
+        //alert(toDate);
+        $.ajax({
+            url: '/Sales/GetAllSalesReportByDate/',
+            dataType: 'json',
+            type: 'POST',
+            data: JSON.stringify({ 'fromDate': fromDate, 'toDate': toDate }),
+            contentType: 'application/json; charset=utf-8',
+
+            success: function (result) {
+                $("#dataGridByDate").jqGrid('GridUnload');
+                $('#divBtnPrint').show();
+
+                var salesReportByDate = result.salesReportByDate.salesReportByDate;
+                var sumOfSellingPrice = result.salesReportByDate.sumOfSellingPrice;
+                
+                $('#hdnSellingPrice').val(sumOfSellingPrice);
+
+                $('#dataGridByDate').jqGrid({
+                    data: salesReportByDate,
+                    datatype: "local",
+
+                    colNames: ['Sales Invoice No', 'BuyerName', 'SalesDate', 'SellingPrice', 'Deposit', 'Advance', 'Balance', 'Installment', 'CashType', 'PaperMode'],
+                    colModel: [
+
+                        { name: 'strSalesInvoiceNo', index: 'strSalesInvoiceNo', align: 'center' },
+                        { name: 'strBuyerName', index: 'strBuyerName', align: 'center' },
+                        { name: 'strSalesDate', index: 'strSalesDate', align: 'center' },
+                        { name: 'dmlSellingPrice', index: 'dmlSellingPrice', align: 'center' },
+                        { name: 'dmlDeposit', index: 'dmlDeposit', align: 'center' },
+                        { name: 'dmlAdvance', index: 'dmlAdvance', align: 'center' },
+                        { name: 'dmlBalance', index: 'dmlBalance', align: 'center' },
+                        { name: 'iInstallment', index: 'iInstallment', align: 'center' },
+                        { name: 'strCashName', index: 'strCashName', align: 'center' },
+                        { name: 'strPaperModeName', index: 'strPaperModeName', align: 'center' },
+
+
+                    ],
+                    width: 1050,
+                    height: 250,
+                    rowNum: 30,
+                    ignoreCase: true,
+                    rowList: [10, 20, 30],
+                    pager: 'pagingGridByDate',
+                    caption: "Purchase Report List Between Two Dates",
+
+
+                });
+                jQuery("#dataGridByDate").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+                jQuery("#dataGridByDate").jqGrid('navGrid', '#pagingGridByDate', { edit: false, add: false, del: false, search: false });
+
+
+                $('#divDataGrid').hide();
+                $('#divDataGridByDate').show();
+
+            }
+        });
+    });
+
+
+
+    function generateSalesReportPDF() {
+        
+
+        var griddata = jQuery("#dataGridByDate").getRowData();
+
+        var columns = ['SalesInvNo', 'BuyerName', 'SalesDate', 'Installment', 'CashType', 'PaperMode', 'SellingPrice'];
+
+        var data = [];
+        for (var i = 0; i < griddata.length; i++) {
+            data.push([griddata[i].strSalesInvoiceNo, griddata[i].strBuyerName, griddata[i].strSalesDate, griddata[i].iInstallment, griddata[i].strCashName, griddata[i].strPaperModeName, griddata[i].dmlSellingPrice]);
+        }
+
+        var fromDate = $("#fromDate").val();
+        var toDate = $("#toDate").val();
+        var sumOfSellingPrice = $('#hdnSellingPrice').val();
+
+        var doc = new jsPDF();
+
+
+        doc.setDrawColor(255, 0, 0)
+        doc.text(90, 10, 'Sales Report')
+        doc.text(55, 20, 'From Dt:')
+        doc.text(78, 20, fromDate + ' - ')
+        doc.text(110, 20, 'To Dt:')
+        doc.text(127, 20, toDate)
+
+        doc.line(0, 30, 300, 30)
+        doc.text(162, 10, 'Rprt Dt:')
+        doc.text(182, 10, '01/04/2017')
+        doc.setFontSize(22)
+        doc.setTextColor(0, 0, 255)
+        doc.text(10, 10, 'DAA')       
+       
+        //doc.autoTable(columns, data, { startY: 30, rowHeight: 30, });
+
+      
+       
+
+        doc.autoTable(columns, data, {
+            //startY: doc.autoTable.previous.finalY + 10,
+            startY: 30,
+            styles: {
+               // overflow: 'linebreak',
+                fontSize: 10,
+                rowHeight: 10,
+               
+            },
+            columnStyles: {
+                1: { columnWidth: 'auto' },
+                2: { columnWidth: 'auto' },
+                3: { columnWidth: 'auto' },
+                4: { columnWidth: 'auto' },
+                5: { columnWidth: 'auto' },
+                6: { columnWidth: 'auto' },
+                7: { columnWidth: 'auto' },
+            }
+        });
+
+
+
+       // doc.autoTable(columns, data, { startY: 30, columnStyles: { 0: { columnWidth: 60 }, 1: { columnWidth: 40 }, 2: { columnWidth: 100 } } });
+
+
+        //var ht = 1.3 * 5 * 1.15;
+        //var height = ht + "mm";
+        //Example:
+        //height = 10 pt * 5 lines * 1.15
+        //height = 57.5 pt
+    
+        //for (var i = 0; i < griddata.length; i++) {
+        //    var test = 80 + i;
+    
+            
+        //}
+        //alert(ht);
+        debugger
+        for (var i = 1; i <= data.length; i++) {
+            var test = (40 + (i * 10));
+           
+        }
+           
+           
+       
+
+        //doc.text(10, 50, 'stringx' + test)
+        //doc.text(150, 50, 'stringy' + test)
+        //doc.text(150, 55, 'stringy2' + test)
+
+        doc.setFontSize(12)
+        doc.setLineWidth(1)
+        //doc.line(140, test - 8, 200, test - 8)
+        //doc.line(140, test + 5, 200, test + 5)
+        //doc.line(140, test - 8, 140, test + 5)
+        //doc.line(170, test - 8, 170, test + 5)
+        //doc.line(200, test - 8, 200, test + 5)
+
+        doc.line(140, test+2, 200, test + 2)
+        doc.line(140, test + 12, 200, test + 12)
+        doc.line(140, test + 2, 140, test + 12)
+        doc.line(170, test + 2, 170, test + 12)
+        doc.line(200, test + 2, 200, test + 12)
+        doc.text(145, test+8, 'Total Sale:')
+        //doc.setFillColor(255, 255, 255)
+        doc.text(175, test+8, sumOfSellingPrice)
+        //doc.roundedRect(165, test, 30, 10, 3, 3, 'FD')
+       
+      
+       
+        //doc.setFontSize(12)
+        //doc.text(145, test+7, 'Total Sale')
+        //doc.setFillColor(255, 255, 255)
+        //doc.roundedRect(165, test, 30, 10, 3, 3, 'FD')
+
+            doc.output("dataurlnewwindow");
+      
+
+
+
+
+    }
+
+
+
+
+
+</script>
+
+
+  
+
+
+<script type="text/javascript">
+    $(function () {
+
+        
+        $("#fromDate").val("01/04/2017");
+        $("#toDate").val("30/04/2017");
+
+        $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
+
+    });
+
+</script>
+
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+@*<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>*@
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>
+
+<script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
+<script src="~/Content/plugins/jsPDF/jspdf.plugin.autotable.js"></script>
+
+
+

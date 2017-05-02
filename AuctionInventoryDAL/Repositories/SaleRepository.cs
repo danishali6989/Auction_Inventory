@@ -49,6 +49,7 @@ namespace AuctionInventoryDAL.Repositories
                     sales.iPaymentType = sale.iPaymentType;
                     sales.iImpExpTransfer = sale.iImpExpTransfer;
                     sales.iSalesInvoiceID = sale.iSalesInvoiceID;
+                    sales.dtSalesDate = sale.dtSalesDate;
 
 
                 }
@@ -185,6 +186,44 @@ namespace AuctionInventoryDAL.Repositories
         //}
 
 
+        public dynamic GetAllSalesReportByDate(DateTime fromDate, DateTime toDate)
+        {
+
+            var salesReportByDate = (from AM in auctionContext.Sales
+                                     join t2 in auctionContext.PaperTypes on AM.iImpExpTransfer equals t2.iPaperModeID
+                                     join t3 in auctionContext.PaymentTypes on AM.iPaymentType equals t3.iCashID
+                                     where (AM.dtSalesDate) >= (fromDate) && (AM.dtSalesDate) <= (toDate)
+
+                                     select new
+                                     {
+                                         //iSaleID = AM.iSaleID,
+                                         //iSaleFrontEndID = AM.iSaleFrontEndID,
+                                         //iSalesInvoiceID = AM.iSalesInvoiceID,
+
+                                         strSalesInvoiceNo = AM.strSalesInvoiceNo,
+
+                                         //iImpExpTransfer = AM.iImpExpTransfer,
+                                         //iPaymentType = AM.iPaymentType,
+
+                                         //iBuyerID = AM.iBuyerID,
+                                      
+                                         strBuyerName = AM.strBuyerName,
+                                         strSalesDate = AM.strSalesDate,
+                                         dmlSellingPrice = AM.dmlSellingPrice,
+                                         dmlDeposit = AM.dmlDeposit,
+                                         dmlAdvance = AM.dmlAdvance,
+                                         dmlBalance = AM.dmlBalance,
+                                         iInstallment = AM.iInstallment,
+                                         strCashName = t3.strCashName,
+                                         strPaperModeName = t2.strPaperModeName
+
+                                     }).OrderBy(a => a.strSalesInvoiceNo).ToList();
+
+            var sumOfSellingPrice = salesReportByDate.Sum(x => x.dmlSellingPrice);
+
+            return new { salesReportByDate, sumOfSellingPrice };
+
+        }
         public dynamic GetVehiclesData()
         {
             using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
@@ -311,5 +350,28 @@ namespace AuctionInventoryDAL.Repositories
             SalesFrontEndID = SalesFrontEndID + 1;
             return SalesFrontEndID;
         }
+
+        //public bool Delete(int id)
+        //{
+        //    bool status = false;
+        //    var deleteSale = auctionContext.Sales.Where(a => a.iSaleID == id).FirstOrDefault();
+        //    var saleVehicles = auctionContext.SalesVehicles.Where(a => a.PurchaseID == id);
+        //    //foreach (var vehicleitems in vehicles)
+        //    //{
+
+        //    //}
+        //    if (deleteSale != null && saleVehicles != null)
+        //    {
+        //        auctionContext.TPurchases.Remove(deleteSale);
+
+
+        //        auctionContext.Vehicles.RemoveRange(saleVehicles);
+
+        //        auctionContext.SaveChanges();
+        //        status = true;
+        //    }
+        //    return status;
+        //}
+
     }
 }
