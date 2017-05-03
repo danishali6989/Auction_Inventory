@@ -9,22 +9,26 @@ using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
 using System.Transactions;
+using AuctionInventory.MyRoleProvider;
 
 namespace AuctionInventory.Controllers
 {
-    //[Authorize]
+   // [Authorize]
+    [Permissions(Permissions.View)]
+
     public class MSupplierController : Controller, IDisposable
     {
         private AuctionInventoryEntities db = new AuctionInventoryEntities();
         // GET: MSupplier
-        [Authorize(Roles = "1")]
+        //   [Authorize(Roles = "1")]
+        // [Permissions(Permissions.View)]
         public ActionResult Index()
         {
             return View();
         }
-               
+
         #region CRUD
-       
+
         public ActionResult GetAllSuppliers()
         {
             dynamic listSupplier = 0;
@@ -45,9 +49,9 @@ namespace AuctionInventory.Controllers
 
             }
             return Json(listSupplier, JsonRequestBehavior.AllowGet);
-           
+
         }
-      
+
         [HttpGet]
         public ActionResult Save(int id)
         {
@@ -55,7 +59,7 @@ namespace AuctionInventory.Controllers
 
             ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
             ViewBag.currency = new SelectList(db.MCurrencies, "CurrencyID", "strCurrencyName", supplier.iCurrency);
-           
+
             try
             {
                 if (ModelState.IsValid)
@@ -63,7 +67,7 @@ namespace AuctionInventory.Controllers
 
                     Services.SupplierServiceClient supplierServiceClient = new Services.SupplierServiceClient();
                     supplier = supplierServiceClient.GetSupplier(id);
-                    
+
                 }
             }
             catch (Exception e)
@@ -73,9 +77,9 @@ namespace AuctionInventory.Controllers
                 throw e;
             }
 
-           // return View()
+            // return View()
             return View(supplier);
-           // return View(supplier);
+            // return View(supplier);
         }
 
 
@@ -91,7 +95,7 @@ namespace AuctionInventory.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                       
+
                         // Adding Supplier Code
 
                         HttpPostedFileBase file = Request.Files["ImageData"];
@@ -100,7 +104,7 @@ namespace AuctionInventory.Controllers
 
                         status = supplierServiceClient.SaveEdit(supplier, file);
 
-                       
+
                         if (supplier == null)
                         {
                             ModelState.AddModelError("error", "No Record found");
@@ -127,7 +131,7 @@ namespace AuctionInventory.Controllers
                 }
             }
             return View(supplier);
-           // return View("Index");
+            // return View("Index");
 
         }
 
@@ -155,7 +159,7 @@ namespace AuctionInventory.Controllers
             }
 
             return View("Delete", supplier);
-          
+
         }
 
         [HttpPost]
@@ -185,7 +189,7 @@ namespace AuctionInventory.Controllers
 
             return View("Index");
 
-         
+
 
         }
 
@@ -194,11 +198,11 @@ namespace AuctionInventory.Controllers
 
 
         //for image Retrieve from db  
-         [HttpPost]
+        [HttpPost]
         public ActionResult RetrieveImage(int id)
         {
             dynamic cover = 0;
-          
+
             try
             {
                 if (ModelState.IsValid)

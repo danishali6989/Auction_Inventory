@@ -37,6 +37,7 @@
         <AssociationConnector Association="AuctionInventoryModel.FK_CityMaster_StateMaster" />
         <AssociationConnector Association="AuctionInventoryModel.FK_StateMaster_CountryMaster" />
         <AssociationConnector Association="AuctionInventoryModel.FK_Vehicle_TPurchase" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.tbl_AuthorizedPages" Width="1.5" PointX="10.375" PointY="15.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -54,5 +54,6 @@ namespace AuctionInventoryDAL.Entity
         public virtual DbSet<VehicleExpens> VehicleExpenses { get; set; }
         public virtual DbSet<ExpenseAmount> ExpenseAmounts { get; set; }
         public virtual DbSet<MailModel> MailModels { get; set; }
+        public virtual DbSet<tbl_AuthorizedPages> tbl_AuthorizedPages { get; set; }
     }
 }
