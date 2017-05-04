@@ -141,6 +141,9 @@
     <Compile Include="Entity\StateMaster.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\tbl_AuthorizedPages.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\TPurchase.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>

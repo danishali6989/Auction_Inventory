@@ -52,7 +52,7 @@
           <Property Name="Country" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.ExpenseAmount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.ExpenseAmount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ExpenseAmount">
           <Key>
             <PropertyRef Name="iExpID" />
@@ -62,7 +62,7 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.ExpenseAmount' does not ha
           <Property Name="iExpenseAmount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.MailModel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MailModel">
           <Key>
             <PropertyRef Name="From" />
@@ -251,7 +251,7 @@ warning 6002: The table/view 'DB_A184E6_Testingdb.dbo.MailModel' does not have a
           <Property Name="strCashName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+warning 6013: The table/view 'DB_A1EE51_AuctionDB.dbo.Roles' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="Roles">
           <Property Name="RoleId" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="20" />
@@ -302,6 +302,18 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="CountryID" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tbl_AuthorizedPages">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="PageName" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PageName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TPurchase">
           <Key>
@@ -459,6 +471,13 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
     [MailModel].[Body] AS [Body]
     FROM [dbo].[MailModel] AS [MailModel]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="tbl_AuthorizedPages" EntityType="Self.tbl_AuthorizedPages" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tbl_AuthorizedPages].[id] AS [id], 
+    [tbl_AuthorizedPages].[PageName] AS [PageName], 
+    [tbl_AuthorizedPages].[RoleId] AS [RoleId]
+    FROM [dbo].[tbl_AuthorizedPages] AS [tbl_AuthorizedPages]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_CityMaster_StateMaster" Association="Self.FK_CityMaster_StateMaster">
             <End Role="StateMaster" EntitySet="StateMaster" />
             <End Role="CityMaster" EntitySet="CityMaster" />
@@ -518,6 +537,7 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
             <End Role="TPurchase" EntitySet="TPurchases" />
             <End Role="Vehicle" EntitySet="Vehicles" />
           </AssociationSet>
+          <EntitySet Name="tbl_AuthorizedPages" EntityType="AuctionInventoryModel.tbl_AuthorizedPages" />
         </EntityContainer>
         <EntityType Name="AllVehicleExpense">
           <Key>
@@ -926,6 +946,16 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tbl_AuthorizedPages">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="PageName" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1320,6 +1350,15 @@ warning 6013: The table/view 'DB_A184E6_Testingdb.dbo.Roles' does not have a pri
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="To" ColumnName="To" />
                 <ScalarProperty Name="From" ColumnName="From" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_AuthorizedPages">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.tbl_AuthorizedPages">
+              <MappingFragment StoreEntitySet="tbl_AuthorizedPages">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="PageName" ColumnName="PageName" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
