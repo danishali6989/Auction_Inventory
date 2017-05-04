@@ -293,7 +293,7 @@
                         <input type="button" style="margin-left: -135px;" class='popup btn btn-info' name="Save" value="Print Custom Invoice" onclick="generateCustomPDF()" />
                     </div>
 
-                    <input type="button" style=" margin-left: 395px; margin-top: -33px;" class="btn btn-warning col-md-2" value="Cancel" onclick="Cancel();" id="cancelVehiclesExpenseInfo">
+                    <input type="button" style=" margin-left: 450px; margin-top: -33px;" class="btn btn-warning col-md-2" value="Cancel" onclick="Cancel();" id="cancelVehiclesExpenseInfo">
 
 
 
@@ -324,37 +324,101 @@
 
 </script>
 
-
-
 <script>
 
     function generateInvoicePDF() {
+            debugger
 
-        $.ajax({
-            cache: false,
-            type: "POST",
-            url: "/TPurchase/GenerateInvoicePDF",
-            dataType: 'json',
-            success: function (result) {
+            var griddata = jQuery("#dataGrid").getRowData();
 
-                debugger;
-                var columns = ['Lot No', 'Chasis No', 'Make', 'Model', 'Category', 'Year', 'Color', 'Origin', 'Location', 'JPY'];
+            var columns = ['Lot No', 'Chasis No', 'Make', 'Model', 'Category', 'Year', 'Color', 'Origin', 'Location', 'JPY'];
 
-                var data = [];
-                for (var i = 1; i < result.length; i++) {
+            var data = [];
+            for (var i = 0; i < griddata.length; i++) {
+               
 
-                    data.push([result[i].LotNum, result[i].ChassisNum, result[i].Make, result[i].iModel, result[i].Category, result[i].Year, result[i].color, result[i].Origin, result[i].Location, result[i].JPY]);
+                data.push([griddata[i].iLotNum, griddata[i].strChassisNum, griddata[i].strMake, griddata[i].iModel, griddata[i].strCategory,
+                    griddata[i].iYear, griddata[i].strColor, griddata[i].strOrigin, griddata[i].strLocation, griddata[i].iCustomValInJPY]);
 
-                }
-                var doc = new jsPDF();
-                doc.autoTable(columns, data);
-                doc.output("dataurlnewwindow");
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert('Failed to retrieve data.');
             }
-        });
-    }
+
+            
+            var invoiceDate = $("#strPurchaseInvoiceDate").val();
+            //var fromDate = $("#fromDate").val();
+            //var toDate = $("#toDate").val();
+            //var dcmlAED = $('#spnINVAED').text();
+            var dcmlJYP = $('#spnINVJPY').text();
+
+          
+
+            data.push([, , , , , , , , 'Total', dcmlJYP]);
+
+            var d = new Date();
+
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+
+            var ReportDate = (('' + day).length < 2 ? '0' : '') + day + '/' + (('' + month).length < 2 ? '0' : '') + month + '/' + d.getFullYear();
+
+
+            var doc = new jsPDF();
+
+            var totalPagesExp = "{total_pages_count_string}";
+
+            var pageContent = function (data) {
+                // HEADER
+
+                doc.setFontSize(20);
+                doc.setTextColor(40);
+                doc.setFontStyle('normal');
+
+
+                doc.text("Purchase Invoice Report", data.settings.margin.left + 50, 10);
+                doc.text("Invoice Date:", data.settings.margin.left + 25, 20);
+                doc.text(invoiceDate, data.settings.margin.left + 67, 20);
+                //doc.text("To Dt:", data.settings.margin.left + 95, 20);
+                //doc.text(toDate, data.settings.margin.left + 115, 20);
+                doc.text("Rprt Dt:", data.settings.margin.left + 110, 20);
+                doc.text(ReportDate, data.settings.margin.left + 135, 20);
+                doc.setFontSize(30)
+                doc.setTextColor(0, 0, 255)
+                doc.text('DAA', data.settings.margin.left, 20);
+
+                // FOOTER
+                var str = "Page " + data.pageCount;
+                // Total page number plugin only available in jspdf v1.0+
+                if (typeof doc.putTotalPages === 'function') {
+                    str = str + " of " + totalPagesExp;
+                }
+                doc.setFontSize(10);
+                doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
+
+                //doc.text('Note: This is computer generated ', data.settings.margin.left, 20);
+            };
+
+            doc.autoTable(columns, data, {
+                theme: 'grid',
+                addPageContent: pageContent,
+                margin: { top: 30 },
+
+                drawCell: function (cell, data) {
+                    var rows = data.table.rows;
+                    if (data.row.index == rows.length - 1) {
+                        // doc.setFillColor(200, 200, 255);
+                        doc.setFillColor(26, 188, 156);
+                        doc.setFontStyle('bold');
+                        //doc.setFontSize(16);
+                    }
+                },
+            });
+
+            // Total page number plugin only available in jspdf v1.0+
+            if (typeof doc.putTotalPages === 'function') {
+                doc.putTotalPages(totalPagesExp);
+            }
+            doc.output("dataurlnewwindow");
+        }
+
 
     function generateCustomPDF() {
         debugger;
@@ -483,7 +547,7 @@
     $("#btnSaveJQ").click(function () {
         debugger;
 
-        alert($('#spnINVAED').text() + "    JPY" + $('#spnINVJPY').text());
+       // alert($('#spnINVAED').text() + "    JPY" + $('#spnINVJPY').text());
         
         var data = $('#invoiceLbl').text().split(':');
 

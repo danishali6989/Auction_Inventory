@@ -92,7 +92,10 @@ namespace AuctionInventoryDAL.Repositories
 
                                       }).OrderBy(a => a.strPurchaseInvoiceNo).ToList();
 
-            return purchaseReportByDate;
+            var sumOfAED = purchaseReportByDate.Sum(x => x.dcmlAED);
+            var sumOfJYP = purchaseReportByDate.Sum(x => x.dcmlJYP);
+            return new { purchaseReportByDate, sumOfAED, sumOfJYP };
+            //return purchaseReportByDate;
 
         }
 

@@ -1066,6 +1066,7 @@
     <Content Include="Content\Style\Site.css" />
     <Content Include="Images\delete %282%29.png" />
     <Content Include="Images\edit %282%29.png" />
+    <Content Include="Images\FreeGreatPicture.com-7022-background-color.jpg" />
     <Content Include="Scripts\default.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Content\bootstrap\css\bootstrap.css.map" />
