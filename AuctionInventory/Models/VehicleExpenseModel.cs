@@ -20,5 +20,10 @@ namespace AuctionInventory.Models
         public Nullable<decimal> dcmlSpreadAmount { get; set; }
         public Nullable<bool> isSpread { get; set; }
         public string strPurchaseInvoiceNo { get; set; }
+        public Nullable<decimal> dcmlDOExpenseAmount { get; set; }
+        public Nullable<decimal> dcmlDPAExpenseAmount { get; set; }
+        public Nullable<decimal> dcmlTRANSPORTExpenseAmount { get; set; }
+        public Nullable<decimal> dcmlRAMPExpenseAmount { get; set; }
+        public Nullable<decimal> dcmlRECOVERYExpenseAmount { get; set; }
     }
 }

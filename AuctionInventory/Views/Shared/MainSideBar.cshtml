@@ -50,7 +50,11 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
+
+                        <li><a href="@Url.Action("Save", "MCategory", new { id = 0 })"><i class="fa fa-circle-o"></i>Create Category</a></li>
                         <li><a href="@Url.Action("Index", "MCategory")"><i class="fa fa-circle-o"></i>Category List</a></li>
+
+                       
                    </ul>
                 </li>
                 @*<li class="treeview">
@@ -78,7 +82,10 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Save", "MCurrency", new { id = 0 })"><i class="fa fa-circle-o"></i>Create Currency</a></li>
                         <li><a href="@Url.Action("Index", "MCurrency")"><i class="fa fa-circle-o"></i>Currency List</a></li>
+
+                      
                    </ul>
                 </li>
             }
@@ -96,7 +103,10 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Save", "MCustomer", new { id = 0 })"><i class="fa fa-circle-o"></i>Create Customer</a></li>
                         <li><a href="@Url.Action("Index", "MCustomer")"><i class="fa fa-circle-o"></i>Customer List</a></li>
+
+                        
                     </ul>
                 </li>
             }
@@ -114,7 +124,10 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Save", "MSupplier", new { id = 0 })"><i class="fa fa-circle-o"></i>Create Supplier</a></li>
                         <li><a href="@Url.Action("Index", "MSupplier")"><i class="fa fa-circle-o"></i>Supplier List</a></li>
+
+                       
                    </ul>
                 </li>
                 
@@ -131,7 +144,10 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Save", "MStaff", new { id = 0 })"><i class="fa fa-circle-o"></i>Create Employee</a></li>
                         <li><a href="@Url.Action("Index", "MStaff")"><i class="fa fa-circle-o"></i>Employee List</a></li>
+
+                      
                    </ul>
                 </li>
                 
@@ -152,9 +168,17 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Save", "MExpenses", new { id = 0 })"><i class="fa fa-circle-o"></i>Create Expenses</a></li>
                         <li><a href="@Url.Action("Index", "MExpenses")"><i class="fa fa-circle-o"></i>Expenses List</a></li>
-                        <li><a href="@Url.Action("AllVehicleExpensesList", "MExpenses")"><i class="fa fa-circle-o"></i> All Vehicle Expenses</a></li>
-                        <li><a href="@Url.Action("SingleVehicleExpensesList", "MExpenses")"><i class="fa fa-circle-o"></i> Single Vehicle Expenses</a></li>
+
+
+                        <li><a href="@Url.Action("AllVehicleExpenses", "MExpenses")"><i class="fa fa-circle-o"></i>Create  All Vehicle Expenses</a></li>
+                        <li><a href="@Url.Action("AllVehicleExpensesList", "MExpenses")"><i class="fa fa-circle-o"></i> All Vehicle Expenses List</a></li>
+
+
+                        <li><a href="@Url.Action("SingleVehicleExpenses", "MExpenses")"><i class="fa fa-circle-o"></i>Create Single Vehicle Expenses</a></li>
+                        <li><a href="@Url.Action("SingleVehicleExpensesList", "MExpenses")"><i class="fa fa-circle-o"></i> Single Vehicle Expenses List</a></li>
+                                        
                     </ul>
                 </li>
                 
@@ -171,6 +195,8 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Index", "TPurchase")"><i class="fa fa-circle-o"></i>Create Purchase</a></li>
+
                         <li><a href="@Url.Action("GetPurchaseList", "TPurchase")"><i class="fa fa-circle-o"></i>Purchase List</a></li>
                    </ul>
                 </li>
@@ -186,6 +212,8 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
+
+                        <li><a href="@Url.Action("Index", "Auction")"><i class="fa fa-circle-o"></i>Create Auction</a></li>
                         <li><a href="@Url.Action("AuctionList", "Auction")"><i class="fa fa-circle-o"></i>Auction List</a></li>
                    </ul>
                 </li>
@@ -203,7 +231,8 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="@Url.Action("Index", "Sales")"><i class="fa fa-circle-o"></i>Sales</a></li>
+                        <li><a href="@Url.Action("SaleVehicle", "Sales")"><i class="fa fa-circle-o"></i>Create Sales</a></li>
+                        <li><a href="@Url.Action("Index", "Sales")"><i class="fa fa-circle-o"></i>Sales List</a></li>
                    </ul>
                 </li>
             }
@@ -221,7 +250,10 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
+
+                        <li><a href="@Url.Action("Index", "Papers")"><i class="fa fa-circle-o"></i>Create Papers</a></li>
                         <li><a href="@Url.Action("PapersList", "Papers")"><i class="fa fa-circle-o"></i>Paper Details</a></li>
+
                     </ul>
                 </li>
 
@@ -249,13 +281,33 @@
 
             @if (menu.ShowReports)
             {
-                <li class="treeview">
+                
+                
+                
+                 <li class="treeview">
+
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Reports Management</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+
+                        <li><a href="@Url.Action("PurchaseReport", "TPurchase")"><i class="fa fa-circle-o"></i>Purchase Reports</a></li>
+                        <li><a href="@Url.Action("SalesReport", "Sales")"><i class="fa fa-circle-o"></i>Sales Reports</a></li>
+                        @*<li><a href="@Url.Action("PapersList", "Papers")"><i class="fa fa-circle-o"></i> Reports</a></li>*@
+
+                    </ul>
+                </li>
+                
+                
+                @*<li class="treeview">
 
 
-                    @*<a href="@Url.Action("Index", "MSupplier")">
+                    <a href="@Url.Action("Index", "MSupplier")">
 
                         <i class="fa fa-edit"></i> <span>Supplier Management</span>
-                    </a>*@
+                    </a>
                     <a href="#">
                         <i class="fa fa-laptop"></i>
                         <span>Reports Management</span>
@@ -265,7 +317,7 @@
                         <li><a href="#"><i class="fa fa-circle-o"></i> Reports listing</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i> Reports filtering</a></li>
                     </ul>
-                </li>
+                </li>*@
             }
 
             @*Commented Temprory Uncomment if reuired*@

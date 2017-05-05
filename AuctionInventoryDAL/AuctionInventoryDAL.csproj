@@ -153,7 +153,7 @@
     <Compile Include="Entity\Vehicle.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entity\VehicleExpens.cs">
+    <Compile Include="Entity\VehicleExpense.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

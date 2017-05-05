@@ -61,50 +61,61 @@
                    
                 </div>
 
-                <div id="AddExpenseDynamic" style="display:none">
-                    <div class='row form-group col-sm-4'>
+
+           
+
+           
+
+                <div id="AddExpenseDynamic">
+                    @*<div class='row form-group col-sm-4'>
                         <input type="hidden" id="hfExpense" />
                         <input type="text" class='form-control input-group-sm' id="txtSearchExpense" name="name" placeholder="search Expenses" />
-                    </div>
-
-                    <input id="btnAdd" class='btn btn-success' style="margin-left: 25px;" type="button" value="ADD Expenses" />
-
-                    <br />
-                    <br />
-                    <div id="TextBoxContainer">
-                        <!--Textboxes will be added here -->
-                    </div>
-                    <br />
-
-                    <div id="totalExpense" style="display:none">
-                        <br />
+                    </div>*@
+                    <div class="col-md-4">                      
                        
-                        <div>
-
-
-                            <label style='background-color:orange'>Total Sum :<span id="totalSum">0</span></label>
-                            <br />
-
-
+                            <label>D/O Expense</label>
+                            <input type="text" class=' form-control  input-group-lg' id="txtDOExpense" name='DynamicTextBox' placeholder="Enter D/O Expense" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>DPA Expense</label>
+                            <input type="text" class=' form-control  input-group-lg' id="txtDPAExpense" name='DynamicTextBox' placeholder="Enter DPA Expense" />
                         </div>
 
-                        @*<input type="button" value="ADD All Expenses" class="btn btn-success" id="btnAddTotalSum" />
+                        <div class="col-md-4">
+                            <label>Transport Expense</label>
+                            <input type="text" class=' form-control  input-group-lg' id="txtTransportExpense" name='DynamicTextBox' placeholder="Enter Transport Expense" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Ramp Expense</label>
+                            <input type="text" class=' form-control  input-group-lg' id="txtRampExpense" name='DynamicTextBox' placeholder="Enter Ramp Expense" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Recovery Expense</label>
+                            <input type="text" class=' form-control  input-group-lg' id="txtRecoveryExpense" name='DynamicTextBox' placeholder="Enter Recovery Expense" />
+                        </div>
+
+                        @*<input id="btnAdd" class='btn btn-success' style="margin-left: 25px;" type="button" value="ADD Expenses" />*@
+
+                        <br /><br /><br />
+                 
+                        <div class="form-group col-xs-4">
+                            <h3><label class="label label-warning form-control input-group-lg" style='background-color:orange'>Total Sum :<span id="totalSum">0</span></label></h3>
+                        </div>
+
+
                         <br />
-                        <br />
-                        <label>Total Expense Amount :</label><input type="text" id="totalSum" readonly />*@
-                        @*<br />
-                        <input type="button" value="Save" class="btn btn-success" id="btnSaveAllVehiclesExpense" />*@
 
 
-                        
-
-                    </div>
-                </div>
+</div>
+            <br />
             <div>
                 <br />
                 <div id="dialog" style="display: none" align="center">
                     Do you want to Save this Expenses?
                 </div>
+                <br />
                 <input type="button" style="margin-left: 330px;" class="btn btn-success col-md-2" id="btnSaveAllVehiclesExpense" value="Save">
 
                 <input type="button" style="margin-left: 40px" class="btn btn-warning col-md-2" value="Cancel" onclick="CancelVehiclesExpenseInfo();" id="cancelVehiclesExpenseInfo">
@@ -120,60 +131,60 @@
         window.location.href = "/MExpenses/AllVehicleExpensesList";
     }
 
-    $(function () {
-        $("#txtSearchExpense").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: '/MExpenses/AutoCompleteExpense/',
-                    data: "{ 'prefix': '" + request.term + "'}",
-                    dataType: "json",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        if (!data.length) {
-                            var result = [
-                             {
-                                 label: 'No matches found',
-                                 value: response.term
-                             }
-                            ];
-                            response(result);
-                        }
-                        else {
-                            // normal response
-                            response($.map(data, function (item) {
-                                return {
+    //$(function () {
+    //    $("#txtSearchExpense").autocomplete({
+    //        source: function (request, response) {
+    //            $.ajax({
+    //                url: '/MExpenses/AutoCompleteExpense/',
+    //                data: "{ 'prefix': '" + request.term + "'}",
+    //                dataType: "json",
+    //                type: "POST",
+    //                contentType: "application/json; charset=utf-8",
+    //                success: function (data) {
+    //                    if (!data.length) {
+    //                        var result = [
+    //                         {
+    //                             label: 'No matches found',
+    //                             value: response.term
+    //                         }
+    //                        ];
+    //                        response(result);
+    //                    }
+    //                    else {
+    //                        // normal response
+    //                        response($.map(data, function (item) {
+    //                            return {
 
-                                    label: item.strExpenseName,
-                                    value: item.strExpenseName,
-                                    iExpenseID: item.iExpenseID
-                                }
-                            }));
-                        }
-                    }
+    //                                label: item.strExpenseName,
+    //                                value: item.strExpenseName,
+    //                                iExpenseID: item.iExpenseID
+    //                            }
+    //                        }));
+    //                    }
+    //                }
 
 
-                });
-            },
-            select: function (event, i) {
+    //            });
+    //        },
+    //        select: function (event, i) {
 
-                event.preventDefault();
+    //            event.preventDefault();
 
-                $("#txtSearchExpense").val(i.item.value);
-                //$("#txtSearchSupplier").val(i.item.strLastName);
-                //$("#txtSearchSupplier").val(i.item.strEmailID);
-                $("#hfExpense").val(i.item.iExpenseID);
+    //            $("#txtSearchExpense").val(i.item.value);
+    //            //$("#txtSearchSupplier").val(i.item.strLastName);
+    //            //$("#txtSearchSupplier").val(i.item.strEmailID);
+    //            $("#hfExpense").val(i.item.iExpenseID);
 
-                //alert(i.item.iExpenseID);
-                //var id = i.item.value;
+    //            //alert(i.item.iExpenseID);
+    //            //var id = i.item.value;
 
-                //$('#btnAdd').attr('onClick', 'AddTextBox(' + id + ')');
+    //            //$('#btnAdd').attr('onClick', 'AddTextBox(' + id + ')');
 
-                return false;
-            },
-            minLength: 1
-        });
-    });
+    //            return false;
+    //        },
+    //        minLength: 1
+    //    });
+    //});
 </script>
 
 <script type="text/javascript">
@@ -195,6 +206,8 @@
                
                 bindGrid(listPurchase);
                 $('#AddExpenseDynamic').show();
+
+               
             }
         });
 
@@ -245,80 +258,65 @@
     $(function () {
 
 
-        $("#btnAdd").bind("click", function () {
+        //$("#btnAdd").bind("click", function () {
 
-            if (document.getElementById('txtSearchExpense').value == "" || document.getElementById('txtSearchExpense').value == "No matches found") {
+        //    if (document.getElementById('txtSearchExpense').value == "" || document.getElementById('txtSearchExpense').value == "No matches found") {
 
-                $('#txtSearchExpense').css('border-color', 'red');
-            }
-            else {
-                $('#txtSearchExpense').css('border-color', '');
-                var id = $("#hfExpense").val();
-                var value = $("#txtSearchExpense").val();
-
-
-                var addVehicleID = false;
-                $.map(arrExpenseID, function (elementOfArray, indexInArray) {
-                    if (elementOfArray.ExpenseID == id) {
-
-                        addVehicleID = true;
-                    }
-                })
-                if (!addVehicleID) {
-                    arrExpenseID.push({ ExpenseID: id })
+        //        $('#txtSearchExpense').css('border-color', 'red');
+        //    }
+        //    else {
+        //        $('#txtSearchExpense').css('border-color', '');
+        //        var id = $("#hfExpense").val();
+        //        var value = $("#txtSearchExpense").val();
 
 
-                $('#TextBoxContainer').append("<div  class='row' name='divForExpense'>"
+        //        var addVehicleID = false;
+        //        $.map(arrExpenseID, function (elementOfArray, indexInArray) {
+        //            if (elementOfArray.ExpenseID == id) {
 
-                    + "<div class='form-group col-sm-2'>"
-                    + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>"
-                    + "<label  class='form-control input-group-sm'  style='background-color:orange' id='lblExpense" + counter + "'>" + value + ":</label></div>"
-                     + "<div class='form-group col-sm-2'>"
-                    + "<input  type='number' class='txtAmountClass form-control input-group-sm'  style='margin-left: -20px;' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount"
-                    + counter + "' /></div>"
-                     + "<div class='form-group col-sm-2'>"
-                    + "<input type='button' value='Remove' style='margin-left: -35px;'   onclick='myFunction(" + id + ")' class='remove btn btn-success' id='btnRemove"
-                    + counter + "' /></div></div>");
+        //                addVehicleID = true;
+        //            }
+        //        })
+        //        if (!addVehicleID) {
+        //            arrExpenseID.push({ ExpenseID: id })
 
 
-                    counter++;
+        //        $('#TextBoxContainer').append("<div  class='row' name='divForExpense'>"
 
-                    $("#totalExpense").show();
-                    $('#txtSearchExpense').val("");
-                }
-
-                //$('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
-
-
-                //counter++;
-
-                //$("#totalExpense").show();
-                //$('#txtSearchExpense').val("");
-
-            }
+        //            + "<div class='form-group col-sm-2'>"
+        //            + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>"
+        //            + "<label  class='form-control input-group-sm'  style='background-color:orange' id='lblExpense" + counter + "'>" + value + ":</label></div>"
+        //             + "<div class='form-group col-sm-2'>"
+        //            + "<input  type='number' class='txtAmountClass form-control input-group-sm'  style='margin-left: -20px;' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount"
+        //            + counter + "' /></div>"
+        //             + "<div class='form-group col-sm-2'>"
+        //            + "<input type='button' value='Remove' style='margin-left: -35px;'   onclick='myFunction(" + id + ")' class='remove btn btn-success' id='btnRemove"
+        //            + counter + "' /></div></div>");
 
 
+        //            counter++;
+
+        //            $("#totalExpense").show();
+        //            $('#txtSearchExpense').val("");
+        //        }
+
+        //        //$('#TextBoxContainer').append("<div>" + "<label style='display:none'  id='lblExpenseID" + counter + "'>" + id + "</label>" + "<label  id='lblExpense" + counter + "'>" + value + "</label>" + "<input  type='number' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount" + counter + "' />" + "<input type='button' value='Remove' class='remove' id='btnRemove" + counter + "' />'</div>");
+
+
+        //        //counter++;
+
+        //        //$("#totalExpense").show();
+        //        //$('#txtSearchExpense').val("");
+
+        //    }
 
 
 
-        });
-
-        //Adding total Amount To Textbox
 
 
-        //$(function () {
-        //    $("#btnAddTotalSum").click(function () {
-        //        calculateSum();
-
-        //        //debugger;
-        //        //ALLExpense();
-
-
-        //        //SaveALLExpense(favorite);
-
-
-        //    });
         //});
+
+       
 
 
         $("#btnSaveAllVehiclesExpense").click(function () {
@@ -347,10 +345,10 @@
                     //calling function here for update
 
 
-                    for (var i = 1; i < counter; i++) {
-                        var ExpenseID = $("#lblExpenseID" + i).html();
+                  
+                       // var ExpenseID = $("#lblExpenseID" + i).html();
                         //var ExpenseName = $("#lblExpense" + i).html();
-                        var ExpenseAmount = $("#txtAmount" + i).val();
+                        //var ExpenseAmount = $("#txtAmount" + i).val();
                         var ExpenseTotalAmount = parseInt($("#totalSum").html());
                         var expenseAmount =
                               {
@@ -359,20 +357,27 @@
                                   iPurchaseInvoiceID: $("#invno").val(),
                                   strExpenseDate: $("#txtAllExpDate").val(),
 
-                                  iExpenseID: ExpenseID,
+                                  //iExpenseID: ExpenseID,
+                                  //dcmlExpenseAmount: ExpenseAmount,
+
+
                                   //iCategoryID: 2,
                                   //iSubCategoryID: 1,
-                                  dcmlExpenseAmount: ExpenseAmount,
+                                  
                                   dcmlTotalExpenseAmount: ExpenseTotalAmount,
                                   iVehicleExpenseTypeID: 1,
-                                  strPurchaseInvoiceNo: $('#hfStrPurchaseInvoiceNo').val()
+                                  strPurchaseInvoiceNo: $('#hfStrPurchaseInvoiceNo').val(),
+
+
+                            dcmlDOExpenseAmount : $('#txtDOExpense').val(),
+                            dcmlDPAExpenseAmount : $('#txtDPAExpense').val(),
+                            dcmlRAMPExpenseAmount: $('#txtRampExpense').val(),
+                            dcmlTRANSPORTExpenseAmount: $('#txtTransportExpense').val(),
+                            dcmlRECOVERYExpenseAmount: $('#txtRecoveryExpense').val()
 
                               }
                         favorite.push(expenseAmount);
 
-
-
-                    }
                     SaveALLExpense(favorite);
                     $(this).dialog('close');
                 }
@@ -565,7 +570,7 @@
 </script>
 <script type="text/javascript">
     $(function () { // will trigger when the document is ready
-        $('.datepicker').datepicker(); //Initialise any date pickers
+        $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy' }); //Initialise any date pickers
         //$('input[type=datetime]').datepicker();
     });
 

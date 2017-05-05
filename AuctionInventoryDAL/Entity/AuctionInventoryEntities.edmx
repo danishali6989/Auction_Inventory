@@ -391,6 +391,11 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
           <Property Name="dcmlSpreadAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="isSpread" Type="bit" />
           <Property Name="strPurchaseInvoiceNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="dcmlDOExpenseAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlDPAExpenseAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlTRANSPORTExpenseAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlRAMPExpenseAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlRECOVERYExpenseAmount" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="FK_CityMaster_StateMaster">
           <End Role="StateMaster" Type="Self.StateMaster" Multiplicity="0..1" />
@@ -522,9 +527,10 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
           <EntitySet Name="TPurchases" EntityType="AuctionInventoryModel.TPurchase" />
           <EntitySet Name="UserLogins" EntityType="AuctionInventoryModel.UserLogin" />
           <EntitySet Name="Vehicles" EntityType="AuctionInventoryModel.Vehicle" />
-          <EntitySet Name="VehicleExpenses" EntityType="AuctionInventoryModel.VehicleExpens" />
+          <EntitySet Name="VehicleExpenses" EntityType="AuctionInventoryModel.VehicleExpense" />
           <EntitySet Name="ExpenseAmounts" EntityType="AuctionInventoryModel.ExpenseAmount" />
           <EntitySet Name="MailModels" EntityType="AuctionInventoryModel.MailModel" />
+          <EntitySet Name="tbl_AuthorizedPages" EntityType="AuctionInventoryModel.tbl_AuthorizedPages" />
           <AssociationSet Name="FK_CityMaster_StateMaster" Association="AuctionInventoryModel.FK_CityMaster_StateMaster">
             <End Role="StateMaster" EntitySet="StateMasters" />
             <End Role="CityMaster" EntitySet="CityMasters" />
@@ -537,7 +543,6 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
             <End Role="TPurchase" EntitySet="TPurchases" />
             <End Role="Vehicle" EntitySet="Vehicles" />
           </AssociationSet>
-          <EntitySet Name="tbl_AuthorizedPages" EntityType="AuctionInventoryModel.tbl_AuthorizedPages" />
         </EntityContainer>
         <EntityType Name="AllVehicleExpense">
           <Key>
@@ -872,7 +877,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
           <Property Name="dcmlExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="TPurchase" Relationship="AuctionInventoryModel.FK_Vehicle_TPurchase" FromRole="Vehicle" ToRole="TPurchase" />
         </EntityType>
-        <EntityType Name="VehicleExpens">
+        <EntityType Name="VehicleExpense">
           <Key>
             <PropertyRef Name="iVehicleExpenseID" />
           </Key>
@@ -889,6 +894,11 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
           <Property Name="dcmlSpreadAmount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="isSpread" Type="Boolean" />
           <Property Name="strPurchaseInvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dcmlDOExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlDPAExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlTRANSPORTExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlRAMPExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlRECOVERYExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="ExpenseAmount">
           <Key>
@@ -909,6 +919,16 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
           <Property Name="To" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Subject" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Body" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_AuthorizedPages">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="PageName" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_CityMaster_StateMaster">
           <End Type="AuctionInventoryModel.StateMaster" Role="StateMaster" Multiplicity="0..1" />
@@ -946,16 +966,6 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="tbl_AuthorizedPages">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="PageName" />
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PageName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="RoleId" Type="Int32" Nullable="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1316,8 +1326,13 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VehicleExpenses">
-            <EntityTypeMapping TypeName="AuctionInventoryModel.VehicleExpens">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.VehicleExpense">
               <MappingFragment StoreEntitySet="VehicleExpenses">
+                <ScalarProperty Name="dcmlRECOVERYExpenseAmount" ColumnName="dcmlRECOVERYExpenseAmount" />
+                <ScalarProperty Name="dcmlRAMPExpenseAmount" ColumnName="dcmlRAMPExpenseAmount" />
+                <ScalarProperty Name="dcmlTRANSPORTExpenseAmount" ColumnName="dcmlTRANSPORTExpenseAmount" />
+                <ScalarProperty Name="dcmlDPAExpenseAmount" ColumnName="dcmlDPAExpenseAmount" />
+                <ScalarProperty Name="dcmlDOExpenseAmount" ColumnName="dcmlDOExpenseAmount" />
                 <ScalarProperty Name="strPurchaseInvoiceNo" ColumnName="strPurchaseInvoiceNo" />
                 <ScalarProperty Name="isSpread" ColumnName="isSpread" />
                 <ScalarProperty Name="dcmlSpreadAmount" ColumnName="dcmlSpreadAmount" />

@@ -470,7 +470,7 @@ namespace AuctionInventoryDAL.Repositories
 
 
 
-        public bool SaveRepoVehicleExpense(List<VehicleExpens> expense, string refenceNumber, int id)
+        public bool SaveRepoVehicleExpense(List<VehicleExpense> expense, string refenceNumber, int id)
         {
            
             var spreadAmount=(decimal?)0;
@@ -544,7 +544,7 @@ namespace AuctionInventoryDAL.Repositories
                             }
                         }
                     }
-                    auctionContext.SaveChanges();
+                    //auctionContext.SaveChanges();
 
                 }
 
@@ -558,9 +558,9 @@ namespace AuctionInventoryDAL.Repositories
                         item.strExpenseKey = refenceNumber;
                         auctionContext.VehicleExpenses.Add(item);
                     }
-                    auctionContext.SaveChanges();
+                   
                 }
-            
+            auctionContext.SaveChanges();
             status = true;
             return status;
         }

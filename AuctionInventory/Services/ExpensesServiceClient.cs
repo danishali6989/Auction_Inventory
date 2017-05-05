@@ -201,16 +201,16 @@ namespace AuctionInventory.Services
             return listExpenses;
         }
 
-        private List<VehicleExpens> ParserAddVehicleExpenses(List<VehicleExpenseModel> expenses)
+        private List<VehicleExpense> ParserAddVehicleExpenses(List<VehicleExpenseModel> expenses)
         {
-            List<VehicleExpens> listAllVehicleExpense = new List<VehicleExpens>();
+            List<VehicleExpense> listAllVehicleExpense = new List<VehicleExpense>();
             foreach (var item in expenses)
             {
 
 
                 if (expenses != null)
                 {
-                    VehicleExpens mVehicleExpense = new VehicleExpens();
+                    VehicleExpense mVehicleExpense = new VehicleExpense();
 
                     
 
@@ -233,6 +233,12 @@ namespace AuctionInventory.Services
                     mVehicleExpense.isSpread = item.isSpread;
 
                     mVehicleExpense.strRemarks = item.strRemarks ?? " ";
+
+                    mVehicleExpense.dcmlDOExpenseAmount = item.dcmlDOExpenseAmount;
+                    mVehicleExpense.dcmlDPAExpenseAmount = item.dcmlDPAExpenseAmount;
+                    mVehicleExpense.dcmlRAMPExpenseAmount = item.dcmlRAMPExpenseAmount;
+                    mVehicleExpense.dcmlTRANSPORTExpenseAmount = item.dcmlTRANSPORTExpenseAmount;
+                    mVehicleExpense.dcmlRECOVERYExpenseAmount = item.dcmlRECOVERYExpenseAmount;
 
                     listAllVehicleExpense.Add(mVehicleExpense);
                 }
