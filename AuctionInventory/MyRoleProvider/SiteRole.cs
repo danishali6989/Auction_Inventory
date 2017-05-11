@@ -124,10 +124,10 @@ namespace AuctionInventory.MyRoleProvider
 
                 throw new AuthenticationException("You do not have the necessary permission to perform this action");
             }
+            //Do Not Delete -- Will use in future for addtional permissions
             //else
             //{
-            //    var test = required;
-            //    if (true)
+            //    if (!user.HasPermissions(required))
             //    {
             //        throw new AuthenticationException("You do not have the necessary permission to perform this action");
             //    }
