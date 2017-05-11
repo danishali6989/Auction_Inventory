@@ -250,12 +250,6 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.MailModel' does not have a
           <Property Name="iCashID" Type="int" />
           <Property Name="strCashName" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'DB_A1EE51_AuctionDB.dbo.Roles' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="Roles">
-          <Property Name="RoleId" Type="int" />
-          <Property Name="Name" Type="nvarchar" MaxLength="20" />
-        </EntityType>-->
         <EntityType Name="Sales">
           <Key>
             <PropertyRef Name="iSaleID" />
@@ -312,8 +306,29 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
             <PropertyRef Name="RoleId" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PageId" Type="bigint" />
           <Property Name="PageName" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_Pages' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tbl_Pages">
+          <Key>
+            <PropertyRef Name="PageId" />
+          </Key>
+          <Property Name="PageId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PageNameController" Type="nvarchar" MaxLength="250" />
+          <Property Name="DefaultPageName" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tbl_UserRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="TPurchase">
           <Key>
@@ -479,9 +494,23 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
           <EntitySet Name="tbl_AuthorizedPages" EntityType="Self.tbl_AuthorizedPages" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [tbl_AuthorizedPages].[id] AS [id], 
+    [tbl_AuthorizedPages].[PageId] AS [PageId], 
     [tbl_AuthorizedPages].[PageName] AS [PageName], 
     [tbl_AuthorizedPages].[RoleId] AS [RoleId]
     FROM [dbo].[tbl_AuthorizedPages] AS [tbl_AuthorizedPages]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tbl_Pages" EntityType="Self.tbl_Pages" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tbl_Pages].[PageId] AS [PageId], 
+    [tbl_Pages].[PageNameController] AS [PageNameController], 
+    [tbl_Pages].[DefaultPageName] AS [DefaultPageName]
+    FROM [dbo].[tbl_Pages] AS [tbl_Pages]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tbl_UserRoles" EntityType="Self.tbl_UserRoles" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tbl_UserRoles].[Id] AS [Id], 
+    [tbl_UserRoles].[Name] AS [Name]
+    FROM [dbo].[tbl_UserRoles] AS [tbl_UserRoles]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_CityMaster_StateMaster" Association="Self.FK_CityMaster_StateMaster">
             <End Role="StateMaster" EntitySet="StateMaster" />
@@ -543,6 +572,8 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
             <End Role="TPurchase" EntitySet="TPurchases" />
             <End Role="Vehicle" EntitySet="Vehicles" />
           </AssociationSet>
+          <EntitySet Name="tbl_UserRoles" EntityType="AuctionInventoryModel.tbl_UserRoles" />
+          <EntitySet Name="tbl_Pages" EntityType="AuctionInventoryModel.tbl_Pages" />
         </EntityContainer>
         <EntityType Name="AllVehicleExpense">
           <Key>
@@ -929,6 +960,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PageName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="PageId" Type="Int64" />
         </EntityType>
         <Association Name="FK_CityMaster_StateMaster">
           <End Type="AuctionInventoryModel.StateMaster" Role="StateMaster" Multiplicity="0..1" />
@@ -966,6 +998,22 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tbl_UserRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_Pages">
+          <Key>
+            <PropertyRef Name="PageId" />
+          </Key>
+          <Property Name="PageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageNameController" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DefaultPageName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1371,9 +1419,27 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
           <EntitySetMapping Name="tbl_AuthorizedPages">
             <EntityTypeMapping TypeName="AuctionInventoryModel.tbl_AuthorizedPages">
               <MappingFragment StoreEntitySet="tbl_AuthorizedPages">
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="PageName" ColumnName="PageName" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_UserRoles">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.tbl_UserRoles">
+              <MappingFragment StoreEntitySet="tbl_UserRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Pages">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.tbl_Pages">
+              <MappingFragment StoreEntitySet="tbl_Pages">
+                <ScalarProperty Name="DefaultPageName" ColumnName="DefaultPageName" />
+                <ScalarProperty Name="PageNameController" ColumnName="PageNameController" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

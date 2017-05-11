@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #divPageAccess {
+        min-height: 200px;
+        background-color: white;
+        margin: 50px 50px 10px 50px;
+    }
+</style>
+
+
+
+<div class="row">
+    <div class="col-sm-4">
+
+        @Html.DropDownList("ddlUserList", ViewBag.listUserRole as SelectList, "Select Role", new { onchange = "GetRolesCheckBoxes();", @class = "form-control" })
+    </div>
+    <div class="col-sm-2"> <input type="button" class="btn btn-success" value="Create New Role" /></div>
+    <div class="col-sm-2"><input type="button" class="btn btn-success" value="Add New Page" /></div>
+</div>
+
+<br />
+<br />
+
+<center>
+    <div id="divLoader" style="display:none">
+        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+        <span class="sr-only">Loading...</span>
+    </div>
+</center>
+<div>
+    <div id="divPageAccess" style="display:none">
+
+    </div>
+    <div id="divSave" class="col-sm-2" style="float: right; display: none"><input type="button" class="btn btn-success" value="Save Changes" /></div>
+</div>
+<script>
+    function GetRolesCheckBoxes(roleId) {
+        $("#divLoader").show();
+        $("#divPageAccess").hide();
+        $("#divSave").hide();
+        
+        var roleId = $('#ddlUserList').val()
+
+
+        $.ajax({
+            url: '/UserAuthorization/GetPageAccessByRole/',
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ roleId: roleId }),
+            success: function (result) {
+                var authorizedPages = result.authorizedPages
+                $("#divPageAccess").html("")
+                if (authorizedPages && authorizedPages.length > 0) {
+                    var contentdiv = ""
+                    contentdiv += '<div class="row" style="margin: 10px 10px 10px 10px; padding: 10px 10px 10px 10px;">';
+                    for (var i = 0; i < authorizedPages.length; i++) {
+                        if (authorizedPages[i].IsChecked) {
+                            contentdiv += '<div class="col-sm-3"> <input  type="checkbox" name="CheckBoxRoles[]" value=' + authorizedPages[i].PageId + ' checked/> ' + authorizedPages[i].PageName + '</div>';
+                        }
+                        else {
+                            contentdiv += '<div class="col-sm-3"> <input  type="checkbox" name="CheckBoxRoles[]" value=' + authorizedPages[i].PageId + ' /> ' + authorizedPages[i].PageName + '</div>';
+                        }
+                    }
+                    contentdiv += '</div>';
+                    $("#divPageAccess").show();
+                    $("#divSave").show();
+                    $("#divPageAccess").html(contentdiv)
+                    $("#divLoader").hide();
+                }
+            }
+        });
+
+
+    }
+
+</script>
