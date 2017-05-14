@@ -10,7 +10,8 @@ using AuctionInventory.MyRoleProvider;
 
 namespace AuctionInventory.Controllers
 {
-    [Permissions(Permissions.View)]
+    [Authorize]
+    //[Permissions(Permissions.View)]
     public class HomeController : Controller
     {
 
@@ -27,6 +28,11 @@ namespace AuctionInventory.Controllers
             return View();
         }
         public ActionResult WrongPage()
+        {
+            return View();
+        }
+
+        public ActionResult Unauthorized()
         {
             return View();
         }

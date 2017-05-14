@@ -65,8 +65,44 @@ namespace AuctionInventory.Controllers
                 ModelState.AddModelError("error", "Something Wrong");
                 throw e;
             }
-            return Json(new { a = true }, JsonRequestBehavior.AllowGet);
+            return Json(new { authorizedPages = false }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult SavePageAccessByRole(int roleId, int[] pageValue)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    //dc.tbl_AuthorizedPages.RemoveRange(dc.tbl_AuthorizedPages.Where(x => x.RoleId == roleId));
+                    //dc.SaveChanges();
+                    AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
+                    for (int i = 0; i < pageValue.Length; i++)
+                    {
+                        tbl_AuthorizedPages authorizedPages = new tbl_AuthorizedPages();
+                        authorizedPages.RoleId = roleId;
+                        authorizedPages.PageId = pageValue[i];
+                        authorizedPages.PageName = "salman";
+                        auctionContext.tbl_AuthorizedPages.Add(authorizedPages);
+                        auctionContext.SaveChanges();
+                    }
+                   
+
+                    return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                throw e;
+            }
+            return Json(new { result = false }, JsonRequestBehavior.AllowGet);
+        }
+
+
 
     }
 }

@@ -1226,6 +1226,7 @@
     <Content Include="Views\Home\SupplierDashBoard.cshtml" />
     <Content Include="Views\Home\WrongPage.cshtml" />
     <Content Include="Views\UserAuthorization\Index.cshtml" />
+    <Content Include="Views\Home\Unauthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

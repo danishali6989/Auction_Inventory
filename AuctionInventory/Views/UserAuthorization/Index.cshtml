@@ -34,14 +34,14 @@
     <div id="divPageAccess" style="display:none">
 
     </div>
-    <div id="divSave" class="col-sm-2" style="float: right; display: none"><input type="button" class="btn btn-success" value="Save Changes" /></div>
+    <div id="divSave" class="col-sm-2" style="float: right; display: none"><input type="button" class="btn btn-success" value="Save Changes" onclick="SaveChanges();" /></div>
 </div>
 <script>
     function GetRolesCheckBoxes(roleId) {
         $("#divLoader").show();
         $("#divPageAccess").hide();
         $("#divSave").hide();
-        
+
         var roleId = $('#ddlUserList').val()
 
 
@@ -73,8 +73,29 @@
                 }
             }
         });
+    }
+
+    function SaveChanges() {
+        debugger;
+
+        var roleId = $('#ddlUserList').val()
+        var pageValue = new Array();
+        $('input[name="CheckBoxRoles[]"]:checked').each(function () {
+            pageValue.push(this.value)
+            //  console.log(this.value);
+        });
 
 
+        $.ajax({
+            url: '/UserAuthorization/SavePageAccessByRole/',
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ roleId: roleId, pageValue: pageValue }),
+            success: function (result) {
+
+            }
+        });
     }
 
 </script>

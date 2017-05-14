@@ -8,7 +8,8 @@ using AuctionInventory.MyRoleProvider;
 
 namespace AuctionInventory.Controllers
 {
-    [Permissions(Permissions.View)]
+    //[Permissions(Permissions.View)]
+    [Authorize]
     public class LoginController : Controller
     {
 

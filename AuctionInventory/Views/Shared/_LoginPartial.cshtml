@@ -17,7 +17,7 @@
         @*@using (Html.BeginForm("SignOut", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))*@
         using (Html.BeginForm("SignOut","Login", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
         {
-            @Html.AntiForgeryToken()
+            @*@Html.AntiForgeryToken()*@
                      <!-- Navbar Right Menu -->
 
             <div class="navbar-custom-menu">

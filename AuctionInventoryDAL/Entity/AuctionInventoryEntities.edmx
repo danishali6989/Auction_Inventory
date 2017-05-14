@@ -302,11 +302,12 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
         <EntityType Name="tbl_AuthorizedPages">
           <Key>
             <PropertyRef Name="id" />
+            
             <PropertyRef Name="PageName" />
             <PropertyRef Name="RoleId" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PageId" Type="bigint" />
+          <Property Name="PageId" Type="bigint" Nullable="false" />
           <Property Name="PageName" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
@@ -958,9 +959,9 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
             <PropertyRef Name="RoleId" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PageName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PageName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <Property Name="PageId" Type="Int64" />
+          <Property Name="PageId" Type="Int64" Nullable="false" />
         </EntityType>
         <Association Name="FK_CityMaster_StateMaster">
           <End Type="AuctionInventoryModel.StateMaster" Role="StateMaster" Multiplicity="0..1" />

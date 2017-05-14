@@ -17,6 +17,6 @@ namespace AuctionInventoryDAL.Entity
         public long id { get; set; }
         public string PageName { get; set; }
         public int RoleId { get; set; }
-        public Nullable<long> PageId { get; set; }
+        public long PageId { get; set; }
     }
 }
