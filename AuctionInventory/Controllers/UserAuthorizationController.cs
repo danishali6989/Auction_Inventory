@@ -12,6 +12,7 @@ using AuctionInventory.Helpers;
 
 namespace AuctionInventory.Controllers
 {
+    [Authorize]
     public class UserAuthorizationController : Controller
     {
 

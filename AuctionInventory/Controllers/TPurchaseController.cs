@@ -9,9 +9,10 @@ using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
 using OfficeOpenXml;
-
+using AuctionInventory.MyRoleProvider;
 namespace AuctionInventory.Controllers
 {
+    [Permissions(Permissions.View)]
     public class TPurchaseController : Controller
     {
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
@@ -39,7 +40,7 @@ namespace AuctionInventory.Controllers
 
                     PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
                     vehicle = purchaseServiceClient.GenerateCustomPDF();
-                   //return Json(vehicle, JsonRequestBehavior.AllowGet);
+                    //return Json(vehicle, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception e)
@@ -62,7 +63,7 @@ namespace AuctionInventory.Controllers
                 {
 
                     PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
-                     vehicle = purchaseServiceClient.GenerateInvoicePDF();
+                    vehicle = purchaseServiceClient.GenerateInvoicePDF();
                     //return Json(vehicle, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -158,7 +159,7 @@ namespace AuctionInventory.Controllers
         public ActionResult GetAllPurchase()
         {
             dynamic purchase = 0;
-          
+
             try
             {
                 if (ModelState.IsValid)
@@ -185,7 +186,7 @@ namespace AuctionInventory.Controllers
         //public ActionResult GetAllPurchaseReport()
         //{
         //    dynamic purchase = 0;
-          
+
         //    try
         //    {
         //        if (ModelState.IsValid)
@@ -211,7 +212,7 @@ namespace AuctionInventory.Controllers
         public JsonResult GetAllPurchaseReportByDate(DateTime fromDate, DateTime toDate)
         {
             dynamic purchaseReportByDate = 0;
-            
+
             try
             {
                 if (ModelState.IsValid)
@@ -230,10 +231,10 @@ namespace AuctionInventory.Controllers
                 purchaseReportByDate = null;
                 throw e;
             }
-           
+
             //return Json(purchaseReportByDate, JsonRequestBehavior.AllowGet);
             return Json(new { purchaseReportByDate }, JsonRequestBehavior.AllowGet);
-            
+
         }
 
 
@@ -528,21 +529,21 @@ namespace AuctionInventory.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
-                    PurchaseServiceClient service=new PurchaseServiceClient();
-                    var suppliers =service.AutoCompleteService(prefix);
+                    PurchaseServiceClient service = new PurchaseServiceClient();
+                    var suppliers = service.AutoCompleteService(prefix);
                     return Json(suppliers, JsonRequestBehavior.AllowGet);
 
                 }
             }
-            
-            catch(Exception ex)
+
+            catch (Exception ex)
             {
                 ModelState.AddModelError("error", "Something Went Wrong!");
                 throw ex;
             }
-            
+
             return Json(null, JsonRequestBehavior.AllowGet);
         }
 
@@ -554,7 +555,7 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     PurchaseServiceClient service = new PurchaseServiceClient();
-                    var invNo= service.GetInvoiceID();
+                    var invNo = service.GetInvoiceID();
                     return Json(invNo, JsonRequestBehavior.AllowGet);
 
                 }

@@ -8,9 +8,10 @@ using AuctionInventoryDAL.Repositories;
 using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
-
+using AuctionInventory.MyRoleProvider;
 namespace AuctionInventory.Controllers
 {
+    [Permissions(Permissions.View)]
     public class MVehicleController : Controller
     {
         // GET: Vehicle
@@ -59,7 +60,7 @@ namespace AuctionInventory.Controllers
         //}
 
 
-      
+
 
         private List<Vehicles> ParserGetAllVehicles(List<Vehicle> listVehicle)
         {
@@ -106,7 +107,7 @@ namespace AuctionInventory.Controllers
                 {
                     VehicleServiceClient vehicleServiceClient = new VehicleServiceClient();
                     status = vehicleServiceClient.GriddataService(griddata);
-                   
+
                 }
 
             }
@@ -124,7 +125,7 @@ namespace AuctionInventory.Controllers
         public ActionResult GetAllVehicle()
         {
             dynamic vehicle = 0;
-            
+
             try
             {
                 if (ModelState.IsValid)
@@ -189,7 +190,7 @@ namespace AuctionInventory.Controllers
                 throw e;
             }
             return View();
-           // return new JsonResult { Data = new { status = status } };
+            // return new JsonResult { Data = new { status = status } };
         }
 
 
@@ -234,7 +235,7 @@ namespace AuctionInventory.Controllers
                 throw e;
             }
             return View("Index");
-           // return new JsonResult { Data = new { status = status } };
+            // return new JsonResult { Data = new { status = status } };
 
         }
 

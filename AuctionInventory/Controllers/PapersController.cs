@@ -8,21 +8,22 @@ using AuctionInventoryDAL.Repositories;
 using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
-
+using AuctionInventory.MyRoleProvider;
 namespace AuctionInventory.Controllers
 {
+    [Permissions(Permissions.View)]
     public class PapersController : Controller
     {
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
         //
         // GET: /Papers/
-       
+
         public ActionResult Index()
         {
             return View();
         }
 
-       
+
         public ActionResult PapersList()
         {
             return View();
@@ -54,7 +55,7 @@ namespace AuctionInventory.Controllers
         }
 
 
-       [HttpPost]
+        [HttpPost]
         public ActionResult UpdateExportIndex(PaperDetailsExportModel expUpdateModel)
         {
             bool status = false;
@@ -82,14 +83,14 @@ namespace AuctionInventory.Controllers
 
         [HttpGet]
         public ActionResult GetImportData()
-       {
-           dynamic importData = 0;
+        {
+            dynamic importData = 0;
             try
             {
                 if (ModelState.IsValid)
                 {
                     PapersServiceClient papersServiceClient = new PapersServiceClient();
-                     importData = papersServiceClient.GetImportData();
+                    importData = papersServiceClient.GetImportData();
 
                     //return Json(new { importData }, JsonRequestBehavior.AllowGet);
                 }
@@ -144,7 +145,7 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     PapersServiceClient papersServiceClient = new PapersServiceClient();
-                     exportData = papersServiceClient.GetExportData();
+                    exportData = papersServiceClient.GetExportData();
 
                     //return Json(new { exportData }, JsonRequestBehavior.AllowGet);
                 }
@@ -196,7 +197,7 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     PapersServiceClient papersServiceClient = new PapersServiceClient();
-                     vehiclePaperByType = papersServiceClient.GetSalesVehicleByPapertype(paperTypeID);
+                    vehiclePaperByType = papersServiceClient.GetSalesVehicleByPapertype(paperTypeID);
 
                     //return Json(new { vehiclePaperByType }, JsonRequestBehavior.AllowGet);
                 }
@@ -208,7 +209,7 @@ namespace AuctionInventory.Controllers
                 vehiclePaperByType = null;
                 throw e;
             }
-           return Json(new { vehiclePaperByType }, JsonRequestBehavior.AllowGet);
+            return Json(new { vehiclePaperByType }, JsonRequestBehavior.AllowGet);
         }
 
 
