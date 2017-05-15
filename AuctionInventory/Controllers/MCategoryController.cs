@@ -8,9 +8,10 @@ using AuctionInventoryDAL.Repositories;
 using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
-
+using AuctionInventory.MyRoleProvider;
 namespace AuctionInventory.Controllers
 {
+    [Permissions(Permissions.View)]
     public class MCategoryController : Controller
     {
         // GET: MCategory
@@ -23,7 +24,7 @@ namespace AuctionInventory.Controllers
         public ActionResult GetAllCategory()
         {
             dynamic category = 0;
-           
+
             try
             {
                 if (ModelState.IsValid)
@@ -44,7 +45,7 @@ namespace AuctionInventory.Controllers
                 category = null;
                 throw e;
             }
-            return Json( category , JsonRequestBehavior.AllowGet);
+            return Json(category, JsonRequestBehavior.AllowGet);
 
         }
         [HttpGet]
@@ -83,7 +84,7 @@ namespace AuctionInventory.Controllers
                     status = categoryServiceClient.SaveData(category);
                     return RedirectToAction("Index");
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -93,9 +94,9 @@ namespace AuctionInventory.Controllers
 
             }
             return View(category);
-           
+
             //return View();
-           // return new JsonResult { Data = new { status = status } };
+            // return new JsonResult { Data = new { status = status } };
         }
 
         [HttpGet]

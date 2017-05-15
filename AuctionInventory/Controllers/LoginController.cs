@@ -4,9 +4,12 @@ using System.Web.Mvc;
 using AuctionInventoryDAL.Entity;
 using System.Web.Security;
 using AuctionInventory.Helpers;
+using AuctionInventory.MyRoleProvider;
 
 namespace AuctionInventory.Controllers
 {
+    //[Permissions(Permissions.View)]
+    [Authorize]
     public class LoginController : Controller
     {
 

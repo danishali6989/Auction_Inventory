@@ -8,10 +8,11 @@ using AuctionInventoryDAL.Repositories;
 using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
-
+using AuctionInventory.MyRoleProvider;
 
 namespace AuctionInventory.Controllers
 {
+        [Permissions(Permissions.View)]
     public class MColorController : Controller
     {
         // GET: MColor

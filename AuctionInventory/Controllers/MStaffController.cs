@@ -8,14 +8,14 @@ using AuctionInventoryDAL.Repositories;
 using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
-
+using AuctionInventory.MyRoleProvider;
 namespace AuctionInventory.Controllers
 {
-    [Authorize]
+    [Permissions(Permissions.View)]
     public class MStaffController : Controller
     {
         AuctionInventoryEntities db = new AuctionInventoryEntities();
-       
+
         // GET: MStaff
         public ActionResult Index()
         {
@@ -28,17 +28,17 @@ namespace AuctionInventory.Controllers
         public ActionResult GetAllStaff()
         {
             dynamic staff = 0;
-           
+
             try
             {
                 if (ModelState.IsValid)
                 {
                     StaffServiceClient staffServiceClient = new StaffServiceClient();
                     staff = staffServiceClient.GetAllStaff();
-                   
+
                 }
             }
-             catch(Exception e)
+            catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Wrong");
                 staff = null;
@@ -57,7 +57,7 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     StaffServiceClient staffServiceClient = new StaffServiceClient();
-                   
+
                     staff = staffServiceClient.GetStaff(id);
 
                     ViewBag.Country = new SelectList(db.MCountries, "iCountry", "strCountryName", staff.iCountryID);
@@ -67,7 +67,7 @@ namespace AuctionInventory.Controllers
 
                 }
             }
-             catch(Exception e)
+            catch (Exception e)
             {
                 ModelState.AddModelError("error", "something went wrong");
                 staff = null;
@@ -95,7 +95,7 @@ namespace AuctionInventory.Controllers
                     return RedirectToAction("Index");
                 }
             }
-             catch(Exception e)
+            catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Went Wrong");
                 status = false;
@@ -103,7 +103,7 @@ namespace AuctionInventory.Controllers
 
             }
             return View(staff);
-         //   return new JsonResult { Data = new { status = status } };
+            //   return new JsonResult { Data = new { status = status } };
         }
 
 
@@ -150,7 +150,7 @@ namespace AuctionInventory.Controllers
                     ViewBag.City = new SelectList(countryList, "iCity", "strCityName", staff.iCityID);
                 }
             }
-             catch(Exception e)
+            catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Went Wrong");
                 staff = null;
@@ -174,7 +174,7 @@ namespace AuctionInventory.Controllers
                     return RedirectToAction("Index");
                 }
             }
-             catch(Exception e)
+            catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Went Wrong!");
                 status = false;

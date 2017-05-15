@@ -8,10 +8,10 @@ using AuctionInventoryDAL.Repositories;
 using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
-using System.Data.Entity;
-
+using AuctionInventory.MyRoleProvider;
 namespace AuctionInventory.Controllers
 {
+    [Permissions(Permissions.View)]
     public class MExpensesController : Controller
     {
         AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
@@ -560,58 +560,6 @@ namespace AuctionInventory.Controllers
             return new JsonResult { Data = new { status = status } };
         }
 
-
-
-        
-             [HttpPost]
-        public ActionResult SpreadExpenseAmount(decimal totalAmount, int purchaseInvoiceID)
-        {
-            bool status = false;
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    ExpensesServiceClient service = new ExpensesServiceClient();
-                    status = service.SpreadExpenseAmount(totalAmount, purchaseInvoiceID);
-                    //return RedirectToAction("Index");
-                }
-            }
-            catch (Exception e)
-            {
-                ModelState.AddModelError("error", "Something Went Wrong");
-                status = false;
-                throw e;
-
-            }
-
-            //return View();
-            return new JsonResult { Data = new { status = status } };
-        }
-
-        // [HttpPost]       
-        //public void RollBack()
-        //{
-        //    AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
-        //    var changedEntries = auctionContext.ChangeTracker.Entries()
-        //        .Where(x => x.State != EntityState.Unchanged).ToList();
-
-        //    foreach (var entry in changedEntries)
-        //    {
-        //        switch (entry.State)
-        //        {
-        //            case EntityState.Modified:
-        //                entry.CurrentValues.SetValues(entry.OriginalValues);
-        //                entry.State = EntityState.Unchanged;
-        //                break;
-        //            case EntityState.Added:
-        //                entry.State = EntityState.Detached;
-        //                break;
-        //            case EntityState.Deleted:
-        //                entry.State = EntityState.Unchanged;
-        //                break;
-        //        }
-        //    }
-        //}
 
         //[HttpPost]
         //public ActionResult SaveSingleVehicleExpense(List<VehicleExpenseModel> expense)

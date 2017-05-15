@@ -51,11 +51,11 @@ namespace AuctionInventoryDAL.Entity
         public virtual DbSet<TPurchase> TPurchases { get; set; }
         public virtual DbSet<UserLogin> UserLogins { get; set; }
         public virtual DbSet<Vehicle> Vehicles { get; set; }
-        public virtual DbSet<VehicleExpens> VehicleExpenses { get; set; }
+        public virtual DbSet<VehicleExpense> VehicleExpenses { get; set; }
         public virtual DbSet<ExpenseAmount> ExpenseAmounts { get; set; }
         public virtual DbSet<MailModel> MailModels { get; set; }
         public virtual DbSet<tbl_AuthorizedPages> tbl_AuthorizedPages { get; set; }
-        public virtual DbSet<tbl_Pages> tbl_Pages { get; set; }
         public virtual DbSet<tbl_UserRoles> tbl_UserRoles { get; set; }
+        public virtual DbSet<tbl_Pages> tbl_Pages { get; set; }
     }
 }

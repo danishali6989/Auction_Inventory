@@ -6,9 +6,12 @@ using System.Web;
 using System.Web.Mvc;
 using AuctionInventoryDAL.Entity;
 using AuctionInventoryDAL.Repositories;
+using AuctionInventory.MyRoleProvider;
 
 namespace AuctionInventory.Controllers
 {
+    [Authorize]
+    //[Permissions(Permissions.View)]
     public class HomeController : Controller
     {
 
@@ -28,6 +31,11 @@ namespace AuctionInventory.Controllers
         {
             return View();
         }
+
+        public ActionResult Unauthorized()
+        {
+            return View();
+        }
         #region CRUD
 
         public ActionResult GetEmployees()
@@ -43,11 +51,11 @@ namespace AuctionInventory.Controllers
                     {
                         ModelState.AddModelError("error", "No Record Found");
                     }
-                    
+
                 }
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Went Wrong!");
                 listEmployee = null;
@@ -137,7 +145,7 @@ namespace AuctionInventory.Controllers
             }
 
             return View(employee);
-           
+
         }
 
         [HttpPost]

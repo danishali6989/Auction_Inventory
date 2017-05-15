@@ -250,12 +250,6 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.MailModel' does not have a
           <Property Name="iCashID" Type="int" />
           <Property Name="strCashName" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'DB_A1EE51_AuctionDB.dbo.Roles' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="Roles">
-          <Property Name="RoleId" Type="int" />
-          <Property Name="Name" Type="nvarchar" MaxLength="20" />
-        </EntityType>-->
         <EntityType Name="Sales">
           <Key>
             <PropertyRef Name="iSaleID" />
@@ -308,7 +302,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
         <EntityType Name="tbl_AuthorizedPages">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="PageId" />
+            
             <PropertyRef Name="PageName" />
             <PropertyRef Name="RoleId" />
           </Key>
@@ -563,12 +557,10 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <EntitySet Name="TPurchases" EntityType="AuctionInventoryModel.TPurchase" />
           <EntitySet Name="UserLogins" EntityType="AuctionInventoryModel.UserLogin" />
           <EntitySet Name="Vehicles" EntityType="AuctionInventoryModel.Vehicle" />
-          <EntitySet Name="VehicleExpenses" EntityType="AuctionInventoryModel.VehicleExpens" />
+          <EntitySet Name="VehicleExpenses" EntityType="AuctionInventoryModel.VehicleExpense" />
           <EntitySet Name="ExpenseAmounts" EntityType="AuctionInventoryModel.ExpenseAmount" />
           <EntitySet Name="MailModels" EntityType="AuctionInventoryModel.MailModel" />
           <EntitySet Name="tbl_AuthorizedPages" EntityType="AuctionInventoryModel.tbl_AuthorizedPages" />
-          <EntitySet Name="tbl_Pages" EntityType="AuctionInventoryModel.tbl_Pages" />
-          <EntitySet Name="tbl_UserRoles" EntityType="AuctionInventoryModel.tbl_UserRoles" />
           <AssociationSet Name="FK_CityMaster_StateMaster" Association="AuctionInventoryModel.FK_CityMaster_StateMaster">
             <End Role="StateMaster" EntitySet="StateMasters" />
             <End Role="CityMaster" EntitySet="CityMasters" />
@@ -581,6 +573,8 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
             <End Role="TPurchase" EntitySet="TPurchases" />
             <End Role="Vehicle" EntitySet="Vehicles" />
           </AssociationSet>
+          <EntitySet Name="tbl_UserRoles" EntityType="AuctionInventoryModel.tbl_UserRoles" />
+          <EntitySet Name="tbl_Pages" EntityType="AuctionInventoryModel.tbl_Pages" />
         </EntityContainer>
         <EntityType Name="AllVehicleExpense">
           <Key>
@@ -915,7 +909,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <Property Name="dcmlExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="TPurchase" Relationship="AuctionInventoryModel.FK_Vehicle_TPurchase" FromRole="Vehicle" ToRole="TPurchase" />
         </EntityType>
-        <EntityType Name="VehicleExpens">
+        <EntityType Name="VehicleExpense">
           <Key>
             <PropertyRef Name="iVehicleExpenseID" />
           </Key>
@@ -961,30 +955,13 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
         <EntityType Name="tbl_AuthorizedPages">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="PageId" />
             <PropertyRef Name="PageName" />
             <PropertyRef Name="RoleId" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PageId" Type="Int64" Nullable="false" />
-          <Property Name="PageName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PageName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RoleId" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tbl_Pages">
-          <Key>
-            <PropertyRef Name="PageId" />
-          </Key>
-          <Property Name="PageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PageNameController" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="DefaultPageName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="tbl_UserRoles">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PageId" Type="Int64" Nullable="false" />
         </EntityType>
         <Association Name="FK_CityMaster_StateMaster">
           <End Type="AuctionInventoryModel.StateMaster" Role="StateMaster" Multiplicity="0..1" />
@@ -1022,6 +999,22 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tbl_UserRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_Pages">
+          <Key>
+            <PropertyRef Name="PageId" />
+          </Key>
+          <Property Name="PageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageNameController" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DefaultPageName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1382,7 +1375,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VehicleExpenses">
-            <EntityTypeMapping TypeName="AuctionInventoryModel.VehicleExpens">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.VehicleExpense">
               <MappingFragment StoreEntitySet="VehicleExpenses">
                 <ScalarProperty Name="dcmlRECOVERYExpenseAmount" ColumnName="dcmlRECOVERYExpenseAmount" />
                 <ScalarProperty Name="dcmlRAMPExpenseAmount" ColumnName="dcmlRAMPExpenseAmount" />
@@ -1427,10 +1420,18 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <EntitySetMapping Name="tbl_AuthorizedPages">
             <EntityTypeMapping TypeName="AuctionInventoryModel.tbl_AuthorizedPages">
               <MappingFragment StoreEntitySet="tbl_AuthorizedPages">
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="PageName" ColumnName="PageName" />
-                <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_UserRoles">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.tbl_UserRoles">
+              <MappingFragment StoreEntitySet="tbl_UserRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1440,14 +1441,6 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
                 <ScalarProperty Name="DefaultPageName" ColumnName="DefaultPageName" />
                 <ScalarProperty Name="PageNameController" ColumnName="PageNameController" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_UserRoles">
-            <EntityTypeMapping TypeName="AuctionInventoryModel.tbl_UserRoles">
-              <MappingFragment StoreEntitySet="tbl_UserRoles">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

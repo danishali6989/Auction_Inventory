@@ -185,6 +185,7 @@
     <Compile Include="Controllers\PapersController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\TPurchaseController.cs" />
+    <Compile Include="Controllers\UserAuthorizationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -213,6 +214,7 @@
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\TestModel.cs" />
     <Compile Include="Models\UserLoginDetails.cs" />
+    <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\VehicleExpenseModel.cs" />
     <Compile Include="Models\Vehicles.cs" />
     <Compile Include="MyRoleProvider\SiteRole.cs" />
@@ -1223,12 +1225,15 @@
     <Content Include="Views\Sales\SalesReport.cshtml" />
     <Content Include="Views\Home\SupplierDashBoard.cshtml" />
     <Content Include="Views\Home\WrongPage.cshtml" />
+    <Content Include="Views\UserAuthorization\Index.cshtml" />
+    <Content Include="Views\Home\Unauthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Scripts\Admin\" />
     <Folder Include="Content\Scripts\User\" />
     <Folder Include="Images\Profiles\" />
+    <Folder Include="Views\Authorization\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Fonts\glyphicons-halflings-regular.woff" />

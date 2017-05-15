@@ -8,9 +8,11 @@ using AuctionInventoryDAL.Repositories;
 using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
+using AuctionInventory.MyRoleProvider;
 
 namespace AuctionInventory.Controllers
 {
+    [Permissions(Permissions.View)]
     public class AuctionController : Controller
     {
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
@@ -136,7 +138,7 @@ namespace AuctionInventory.Controllers
                     //    rows = test
                     //};
 
-                   
+
 
                 }
             }
@@ -294,15 +296,15 @@ namespace AuctionInventory.Controllers
         {
             //List<Vehicles> vehicles = new List<Vehicles>();
 
-            dynamic vehicles =0;
+            dynamic vehicles = 0;
             try
             {
                 if (ModelState.IsValid)
                 {
                     AuctionServiceClient service = new AuctionServiceClient();
-                     vehicles = service.GetVehiclesForPDF(id);
+                    vehicles = service.GetVehiclesForPDF(id);
 
-                   
+
                 }
             }
             // Please through Exeption Everywhere
@@ -312,7 +314,7 @@ namespace AuctionInventory.Controllers
                 vehicles = null;
                 throw e;
             }
-            return Json( vehicles , JsonRequestBehavior.AllowGet);
+            return Json(vehicles, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -328,7 +330,7 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     AuctionServiceClient service = new AuctionServiceClient();
-                     AuctionID = service.AuctionFrontEndID();
+                    AuctionID = service.AuctionFrontEndID();
                     //return Json(AuctionID, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -341,8 +343,8 @@ namespace AuctionInventory.Controllers
             }
             return Json(AuctionID, JsonRequestBehavior.AllowGet);
 
-            
-                        
+
+
         }
 
         //[HttpPost]

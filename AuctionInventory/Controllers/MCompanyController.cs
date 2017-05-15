@@ -8,9 +8,11 @@ using AuctionInventoryDAL.Repositories;
 using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
+using AuctionInventory.MyRoleProvider;
 
 namespace AuctionInventory.Controllers
 {
+    [Permissions(Permissions.View)]
     public class MCompanyController : Controller
     {
         // GET: MCompany
@@ -35,7 +37,7 @@ namespace AuctionInventory.Controllers
                     }
                 }
             }
-             catch(Exception e)
+            catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Wrong");
                 listcompany = null;
@@ -56,7 +58,7 @@ namespace AuctionInventory.Controllers
                     company = companyServiceClient.GetCompany(id);
                 }
             }
-             catch(Exception e)
+            catch (Exception e)
             {
                 ModelState.AddModelError("error", "something went wrong");
                 company = null;
@@ -78,14 +80,14 @@ namespace AuctionInventory.Controllers
                     return RedirectToAction("Index");
                 }
             }
-             catch(Exception e)
+            catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Went Wrong");
                 status = false;
                 throw e;
             }
             return View();
-           // return new JsonResult { Data = new { status = status } };
+            // return new JsonResult { Data = new { status = status } };
         }
 
 
@@ -101,7 +103,7 @@ namespace AuctionInventory.Controllers
                     company = companyServiceClient.GetCompany(id);
                 }
             }
-             catch(Exception e)
+            catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Went Wrong");
                 company = null;
@@ -120,18 +122,18 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     Services.CompanyServiceClient companyServiceClient = new Services.CompanyServiceClient();
-                    
+
                     status = companyServiceClient.Delete(id);
                 }
             }
-             catch(Exception e)
+            catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Went Wrong!");
                 status = false;
                 throw e;
             }
             return View("Index");
-           /// return new JsonResult { Data = new { status = status } };
+            /// return new JsonResult { Data = new { status = status } };
 
         }
 
