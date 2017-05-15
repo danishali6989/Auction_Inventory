@@ -11,23 +11,23 @@
         <div id="divDetails" class="row">
 
             @*<div class='form-group col-sm-4'>
-                <label>Purchase Inv No: </label>
-                <input type="text" class='form-control input-group-sm' id="invno" placeholder="Search By Invoice ID" />
+                    <label>Purchase Inv No: </label>
+                    <input type="text" class='form-control input-group-sm' id="invno" placeholder="Search By Invoice ID" />
 
-            </div>
-            <div class='form-group col-sm-2'>
-                <input id="JQGridFill" style="margin-left: 25px;" class='btn btn-success form-control input-group-sm' type="button" value="Search" />
-            </div>*@
+                </div>
+                <div class='form-group col-sm-2'>
+                    <input id="JQGridFill" style="margin-left: 25px;" class='btn btn-success form-control input-group-sm' type="button" value="Search" />
+                </div>*@
 
             @*<label>Purchase Inv No: </label>*@
             <div class='row'>
 
-                
+
                 @*<div class='form-group col-sm-2'>
 
 
-                    <label class='form-control input-group-sm' id='lblExpense'></label>
-                </div>*@
+                        <label class='form-control input-group-sm' id='lblExpense'></label>
+                    </div>*@
                 <div class='form-group col-sm-3'>
                     <input type="hidden" id="hfStrPurchaseInvoiceNo" />
 
@@ -47,80 +47,161 @@
             </div>
 
 
-                @*<input type="text" id="invno" class="form-control" />
-            <input type="button" value="Search" id="JQGridFill" />*@
+            @*<input type="text" id="invno" class="form-control" />
+                <input type="button" value="Search" id="JQGridFill" />*@
 
 
 
-                <div class="row">
-                    <br />
-                    
-                    <table id="dataGrid" class="table table-bordered table-striped"></table>
-                    <div id="pagingGrid"></div>
-                    <br />
-                   
-                </div>
+            <div class="row">
+                <br />
+
+                <table id="dataGrid" class="table table-bordered table-striped"></table>
+                <div id="pagingGrid"></div>
+                <br />
+
+            </div>
 
 
-           
 
-           
 
-                <div id="AddExpenseDynamic">
-                    @*<div class='row form-group col-sm-4'>
+
+
+            <div id="AddExpenseDynamic" style="display:none">
+                @*<div class='row form-group col-sm-4'>
                         <input type="hidden" id="hfExpense" />
                         <input type="text" class='form-control input-group-sm' id="txtSearchExpense" name="name" placeholder="search Expenses" />
                     </div>*@
-                    <div class="col-md-4">                      
-                       
-                            <label>D/O Expense</label>
-                            <input type="text" class=' form-control  input-group-lg' id="txtDOExpense" name='DynamicTextBox' placeholder="Enter D/O Expense" />
-                        </div>
-                        <div class="col-md-4">
-                            <label>DPA Expense</label>
-                            <input type="text" class=' form-control  input-group-lg' id="txtDPAExpense" name='DynamicTextBox' placeholder="Enter DPA Expense" />
-                        </div>
 
-                        <div class="col-md-4">
-                            <label>Transport Expense</label>
-                            <input type="text" class=' form-control  input-group-lg' id="txtTransportExpense" name='DynamicTextBox' placeholder="Enter Transport Expense" />
-                        </div>
 
-                        <div class="col-md-4">
-                            <label>Ramp Expense</label>
-                            <input type="text" class=' form-control  input-group-lg' id="txtRampExpense" name='DynamicTextBox' placeholder="Enter Ramp Expense" />
-                        </div>
 
-                        <div class="col-md-4">
-                            <label>Recovery Expense</label>
-                            <input type="text" class=' form-control  input-group-lg' id="txtRecoveryExpense" name='DynamicTextBox' placeholder="Enter Recovery Expense" />
-                        </div>
+                <div class='row'>
 
-                        @*<input id="btnAdd" class='btn btn-success' style="margin-left: 25px;" type="button" value="ADD Expenses" />*@
+                   <div class='form-group col-sm-2'>                   
+                     <label class='form-control input-group-sm' style='background-color:orange'>D/O Expense</label>
+                   </div>
 
-                        <br /><br /><br />
+                   <div class='form-group col-sm-3'>
+                       <input type="text" class=' form-control  input-group-sm' id="txtDOExpense" name='DynamicTextBox' placeholder="Enter D/O Expense" />
+                   </div>
                  
-                        <div class="form-group col-xs-4">
-                            <h3><label class="label label-warning form-control input-group-lg" style='background-color:orange'>Total Sum :<span id="totalSum">0</span></label></h3>
-                        </div>
+                </div>
 
+                <div class='row'>
 
-                        <br />
+                    <div class='form-group col-sm-2'>
+                        <label class='form-control input-group-sm' style='background-color:orange'>DPA Expense</label>
+                    </div>
 
+                    <div class='form-group col-sm-3'>
+                        <input type="text" class=' form-control  input-group-sm' id="txtDPAExpense" name='DynamicTextBox' placeholder="Enter DPA Expense" />
+   </div>
 
+                </div>
+
+                <div class='row'>
+
+                    <div class='form-group col-sm-2'>
+                        <label class='form-control input-group-sm' style='background-color:orange'>Ramp Expense</label>
+                    </div>
+
+                    <div class='form-group col-sm-3'>
+                        <input type="text" class=' form-control  input-group-sm' id="txtRampExpense" name='DynamicTextBox' placeholder="Enter Ramp Expense" />
+                    </div>
+
+                </div>
+
+                <div class='row'>
+
+                    <div class='form-group col-sm-2'>
+                        <label class='form-control input-group-sm' style='background-color:orange'>Transport Expense</label>
+                    </div>
+
+                    <div class='form-group col-sm-3'>
+                        
+                        <input type="text" class=' form-control  input-group-sm' id="txtTransportExpense" name='DynamicTextBox' placeholder="Enter Transport Expense" />
+                    </div>
+
+                </div>
+               
+                <div class='row'>
+
+                    <div class='form-group col-sm-2'>
+                        <label class='form-control input-group-sm' style='background-color:orange'>Recovery Expense</label>
+                    </div>
+
+                    <div class='form-group col-sm-3'>
+                        <input type="text" class=' form-control  input-group-sm' id="txtRecoveryExpense" name='DynamicTextBox' placeholder="Enter Recovery Expense" />
 </div>
+
+                </div>
+
+
+
+                <div class='row'>
+
+                    <div class='form-group col-sm-2'>
+                       
+                        <h3><label class="label label-warning form-control input-group-sm" style='background-color:orange'>Total Sum :<span id="totalSum">0</span></label></h3>
+                    </div>
+
+                </div>
+
+                @*<div class="col-md-4">
+
+                    <label>D/O Expense</label>
+                    <input type="text" class=' form-control  input-group-lg' id="txtDOExpense" name='DynamicTextBox' placeholder="Enter D/O Expense" />
+                </div>
+                <div class="col-md-4">
+                    <label>DPA Expense</label>
+                    <input type="text" class=' form-control  input-group-lg' id="txtDPAExpense" name='DynamicTextBox' placeholder="Enter DPA Expense" />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Transport Expense</label>
+                    <input type="text" class=' form-control  input-group-lg' id="txtTransportExpense" name='DynamicTextBox' placeholder="Enter Transport Expense" />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Ramp Expense</label>
+                    <input type="text" class=' form-control  input-group-lg' id="txtRampExpense" name='DynamicTextBox' placeholder="Enter Ramp Expense" />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Recovery Expense</label>
+                    <input type="text" class=' form-control  input-group-lg' id="txtRecoveryExpense" name='DynamicTextBox' placeholder="Enter Recovery Expense" />
+                </div>*@
+
+                @*<input id="btnAdd" class='btn btn-success' style="margin-left: 25px;" type="button" value="ADD Expenses" />*@
+
+                @*<br /><br /><br />
+
+                <div class="form-group col-xs-4">
+                    <h3><label class="label label-warning form-control input-group-lg" style='background-color:orange'>Total Sum :<span id="totalSum">0</span></label></h3>
+                </div>
+
+
+                <br />*@
+
+
+            </div>
             <br />
             <div>
                 <br />
                 <div id="dialog" style="display: none" align="center">
                     Do you want to Save this Expenses?
                 </div>
+
+                <div id="dialogSpread" style="display: none" align="center">
+                    Do you want to Spread Total Expense Amount To this Invoice?
+                </div>
+
                 <br />
                 <input type="button" style="margin-left: 330px;" class="btn btn-success col-md-2" id="btnSaveAllVehiclesExpense" value="Save">
+                <input type="button" style="margin-left: 40px;" class="btn btn-success col-md-2" id="btnSpread" value="Spread Expense Amount">
 
                 <input type="button" style="margin-left: 40px" class="btn btn-warning col-md-2" value="Cancel" onclick="CancelVehiclesExpenseInfo();" id="cancelVehiclesExpenseInfo">
             </div>
-            </div>
+        </div>
     </div>
 </div>
 
@@ -130,6 +211,65 @@
     function CancelVehiclesExpenseInfo() {
         window.location.href = "/MExpenses/AllVehicleExpensesList";
     }
+
+
+    $("#btnSpread").click(function () {
+
+
+        $(function () {
+            if ($(this).attr("rel") != "update") {
+                $('#dialogSpread').dialog('open');
+                return false;
+            }
+        });
+
+        $("#dialogSpread").dialog({
+            modal: true,
+            autoOpen: false,
+            title: "Confirmation",
+            width: 350,
+            height: 160,
+            buttons: [
+        {
+            id: "Yes",
+            text: "Yes",
+            click: function () {
+
+                //calling function here for update
+                var ExpenseTotalAmount = parseInt($("#totalSum").html());
+                var purchaseInvoiceID = $("#invno").val();
+
+
+                $.ajax({
+
+                    url: "/MExpenses/SpreadExpenseAmount",
+                    data: JSON.stringify({ totalAmount: ExpenseTotalAmount, purchaseInvoiceID: purchaseInvoiceID }),
+                    dataType: "json",         
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        window.location.href = "/MExpenses/AllVehicleExpensesList";
+                    }
+                });
+           
+                $(this).dialog('close');
+            }
+
+        },
+        {
+            id: "No",
+            text: "No",
+            click: function () {
+                $(this).dialog('close');
+            }
+        }
+            ]
+        });
+
+    });
+
+       
+
 
     //$(function () {
     //    $("#txtSearchExpense").autocomplete({
@@ -188,7 +328,7 @@
 </script>
 
 <script type="text/javascript">
-   
+
     $("#JQGridFill").click(function () {
 
         var request = $('#invno').val();
@@ -203,11 +343,13 @@
             success: function (result) {
                 var listPurchase = result.listPurchase
                 $('#hfStrPurchaseInvoiceNo').val(listPurchase[0].strPurchaseInvoiceNo);
-               
+
                 bindGrid(listPurchase);
                 $('#AddExpenseDynamic').show();
 
-               
+                
+                
+
             }
         });
 
@@ -316,12 +458,12 @@
 
         //});
 
-       
+
 
 
         $("#btnSaveAllVehiclesExpense").click(function () {
             debugger
-           
+
 
             $(function () {
                 if ($(this).attr("rel") != "update") {
@@ -345,38 +487,38 @@
                     //calling function here for update
 
 
-                  
-                       // var ExpenseID = $("#lblExpenseID" + i).html();
-                        //var ExpenseName = $("#lblExpense" + i).html();
-                        //var ExpenseAmount = $("#txtAmount" + i).val();
-                        var ExpenseTotalAmount = parseInt($("#totalSum").html());
-                        var expenseAmount =
-                              {
-                                  //iExpenseID: $("#hfExpense").val(),
 
-                                  iPurchaseInvoiceID: $("#invno").val(),
-                                  strExpenseDate: $("#txtAllExpDate").val(),
+                    // var ExpenseID = $("#lblExpenseID" + i).html();
+                    //var ExpenseName = $("#lblExpense" + i).html();
+                    //var ExpenseAmount = $("#txtAmount" + i).val();
+                    var ExpenseTotalAmount = parseInt($("#totalSum").html());
+                    var expenseAmount =
+                          {
+                              //iExpenseID: $("#hfExpense").val(),
 
-                                  //iExpenseID: ExpenseID,
-                                  //dcmlExpenseAmount: ExpenseAmount,
+                              iPurchaseInvoiceID: $("#invno").val(),
+                              strExpenseDate: $("#txtAllExpDate").val(),
 
-
-                                  //iCategoryID: 2,
-                                  //iSubCategoryID: 1,
-                                  
-                                  dcmlTotalExpenseAmount: ExpenseTotalAmount,
-                                  iVehicleExpenseTypeID: 1,
-                                  strPurchaseInvoiceNo: $('#hfStrPurchaseInvoiceNo').val(),
+                              //iExpenseID: ExpenseID,
+                              //dcmlExpenseAmount: ExpenseAmount,
 
 
-                            dcmlDOExpenseAmount : $('#txtDOExpense').val(),
-                            dcmlDPAExpenseAmount : $('#txtDPAExpense').val(),
-                            dcmlRAMPExpenseAmount: $('#txtRampExpense').val(),
-                            dcmlTRANSPORTExpenseAmount: $('#txtTransportExpense').val(),
-                            dcmlRECOVERYExpenseAmount: $('#txtRecoveryExpense').val()
+                              //iCategoryID: 2,
+                              //iSubCategoryID: 1,
 
-                              }
-                        favorite.push(expenseAmount);
+                              dcmlTotalExpenseAmount: ExpenseTotalAmount,
+                              iVehicleExpenseTypeID: 1,
+                              strPurchaseInvoiceNo: $('#hfStrPurchaseInvoiceNo').val(),
+
+
+                              dcmlDOExpenseAmount: $('#txtDOExpense').val(),
+                              dcmlDPAExpenseAmount: $('#txtDPAExpense').val(),
+                              dcmlRAMPExpenseAmount: $('#txtRampExpense').val(),
+                              dcmlTRANSPORTExpenseAmount: $('#txtTransportExpense').val(),
+                              dcmlRECOVERYExpenseAmount: $('#txtRecoveryExpense').val()
+
+                          }
+                    favorite.push(expenseAmount);
 
                     SaveALLExpense(favorite);
                     $(this).dialog('close');
@@ -395,14 +537,14 @@
 
 
 
-            
+
 
         });
 
-       
+
         //$("body").on("click", ".remove", function () {
         //    debugger;
-          
+
         //    arrExpenseID.pop($(this).closest("div[name='divForExpense']").remove());
 
         //    //ExpenseTotalAmount = 0;
@@ -458,7 +600,7 @@
             data: JSON.stringify({ 'expense': arr, 'id': invoiceID }),
             success: function (data) {
                 alert("Succsesfully Update All Vehicle Expense.");
-                window.location.href = "/MExpenses/AllVehicleExpensesList";
+                //window.location.href = "/MExpenses/AllVehicleExpensesList";
             }
         });
 
@@ -502,7 +644,7 @@
 
 
     function myFunction(id) {
-      
+
         $("body").on("click", ".remove", function () {
             $(this).closest("div[name='divForExpense']").remove();
 
@@ -516,15 +658,15 @@
     }
 
 
-    
+
 
 
 </script>
 
 <script>
 
-    
-  
+
+
 
 
 
@@ -550,7 +692,7 @@
 
     function calculateSum() {
         debugger;
-       
+
         var sum = 0;
         //iterate through each textboxes and add the values
         $("input[name='DynamicTextBox']").each(function () {

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="fe7cd9625a134df493f463959df7693c" Name="Diagram1" ZoomLevel="108" >
+      <Diagram DiagramId="fe7cd9625a134df493f463959df7693c" Name="Diagram1" ZoomLevel="60" >
         <EntityTypeShape EntityType="AuctionInventoryModel.AllVehicleExpense" Width="1.5" PointX="5.75" PointY="3.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.AuctionList" Width="1.5" PointX="5.75" PointY="6.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.CityMaster" Width="1.5" PointX="5.25" PointY="1" />
@@ -31,10 +31,12 @@
         <EntityTypeShape EntityType="AuctionInventoryModel.TPurchase" Width="1.5" PointX="0.75" PointY="5" />
         <EntityTypeShape EntityType="AuctionInventoryModel.UserLogin" Width="1.5" PointX="13.75" PointY="6.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.Vehicle" Width="1.5" PointX="3" PointY="4.125" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.VehicleExpense" Width="1.5" PointX="13.75" PointY="10.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.VehicleExpens" Width="1.5" PointX="13.75" PointY="10.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.ExpenseAmount" Width="1.5" PointX="15.75" PointY="0.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.MailModel" Width="1.5" PointX="15.75" PointY="3.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.tbl_AuthorizedPages" Width="1.5" PointX="15.75" PointY="6.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.tbl_Pages" Width="1.5" PointX="15.75" PointY="9.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.tbl_UserRoles" Width="1.5" PointX="9.75" PointY="15.75" />
         <AssociationConnector Association="AuctionInventoryModel.FK_CityMaster_StateMaster" />
         <AssociationConnector Association="AuctionInventoryModel.FK_StateMaster_CountryMaster" />
         <AssociationConnector Association="AuctionInventoryModel.FK_Vehicle_TPurchase" />

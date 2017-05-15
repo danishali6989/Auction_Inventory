@@ -136,14 +136,14 @@ namespace AuctionInventory.Services
         }
 
 
-        //public bool SaveDataSingleVehicleExpense(VehicleExpenseModel expenses)
-        //{
-        //    bool status = true;
-        //    //Expenses expense = new Expenses();
-        //    ExpensesRepository repo = new ExpensesRepository();
-        //    status = repo.SaveRepoSingleVehicleExpense(ParserAddSingleVehicleExpenses(expenses));
-        //    return status;
-        //}
+        public bool SpreadExpenseAmount(decimal totalAmount, int purchaseInvoiceID)
+        {
+            bool status = true;
+            //Expenses expense = new Expenses();
+            ExpensesRepository repo = new ExpensesRepository();
+            status = repo.SpreadExpenseAmount(totalAmount, purchaseInvoiceID);
+            return status;
+        }
 
         #region Parser
 
@@ -201,16 +201,16 @@ namespace AuctionInventory.Services
             return listExpenses;
         }
 
-        private List<VehicleExpense> ParserAddVehicleExpenses(List<VehicleExpenseModel> expenses)
+        private List<VehicleExpens> ParserAddVehicleExpenses(List<VehicleExpenseModel> expenses)
         {
-            List<VehicleExpense> listAllVehicleExpense = new List<VehicleExpense>();
+            List<VehicleExpens> listAllVehicleExpense = new List<VehicleExpens>();
             foreach (var item in expenses)
             {
 
 
-                if (expenses != null)
+                if (item != null)
                 {
-                    VehicleExpense mVehicleExpense = new VehicleExpense();
+                    VehicleExpens mVehicleExpense = new VehicleExpens();
 
                     
 

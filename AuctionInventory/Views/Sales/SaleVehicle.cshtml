@@ -13,79 +13,28 @@
     }
 </style>
 
+
+
 <div class="row">
+    <input type="hidden" id="hfCustomer" />
+    <label style="display:none" id="hfSaleFrontEndID"></label>
 
-    <div class="form-group col-xs-5">
-        <input type="hidden" id="hfCustomer" />
-        <label style="display:none" id="hfSaleFrontEndID"></label>
-        <br>
-        @*buyer in as customer*@
-
-        <input id="txtBuyerName" class="form-control input-group-lg" type="text" name="BuyerName"
-               placeholder="Search By Customer Name" />
-
-        @*<label>Search  Buyer Name</label>
-        <input id="txtBuyerName" class="form-control input-group-lg" type="text" name="BuyerName"
-               placeholder="Search By Buyer Name" />*@
-        
-     </div>
     <div class="form-group col-xs-4">
         <h3><label id="invoiceLbl" class="label label-warning form-control input-group-lg">Sales Inv No: SI-@(@DateTime.Now.Year % 100)-<span id="txtInvoiceNum"></span></label></h3>
+    </div>
+
+    <div class="form-group col-xs-4">
+        <label>Sales Date</label>
+        <input id="salesDate" class="form-control datepicker input-group-lg" type="text" name="Date"
+               placeholder="Enter Drop-off date here..." />
     </div>
    
 </div>
 
-<div id="divCustomerInfo" style="display:none">
-    <div class="row">
-        <div class="form-group col-xs-5">
-            <label>Customer Name</label>
-            <input id="txtCustomerName" class="form-control input-group-lg" type="text" name="CustomerName"
-                   placeholder="Customer Name" readonly />
-        </div>
-
-        <div class="form-group col-xs-4">
-            <label>Sales Date</label>
-            <input id="salesDate" class="form-control datepicker input-group-lg" type="text" name="Date"
-                   placeholder="Enter Drop-off date here..." />
-        </div>
-
-       
-
-
-        @*<div class="form-group col-xs-5">
-            <label for="InvoiceNum" class="sr-only"></label>
-            <input id="txtInvoiceNum" class="form-control input-group-lg" type="text" readonly
-                   placeholder="Invoice Number" />
-        </div>*@
-    </div>
-
-
-    <div class="row">
-        <div class="form-group col-xs-4">
-            <label>Customer Contact</label>
-            <input id="txtCustomerContact" class="form-control input-group-lg" type="text" name="CustomerContact"
-                   placeholder="Customer Contact" readonly />
-        </div>
-
-        <div class="form-group col-xs-4">
-            <label>Balance</label>
-            <input id="txtBalance" class="form-control input-group-lg" type="text" readonly
-                   placeholder="Balance" />
-        </div>
-
-        <div class="form-group col-xs-4">
-            <label>Credit Limit</label>
-            <input id="txtCreditLimit" class="form-control input-group-lg" type="text" readonly
-                   placeholder="Credit Limit" />
-        </div>
-    </div>
-
-    <div class="box-body" id="divFillByVehicle">
-
-        <br />
-        <table id="dataGrid" class="table table-bordered table-striped"></table>
-        <div id="pagingGrid"></div>
-    </div>
+<div class="box-body" id="divFillByVehicle">
+    <br />
+    <table id="dataGrid" class="table table-bordered table-striped"></table>
+    <div id="pagingGrid"></div>
 
 </div>
 
@@ -93,35 +42,70 @@
 <div class="box-body" id="divAddVehicle" style="display:none">
     <table id="GridAddVehicle" class="table table-bordered table-striped"></table>
     <div id="pagingGridAddVehicle"></div>
-
-
+    <br>
     <div class="row">
-        <br />
         <div class="form-group col-xs-4">
-            <label>Selling Price</label>
-            <input id="txtSellingPrice" class="form-control input-group-lg" type="text"
-                   placeholder="Selling Price" />
-        </div>
-
-        <div class="form-group col-xs-4">
-            <label>Deposit</label>
-            <input id="txtDeposit" class="form-control input-group-lg" type="text"
-                   placeholder="Deposit" />
-        </div>
-        <div class="form-group col-xs-4">
-            <label>Advance</label>
-            <input id="txtAdvance" class="form-control input-group-lg" type="text"
-                   placeholder="Advance" />
+            <label>Search By Customer Name</label>
+            <input id="txtBuyerName" class="form-control input-group-lg" type="text" name="BuyerName"
+                   placeholder="Search By Customer Name" />
         </div>
     </div>
+        <br>
+        <div id="divCustomerInfo" style="display:none">
+            <div class="row">
+                <div class="form-group col-xs-3">
+                    <label>Customer Name</label>
+                    <input id="txtCustomerName" class="form-control input-group-lg" type="text" name="CustomerName"
+                           placeholder="Customer Name" readonly />
+                </div>
+
+                <div class="form-group col-xs-3">
+                    <label>Customer Contact</label>
+                    <input id="txtCustomerContact" class="form-control input-group-lg" type="text" name="CustomerContact"
+                           placeholder="Customer Contact" readonly />
+                </div>
+
+                <div class="form-group col-xs-3">
+                    <label>Balance</label>
+                    <input id="txtBalance" class="form-control input-group-lg" type="text" readonly
+                           placeholder="Balance" />
+                </div>
+
+                <div class="form-group col-xs-3">
+                    <label>Credit Limit</label>
+                    <input id="txtCreditLimit" class="form-control input-group-lg" type="text" readonly
+                           placeholder="Credit Limit" />
+                </div>
+            </div>
+
+
+            <div class="row">
+                <br />
+                <div class="form-group col-xs-4">
+                    <label>Selling Price</label>
+                    <input id="txtSellingPrice" class="form-control input-group-lg" type="text"
+                           placeholder="Selling Price" />
+                </div>
+
+                <div class="form-group col-xs-4">
+                    <label>Deposit</label>
+                    <input id="txtDeposit" class="form-control input-group-lg" type="text"
+                           placeholder="Deposit" />
+                </div>
+                <div class="form-group col-xs-4">
+                    <label>Advance</label>
+                    <input id="txtAdvance" class="form-control input-group-lg" type="text"
+                           placeholder="Advance" />
+                </div>
+            </div>
 
 
 
 
 
-    <div class="row">
+            <div class="row">
 
-        @*<div class="form-group col-xs-4">
+                @*<div class="form-group col-xs-4">
                 <label for="Select payment Option" class="sr-only"></label>
                 <div class="options">
                     <label for="Cash" class="sr-only"></label>
@@ -135,7 +119,7 @@
 
             </div>*@
 
-        @*<label>Select payment Option</label>
+                @*<label>Select payment Option</label>
             <div class="options">
                 <label>Cash</label>
                 <input type="radio" name="PaymentOption" id="rdbCashOption" onclick="CashPaymentOption()" checked="checked" />
@@ -144,60 +128,65 @@
                 <input type="radio" name="PaymentOption" id="rdbCreditOption" onclick="CreditPaymentOption()" />
             </div>*@
 
-        @*<div class="form-group col-xs-4">
+                @*<div class="form-group col-xs-4">
                 <label for="Payment" class="sr-only"></label>
                 <input id="txtPayment" class="form-control input-group-lg" type="text"
                        placeholder="Payment" />
             </div>*@
-        <div class="form-group col-xs-4">
-            <label>Installment</label>
-            <input id="txtInstallment" class="form-control input-group-lg" type="text"
-                   placeholder="Installment" />
+                <div class="form-group col-xs-4">
+                    <label>Installment</label>
+                    <input id="txtInstallment" class="form-control input-group-lg" type="text"
+                           placeholder="Installment" />
+                </div>
+
+                <div class="form-group col-xs-4">
+                    <label>Balance</label>
+                    <input id="txtSaleBalance" class="form-control input-group-lg" type="text"
+                           placeholder="Balance" />
+                </div>
+            </div>
+
+
+            <label style="margin-left: 63px;">Select payment Option:</label>
+            <div class="options">
+
+                <label>Cash</label>
+                <input type="radio" name="PaymentOption" id="rdbCashOption" checked="checked" />
+                &nbsp;
+                <label>Credit</label>
+                <input type="radio" name="PaymentOption" id="rdbCreditOption" />
+            </div>
+
+            <label style="margin-left: 130px;">Paper Type:</label>
+            <div class="options" id="divBoxGroup">
+                <label>
+                    <input type="radio" id="ckbImportOption" name="nam_GroupMode" value="1" checked="checked" />Import
+                </label>
+                <label>
+                    <input type="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
+                </label>
+                <label>
+                    <input type="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
+                </label>
+            </div>
+            @*<div class="row" id="divBoxGroup">
+
+            <label>
+                <input type="checkbox" class="radio" id="ckbImportOption" name="nam_GroupMode" value="1" />Import
+            </label>
+            <label>
+                <input type="checkbox" class="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
+            </label>
+            <label>
+                <input type="checkbox" class="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
+            </label>
+        </div>*@
+
+
         </div>
+      
 
-        <div class="form-group col-xs-4">
-            <label>Balance</label>
-            <input id="txtSaleBalance" class="form-control input-group-lg" type="text"
-                   placeholder="Balance" />
-        </div>
     </div>
-
-
-    <label style="margin-left: 63px;">Select payment Option:</label>
-    <div class="options">
-        
-        <label>Cash</label>
-        <input type="radio" name="PaymentOption" id="rdbCashOption" checked="checked" />
-        &nbsp;
-        <label>Credit</label>
-        <input type="radio" name="PaymentOption" id="rdbCreditOption" />
-    </div>
-  
-    <label style="margin-left: 130px;">Paper Type:</label>
-    <div class="options" id="divBoxGroup">       
-        <label>
-            <input type="radio" id="ckbImportOption" name="nam_GroupMode" value="1" checked="checked" />Import
-        </label>
-        <label>
-            <input type="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
-        </label>
-        <label>
-            <input type="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
-        </label>
-    </div>
-    @*<div class="row" id="divBoxGroup">
-
-        <label>
-            <input type="checkbox" class="radio" id="ckbImportOption" name="nam_GroupMode" value="1" />Import
-        </label>
-        <label>
-            <input type="checkbox" class="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
-        </label>
-        <label>
-            <input type="checkbox" class="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
-        </label>
-    </div>*@
-</div>
 <div>
     <br />
 
@@ -269,15 +258,16 @@
             colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY'],
             colModel: [
                 { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
-                { name: 'iLotNum', index: 'iLotNum' },
-                { name: 'strChassisNum', index: 'strChassisNum' },
-                { name: 'iModel', index: 'iModel' },
-                { name: 'iYear', index: 'iYear' },
-                { name: 'strColor', index: 'strColor' },
-                { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
+                { name: 'iLotNum', index: 'iLotNum', align: 'center' },
+                { name: 'strChassisNum', index: 'strChassisNum', align: 'center' },
+                { name: 'iModel', index: 'iModel', align: 'center' },
+                { name: 'iYear', index: 'iYear', align: 'center' },
+                { name: 'strColor', index: 'strColor', align: 'center' },
+                { name: 'iCustomValInJPY', index: 'iCustomValInJPY', align: 'center' },
 
             ],
-            width: 'auto',
+            width: 1150,
+            height: 150,
             rowNum: 10,
             loadonce: true,
             rowList: [10, 20, 30],
@@ -340,9 +330,9 @@
                 },
 
             ],
-            //width: 'auto',
-            width: 900,
-            //height: 250,
+            width: 1150,
+           // width: 900,
+           
             rowNum: 10,
             loadonce: false,
             rowList: [10, 20, 30],

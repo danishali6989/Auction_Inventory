@@ -12,11 +12,9 @@ namespace AuctionInventoryDAL.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_AuthorizedPages
+    public partial class tbl_UserRoles
     {
-        public long id { get; set; }
-        public long PageId { get; set; }
-        public string PageName { get; set; }
-        public int RoleId { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }
