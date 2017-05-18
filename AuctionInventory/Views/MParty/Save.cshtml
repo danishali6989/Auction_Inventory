@@ -1,0 +1,204 @@
+﻿@model AuctionInventory.Models.PartyModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    .error {
+        color: red;
+    }
+
+    fieldset {
+        border: 0;
+        margin: 0;
+        min-width: 0;
+        border: 2px solid Black;
+        display: inline-block;
+    }
+
+    legend {
+        border: 2px solid Black;
+        padding: 0 !important;
+        display: inline-block;
+    }
+</style>
+
+@using (Html.BeginForm("save", "MParty", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.iPartyID > 0)
+    {
+        @Html.HiddenFor(a => a.iPartyID)
+    }
+
+    <div class="row">
+        <div class="col-md-4">
+            <label>First Name</label>
+            @Html.TextBoxFor(a => a.strFirstName, new { @class = "form-control  input-group-lg", @placeholder = "Enter First Name" })
+            @Html.ValidationMessageFor(m => m.strFirstName, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Middle Name</label>
+            @Html.TextBoxFor(a => a.strMiddleName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Middle Name" })
+            @Html.ValidationMessageFor(m => m.strMiddleName, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Last Name </label>
+            @Html.TextBoxFor(a => a.strLastName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Last Name" })
+            @Html.ValidationMessageFor(m => m.strLastName, "", new { @class = "error" })
+
+        </div>
+
+
+        <div class="col-md-4">
+            <label>Country </label>
+
+            @Html.DropDownListFor(m => m.iCountry, (IEnumerable<SelectListItem>)ViewBag.Country, null, new { @class = "form-control", @id = "ddlCountry" })
+            @Html.ValidationMessageFor(m => m.iCountry, "", new { @class = "error" })
+
+
+            @*@Html.TextBoxFor(a => a.iCountry, new { @class = "form-control  input-group-lg", @placeholder = "Enter Country Name" })
+                @Html.ValidationMessageFor(m => m.iCountry, "", new { @class = "error" })*@
+
+
+        </div>
+        <div class="col-md-4">
+            <label>City </label>
+            @*@Html.DropDownListFor(m => m.iCity, new SelectList(string.Empty, "Value", "Text"), "Select City", new { @class = "form-control", @id = "ddlCity" })
+                @Html.ValidationMessageFor(m => m.iCity, "", new { @class = "error" })*@
+
+            @Html.DropDownListFor(m => m.iCity, (IEnumerable<SelectListItem>)ViewBag.City, null, new { @class = "form-control", @id = "ddlCity" })
+            @Html.ValidationMessageFor(m => m.iCity, "", new { @class = "error" })
+
+        </div>
+
+        <div class="col-md-4">
+            <label>Email </label>
+            @Html.TextBoxFor(a => a.strEmailID, new { @class = "form-control  input-group-lg", @placeholder = "Enter Email Address" })
+            @Html.ValidationMessageFor(m => m.strEmailID, "", new { @class = "error" })
+        </div>
+
+
+
+        <div class="col-md-4">
+            <label>Phone Number </label>
+            @Html.TextBoxFor(a => a.strPhoneNumber, new { @class = "form-control  input-group-lg", @placeholder = "Enter Phone Number" })
+            @Html.ValidationMessageFor(m => m.strPhoneNumber, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Address </label>
+            @Html.TextBoxFor(a => a.strAddress, new { @class = "form-control  input-group-lg", @placeholder = "Enter Address" })
+            @Html.ValidationMessageFor(m => m.strAddress, "", new { @class = "error" })
+
+
+        </div>
+        <div class="col-md-4">
+            <label>Pincode </label>
+            @Html.TextBoxFor(a => a.iPincode, new { @class = "form-control  input-group-lg", @placeholder = "Enter Pincode", @type = "number" })
+            @Html.ValidationMessageFor(m => m.iPincode, "", new { @class = "error" })
+
+        </div>
+        <br />
+
+
+    </div>
+
+
+
+    <div>
+        <br />
+        @if (Model != null && Model.iPartyID > 0 && Model.iPartyID != null)
+        {
+            <input type="submit" style="margin-left: 400px;" id="btnUpdate" class="btn btn-warning col-md-1" value="Update">
+        }
+        else
+        {
+            <input type="submit" style="margin-left: 400px;" id="btnSave" class="btn btn-success col-md-1" value="Save">
+        }
+
+        @*<input type="submit" value="Save" />*@
+
+        <input type="button" style="margin-left: 40px;" class="btn btn-warning col-md-1" value="Cancel" onclick="CancelPartyInfo();" />
+
+    </div>
+}
+
+@{
+    <input type="hidden" id="hdniCity" value="@Model.iCity" />
+}
+
+
+<script type="text/javascript">
+    function CancelPartyInfo() {
+        window.location.href = "/MParty/Index";
+    }
+
+
+    $(document).ready(function () {
+
+        $("#ddlCity").empty();
+        $.ajax({
+            type: "post",
+            url: "/MCustomer/GetCity",
+            data: { countryID: $('#ddlCountry').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                $.each(data, function (i, city) {
+
+                    if ($("#hdniCity").val() == city.Value) {
+                        $("#ddlCity").append('<option value="' + city.Value + '" selected>' + city.Text + '</option>');
+                    }
+                    else {
+                        $("#ddlCity").append('<option value="' + city.Value + '" >' + city.Text + '</option>');
+                    }
+
+
+                });
+
+            }
+        });
+
+    });
+
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#ddlCountry').change(function () {
+            $("#ddlCity").empty();
+            $.ajax({
+                type: "post",
+                url: "/MCustomer/GetCity",
+                data: { countryID: $('#ddlCountry').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+
+
+                    $.each(data, function (i, city) {
+                        $("#ddlCity").append('<option value="' + city.Value + '">' +
+                             city.Text + '</option>');
+                        // here we are adding option for States
+
+                    });
+
+                }
+            });
+        });
+    });
+</script>  

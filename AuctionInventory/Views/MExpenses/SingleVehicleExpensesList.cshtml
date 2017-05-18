@@ -36,7 +36,8 @@
                     </div>*@
                 <div class='form-group col-sm-3'>
                     <input type="hidden" id="hfVehicle" />
-                    <input type="hidden" id="hfiVehicleExpenseID" />
+                    <input type="hidden" id="hfiVehicleExpenseID" />                    
+                    <input type="hidden" id="hdniPartyID" />
 
                     <input type='text' id="txtSearchVehicle" class='form-control input-group-sm' style='margin-left: -20px;' placeholder='Search Vehicle By Chasis Number' />
                 </div>
@@ -175,8 +176,8 @@
             datatype: "json",
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
-
-            colNames: ['iVehicleExpenseID', 'strRemarks', 'Expense Name', 'Vehicle ID', 'Chassis No', 'Date', 'No Of Expenses', 'Expense Amount', 'Total Expense Amount', 'Action'],
+            
+            colNames: ['iVehicleExpenseID', 'strRemarks', 'Expense Name', 'Vehicle ID', 'iPartyID', 'Party Name', 'Chassis No', 'Date', 'No Of Expenses', 'Expense Amount', 'Total Expense Amount', 'Action'],
             colModel: [
                 { name: 'iVehicleExpenseID', index: 'iVehicleExpenseID', hidden: true, hidedlg: true },
 
@@ -185,6 +186,10 @@
                  { name: 'strExpenseName', index: 'strExpenseName', hidden: true, hidedlg: true },
 
                    { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+
+                    { name: 'iPartyID', index: 'iPartyID', hidden: true, hidedlg: true },
+
+                     { name: 'strFirstName', index: 'strFirstName', align: 'center' },
 
                     { name: 'strChassisNum', index: 'strChassisNum', align: 'center' },
 
@@ -261,6 +266,9 @@
 
         var rowData = jQuery("#dataGridForSingleVehicleExpensesList").getRowData(rowID);
 
+        
+        var iPartyID = rowData['iPartyID'];
+        var strFirstName = rowData['strFirstName'];
 
 
 
@@ -289,12 +297,14 @@
         $("#txtSearchVehicle").val(strChassisNum);
         $("#txtAreaRemarks").val(strRemarks);
 
+        $("#hdniPartyID").val(iPartyID);
 
         //$("#hfExpense").val(iExpenseID);
         //$("#invno").val(iPurchaseInvoiceID);
         //$("#hfExpense").val(iExpenseID);
 
         //$("#totalSum").html(iTotalExpenseAmounrt);
+
 
 
 
@@ -364,8 +374,8 @@
 
                                 //alert(result[i].strExpenseName);
 
-                                //alert(result[i].iExpenseAmount);
-
+                                alert(result[i].iPartyID);
+                                alert(result[i].strFirstName);
                                 var id = result[i].iExpenseID;
                                 var value = result[i].strExpenseName;
                                 //$('.txtAmountClass').val(result[i].iExpenseAmount);
@@ -403,8 +413,18 @@
                        + "<div class='form-group col-sm-2'>"
                       + "<input  type='number' class='txtAmountClass form-control input-group-sm'  style='margin-left: -20px;' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount"
                       + counter + "' value='" + result[i].dcmlExpenseAmount + "' /></div>"
+
+
+                        + "<div class='form-group col-sm-2'>"
+                  //+ "<label>" + "Party" + "</label>"
+                + "<select class='form-control input-group-sm' id='ddlParty" + counter + "'  name='DynamicParty' onchange='getParty(this);'>"
+                + "<option>Select Party</option>"
+               + "</select></div>"
+
+
+
                        + "<div class='form-group col-sm-2'>"
-                      + "<input type='button' value='Remove' style='margin-left: -35px;' onclick='myFunction("+id+")' class='remove btn btn-success' id='btnRemove"
+                      + "<input type='button' value='Remove' style='margin-left: -10px;' onclick='myFunction("+id+")' class='remove btn btn-success' id='btnRemove"
                       + counter + "' /></div></div>");
 
 
@@ -414,6 +434,48 @@
                                     calculateSum();
                                 }
                             }
+
+
+
+                            ////This is used to fill dropdownlist for party Name
+
+                            $.ajax({
+                                url: "/MExpenses/ShowPartyData",
+                                type: "Get",
+                                success: function (data) {
+
+                                   debugger
+
+
+                                    for (var j = 1; j <= counter; j++) {
+
+                                        for (var i = 0; i < data.length; i++) {
+
+                                            //var option = new Option(data[i].strFirstName, data[i].iPartyID);
+
+                                            //$('#ddlParty' + j).append(option);
+
+
+                                            $.each(data, function (i, name) {
+
+                                                if ($("#hdniPartyID").val() == name.iPartyID) {
+                                                    $('#ddlParty' + j).append('<option value="' + name.iPartyID + '" selected>' + name.strFirstName + '</option>');
+                                                }
+                                                else {
+                                                    $('#ddlParty' + j).append('<option value="' + name.iPartyID + '" >' + name.strFirstName + '</option>');
+                                                }
+
+
+                                            });
+
+                                        }
+                                    }
+                                }
+
+                            });
+
+
+
                         }
                     });
                 });
@@ -523,8 +585,18 @@
                  + "<div class='form-group col-sm-2'>"
                 + "<input  type='number' class='txtAmountClass form-control input-group-sm'  style='margin-left: -20px;' name='DynamicTextBox' min='1' max='5' placeholder='Enter Amount' id='txtAmount"
                 + counter + "' /></div>"
+
+
+
+                  + "<div class='form-group col-sm-2'>"
+                  //+ "<label>" + "Party" + "</label>"
+                + "<select class='form-control input-group-sm' id='ddlParty" + counter + "' name='DynamicParty' onchange='getParty(this);'>"
+                + "<option>Select Party</option>"
+               + "</select></div>"
+
+
                  + "<div class='form-group col-sm-2'>"
-                + "<input type='button' value='Remove' style='margin-left: -35px;'  onclick='myFunction(" + id + ")'  class='remove btn btn-success' id='btnRemove"
+                + "<input type='button' value='Remove' style='margin-left: -10px;'  onclick='myFunction(" + id + ")'  class='remove btn btn-success' id='btnRemove"
                 + counter + "' /></div></div>");
 
 
@@ -578,7 +650,7 @@
                         var ExpenseID = $("#lblExpenseID" + i).html();
                         //var ExpenseName = $("#lblExpense" + i).html();
                         var ExpenseAmount = $("#txtAmount" + i).val();
-
+                        var PartyID = $("#ddlParty" + i).val();
                         var iVehicleExpenseID = $("#iVehicleExpenseID" + i).html();
 
                         var ExpenseTotalAmount = parseInt($("#totalSum").html());
@@ -591,7 +663,8 @@
                                   dcmlExpenseAmount: ExpenseAmount,
                                   dcmlTotalExpenseAmount: ExpenseTotalAmount,
                                   strRemarks: $("#txtAreaRemarks").val(),
-                                  iVehicleExpenseTypeID: 2
+                                  iVehicleExpenseTypeID: 2,
+                                  iPartyID: PartyID
                               }
 
                         if (ExpenseAmount != 0 && ExpenseAmount != null) {
@@ -711,6 +784,11 @@
     });
 
 </script>
+
+
+
+ 
+
 
 
 <!-- JqGrid Scripts -->

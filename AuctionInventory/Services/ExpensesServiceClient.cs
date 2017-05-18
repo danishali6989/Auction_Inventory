@@ -145,6 +145,17 @@ namespace AuctionInventory.Services
             return status;
         }
 
+
+
+        public bool UndoSpreadExpenseAmount(int purchaseInvoiceID)
+        {
+            bool status = true;
+            //Expenses expense = new Expenses();
+            ExpensesRepository repo = new ExpensesRepository();
+            status = repo.UndoSpreadExpenseAmount(purchaseInvoiceID);
+            return status;
+        }
+
         #region Parser
 
         private MExpense ParserAddExpenses(Expenses expenses)
@@ -201,16 +212,16 @@ namespace AuctionInventory.Services
             return listExpenses;
         }
 
-        private List<VehicleExpens> ParserAddVehicleExpenses(List<VehicleExpenseModel> expenses)
+        private List<VehicleExpense> ParserAddVehicleExpenses(List<VehicleExpenseModel> expenses)
         {
-            List<VehicleExpens> listAllVehicleExpense = new List<VehicleExpens>();
+            List<VehicleExpense> listAllVehicleExpense = new List<VehicleExpense>();
             foreach (var item in expenses)
             {
 
 
                 if (item != null)
                 {
-                    VehicleExpens mVehicleExpense = new VehicleExpens();
+                    VehicleExpense mVehicleExpense = new VehicleExpense();
 
                     
 
@@ -239,7 +250,7 @@ namespace AuctionInventory.Services
                     mVehicleExpense.dcmlRAMPExpenseAmount = item.dcmlRAMPExpenseAmount;
                     mVehicleExpense.dcmlTRANSPORTExpenseAmount = item.dcmlTRANSPORTExpenseAmount;
                     mVehicleExpense.dcmlRECOVERYExpenseAmount = item.dcmlRECOVERYExpenseAmount;
-
+                    mVehicleExpense.iPartyID = item.iPartyID;
                     listAllVehicleExpense.Add(mVehicleExpense);
                 }
             }

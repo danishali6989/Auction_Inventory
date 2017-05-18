@@ -21,7 +21,7 @@ namespace AuctionInventoryDAL.Entity
         public Nullable<int> iCountryID { get; set; }
         public Nullable<int> iCityID { get; set; }
         public string strArea { get; set; }
-        public Nullable<int> iPhoneNumber { get; set; }
+        public string iPhoneNumber { get; set; }
         public string strEmailID { get; set; }
         public Nullable<int> iIDNO { get; set; }
         public string strMISC { get; set; }

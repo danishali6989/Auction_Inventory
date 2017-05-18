@@ -32,6 +32,7 @@ namespace AuctionInventoryDAL.Repositories
         {
             var listExpense = (from AM in auctionContext.VehicleExpenses
                                join t2 in auctionContext.MExpenses on AM.iExpenseID equals t2.iExpenseID
+                               join t3 in auctionContext.MParties on AM.iPartyID equals t3.iPartyID
                                where AM.iVehicleID == id
 
                                select new
@@ -41,6 +42,10 @@ namespace AuctionInventoryDAL.Repositories
                                    iExpenseID = AM.iExpenseID,
                                    strExpenseName = t2.strExpenseName,
                                    strRemarks = AM.strRemarks,
+
+                                   //partyID and Party Name
+                                   iPartyID = AM.iPartyID,
+                                   strFirstName = t3.strFirstName,
 
                                    dcmlExpenseAmount = AM.dcmlExpenseAmount,
                                    dcmlTotalExpenseAmount = AM.dcmlTotalExpenseAmount,
@@ -102,6 +107,7 @@ namespace AuctionInventoryDAL.Repositories
                 var preResult = (from AM in dc.VehicleExpenses
                                  join t2 in dc.MExpenses on AM.iExpenseID equals t2.iExpenseID
                                  join t3 in dc.Vehicles on AM.iVehicleID equals t3.iVehicleID
+                                 join t4 in dc.MParties on AM.iPartyID equals t4.iPartyID
                                  where (AM.iVehicleID != null && AM.iVehicleID != 0)
 
                                  select new
@@ -111,6 +117,11 @@ namespace AuctionInventoryDAL.Repositories
                                 strRemarks = AM.strRemarks,
 
                                 iVehicleID = AM.iVehicleID,
+
+                                //partyID and Party Name
+                                iPartyID = AM.iPartyID,
+                                strFirstName = t4.strFirstName,
+                             
 
                                 iExpenseID = AM.iExpenseID,
                                 strChassisNum = t3.strChassisNum,
@@ -130,6 +141,11 @@ namespace AuctionInventoryDAL.Repositories
                                         dcmlExpenseAmount = y.Sum(x => x.dcmlExpenseAmount),
                                         strChassisNum = y.First().strChassisNum,
                                         iVehicleExpenseID = y.First().iVehicleExpenseID,
+
+                                        iPartyID = y.First().iPartyID,
+                                        strFirstName = y.First().strFirstName,
+
+
                                         iExpenseID = y.Count(),
                                         strRemarks = y.First().strRemarks,
                                         strExpenseName = y.First().strExpenseName,
@@ -148,8 +164,11 @@ namespace AuctionInventoryDAL.Repositories
                Convert.ToString(singleExp.strRemarks),
                 Convert.ToString( singleExp.strExpenseName),
                 Convert.ToString(singleExp.iVehicleID),
+                Convert.ToString(singleExp.iPartyID),
               
                
+                Convert.ToString(singleExp.strFirstName),
+
                Convert.ToString(singleExp.strChassisNum),
                Convert.ToString( singleExp.strExpenseDate),
                 Convert.ToString(singleExp.iExpenseID),
@@ -494,7 +513,7 @@ namespace AuctionInventoryDAL.Repositories
 
 
 
-        public bool SaveRepoVehicleExpense(List<VehicleExpens> expense, string refenceNumber, int id)
+        public bool SaveRepoVehicleExpense(List<VehicleExpense> expense, string refenceNumber, int id)
         {
 
             //var spreadAmount=(decimal?)0;
@@ -603,17 +622,12 @@ namespace AuctionInventoryDAL.Repositories
 
                 //for Spread total expense amount on a particular vehicle 
 
-
-
-                if (purchaseInvoiceID != null && purchaseInvoiceID != 0)
+                if (purchaseInvoiceID != 0)
                 {
-
-
                     var vehicleDataByInvoiceID = (from t1 in auctionContext.TPurchases
                                                   join t2 in auctionContext.Vehicles on t1.PurchaseID equals t2.PurchaseID
-                                                  //join t3 in auctionContext.MColors on AM.iColor equals CM.iColorID
                                                   where t1.iPurchaseInvoiceNo == purchaseInvoiceID
-                                                  // select t2);
+
                                                   select new
                                                   {
                                                       iVehicleID = t2.iVehicleID,
@@ -627,28 +641,26 @@ namespace AuctionInventoryDAL.Repositories
                     {
                         if (data.iVehicleID > 0)
                         {
-                            //Edit Existing Record
                             var vehi = auctionContext.Vehicles.Where(a => a.iVehicleID == data.iVehicleID).FirstOrDefault();
                             if (vehi != null)
                             {
+                                //ADD Spread Amount In Vehicles Table
+
                                 vehi.dcmlExpenseAmount = spreadAmount;
                             }
                         }
                     }
 
 
-
                     var getVehicleExpenseDataByPurchaseInvoiceID = (from t1 in auctionContext.VehicleExpenses
-
                                                                     where t1.iPurchaseInvoiceID == purchaseInvoiceID
-                                                                    // select t2);
-                                      select new
-                                      {
-                                          iPurchaseInvoiceID = t1.iPurchaseInvoiceID,
-                                          dcmlSpreadAmount = t1.dcmlSpreadAmount,
 
-                                     }).ToList();
+                                                                    select new
+                                                                    {
+                                                                        iPurchaseInvoiceID = t1.iPurchaseInvoiceID,
+                                                                        dcmlSpreadAmount = t1.dcmlSpreadAmount,
 
+                                                                    }).ToList();
 
                     foreach (var data in getVehicleExpenseDataByPurchaseInvoiceID)
                     {
@@ -664,16 +676,7 @@ namespace AuctionInventoryDAL.Repositories
                         }
                     }
 
-
-
                 }
-
-                //VehicleExpens vehicle = new VehicleExpens();
-                //vehicle.dcmlSpreadAmount = spreadAmount;
-
-                //auctionContext.VehicleExpenses.Add(vehicle);
-
-
 
 
             }
@@ -684,5 +687,44 @@ namespace AuctionInventoryDAL.Repositories
 
         }
 
+
+        public bool UndoSpreadExpenseAmount(int purchaseInvoiceID)
+        {
+            bool status = false;
+            {
+                var undoSpreadAmountByPurchaseInvoiceID = (from t1 in auctionContext.VehicleExpenses
+                                                                    where t1.iPurchaseInvoiceID == purchaseInvoiceID
+
+                                                                    select new
+                                                                    {
+                                                                        iPurchaseInvoiceID = t1.iPurchaseInvoiceID,
+                                                                        dcmlSpreadAmount = t1.dcmlSpreadAmount,
+
+                                                                    }).ToList();
+
+                foreach (var data in undoSpreadAmountByPurchaseInvoiceID)
+                    {
+                        if (data.iPurchaseInvoiceID > 0)
+                        {
+                            //UNDO Spread Amount In VehicleExpense Table
+
+                            var vehicleExpense = auctionContext.VehicleExpenses.Where(a => a.iPurchaseInvoiceID == data.iPurchaseInvoiceID).FirstOrDefault();
+                            if (vehicleExpense != null)
+                            {
+                                vehicleExpense.dcmlSpreadAmount = null;
+                            }
+                        }
+                    }
+
+                }
+
+            auctionContext.SaveChanges();
+            status = true;
+            return status;
+            }
+
+           
+
+        
     }
 }

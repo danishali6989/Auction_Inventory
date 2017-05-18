@@ -14,7 +14,7 @@ using AuctionInventory.MyRoleProvider;
 namespace AuctionInventory.Controllers
 {
    // [Authorize]
-    [Permissions(Permissions.View)]
+    //[Permissions(Permissions.View)]
 
     public class MSupplierController : Controller, IDisposable
     {
@@ -57,7 +57,7 @@ namespace AuctionInventory.Controllers
         {
             Supplier supplier = new Supplier();
 
-            ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
+           // ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
             ViewBag.currency = new SelectList(db.MCurrencies, "CurrencyID", "strCurrencyName", supplier.iCurrency);
 
             try
@@ -87,7 +87,7 @@ namespace AuctionInventory.Controllers
         public ActionResult Save(Supplier supplier)
         {
             bool status = false;
-            ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
+           // ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
             ViewBag.currency = new SelectList(db.MCurrencies, "CurrencyID", "strCurrencyName", supplier.iCurrency);
             using (var trans = new TransactionScope(TransactionScopeOption.RequiresNew))
             {
@@ -141,7 +141,7 @@ namespace AuctionInventory.Controllers
         {
             Supplier supplier = new Supplier();
 
-            ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
+            //ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
             ViewBag.currency = new SelectList(db.MCurrencies, "CurrencyID", "strCurrencyName", supplier.iCurrency);
             try
             {

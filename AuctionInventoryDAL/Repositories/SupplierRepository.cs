@@ -29,7 +29,7 @@ namespace AuctionInventoryDAL.Repositories
                   from supplier in
                       (from AM in auctionContext.MSuppliers
                        join t1 in auctionContext.MCurrencies on AM.iCurrency equals t1.CurrencyID
-                       join t2 in auctionContext.MCategories on AM.iSupplierCategory equals t2.iCategoryID
+                      // join t2 in auctionContext.MCategories on AM.iSupplierCategory equals t2.iCategoryID
 
 
                        select new
@@ -48,8 +48,13 @@ namespace AuctionInventoryDAL.Repositories
                            strAddress = AM.strAddress,
                            SupplierDate = AM.SupplierDate,
                            strCurrencyName = t1.strCurrencyName,
-                           strCategoryName = t2.strCategoryName,
+                           //strCategoryName = t2.strCategoryName,
 
+                           iPersonPhoneNumber = AM.iPersonPhoneNumber,
+                           strPersonEmailID = AM.strPersonEmailID,
+                           strCompanyName = AM.strCompanyName,
+                           strWebsites = AM.strWebsites,
+                           //iOfcPhoneNumber = AM.iOfcPhoneNumber,
 
                        }).OrderBy(a => a.strFirstName).ToList()
                   select new
@@ -58,10 +63,14 @@ namespace AuctionInventoryDAL.Repositories
                       cell = new string[] {
                Convert.ToString(supplier.iSupplierID),
                Convert.ToString(supplier.SupplierPhoto),
-               Convert.ToString(supplier.strFirstName+" "+supplier.strLastName),             
+                Convert.ToString(supplier.strCompanyName),
+               
+                  //Convert.ToString(supplier.iOfcPhoneNumber),
+               //Convert.ToString(supplier.strFirstName+" "+supplier.strLastName),             
               Convert.ToString(supplier.iPhoneNumber),Convert.ToString(supplier.strEmailID),
-              Convert.ToString(supplier.strAddress), Convert.ToString(supplier.SupplierDate), Convert.ToString(supplier.strCurrencyName)
-              , Convert.ToString(supplier.strCategoryName)
+              Convert.ToString(supplier.strAddress),  Convert.ToString(supplier.strWebsites),
+              Convert.ToString(supplier.SupplierDate), Convert.ToString(supplier.strCurrencyName)
+              //, Convert.ToString(supplier.strCategoryName)
                       }
                   }).ToArray()
             };
@@ -81,11 +90,12 @@ namespace AuctionInventoryDAL.Repositories
             bool status = false;
             if (supplier.iSupplierID > 0)
             {
-                if (file != null)
+                if (supplier.strPicName != null && supplier.strPicName.Length>0)
                 {
-                    string pic = System.IO.Path.GetFileName(file.FileName);
-                    //string path = System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic);
+                    //string pic = System.IO.Path.GetFileName(file.FileName);
 
+
+                    string pic = supplier.strPicName;
 
                     string path = @"..\Images\Profiles\" + pic;
 
@@ -113,6 +123,13 @@ namespace AuctionInventoryDAL.Repositories
                     supp.iCurrency = supplier.iCurrency;
                     supp.SupplierPhoto = supplier.SupplierPhoto;
                     supp.SupplierDate = supplier.SupplierDate;
+
+
+                    supp.iPersonPhoneNumber = supplier.iPersonPhoneNumber;
+                    supp.strPersonEmailID = supplier.strPersonEmailID;
+                    supp.strCompanyName = supplier.strCompanyName;
+                    supp.strWebsites = supplier.strWebsites;
+                  
                     auctionContext.SaveChanges();
                 }
             }
@@ -247,10 +264,14 @@ namespace AuctionInventoryDAL.Repositories
 
         public dynamic RetrieveImage(int id)
         {
-            
+
             var cover = (from supplier in auctionContext.MSuppliers
                          where supplier.iSupplierID == id
-                         select supplier.SupplierPhoto).FirstOrDefault();
+                         select new
+                         {
+                             supplier.SupplierPhoto,
+                             supplier.strPicName
+                         }).FirstOrDefault();
 
             return cover;
            

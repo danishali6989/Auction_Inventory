@@ -25,6 +25,7 @@ namespace AuctionInventoryDAL.Entity
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<VehicleExpense> VehicleExpenses { get; set; }
         public virtual DbSet<AllVehicleExpense> AllVehicleExpenses { get; set; }
         public virtual DbSet<AuctionList> AuctionLists { get; set; }
         public virtual DbSet<CityMaster> CityMasters { get; set; }
@@ -33,11 +34,11 @@ namespace AuctionInventoryDAL.Entity
         public virtual DbSet<MCategory> MCategories { get; set; }
         public virtual DbSet<MCity> MCities { get; set; }
         public virtual DbSet<MColor> MColors { get; set; }
-        public virtual DbSet<MCompany> MCompanies { get; set; }
         public virtual DbSet<MCountry> MCountries { get; set; }
         public virtual DbSet<MCurrency> MCurrencies { get; set; }
         public virtual DbSet<MCustomer> MCustomers { get; set; }
         public virtual DbSet<MExpense> MExpenses { get; set; }
+        public virtual DbSet<MParty> MParties { get; set; }
         public virtual DbSet<MStaff> MStaffs { get; set; }
         public virtual DbSet<MSupplier> MSuppliers { get; set; }
         public virtual DbSet<PaperDetailsForExport> PaperDetailsForExports { get; set; }
@@ -51,11 +52,10 @@ namespace AuctionInventoryDAL.Entity
         public virtual DbSet<TPurchase> TPurchases { get; set; }
         public virtual DbSet<UserLogin> UserLogins { get; set; }
         public virtual DbSet<Vehicle> Vehicles { get; set; }
-        public virtual DbSet<VehicleExpense> VehicleExpenses { get; set; }
         public virtual DbSet<ExpenseAmount> ExpenseAmounts { get; set; }
         public virtual DbSet<MailModel> MailModels { get; set; }
         public virtual DbSet<tbl_AuthorizedPages> tbl_AuthorizedPages { get; set; }
-        public virtual DbSet<tbl_UserRoles> tbl_UserRoles { get; set; }
         public virtual DbSet<tbl_Pages> tbl_Pages { get; set; }
+        public virtual DbSet<tbl_UserRoles> tbl_UserRoles { get; set; }
     }
 }

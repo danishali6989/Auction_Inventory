@@ -25,5 +25,6 @@ namespace AuctionInventory.Models
         public Nullable<decimal> dcmlTRANSPORTExpenseAmount { get; set; }
         public Nullable<decimal> dcmlRAMPExpenseAmount { get; set; }
         public Nullable<decimal> dcmlRECOVERYExpenseAmount { get; set; }
+        public Nullable<int> iPartyID { get; set; }
     }
 }

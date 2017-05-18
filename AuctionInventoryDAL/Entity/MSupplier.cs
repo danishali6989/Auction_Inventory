@@ -21,12 +21,17 @@ namespace AuctionInventoryDAL.Entity
         public Nullable<int> iSupplierCategory { get; set; }
         public Nullable<int> iSupplierServiceType { get; set; }
         public string strEmailID { get; set; }
-        public Nullable<int> iPhoneNumber { get; set; }
+        public string iPhoneNumber { get; set; }
         public string strAddress { get; set; }
         public Nullable<int> iPincode { get; set; }
         public Nullable<int> iCurrency { get; set; }
         public string SupplierDate { get; set; }
         public string Password { get; set; }
         public string SupplierPhoto { get; set; }
+        public string iPersonPhoneNumber { get; set; }
+        public string strPersonEmailID { get; set; }
+        public string strCompanyName { get; set; }
+        public string strWebsites { get; set; }
+        public string strPicName { get; set; }
     }
 }

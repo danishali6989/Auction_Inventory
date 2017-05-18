@@ -195,11 +195,18 @@
                     Do you want to Spread Total Expense Amount To this Invoice?
                 </div>
 
-                <br />
-                <input type="button" style="margin-left: 330px;" class="btn btn-success col-md-2" id="btnSaveAllVehiclesExpense" value="Save">
-                <input type="button" style="margin-left: 40px;" class="btn btn-success col-md-2" id="btnSpread" value="Spread Expense Amount">
+                <div id="dialogUndo" style="display: none" align="center">
+                    Do you want to Undo Spread Amount?
+                </div>
 
-                <input type="button" style="margin-left: 40px" class="btn btn-warning col-md-2" value="Cancel" onclick="CancelVehiclesExpenseInfo();" id="cancelVehiclesExpenseInfo">
+                <br />
+                <input type="button" style="margin-left: 330px;" class="btn btn-success col-md-1" id="btnSaveAllVehiclesExpense" value="Save">
+                <input type="button" style="margin-left: 330px; display: none" class="btn btn-success col-md-2" id="btnSpread" value="Spread Expense Amount">
+
+                <input type="button" style="margin-left: 40px;" class="btn btn-success col-md-1" id="btnUndo" value="Undo">
+
+
+                <input type="button" style="margin-left: 40px" class="btn btn-warning col-md-1" value="Cancel" onclick="CancelVehiclesExpenseInfo();" id="cancelVehiclesExpenseInfo">
             </div>
         </div>
     </div>
@@ -211,6 +218,65 @@
     function CancelVehiclesExpenseInfo() {
         window.location.href = "/MExpenses/AllVehicleExpensesList";
     }
+
+
+
+    $("#btnUndo").click(function () {
+
+
+        $(function () {
+            if ($(this).attr("rel") != "update") {
+                $('#dialogUndo').dialog('open');
+                return false;
+            }
+        });
+
+        $("#dialogUndo").dialog({
+            modal: true,
+            autoOpen: false,
+            title: "Confirmation",
+            width: 350,
+            height: 160,
+            buttons: [
+        {
+            id: "Yes",
+            text: "Yes",
+            click: function () {
+
+                //calling function here for update
+               
+                var purchaseInvoiceID = $("#invno").val();
+
+
+                $.ajax({
+
+                    url: "/MExpenses/UndoSpreadExpenseAmount",
+                    data: JSON.stringify({ purchaseInvoiceID: purchaseInvoiceID }),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        alert("Undo Success!!!");
+                        //window.location.href = "/MExpenses/AllVehicleExpensesList";
+                    }
+                });
+
+                $(this).dialog('close');
+            }
+
+        },
+        {
+            id: "No",
+            text: "No",
+            click: function () {
+                $(this).dialog('close');
+            }
+        }
+            ]
+        });
+
+    });
+
 
 
     $("#btnSpread").click(function () {
@@ -248,7 +314,7 @@
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
-                        window.location.href = "/MExpenses/AllVehicleExpensesList";
+                       // window.location.href = "/MExpenses/AllVehicleExpensesList";
                     }
                 });
            
@@ -601,6 +667,11 @@
             success: function (data) {
                 alert("Succsesfully Update All Vehicle Expense.");
                 //window.location.href = "/MExpenses/AllVehicleExpensesList";
+
+                $("#btnSpread").show();
+                $("#btnSaveAllVehiclesExpense").hide();
+                
+
             }
         });
 

@@ -24,8 +24,8 @@ namespace AuctionInventory.Models
           [Required(ErrorMessage = "You must select city")] 
         public Nullable<int> iCityID { get; set; }
         public string strArea { get; set; }
-         [Required(ErrorMessage = "You must select city")] 
-        public Nullable<int> iPhoneNumber { get; set; }
+         [Required(ErrorMessage = "You Must Provide Phone Number")]
+        public string iPhoneNumber { get; set; }
          [Display(Name = "Email address")]
          [Required(ErrorMessage = "The email address is required")]
          [EmailAddress(ErrorMessage = "Invalid Email Address")]

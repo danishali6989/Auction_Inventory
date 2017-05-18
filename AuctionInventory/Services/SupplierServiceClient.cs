@@ -46,7 +46,7 @@ namespace AuctionInventory.Services
             SupplierRepository repoSupplier = new SupplierRepository();
             string password = CommonMethods.GetPassword();
 
-            if (repoSupplier.SaveEdit(GetMSupplier(supplier), file, password)) //Checking Supplkier insert status
+            if (repoSupplier.SaveEdit(GetMSupplier(supplier), file, password)) //Checking Supplier insert status
 
             {
 
@@ -101,6 +101,12 @@ namespace AuctionInventory.Services
                     supplier.SupplierPhoto = data.SupplierPhoto;
                     supplier.SupplierDate = data.SupplierDate ?? " ";
 
+
+                    supplier.iPersonPhoneNumber = data.iPersonPhoneNumber;
+                    supplier.strPersonEmailID = data.strPersonEmailID;
+                    supplier.strCompanyName = data.strCompanyName;
+                    supplier.strWebsites = data.strWebsites;
+                    supplier.strPicName = data.strPicName;
                     listSupplier.Add(supplier);
                 }
             }
@@ -126,6 +132,13 @@ namespace AuctionInventory.Services
                 supplier.iCurrency = data.iCurrency ?? " ";
                 supplier.SupplierPhoto = data.SupplierPhoto;
                 supplier.SupplierDate = data.SupplierDate ?? " ";
+
+
+                supplier.iPersonPhoneNumber = data.iPersonPhoneNumber;
+                supplier.strPersonEmailID = data.strPersonEmailID;
+                supplier.strCompanyName = data.strCompanyName;
+                supplier.strWebsites = data.strWebsites;
+                supplier.strPicName = data.strPicName;
             }
             return supplier;
         }
@@ -149,6 +162,12 @@ namespace AuctionInventory.Services
                 supplier.iCurrency = data.iCurrency ?? " ";
                 supplier.SupplierPhoto = data.SupplierPhoto;
                 supplier.SupplierDate = data.SupplierDate ?? " ";
+
+                supplier.iPersonPhoneNumber = data.iPersonPhoneNumber;
+                supplier.strPersonEmailID = data.strPersonEmailID;
+                supplier.strCompanyName = data.strCompanyName;
+                supplier.strWebsites = data.strWebsites;
+                supplier.strPicName = data.strPicName;
             }
             return supplier;
         }

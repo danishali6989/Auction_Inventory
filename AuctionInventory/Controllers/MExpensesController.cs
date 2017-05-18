@@ -11,7 +11,7 @@ using AuctionInventory.Helpers;
 using AuctionInventory.MyRoleProvider;
 namespace AuctionInventory.Controllers
 {
-    [Permissions(Permissions.View)]
+    //[Permissions(Permissions.View)]
     public class MExpensesController : Controller
     {
         AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
@@ -409,11 +409,20 @@ namespace AuctionInventory.Controllers
 
         public ActionResult SingleVehicleExpenses()
         {
+            //PartyModel partyModel = new PartyModel();
+
+            //ViewBag.Party = new SelectList(auctionContext.MParties, "iPartyID", "strFirstName", partyModel.iPartyID);
             return View();
         }
 
+         [HttpGet]
+        public ActionResult ShowPartyData()
+        {
+            var partyList = auctionContext.MParties.ToList();
+            //var partyName = partyList.Select(a => a.strFirstName).ToList();
+            return Json(partyList, JsonRequestBehavior.AllowGet);
 
-
+        }
 
         [HttpPost]
         public JsonResult VehiclesByInvoiceID(int request)
@@ -560,6 +569,65 @@ namespace AuctionInventory.Controllers
             return new JsonResult { Data = new { status = status } };
         }
 
+
+        [HttpPost]
+        public ActionResult SpreadExpenseAmount(decimal totalAmount, int purchaseInvoiceID)
+        {
+            bool status = false;
+
+                try
+                {
+                    if (ModelState.IsValid)
+                    {
+                        ExpensesServiceClient service = new ExpensesServiceClient();
+                        status = service.SpreadExpenseAmount(totalAmount, purchaseInvoiceID);
+                        //return RedirectToAction("Index");
+                       
+                    }
+                }
+                catch (Exception e)
+                {
+                   
+                    ModelState.AddModelError("error", "Something Went Wrong");
+                    status = false;
+                    throw e;
+
+                }
+            
+            //return View();
+            return new JsonResult { Data = new { status = status } };
+        }
+
+
+
+        
+             [HttpPost]
+        public ActionResult UndoSpreadExpenseAmount(int purchaseInvoiceID)
+        {
+            bool status = false;
+
+                try
+                {
+                    if (ModelState.IsValid)
+                    {
+                        ExpensesServiceClient service = new ExpensesServiceClient();
+                        status = service.UndoSpreadExpenseAmount(purchaseInvoiceID);
+                        //return RedirectToAction("Index");
+                       
+                    }
+                }
+                catch (Exception e)
+                {
+                   
+                    ModelState.AddModelError("error", "Something Went Wrong");
+                    status = false;
+                    throw e;
+
+                }
+            
+            //return View();
+            return new JsonResult { Data = new { status = status } };
+        }
 
         //[HttpPost]
         //public ActionResult SaveSingleVehicleExpense(List<VehicleExpenseModel> expense)

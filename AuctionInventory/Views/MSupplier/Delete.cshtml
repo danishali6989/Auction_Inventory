@@ -4,105 +4,168 @@
     //Layout = null;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
 
+    .error {
+        color: red;
+    }
+
+    fieldset {
+        border: 0;
+        margin: 0;
+        min-width: 0;
+        border: 2px solid Black;
+        display: inline-block;
+    }
+
+    legend {
+        border: 2px solid Black;
+        padding: 0 !important;
+        display: inline-block;
+    }
+</style>
 @using (Html.BeginForm("delete", "MSupplier", FormMethod.Post, new { id = "popupForm" }))
 {
     @Html.HiddenFor(a => a.iSupplierID)
     
     
-    <div class="row">
-        <div style="margin-left: 100px;margin-top: -60px;">
-           
-            <label>Supplier Photo</label>
-            <br />
-            <div id="dvPreview">
-            </div>
-            <br />
-            @*@Html.TextBoxFor(m => m.SupplierPhoto, new { @name="ImageData", @id="ImageData", @type = "file", @height="60", @width="50", @class="img-circle", onchange="fileCheck(this);" })*@
+   <fieldset>
+        <legend>Supplier Information:</legend>
+        <div class="row">
+            <div style="margin-left: 100px; margin-top: -15px;">
 
-            <input class='btn btn-success' type="button" name="Submit" value="Choose File" id="browse" />
-            <input type="file" name="ImageData" id="ImageData" alt="" style="display:none" onchange="fileCheck(this);" />
-
-            @*@Html.ValidationMessageFor(model => model.SupplierPhoto, "", new { @class = "error" })*@
-            <br />
-        </div>
-
-        <div class="col-md-3">
-
-            <label>First Name</label>
-            @Html.TextBoxFor(a => a.strFirstName, new { @class = "form-control  input-group-lg", @placeholder = "Enter First Name" })
-            @Html.ValidationMessageFor(m => m.strFirstName, "", new { @class = "error" })
-        </div>
-        <div class="col-md-3">
-            <label>Middle Name</label>
-            @Html.TextBoxFor(a => a.strMiddleName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Middle Name" })
-            @Html.ValidationMessageFor(a => a.strMiddleName, "", new { @class = "error" })
-        </div>
-        <div class="col-md-3">
-            <label>Last Name</label>
-            @Html.TextBoxFor(a => a.strLastName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Last Name" })
-            @Html.ValidationMessageFor(a => a.strLastName, "", new { @class = "error" })
-
-        </div>
-        <div class="col-md-3">
-            <label>Date</label>
-            @Html.TextBoxFor(a => a.SupplierDate, new { @class = "form-control datepicker  input-group-lg", @placeholder = "Enter drop off date... " })
-            @Html.ValidationMessageFor(a => a.SupplierDate, "", new { @class = "error" })
-
-        </div>
-
-        <div class="col-md-3">
-            <label>Supplier Category</label>
-
-
-            @Html.DropDownListFor(m => m.iSupplierCategory, (IEnumerable<SelectListItem>)ViewBag.category, "Select Category", new { @class = "form-control  input-group-lg" })
-            @Html.ValidationMessageFor(a => a.iSupplierCategory, "", new { @class = "error" })
-        </div>
-        @*<div class="form-group">
-                <label>Supplier ServiceType </label>
-                @Html.TextBoxFor(a => a.iSupplierServiceType, new { @class = "form-control  input-group-lg", @placeholder = "Enter First " })
-
-            </div>*@
-        <div class="col-md-3">
-            <label>Email</label>
-            @Html.TextBoxFor(a => a.strEmailID, new { @class = "form-control  input-group-lg", @placeholder = "Enter Email " })
-            @Html.ValidationMessageFor(a => a.strEmailID, "", new { @class = "error" })
-
-        </div>
-
-        <div class="col-md-3">
-            <label>Phone Number</label>
-            @Html.TextBoxFor(a => a.iPhoneNumber, new { @class = "form-control  input-group-lg", @placeholder = "Enter Phone Number " })
-            @Html.ValidationMessageFor(a => a.iPhoneNumber, "", new { @class = "error" })
-
-
-        </div>
-        <div class="col-md-3">
-            <label>Address</label>
-            @Html.TextBoxFor(a => a.strAddress, new { @class = "form-control  input-group-lg", @placeholder = "Enter Address " })
-            @Html.ValidationMessageFor(a => a.strAddress, "", new { @class = "error" })
-        </div>
-        <div class="col-md-3">
-            <label>Pincode</label>
-            @Html.TextBoxFor(a => a.iPincode, new { @class = "form-control", @placeholder = "Enter Pincode ", @type = "number" })
-
-        </div>
-        <div class="col-md-3">
-            <label>Currency</label>
-            @Html.DropDownListFor(m => m.iCurrency, (IEnumerable<SelectListItem>)ViewBag.currency, "Select Currency", new { @class = "form-control  input-group-lg" })
-            @Html.ValidationMessageFor(a => a.iCurrency, "", new { @class = "error" })
-
-        </div>
-        @*<div class="form-group">
                 <label>Supplier Photo</label>
-                @Html.TextBoxFor(a => a.SupplierPhoto, new { @class = "form-control  input-group-lg", @placeholder = "Enter First " })
-                @Html.ValidationMessageFor(a => a.SupplierPhoto)
+                <br />
+                <div id="dvPreview">
+                </div>
+                <br />
+                @*@Html.TextBoxFor(m => m.SupplierPhoto, new { @name="ImageData", @id="ImageData", @type = "file", @height="60", @width="50", @class="img-circle", onchange="fileCheck(this);" })*@
+                <input class='btn btn-success' type="button" name="Submit" style="margin-left: -7px;" value=" choose image" id="browse" />
+                <input type="file" name="ImageData" id="ImageData" accept=".jpeg, .jpg, .png, .gif, .bmp" alt="" style="display:none" onchange="fileCheck(this);" />
+
+
+                @*@Html.ValidationMessageFor(model => model.SupplierPhoto, "", new { @class = "error" })*@
+                <br />
+            </div>
+
+            <div class="col-md-4">
+
+                <label>Company Name</label>
+                @Html.TextBoxFor(a => a.strCompanyName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Company Name" })
+                @Html.ValidationMessageFor(m => m.strCompanyName, "", new { @class = "error" })
+            </div>
+            <div class="col-md-4">
+                <label>Websites</label>
+                @Html.TextBoxFor(a => a.strWebsites, new { @class = "form-control  input-group-lg", @placeholder = "Enter Websites" })
+                @Html.ValidationMessageFor(a => a.strWebsites, "", new { @class = "error" })
+            </div>
+            @*<div class="col-md-4">
+                <label>Office PhoneNumber</label>
+                @Html.TextBoxFor(a => a.iOfcPhoneNumber, new { @class = "form-control  input-group-lg", @placeholder = "Enter Office PhoneNumber" })
+                @Html.ValidationMessageFor(a => a.iOfcPhoneNumber, "", new { @class = "error" })
+
             </div>*@
+            <div class="col-md-4">
+                <label>Date</label>
+                @Html.TextBoxFor(a => a.SupplierDate, new { @class = "form-control datepicker  input-group-lg", @placeholder = "Enter drop off date... " })
+                @Html.ValidationMessageFor(a => a.SupplierDate, "", new { @class = "error" })
+
+            </div>
+
+            @*<div class="col-md-4">
+                    <label>Supplier Category</label>
+
+
+                    @Html.DropDownListFor(m => m.iSupplierCategory, (IEnumerable<SelectListItem>)ViewBag.category, "Select Category", new { @class = "form-control  input-group-lg" })
+                    @Html.ValidationMessageFor(a => a.iSupplierCategory, "", new { @class = "error" })
+                </div>*@
+            @*<div class="form-group">
+                    <label>Supplier ServiceType </label>
+                    @Html.TextBoxFor(a => a.iSupplierServiceType, new { @class = "form-control  input-group-lg", @placeholder = "Enter First " })
+
+                </div>*@
+            <div class="col-md-4">
+                <label>Email</label>
+                @Html.TextBoxFor(a => a.strEmailID, new { @class = "form-control  input-group-lg", @placeholder = "Enter Email " })
+                @Html.ValidationMessageFor(a => a.strEmailID, "", new { @class = "error" })
+
+            </div>
+
+            <div class="col-md-4">
+                <label>Phone Number</label>
+                @Html.TextBoxFor(a => a.iPhoneNumber, new { @class = "form-control  input-group-lg", @placeholder = "Enter Phone Number " })
+                @Html.ValidationMessageFor(a => a.iPhoneNumber, "", new { @class = "error" })
+
+
+            </div>
+
+            <div class="col-md-4">
+                <label>Currency</label>
+                @Html.DropDownListFor(m => m.iCurrency, (IEnumerable<SelectListItem>)ViewBag.currency, "Select Currency", new { @class = "form-control  input-group-lg" })
+                @Html.ValidationMessageFor(a => a.iCurrency, "", new { @class = "error" })
+
+            </div>
+            <div class="col-md-4">
+                <label>Address</label>
+                @Html.TextBoxFor(a => a.strAddress, new { @class = "form-control  input-group-lg", @placeholder = "Enter Address " })
+                @Html.ValidationMessageFor(a => a.strAddress, "", new { @class = "error" })
+
+            </div>
+            <div class="col-md-4">
+                <label>Pincode</label>
+                @Html.TextBoxFor(a => a.iPincode, new { @class = "form-control input-group-lg", @placeholder = "Enter Pincode ", @type = "number" })
+
+            </div>
+
+            @*<div class="form-group">
+                    <label>Supplier Photo</label>
+                    @Html.TextBoxFor(a => a.SupplierPhoto, new { @class = "form-control  input-group-lg", @placeholder = "Enter First " })
+                    @Html.ValidationMessageFor(a => a.SupplierPhoto)
+                </div>*@
 
 
 
-    </div>
+        </div>
+    </fieldset>
+    <br />
+    <fieldset>
+        <legend>Person Contact:</legend>
+        <div class="row">
+            <div class="col-md-4">
 
+                <label>First Name</label>
+                @Html.TextBoxFor(a => a.strFirstName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Person First Name" })
+                @Html.ValidationMessageFor(m => m.strFirstName, "", new { @class = "error" })
+            </div>
+            <div class="col-md-4">
+                <label>Middle Name</label>
+                @Html.TextBoxFor(a => a.strMiddleName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Person Middle Name" })
+                @Html.ValidationMessageFor(a => a.strMiddleName, "", new { @class = "error" })
+            </div>
+            <div class="col-md-4">
+                <label>Last Name</label>
+                @Html.TextBoxFor(a => a.strLastName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Person Last Name" })
+                @Html.ValidationMessageFor(a => a.strLastName, "", new { @class = "error" })
+
+            </div>
+
+            <div class="col-md-4">
+                <label>Person PhoneNumber</label>
+                @Html.TextBoxFor(a => a.iPersonPhoneNumber, new { @class = "form-control  input-group-lg", @placeholder = "Enter Person PhoneNumber" })
+                @Html.ValidationMessageFor(a => a.iPersonPhoneNumber, "", new { @class = "error" })
+            </div>
+            <div class="col-md-4">
+                <label>Person Email</label>
+                @Html.TextBoxFor(a => a.strPersonEmailID, new { @class = "form-control  input-group-lg", @placeholder = "Enter Person Email" })
+                @Html.ValidationMessageFor(a => a.strPersonEmailID, "", new { @class = "error" })
+
+            </div>
+        </div>
+    </fieldset> 
     <div>
         <br />
         @*<input type="submit" value="Delete" />*@
@@ -121,8 +184,8 @@
     });
 
 
-    var test=@Model.iSupplierID;
-    if(test==0){
+    var SupplierID=@Model.iSupplierID;
+    if(SupplierID==0){
         $(function () {
 
             $("#dvPreview").append("<img height='120' width='80' class='img-circle'  style='background-color: lightgrey'/>");
@@ -175,19 +238,19 @@
         });
     });
 
-    if(test>0 && test!=null){
+    if(SupplierID>0 && SupplierID!=null){
 
         $("#dvPreview").hide();
         $.ajax({
             type: "POST",
             url: "/MSupplier/RetrieveImage",
             cache: false,
-            data: JSON.stringify({ id: test }),
+            data: JSON.stringify({ id: SupplierID }),
             dataType: this.dataType,
             contentType: "application/json; charset=utf-8",
             success: function (Data) {
 
-                var imageURL = Data.replace('..','');
+                var imageURL = Data.SupplierPhoto.replace('..','');
 
                 $("#dvPreview").html("");
                 if (typeof (FileReader) != "undefined") {

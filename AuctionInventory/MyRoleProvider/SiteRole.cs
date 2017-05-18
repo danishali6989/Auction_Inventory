@@ -106,12 +106,6 @@ namespace AuctionInventory.MyRoleProvider
             string actionName = filterContext.ActionDescriptor.ActionName;
             string controllerName = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
             var user = (UserLogin)HttpContext.Current.Session["UserProfile"];// filterContext.HttpContext.Session.GetUser();
-            int roleId = 0;
-            int.TryParse(user.RoleId.ToString(), out roleId);
-
-            // Do not uncomment -- need to done by Salman
-            AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
-            // bool IsPageAuthorize = auctionContext.tbl_AuthorizedPages.Where(x => x.RoleId == roleId && x.PageName == controllerName).Any();
             bool IsPageAuthorize = true;
             if (user == null)
             {
@@ -119,24 +113,39 @@ namespace AuctionInventory.MyRoleProvider
                 var url = new UrlHelper(filterContext.RequestContext);
                 var loginUrl = url.Content("~/Login/Index");
                 filterContext.HttpContext.Response.Redirect(loginUrl, true);
+                
             }
 
-            if (!IsPageAuthorize)
+            if (user != null)
             {
-                //send them off to the login page
-                var url = new UrlHelper(filterContext.RequestContext);
-                var loginUrl = url.Content("~/Home/Unauthorized");
-                filterContext.HttpContext.Response.Redirect(loginUrl, true);
-                // throw new AuthenticationException("You do not have the necessary permission to perform this action");
+
+
+                int roleId = 0;
+                int.TryParse(user.RoleId.ToString(), out roleId);
+
+
+                // Do not uncomment -- need to done by Salman
+                AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
+                // bool IsPageAuthorize = auctionContext.tbl_AuthorizedPages.Where(x => x.RoleId == roleId && x.PageName == controllerName).Any();
+
+
+                if (!IsPageAuthorize)
+                {
+                    //send them off to the login page
+                    var url = new UrlHelper(filterContext.RequestContext);
+                    var loginUrl = url.Content("~/Home/Unauthorized");
+                    filterContext.HttpContext.Response.Redirect(loginUrl, true);
+                    // throw new AuthenticationException("You do not have the necessary permission to perform this action");
+                }
+                //Do Not Delete -- Will use in future for addtional permissions
+                //else
+                //{
+                //    if (!user.HasPermissions(required))
+                //    {
+                //        throw new AuthenticationException("You do not have the necessary permission to perform this action");
+                //    }
+                //}
             }
-            //Do Not Delete -- Will use in future for addtional permissions
-            //else
-            //{
-            //    if (!user.HasPermissions(required))
-            //    {
-            //        throw new AuthenticationException("You do not have the necessary permission to perform this action");
-            //    }
-            //}
         }
     }
 

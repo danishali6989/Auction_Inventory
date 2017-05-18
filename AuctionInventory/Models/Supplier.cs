@@ -36,12 +36,14 @@ namespace AuctionInventory.Models
         [Required(ErrorMessage = "Email Address Is Required")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string strEmailID { get; set; }
-        [Required(ErrorMessage = "You Must Provide A Phone Number")]
-        [Display(Name = "PhoneNumber")]
-        [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
 
-        public Nullable<int> iPhoneNumber { get; set; }
+       [Required(ErrorMessage = "You Must Provide Phone Number")] 
+
+        //[Display(Name = "PhoneNumber")]
+        //[DataType(DataType.PhoneNumber)]
+       // [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
+
+        public string iPhoneNumber { get; set; }
         public string strAddress { get; set; }
 
         public Nullable<int> iPincode { get; set; }
@@ -55,10 +57,15 @@ namespace AuctionInventory.Models
 
         public IEnumerable<SelectListItem> SupplierCurrencyList { get; set; }
 
+          [Required(ErrorMessage = "You Must Provide Person Phone Number")]
+        public string iPersonPhoneNumber { get; set; }
+        public string strPersonEmailID { get; set; }
+          [Required(ErrorMessage = "Company Name Is Required")]
+        public string strCompanyName { get; set; }
+         
+        public string strWebsites { get; set; }
 
-
-
-
+        public string strPicName { get; set; }
 
         //[ScaffoldColumn(false)]
         //public int iSupplierID { get; set; }

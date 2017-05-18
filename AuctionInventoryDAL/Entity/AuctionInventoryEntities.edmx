@@ -97,21 +97,6 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.MailModel' does not have a
           <Property Name="iColorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="strColorName" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <EntityType Name="MCompany">
-          <Key>
-            <PropertyRef Name="iCompanyID" />
-          </Key>
-          <Property Name="iCompanyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="strCompanyName" Type="nvarchar" MaxLength="50" />
-          <Property Name="strArea" Type="nvarchar" MaxLength="50" />
-          <Property Name="iCountry" Type="int" />
-          <Property Name="iCity" Type="int" />
-          <Property Name="strEmailID" Type="nvarchar" MaxLength="50" />
-          <Property Name="strWebsites" Type="nvarchar" MaxLength="50" />
-          <Property Name="iPhoneNumber" Type="int" />
-          <Property Name="iOfcPhoneNumber" Type="int" />
-          <Property Name="strAddress" Type="nvarchar" MaxLength="200" />
-        </EntityType>
         <EntityType Name="MCountry">
           <Key>
             <PropertyRef Name="iCountry" />
@@ -160,6 +145,21 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.MailModel' does not have a
           <Property Name="iSubCategoryID" Type="int" />
           <Property Name="dcmlExpenseAmount" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
+        <EntityType Name="MParty">
+          <Key>
+            <PropertyRef Name="iPartyID" />
+          </Key>
+          <Property Name="iPartyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="strFirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="strMiddleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="strLastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="iCountry" Type="int" />
+          <Property Name="iCity" Type="int" />
+          <Property Name="strEmailID" Type="nvarchar" MaxLength="50" />
+          <Property Name="strAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="iPincode" Type="int" />
+          <Property Name="strPhoneNumber" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="MStaff">
           <Key>
             <PropertyRef Name="iStaffID" />
@@ -171,7 +171,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.MailModel' does not have a
           <Property Name="iCountryID" Type="int" />
           <Property Name="iCityID" Type="int" />
           <Property Name="strArea" Type="nvarchar" MaxLength="200" />
-          <Property Name="iPhoneNumber" Type="int" />
+          <Property Name="iPhoneNumber" Type="varchar" MaxLength="50" />
           <Property Name="strEmailID" Type="nvarchar" MaxLength="50" />
           <Property Name="iIDNO" Type="int" />
           <Property Name="strMISC" Type="nvarchar" MaxLength="200" />
@@ -197,13 +197,18 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.MailModel' does not have a
           <Property Name="iSupplierCategory" Type="int" />
           <Property Name="iSupplierServiceType" Type="int" />
           <Property Name="strEmailID" Type="nvarchar" MaxLength="50" />
-          <Property Name="iPhoneNumber" Type="int" />
+          <Property Name="iPhoneNumber" Type="varchar" MaxLength="50" />
           <Property Name="strAddress" Type="nvarchar" MaxLength="100" />
           <Property Name="iPincode" Type="int" />
           <Property Name="iCurrency" Type="int" />
           <Property Name="SupplierDate" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
           <Property Name="SupplierPhoto" Type="nvarchar" MaxLength="200" />
+          <Property Name="iPersonPhoneNumber" Type="varchar" MaxLength="50" />
+          <Property Name="strPersonEmailID" Type="nvarchar" MaxLength="50" />
+          <Property Name="strCompanyName" Type="nvarchar" MaxLength="100" />
+          <Property Name="strWebsites" Type="nvarchar" MaxLength="50" />
+          <Property Name="strPicName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PaperDetailsForExport">
           <Key>
@@ -302,7 +307,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
         <EntityType Name="tbl_AuthorizedPages">
           <Key>
             <PropertyRef Name="id" />
-            
+            <PropertyRef Name="PageId" />
             <PropertyRef Name="PageName" />
             <PropertyRef Name="RoleId" />
           </Key>
@@ -412,6 +417,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <Property Name="dcmlTRANSPORTExpenseAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="dcmlRAMPExpenseAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="dcmlRECOVERYExpenseAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="iPartyID" Type="int" />
         </EntityType>
         <Association Name="FK_CityMaster_StateMaster">
           <End Role="StateMaster" Type="Self.StateMaster" Multiplicity="0..1" />
@@ -458,11 +464,11 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <EntitySet Name="MCategory" EntityType="Self.MCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MCity" EntityType="Self.MCity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MColor" EntityType="Self.MColor" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MCompany" EntityType="Self.MCompany" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MCountry" EntityType="Self.MCountry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MCurrency" EntityType="Self.MCurrency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MCustomer" EntityType="Self.MCustomer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MExpense" EntityType="Self.MExpense" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MParty" EntityType="Self.MParty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MStaff" EntityType="Self.MStaff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MSupplier" EntityType="Self.MSupplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperDetailsForExport" EntityType="Self.PaperDetailsForExport" Schema="dbo" store:Type="Tables" />
@@ -531,6 +537,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
     <edmx:ConceptualModels>
       <Schema Namespace="AuctionInventoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="AuctionInventoryEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="VehicleExpenses" EntityType="AuctionInventoryModel.VehicleExpense" />
           <EntitySet Name="AllVehicleExpenses" EntityType="AuctionInventoryModel.AllVehicleExpense" />
           <EntitySet Name="AuctionLists" EntityType="AuctionInventoryModel.AuctionList" />
           <EntitySet Name="CityMasters" EntityType="AuctionInventoryModel.CityMaster" />
@@ -539,11 +546,11 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <EntitySet Name="MCategories" EntityType="AuctionInventoryModel.MCategory" />
           <EntitySet Name="MCities" EntityType="AuctionInventoryModel.MCity" />
           <EntitySet Name="MColors" EntityType="AuctionInventoryModel.MColor" />
-          <EntitySet Name="MCompanies" EntityType="AuctionInventoryModel.MCompany" />
           <EntitySet Name="MCountries" EntityType="AuctionInventoryModel.MCountry" />
           <EntitySet Name="MCurrencies" EntityType="AuctionInventoryModel.MCurrency" />
           <EntitySet Name="MCustomers" EntityType="AuctionInventoryModel.MCustomer" />
           <EntitySet Name="MExpenses" EntityType="AuctionInventoryModel.MExpense" />
+          <EntitySet Name="MParties" EntityType="AuctionInventoryModel.MParty" />
           <EntitySet Name="MStaffs" EntityType="AuctionInventoryModel.MStaff" />
           <EntitySet Name="MSuppliers" EntityType="AuctionInventoryModel.MSupplier" />
           <EntitySet Name="PaperDetailsForExports" EntityType="AuctionInventoryModel.PaperDetailsForExport" />
@@ -557,10 +564,11 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <EntitySet Name="TPurchases" EntityType="AuctionInventoryModel.TPurchase" />
           <EntitySet Name="UserLogins" EntityType="AuctionInventoryModel.UserLogin" />
           <EntitySet Name="Vehicles" EntityType="AuctionInventoryModel.Vehicle" />
-          <EntitySet Name="VehicleExpenses" EntityType="AuctionInventoryModel.VehicleExpense" />
           <EntitySet Name="ExpenseAmounts" EntityType="AuctionInventoryModel.ExpenseAmount" />
           <EntitySet Name="MailModels" EntityType="AuctionInventoryModel.MailModel" />
           <EntitySet Name="tbl_AuthorizedPages" EntityType="AuctionInventoryModel.tbl_AuthorizedPages" />
+          <EntitySet Name="tbl_Pages" EntityType="AuctionInventoryModel.tbl_Pages" />
+          <EntitySet Name="tbl_UserRoles" EntityType="AuctionInventoryModel.tbl_UserRoles" />
           <AssociationSet Name="FK_CityMaster_StateMaster" Association="AuctionInventoryModel.FK_CityMaster_StateMaster">
             <End Role="StateMaster" EntitySet="StateMasters" />
             <End Role="CityMaster" EntitySet="CityMasters" />
@@ -573,9 +581,31 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
             <End Role="TPurchase" EntitySet="TPurchases" />
             <End Role="Vehicle" EntitySet="Vehicles" />
           </AssociationSet>
-          <EntitySet Name="tbl_UserRoles" EntityType="AuctionInventoryModel.tbl_UserRoles" />
-          <EntitySet Name="tbl_Pages" EntityType="AuctionInventoryModel.tbl_Pages" />
-        </EntityContainer>
+          </EntityContainer>
+        <EntityType Name="VehicleExpense">
+          <Key>
+            <PropertyRef Name="iVehicleExpenseID" />
+          </Key>
+          <Property Name="iVehicleExpenseID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iPurchaseInvoiceID" Type="Int32" />
+          <Property Name="strExpenseDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="iVehicleID" Type="Int32" />
+          <Property Name="iExpenseID" Type="Int32" />
+          <Property Name="dcmlExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlTotalExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="strRemarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="strExpenseKey" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="iVehicleExpenseTypeID" Type="Int32" />
+          <Property Name="dcmlSpreadAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="isSpread" Type="Boolean" />
+          <Property Name="strPurchaseInvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dcmlDOExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlDPAExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlTRANSPORTExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlRAMPExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dcmlRECOVERYExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="iPartyID" Type="Int32" />
+        </EntityType>
         <EntityType Name="AllVehicleExpense">
           <Key>
             <PropertyRef Name="iAllVehicleExpenseID" />
@@ -646,21 +676,6 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <Property Name="iColorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="strColorName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="MCompany">
-          <Key>
-            <PropertyRef Name="iCompanyID" />
-          </Key>
-          <Property Name="iCompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="strCompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="strArea" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="iCountry" Type="Int32" />
-          <Property Name="iCity" Type="Int32" />
-          <Property Name="strEmailID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="strWebsites" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="iPhoneNumber" Type="Int32" />
-          <Property Name="iOfcPhoneNumber" Type="Int32" />
-          <Property Name="strAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="MCountry">
           <Key>
             <PropertyRef Name="iCountry" />
@@ -709,6 +724,21 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <Property Name="iSubCategoryID" Type="Int32" />
           <Property Name="dcmlExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
+        <EntityType Name="MParty">
+          <Key>
+            <PropertyRef Name="iPartyID" />
+          </Key>
+          <Property Name="iPartyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="strFirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="strMiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="strLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="iCountry" Type="Int32" />
+          <Property Name="iCity" Type="Int32" />
+          <Property Name="strEmailID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="strAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="iPincode" Type="Int32" />
+          <Property Name="strPhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="MStaff">
           <Key>
             <PropertyRef Name="iStaffID" />
@@ -720,7 +750,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <Property Name="iCountryID" Type="Int32" />
           <Property Name="iCityID" Type="Int32" />
           <Property Name="strArea" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="iPhoneNumber" Type="Int32" />
+          <Property Name="iPhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="strEmailID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="iIDNO" Type="Int32" />
           <Property Name="strMISC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -746,13 +776,18 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <Property Name="iSupplierCategory" Type="Int32" />
           <Property Name="iSupplierServiceType" Type="Int32" />
           <Property Name="strEmailID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="iPhoneNumber" Type="Int32" />
+          <Property Name="iPhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="strAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="iPincode" Type="Int32" />
           <Property Name="iCurrency" Type="Int32" />
           <Property Name="SupplierDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SupplierPhoto" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="iPersonPhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="strPersonEmailID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="strCompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="strWebsites" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="strPicName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PaperDetailsForExport">
           <Key>
@@ -909,29 +944,6 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <Property Name="dcmlExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="TPurchase" Relationship="AuctionInventoryModel.FK_Vehicle_TPurchase" FromRole="Vehicle" ToRole="TPurchase" />
         </EntityType>
-        <EntityType Name="VehicleExpense">
-          <Key>
-            <PropertyRef Name="iVehicleExpenseID" />
-          </Key>
-          <Property Name="iVehicleExpenseID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="iPurchaseInvoiceID" Type="Int32" />
-          <Property Name="strExpenseDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="iVehicleID" Type="Int32" />
-          <Property Name="iExpenseID" Type="Int32" />
-          <Property Name="dcmlExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="dcmlTotalExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="strRemarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="strExpenseKey" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="iVehicleExpenseTypeID" Type="Int32" />
-          <Property Name="dcmlSpreadAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="isSpread" Type="Boolean" />
-          <Property Name="strPurchaseInvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="dcmlDOExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="dcmlDPAExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="dcmlTRANSPORTExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="dcmlRAMPExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="dcmlRECOVERYExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
-        </EntityType>
         <EntityType Name="ExpenseAmount">
           <Key>
             <PropertyRef Name="iExpID" />
@@ -955,13 +967,30 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
         <EntityType Name="tbl_AuthorizedPages">
           <Key>
             <PropertyRef Name="id" />
+            <PropertyRef Name="PageId" />
             <PropertyRef Name="PageName" />
             <PropertyRef Name="RoleId" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PageName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="RoleId" Type="Int32" Nullable="false" />
           <Property Name="PageId" Type="Int64" Nullable="false" />
+          <Property Name="PageName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Pages">
+          <Key>
+            <PropertyRef Name="PageId" />
+          </Key>
+          <Property Name="PageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageNameController" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DefaultPageName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_UserRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_CityMaster_StateMaster">
           <End Type="AuctionInventoryModel.StateMaster" Role="StateMaster" Multiplicity="0..1" />
@@ -999,28 +1028,37 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="tbl_UserRoles">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="tbl_Pages">
-          <Key>
-            <PropertyRef Name="PageId" />
-          </Key>
-          <Property Name="PageId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PageNameController" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="DefaultPageName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="AuctionInventoryModelStoreContainer" CdmEntityContainer="AuctionInventoryEntities">
+          <EntitySetMapping Name="VehicleExpenses">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.VehicleExpense">
+              <MappingFragment StoreEntitySet="VehicleExpenses">
+                <ScalarProperty Name="iPartyID" ColumnName="iPartyID" />
+                <ScalarProperty Name="dcmlRECOVERYExpenseAmount" ColumnName="dcmlRECOVERYExpenseAmount" />
+                <ScalarProperty Name="dcmlRAMPExpenseAmount" ColumnName="dcmlRAMPExpenseAmount" />
+                <ScalarProperty Name="dcmlTRANSPORTExpenseAmount" ColumnName="dcmlTRANSPORTExpenseAmount" />
+                <ScalarProperty Name="dcmlDPAExpenseAmount" ColumnName="dcmlDPAExpenseAmount" />
+                <ScalarProperty Name="dcmlDOExpenseAmount" ColumnName="dcmlDOExpenseAmount" />
+                <ScalarProperty Name="strPurchaseInvoiceNo" ColumnName="strPurchaseInvoiceNo" />
+                <ScalarProperty Name="isSpread" ColumnName="isSpread" />
+                <ScalarProperty Name="dcmlSpreadAmount" ColumnName="dcmlSpreadAmount" />
+                <ScalarProperty Name="iVehicleExpenseTypeID" ColumnName="iVehicleExpenseTypeID" />
+                <ScalarProperty Name="strExpenseKey" ColumnName="strExpenseKey" />
+                <ScalarProperty Name="strRemarks" ColumnName="strRemarks" />
+                <ScalarProperty Name="dcmlTotalExpenseAmount" ColumnName="dcmlTotalExpenseAmount" />
+                <ScalarProperty Name="dcmlExpenseAmount" ColumnName="dcmlExpenseAmount" />
+                <ScalarProperty Name="iExpenseID" ColumnName="iExpenseID" />
+                <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
+                <ScalarProperty Name="strExpenseDate" ColumnName="strExpenseDate" />
+                <ScalarProperty Name="iPurchaseInvoiceID" ColumnName="iPurchaseInvoiceID" />
+                <ScalarProperty Name="iVehicleExpenseID" ColumnName="iVehicleExpenseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AllVehicleExpenses">
             <EntityTypeMapping TypeName="AuctionInventoryModel.AllVehicleExpense">
               <MappingFragment StoreEntitySet="AllVehicleExpense">
@@ -1097,22 +1135,6 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MCompanies">
-            <EntityTypeMapping TypeName="AuctionInventoryModel.MCompany">
-              <MappingFragment StoreEntitySet="MCompany">
-                <ScalarProperty Name="strAddress" ColumnName="strAddress" />
-                <ScalarProperty Name="iOfcPhoneNumber" ColumnName="iOfcPhoneNumber" />
-                <ScalarProperty Name="iPhoneNumber" ColumnName="iPhoneNumber" />
-                <ScalarProperty Name="strWebsites" ColumnName="strWebsites" />
-                <ScalarProperty Name="strEmailID" ColumnName="strEmailID" />
-                <ScalarProperty Name="iCity" ColumnName="iCity" />
-                <ScalarProperty Name="iCountry" ColumnName="iCountry" />
-                <ScalarProperty Name="strArea" ColumnName="strArea" />
-                <ScalarProperty Name="strCompanyName" ColumnName="strCompanyName" />
-                <ScalarProperty Name="iCompanyID" ColumnName="iCompanyID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MCountries">
             <EntityTypeMapping TypeName="AuctionInventoryModel.MCountry">
               <MappingFragment StoreEntitySet="MCountry">
@@ -1165,6 +1187,22 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MParties">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.MParty">
+              <MappingFragment StoreEntitySet="MParty">
+                <ScalarProperty Name="strPhoneNumber" ColumnName="strPhoneNumber" />
+                <ScalarProperty Name="iPincode" ColumnName="iPincode" />
+                <ScalarProperty Name="strAddress" ColumnName="strAddress" />
+                <ScalarProperty Name="strEmailID" ColumnName="strEmailID" />
+                <ScalarProperty Name="iCity" ColumnName="iCity" />
+                <ScalarProperty Name="iCountry" ColumnName="iCountry" />
+                <ScalarProperty Name="strLastName" ColumnName="strLastName" />
+                <ScalarProperty Name="strMiddleName" ColumnName="strMiddleName" />
+                <ScalarProperty Name="strFirstName" ColumnName="strFirstName" />
+                <ScalarProperty Name="iPartyID" ColumnName="iPartyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="MStaffs">
             <EntityTypeMapping TypeName="AuctionInventoryModel.MStaff">
               <MappingFragment StoreEntitySet="MStaff">
@@ -1195,6 +1233,11 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <EntitySetMapping Name="MSuppliers">
             <EntityTypeMapping TypeName="AuctionInventoryModel.MSupplier">
               <MappingFragment StoreEntitySet="MSupplier">
+                <ScalarProperty Name="strPicName" ColumnName="strPicName" />
+                <ScalarProperty Name="strWebsites" ColumnName="strWebsites" />
+                <ScalarProperty Name="strCompanyName" ColumnName="strCompanyName" />
+                <ScalarProperty Name="strPersonEmailID" ColumnName="strPersonEmailID" />
+                <ScalarProperty Name="iPersonPhoneNumber" ColumnName="iPersonPhoneNumber" />
                 <ScalarProperty Name="SupplierPhoto" ColumnName="SupplierPhoto" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="SupplierDate" ColumnName="SupplierDate" />
@@ -1374,30 +1417,6 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VehicleExpenses">
-            <EntityTypeMapping TypeName="AuctionInventoryModel.VehicleExpense">
-              <MappingFragment StoreEntitySet="VehicleExpenses">
-                <ScalarProperty Name="dcmlRECOVERYExpenseAmount" ColumnName="dcmlRECOVERYExpenseAmount" />
-                <ScalarProperty Name="dcmlRAMPExpenseAmount" ColumnName="dcmlRAMPExpenseAmount" />
-                <ScalarProperty Name="dcmlTRANSPORTExpenseAmount" ColumnName="dcmlTRANSPORTExpenseAmount" />
-                <ScalarProperty Name="dcmlDPAExpenseAmount" ColumnName="dcmlDPAExpenseAmount" />
-                <ScalarProperty Name="dcmlDOExpenseAmount" ColumnName="dcmlDOExpenseAmount" />
-                <ScalarProperty Name="strPurchaseInvoiceNo" ColumnName="strPurchaseInvoiceNo" />
-                <ScalarProperty Name="isSpread" ColumnName="isSpread" />
-                <ScalarProperty Name="dcmlSpreadAmount" ColumnName="dcmlSpreadAmount" />
-                <ScalarProperty Name="iVehicleExpenseTypeID" ColumnName="iVehicleExpenseTypeID" />
-                <ScalarProperty Name="strExpenseKey" ColumnName="strExpenseKey" />
-                <ScalarProperty Name="strRemarks" ColumnName="strRemarks" />
-                <ScalarProperty Name="dcmlTotalExpenseAmount" ColumnName="dcmlTotalExpenseAmount" />
-                <ScalarProperty Name="dcmlExpenseAmount" ColumnName="dcmlExpenseAmount" />
-                <ScalarProperty Name="iExpenseID" ColumnName="iExpenseID" />
-                <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
-                <ScalarProperty Name="strExpenseDate" ColumnName="strExpenseDate" />
-                <ScalarProperty Name="iPurchaseInvoiceID" ColumnName="iPurchaseInvoiceID" />
-                <ScalarProperty Name="iVehicleExpenseID" ColumnName="iVehicleExpenseID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ExpenseAmounts">
             <EntityTypeMapping TypeName="AuctionInventoryModel.ExpenseAmount">
               <MappingFragment StoreEntitySet="ExpenseAmount">
@@ -1420,18 +1439,10 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <EntitySetMapping Name="tbl_AuthorizedPages">
             <EntityTypeMapping TypeName="AuctionInventoryModel.tbl_AuthorizedPages">
               <MappingFragment StoreEntitySet="tbl_AuthorizedPages">
-                <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="PageName" ColumnName="PageName" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
                 <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_UserRoles">
-            <EntityTypeMapping TypeName="AuctionInventoryModel.tbl_UserRoles">
-              <MappingFragment StoreEntitySet="tbl_UserRoles">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1444,7 +1455,15 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="tbl_UserRoles">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.tbl_UserRoles">
+              <MappingFragment StoreEntitySet="tbl_UserRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

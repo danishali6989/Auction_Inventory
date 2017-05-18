@@ -175,7 +175,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MCategoryController.cs" />
     <Compile Include="Controllers\MColorController.cs" />
-    <Compile Include="Controllers\MCompanyController.cs" />
+    <Compile Include="Controllers\MPartyController.cs" />
     <Compile Include="Controllers\MCurrencyController.cs" />
     <Compile Include="Controllers\MCustomerController.cs" />
     <Compile Include="Controllers\MExpensesController.cs" />
@@ -205,6 +205,7 @@
     <Compile Include="Models\Expenses.cs" />
     <Compile Include="Models\PaperDetailsExportModel.cs" />
     <Compile Include="Models\PaperDetailsImportModel.cs" />
+    <Compile Include="Models\PartyModel.cs" />
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\PurchaseViewModel.cs" />
     <Compile Include="Models\SaleModel.cs" />
@@ -222,7 +223,7 @@
     <Compile Include="Services\AuctionServiceClient.cs" />
     <Compile Include="Services\CategoryServiceClient.cs" />
     <Compile Include="Services\ColorServiceClient.cs" />
-    <Compile Include="Services\CompanyServiceClient.cs" />
+    <Compile Include="Services\PartyServiceClient.cs" />
     <Compile Include="Services\CurrencyServiceClient.cs" />
     <Compile Include="Services\CustomerServiceClient.cs" />
     <Compile Include="Services\ExpensesServiceClient.cs" />
@@ -1227,6 +1228,9 @@
     <Content Include="Views\Home\WrongPage.cshtml" />
     <Content Include="Views\UserAuthorization\Index.cshtml" />
     <Content Include="Views\Home\Unauthorized.cshtml" />
+    <Content Include="Views\MParty\Index.cshtml" />
+    <Content Include="Views\MParty\Save.cshtml" />
+    <Content Include="Views\MParty\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

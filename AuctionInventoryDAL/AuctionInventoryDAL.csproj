@@ -96,9 +96,6 @@
     <Compile Include="Entity\MColor.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entity\MCompany.cs">
-      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Entity\MCountry.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
@@ -109,6 +106,9 @@
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\MExpense.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\MParty.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\MStaff.cs">
@@ -165,7 +165,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AuctionRepository.cs" />
     <Compile Include="Repositories\ColorRepository.cs" />
-    <Compile Include="Repositories\CompanyRepository.cs" />
+    <Compile Include="Repositories\PartyRepository.cs" />
     <Compile Include="Repositories\CurrencyRepository.cs" />
     <Compile Include="Repositories\CustomersRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />

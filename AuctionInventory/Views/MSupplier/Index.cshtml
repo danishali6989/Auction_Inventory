@@ -41,7 +41,7 @@
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
 
-            colNames: ['iSupplierID', 'Supplier Photo', 'Supplier Name', 'Phone Number', 'Email', 'Address', 'Date', 'Currency', 'Category', 'Action'],
+            colNames: ['iSupplierID', 'Supplier Photo', 'Company Name', 'Phone Number', 'Email', 'Address','Website', 'Date', 'Currency', 'Action'],
             colModel: [
                 { name: 'iSupplierID', index: 'iSupplierID', hidden: true, hidedlg: true },
                 {
@@ -61,13 +61,17 @@
 
                     }
                 },
-                { name: 'strFirstName', index: 'strFirstName', align: 'center' },
+                { name: 'strCompanyName', index: 'strCompanyName', align: 'center' },
+                
+
                 { name: 'iPhoneNumber', index: 'iPhoneNumber', align: 'center' },
                  { name: 'strEmailID', index: 'strEmailID', align: 'center', width: 250 },
                  { name: 'strAddress', index: 'strAddress', align: 'center' },
+
+                  { name: 'strWebsites', index: 'strWebsites', align: 'center', width: 250 },
                  { name: 'SupplierDate', index: 'SupplierDate', align: 'center', width: 100 },
             { name: 'strCurrencyName', index: 'strCurrencyName', align: 'center', width: 100 },
-             { name: 'strCategoryName', index: 'strCategoryName', align: 'center', width: 100 },
+             //{ name: 'strCategoryName', index: 'strCategoryName', align: 'center', width: 100 },
                    {
                        name: 'Action', index: 'Action', align: 'center', width: 250, search: false, title: false,
                        formatter: function (cellvalue, options, rowObject) {
@@ -91,7 +95,6 @@
     });
 
 </script>
-
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
