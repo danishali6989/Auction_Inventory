@@ -211,7 +211,9 @@ namespace AuctionInventoryDAL.Repositories
 
             var sumOfJPY = listVehicle.Sum(x => x.iCustomValInJPY);
 
-            var sumOfAED = listVehicle.Sum(x => x.iCustomValInJPY) * Convert.ToDecimal(0.033);
+            //var sumOfAED = listVehicle.Sum(x => x.iCustomValInJPY) * Convert.ToDecimal(0.033);
+
+            var sumOfAED = listVehicle.Sum(x => x.iCustomValInJPY);
 
             //return Json(new { listVehicle, sumOfJPY, sumOfAED }, JsonRequestBehavior.AllowGet);
 

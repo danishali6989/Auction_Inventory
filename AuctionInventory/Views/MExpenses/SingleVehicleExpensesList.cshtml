@@ -163,6 +163,8 @@
 
     var counter = 1;
     var arrExpenseID = new Array();
+    
+    var arrVehicleExpensePartyID = new Array();
     var favorite = [];
 
 
@@ -374,8 +376,17 @@
 
                                 //alert(result[i].strExpenseName);
 
-                                alert(result[i].iPartyID);
-                                alert(result[i].strFirstName);
+
+                                //this array is use to push  vehicle expense partyID 
+                                arrVehicleExpensePartyID.push({ partyID: result[i].iPartyID })
+                                
+
+
+                                //alert(result[i].iPartyID);
+                                //alert(result[i].strFirstName);
+
+                                //alert(arrVehicleExpensePartyID);
+
                                 var id = result[i].iExpenseID;
                                 var value = result[i].strExpenseName;
                                 //$('.txtAmountClass').val(result[i].iExpenseAmount);
@@ -449,26 +460,61 @@
 
                                     for (var j = 1; j <= counter; j++) {
 
-                                        for (var i = 0; i < data.length; i++) {
+                                        //for (var i = 0; i < data.length; i++) {
 
-                                            //var option = new Option(data[i].strFirstName, data[i].iPartyID);
+                                        //    //var option = new Option(data[i].strFirstName, data[i].iPartyID);
 
-                                            //$('#ddlParty' + j).append(option);
+                                        //    //$('#ddlParty' + j).append(option);
 
 
+                                        //    $.map(arrVehicleExpensePartyID, function (elementOfArray, indexInArray) {
+                                        //        if (elementOfArray.partyID == data[i].iPartyID) {
+
+                                        //            $('#ddlParty' + j).append('<option value="' + data[i].iPartyID + '" selected>' + data[i].strFirstName + '</option>');
+
+
+                                        //        }
+                                        //        {
+                                        //            $('#ddlParty' + j).append('<option value="' + data[i].iPartyID + '" >' + data[i].strFirstName + '</option>');
+                                        //        }
+
+                                        //    })
+
+                                        //}
+
+                                       
+
+                                            
                                             $.each(data, function (i, name) {
+                                                //$.map(arrVehicleExpensePartyID, function (elementOfArray, indexInArray) {
+                                                //    alert(elementOfArray.partyID);
+                                                //    if (elementOfArray.partyID == name.iPartyID) {
 
-                                                if ($("#hdniPartyID").val() == name.iPartyID) {
-                                                    $('#ddlParty' + j).append('<option value="' + name.iPartyID + '" selected>' + name.strFirstName + '</option>');
-                                                }
-                                                else {
-                                                    $('#ddlParty' + j).append('<option value="' + name.iPartyID + '" >' + name.strFirstName + '</option>');
-                                                }
+                                                        
+                                                //        $('#ddlParty' + j).append('<option value="' + name.iPartyID + '" selected>' + name.strFirstName + '</option>');
+
+
+                                                //    }
+                                                //    else {
+                                                //        $('#ddlParty' + j).append('<option value="' + name.iPartyID + '" >' + name.strFirstName + '</option>');
+                                                //    }
+                                                //})
+
+                                                //if (arrVehicleExpensePartyID.map(partyID) == name.iPartyID) {
+
+                                                //    $('#ddlParty' + j).append('<option value="' + name.iPartyID + '" selected>' + name.strFirstName + '</option>');
+                                                //}
+                                                //else {
+                                                //    $('#ddlParty' + j).append('<option value="' + name.iPartyID + '" >' + name.strFirstName + '</option>');
+                                                //}
+                                                   
+                                                $('#ddlParty' + j).append('<option value="' + name.iPartyID + '" selected>' + name.strFirstName + '</option>');
+
 
 
                                             });
 
-                                        }
+                                       
                                     }
                                 }
 

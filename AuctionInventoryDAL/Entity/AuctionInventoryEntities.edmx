@@ -348,11 +348,11 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <Property Name="strBLNo" Type="nvarchar" MaxLength="50" />
           <Property Name="strArrivalDate" Type="nvarchar" MaxLength="50" />
           <Property Name="strInvoiceValue" Type="nvarchar" MaxLength="50" />
-          <Property Name="dmlConversionRate" Type="decimal" Precision="18" Scale="2" />
           <Property Name="strPurchaseInvoiceNo" Type="nvarchar" MaxLength="50" />
           <Property Name="dtPurchaseInvoiceDate" Type="datetime" />
           <Property Name="dcmlAED" Type="decimal" Precision="18" Scale="2" />
           <Property Name="dcmlJYP" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="dmlConversionRate" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <EntityType Name="UserLogin">
           <Key>
@@ -895,7 +895,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <Property Name="strBLNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strArrivalDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strInvoiceValue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="dmlConversionRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="dmlConversionRate" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="strPurchaseInvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="dtPurchaseInvoiceDate" Type="DateTime" Precision="3" />
           <Property Name="dcmlAED" Type="Decimal" Precision="18" Scale="2" />

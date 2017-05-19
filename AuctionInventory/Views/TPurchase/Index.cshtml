@@ -207,7 +207,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>Conversion Rate:</label>
-                    @Html.TextBoxFor(a => a.dmlConversionRate, new { @class = "form-control", @id = "dmlConversionRate", Value = "0.033" })
+                    @Html.TextBoxFor(a => a.dmlConversionRate, new { @class = "form-control", @id = "dmlConversionRate", name = "dmlConversionRate", Value = "0.033" })
                     @Html.ValidationMessageFor(a => a.dmlConversionRate)
                 </div>
 
@@ -309,7 +309,31 @@
 
 
 <script type="text/javascript">
+   
+        //$("#dmlConversionRate").keyup(function () {
+        //    debugger
+        //    var ConversionRate = $("#dmlConversionRate").val();
+        //    $.ajax({
+        //        type:"POST",
+        //        url:"/TPurchase/UploadFiles",
+        //        cache: false,
+        //        data: JSON.stringify({ ConversionRate: ConversionRate }),
+        //        // data: JSON.stringify(purchase),
+        //        dataType: this.dataType,
+        //        contentType: "application/json; charset=utf-8",
+        //        success: function (Data) {
 
+
+        //        }
+        //    });
+        //});
+    
+
+
+       
+
+
+   
 
     function Cancel() {
         window.location.href = "/TPurchase/GetPurchaseList";
@@ -428,7 +452,7 @@
             url: "/TPurchase/GenerateCustomPDF",
             dataType: 'json',
             success: function (result) {
-                alert("hiii");
+               
                 debugger;
                 var columns = ['Lot No', 'Chasis No', 'Make', 'Model', 'Category', 'Year', 'Color', 'Origin', 'Location', 'JPY'];
 
@@ -1139,6 +1163,36 @@
             return true;
         }
     }
+
+
+    $(document).on('keyup', 'input[name="dmlConversionRate"]', function () {
+
+        calculateSumOfAED();
+    });
+
+
+    function calculateSumOfAED() {
+        debugger;
+
+      
+
+        var sum = 0;
+        //iterate through each textboxes and add the values
+        $("input[name='dmlConversionRate']").each(function () {
+           
+            //add only if the value is number
+            if (!isNaN(this.value) && this.value.length != 0) {
+               
+                 sum += parseFloat($("#spnINVJPY").text() * this.value);
+
+            }
+
+        });
+        //.toFixed() method will roundoff the final sum to 2 decimal places
+        $("#spnINVAED").text(sum.toFixed(2));
+
+    }
+
 
 
 

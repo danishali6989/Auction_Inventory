@@ -495,7 +495,7 @@ namespace AuctionInventory.Controllers
 
                             var sumOfJPY = listVehicle.Sum(x => x.iCustomValInJPY);
 
-                            //var sumOfAED = listVehicle.Sum(x => x.iCustomValInJPY) * twe;
+                            //var sumOfAED = listVehicle.Sum(x => x.iCustomValInJPY) * Convert.ToDecimal(ConversionRate);
 
                             var sumOfAED = listVehicle.Sum(x => x.iCustomValInJPY) * Convert.ToDecimal(0.033);
 

@@ -31,6 +31,9 @@
                 <div class="form-group">
                     <label>Purchase Inv No: </label>
                     @*<label>Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>*@
+
+                    @Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @type = "hidden", @id = "intInvno" })
+
                     @Html.TextBoxFor(a => a.strPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })
 
                 </div>
@@ -87,7 +90,7 @@
             <div class="col-sm-2">
                 <div class="form-group">
                     <label>Conversion Rate:</label>
-                    @Html.TextBoxFor(a => a.dmlConversionRate, new { @class = "form-control" })
+                    @Html.TextBoxFor(a => a.dmlConversionRate, new { @class = "form-control", name = "dmlConversionRate", @id = "dmlConversionRate" })
                     @Html.ValidationMessageFor(a => a.dmlConversionRate)
                 </div>
 
@@ -294,149 +297,6 @@
     </script>*@
 
 
-<script>
-
-
-    $("#btnSaveJQ").click(function () {
-        $(function () {
-            if ($(this).attr("rel") != "update") {
-                $('#dialog').dialog('open');
-                return false;
-            }
-        });
-
-        $("#dialog").dialog({
-            modal: true,
-            autoOpen: false,
-            title: "Confirmation",
-            width: 350,
-            height: 160,
-            buttons: [
-        {
-            id: "Yes",
-            text: "Yes",
-            click: function () {
-
-                //calling function here for update
-                //debugger;
-                //var tes="salman"
-                //var alphanumers = /^[a-zA-Z0-9]+$/;
-                //if(!alphanumers.test(tes)){
-                //    alert("Special chareter found");
-                //    $("#textboxid").css({"background-color": "color"});
-                //    return false;
-                //}
-
-
-                //var alphanumers = /^[a-zA-Z0-9]+$/;
-                //if(!alphanumers.test($("#firstname").val())){
-                //    alert("Nickname can have only alphabets and numbers.");
-                //    return false;
-                //}
-
-                // var test=   $("#someid").val();
-
-
-                var purchase = {
-                    PurchaseID: @Model.PurchaseID,
-                    iPurchaseInvoiceNo: $('#invno').val(),
-                    strPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
-                    strSupplierName: $('#txtSearchSupplier').val(),
-                    strMasterDecNo: $('#strMasterDecNo').val(),
-                    strBLNo: $('#strBLNo').val(),
-                    strArrivalDate: $('#strArrivalDate').val(),
-                    dtPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
-                    dmlConversionRate: $('#dmlConversionRate').val()
-                }
-                var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
-
-                $.ajax({
-                    type: "POST",
-                    url: "/TPurchase/Save",
-                    cache: false,
-                    data: JSON.stringify({ purchase: purchase, griddata: griddata }),
-                    // data: JSON.stringify(purchase),
-                    dataType: this.dataType,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (Data) {
-               
-                        window.location.href = "/TPurchase/GetPurchaseList";
-                   
-                
-                        //var $result = $(Data).find(purID);
-                        //alert($result);
-
-                        //$('#result').html('"PassGriddata()" successfully called.');
-
-
-
-
-                        //var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
-
-                        //griddata = JSON.stringify({ 'griddata': griddata });
-                        //$.ajax({
-                        //    contentType: 'application/json; charset=utf-8',
-                        //    dataType: 'json',
-                        //    type: 'POST',
-                        //    url: '/MVehicle/PassGriddata',
-                        //    data: griddata,
-                        //    success: function () {
-                        //        $('#result').html('"PassGriddata()" successfully called.');
-                        //    },
-                        //    failure: function (response) {
-                        //        $('#result').html(response);
-                        //    }
-                        //});
-                    },
-                    error: function (data) {
-                        $("#error_message").html(data);
-                    }
-                });
-                $(this).dialog('close');
-            }
-
-        },
-        {
-            id: "No",
-            text: "No",
-            click: function () {
-                $(this).dialog('close');
-            }
-        }
-            ]
-        });
-
-
-
-    });
-
-
-    //$("#btnSaveJQ").click(function () {
-    //    var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
-    //    griddata = JSON.stringify({ 'griddata': griddata });
-    //    $.ajax({
-    //        contentType: 'application/json; charset=utf-8',
-    //        dataType: 'json',
-    //        type: 'POST',
-    //        url: '/MVehicle/PassGriddata',
-    //        data: griddata,
-    //        success: function () {
-    //            $('#result').html('"PassGriddata()" successfully called.');
-    //        },
-    //        failure: function (response) {
-    //            $('#result').html(response);
-    //        }
-    //    });
-
-    //});
-
-
-
-
-
-
-</script>
-
 
 <script type="text/javascript">
     jQuery(document).ready(function () {
@@ -455,7 +315,7 @@
 
                 var sumOfAED = result.sumOfAED
                 $("#spnINVJPY").text(sumOfJPY);
-                $("#spnINVAED").text(sumOfAED);
+                $("#spnINVAED").text(sumOfAED*$("#dmlConversionRate").val());
                 $("#divParsedExcel").show();
                 bindGrid(listVehicle);
 
@@ -682,8 +542,186 @@
         });
 
     }
+
+
+
+    $(document).on('keyup', 'input[name="dmlConversionRate"]', function () {
+
+        calculateSumOfAED();
+    });
+
+
+    function calculateSumOfAED() {
+        debugger;
+
+      
+
+        var sum = 0;
+        //iterate through each textboxes and add the values
+        $("input[name='dmlConversionRate']").each(function () {
+           
+            //add only if the value is number
+            if (!isNaN(this.value) && this.value.length != 0) {
+               
+                sum += parseFloat($("#spnINVJPY").text() * this.value);
+
+            }
+
+        });
+        //.toFixed() method will roundoff the final sum to 2 decimal places
+        $("#spnINVAED").text(sum.toFixed(2));
+
+    }
+
 </script>
 
+
+<script>
+
+
+    $("#btnSaveJQ").click(function () {
+        $(function () {
+            if ($(this).attr("rel") != "update") {
+                $('#dialog').dialog('open');
+                return false;
+            }
+        });
+
+        $("#dialog").dialog({
+            modal: true,
+            autoOpen: false,
+            title: "Confirmation",
+            width: 350,
+            height: 160,
+            buttons: [
+        {
+            id: "Yes",
+            text: "Yes",
+            click: function () {
+
+                //calling function here for update
+                //debugger;
+                //var tes="salman"
+                //var alphanumers = /^[a-zA-Z0-9]+$/;
+                //if(!alphanumers.test(tes)){
+                //    alert("Special chareter found");
+                //    $("#textboxid").css({"background-color": "color"});
+                //    return false;
+                //}
+
+
+                //var alphanumers = /^[a-zA-Z0-9]+$/;
+                //if(!alphanumers.test($("#firstname").val())){
+                //    alert("Nickname can have only alphabets and numbers.");
+                //    return false;
+                //}
+
+                // var test=   $("#someid").val();
+
+
+                var purchase = {
+                    PurchaseID: @Model.PurchaseID,
+                    iPurchaseInvoiceNo: $('#intInvno').val(),
+                    strPurchaseInvoiceNo: $('#invno').val(),
+                    //strPurchaseInvoiceNo: $('#invoiceLbl').text(),
+                    strPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
+                    strSupplierName: $('#txtSearchSupplier').val(),
+                    strMasterDecNo: $('#strMasterDecNo').val(),
+                    strBLNo: $('#strBLNo').val(),
+                    strArrivalDate: $('#strArrivalDate').val(),
+                    dtPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
+                    dmlConversionRate: $('#dmlConversionRate').val(),
+                    dcmlAED: $('#spnINVAED').text(),
+                    dcmlJYP: $('#spnINVJPY').text()
+                }
+                var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+
+                $.ajax({
+                    type: "POST",
+                    url: "/TPurchase/Save",
+                    cache: false,
+                    data: JSON.stringify({ purchase: purchase, griddata: griddata }),
+                    // data: JSON.stringify(purchase),
+                    dataType: this.dataType,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (Data) {
+
+                        window.location.href = "/TPurchase/GetPurchaseList";
+
+
+                        //var $result = $(Data).find(purID);
+                        //alert($result);
+
+                        //$('#result').html('"PassGriddata()" successfully called.');
+
+
+
+
+                        //var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+
+                        //griddata = JSON.stringify({ 'griddata': griddata });
+                        //$.ajax({
+                        //    contentType: 'application/json; charset=utf-8',
+                        //    dataType: 'json',
+                        //    type: 'POST',
+                        //    url: '/MVehicle/PassGriddata',
+                        //    data: griddata,
+                        //    success: function () {
+                        //        $('#result').html('"PassGriddata()" successfully called.');
+                        //    },
+                        //    failure: function (response) {
+                        //        $('#result').html(response);
+                        //    }
+                        //});
+                    },
+                    error: function (data) {
+                        $("#error_message").html(data);
+                    }
+                });
+                $(this).dialog('close');
+            }
+
+        },
+        {
+            id: "No",
+            text: "No",
+            click: function () {
+                $(this).dialog('close');
+            }
+        }
+            ]
+        });
+
+
+
+    });
+
+
+    //$("#btnSaveJQ").click(function () {
+    //    var griddata = $('#dataGrid').jqGrid('getGridParam', 'data');
+    //    griddata = JSON.stringify({ 'griddata': griddata });
+    //    $.ajax({
+    //        contentType: 'application/json; charset=utf-8',
+    //        dataType: 'json',
+    //        type: 'POST',
+    //        url: '/MVehicle/PassGriddata',
+    //        data: griddata,
+    //        success: function () {
+    //            $('#result').html('"PassGriddata()" successfully called.');
+    //        },
+    //        failure: function (response) {
+    //            $('#result').html(response);
+    //        }
+    //    });
+
+    //});
+
+
+
+
+
+
+</script>
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
