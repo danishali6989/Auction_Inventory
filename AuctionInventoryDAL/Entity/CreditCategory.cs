@@ -12,17 +12,10 @@ namespace AuctionInventoryDAL.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class MParty
+    public partial class CreditCategory
     {
-        public int iPartyID { get; set; }
-        public string strFirstName { get; set; }
-        public string strMiddleName { get; set; }
-        public string strLastName { get; set; }
-        public Nullable<int> iCountry { get; set; }
-        public Nullable<int> iCity { get; set; }
-        public string strEmailID { get; set; }
-        public string strAddress { get; set; }
-        public string strPhoneNumber { get; set; }
-        public string iPincode { get; set; }
+        public long iCreditCategoryID { get; set; }
+        public string strCategory { get; set; }
+        public Nullable<int> iDays { get; set; }
     }
 }

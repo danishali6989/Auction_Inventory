@@ -46,7 +46,7 @@ namespace AuctionInventory.Models
         public string iPhoneNumber { get; set; }
         public string strAddress { get; set; }
 
-        public Nullable<int> iPincode { get; set; }
+        public string iPincode { get; set; }
         public Nullable<int> iCurrency { get; set; }
         public string SupplierPhoto { get; set; }
         [Required(ErrorMessage = "Plese Select Supplier Date ")]

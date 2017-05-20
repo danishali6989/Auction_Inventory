@@ -75,6 +75,7 @@ namespace AuctionInventory.Services
               
                 mCustomer.CustomerPhoto = customer.CustomerPhoto ?? " ";
                 mCustomer.CustomerDate = customer.CustomerDate ?? " ";
+                mCustomer.iCreditCategoryID = customer.iCreditCategoryID;
             }
             return mCustomer;
         }
@@ -139,6 +140,8 @@ namespace AuctionInventory.Services
              
                 customer.CustomerPhoto = data.CustomerPhoto ?? " ";
                 customer.CustomerDate = data.CustomerDate ?? " ";
+
+                customer.iCreditCategoryID = data.iCreditCategoryID;
             }
             return customer;
         }

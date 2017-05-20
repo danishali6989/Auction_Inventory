@@ -27,11 +27,11 @@ namespace AuctionInventoryDAL.Entity
         public string strBLNo { get; set; }
         public string strArrivalDate { get; set; }
         public string strInvoiceValue { get; set; }
-        public Nullable<decimal> dmlConversionRate { get; set; }
         public string strPurchaseInvoiceNo { get; set; }
         public Nullable<System.DateTime> dtPurchaseInvoiceDate { get; set; }
         public Nullable<decimal> dcmlAED { get; set; }
         public Nullable<decimal> dcmlJYP { get; set; }
+        public Nullable<decimal> dmlConversionRate { get; set; }
     
         public virtual ICollection<Vehicle> Vehicles { get; set; }
     }

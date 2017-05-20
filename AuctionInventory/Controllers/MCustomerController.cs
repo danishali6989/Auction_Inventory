@@ -67,6 +67,7 @@ namespace AuctionInventory.Controllers
 
                     ViewBag.City = new SelectList(countryList, "iCity", "strCityName", customer.iCity);
 
+                    ViewBag.CreditCategory = new SelectList(db.CreditCategories, "iCreditCategoryID", "strCategory", customer.iCreditCategoryID);
                 }
             }
             catch (Exception e)

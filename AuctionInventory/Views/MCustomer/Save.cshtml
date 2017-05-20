@@ -133,6 +133,19 @@
                     @Html.ValidationMessageFor(m => m.strCreditLimit, "", new { @class = "error" })
 
                 </div>
+
+            <div class="col-md-4">
+                <label>Credit Category</label>
+
+                @Html.DropDownListFor(m => m.iCreditCategoryID, (IEnumerable<SelectListItem>)ViewBag.CreditCategory, null, new { @class = "form-control", @id = "ddlCreditCategory" })
+                @Html.ValidationMessageFor(m => m.iCreditCategoryID, "", new { @class = "error" })
+
+
+                @*@Html.TextBoxFor(a => a.iCountry, new { @class = "form-control  input-group-lg", @placeholder = "Enter Country Name" })
+            @Html.ValidationMessageFor(m => m.iCountry, "", new { @class = "error" })*@
+
+
+            </div>
             </div>
            
         <br />

@@ -21,9 +21,7 @@ namespace AuctionInventoryDAL.Entity
         public Nullable<int> iCountry { get; set; }
         public Nullable<int> iCity { get; set; }
         public string strEmailID { get; set; }
-        public Nullable<int> iPhoneNumber { get; set; }
         public string strAddress { get; set; }
-        public Nullable<int> iPincode { get; set; }
         public string strCreditLimit { get; set; }
         public string strPersonFirstName { get; set; }
         public string strPersonMiddleName { get; set; }
@@ -31,5 +29,8 @@ namespace AuctionInventoryDAL.Entity
         public string strCompanyName { get; set; }
         public string CustomerPhoto { get; set; }
         public string CustomerDate { get; set; }
+        public Nullable<long> iCreditCategoryID { get; set; }
+        public string iPincode { get; set; }
+        public string iPhoneNumber { get; set; }
     }
 }

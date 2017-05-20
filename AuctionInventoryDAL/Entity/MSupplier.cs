@@ -23,7 +23,6 @@ namespace AuctionInventoryDAL.Entity
         public string strEmailID { get; set; }
         public string iPhoneNumber { get; set; }
         public string strAddress { get; set; }
-        public Nullable<int> iPincode { get; set; }
         public Nullable<int> iCurrency { get; set; }
         public string SupplierDate { get; set; }
         public string Password { get; set; }
@@ -33,5 +32,6 @@ namespace AuctionInventoryDAL.Entity
         public string strCompanyName { get; set; }
         public string strWebsites { get; set; }
         public string strPicName { get; set; }
+        public string iPincode { get; set; }
     }
 }

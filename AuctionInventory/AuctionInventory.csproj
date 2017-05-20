@@ -176,6 +176,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MCategoryController.cs" />
     <Compile Include="Controllers\MColorController.cs" />
+    <Compile Include="Controllers\MCreditCategoryController.cs" />
     <Compile Include="Controllers\MPartyController.cs" />
     <Compile Include="Controllers\MCurrencyController.cs" />
     <Compile Include="Controllers\MCustomerController.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Color.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\CreditCategoryModel.cs" />
     <Compile Include="Models\Currency.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
@@ -224,6 +226,7 @@
     <Compile Include="Services\AuctionServiceClient.cs" />
     <Compile Include="Services\CategoryServiceClient.cs" />
     <Compile Include="Services\ColorServiceClient.cs" />
+    <Compile Include="Services\CreditCategoryServiceClient.cs" />
     <Compile Include="Services\PartyServiceClient.cs" />
     <Compile Include="Services\CurrencyServiceClient.cs" />
     <Compile Include="Services\CustomerServiceClient.cs" />
@@ -1232,6 +1235,9 @@
     <Content Include="Views\MParty\Index.cshtml" />
     <Content Include="Views\MParty\Save.cshtml" />
     <Content Include="Views\MParty\Delete.cshtml" />
+    <Content Include="Views\MCreditCategory\Index.cshtml" />
+    <Content Include="Views\MCreditCategory\Save.cshtml" />
+    <Content Include="Views\MCreditCategory\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

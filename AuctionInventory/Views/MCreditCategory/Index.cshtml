@@ -1,0 +1,88 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<meta name="viewport" content="width=device-width" />
+<title>Index</title>
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+    /*we have overrides the css to change border color of menus*/
+    .navbar-inverse {
+        background-color: #337ab7;
+        border-color: #333;
+    }
+</style>
+
+<div class="box-body">
+    <div>
+        <a class="popup btn btn-primary" href="/MCreditCategory/Save/0" style="margin-bottom:20px; margin-top:20px;">Add New</a>
+
+    </div>
+    <br />
+    <div>
+        <table id="dataGrid" class="table table-bordered table-striped"></table>
+        <div id="pagingGrid"></div>
+        <br><br>
+    </div>
+</div>
+
+
+
+<script>
+    $(function () {
+
+        //this grid is used to fill the Category list
+
+        $('#dataGrid').jqGrid({
+            caption: "Category List",
+            url: '/MCreditCategory/GetAllCreditCategory/',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+
+            colNames: ['iCreditCategoryID', 'Category Name', 'Days', 'Action'],
+            colModel: [
+                
+
+                { name: 'iCreditCategoryID', index: 'iCreditCategoryID', hidden: true, hidedlg: true },
+                { name: 'strCategory', index: 'strCategory', align: 'center' },
+                 { name: 'iDays', index: 'iDays', align: 'center' },
+
+                   {
+                       name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
+                       formatter: function (cellvalue, options, rowObject) {
+
+                           return '<a class="popup btn btn-warning"  href="/MCreditCategory/Save/' + options.rowId + '">Edit</a>' + "   " + '<a class="popup btn btn-danger"  href="/MCreditCategory/Delete/' + options.rowId + '">Delete</a>';
+
+                           //return  "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Edit'  onclick=\"editRowData('" + options.rowId + "');\"  />";
+                       }
+
+                   },
+
+
+
+            ],
+            width: 800,
+            height: 250,
+            rowNum: 10,
+            loadonce: true,
+            ignoreCase: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGrid',
+        });
+        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+    });
+</script>
+
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>

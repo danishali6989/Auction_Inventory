@@ -15,7 +15,7 @@ namespace AuctionInventory.Models
         public Nullable<int> iCity { get; set; }
         public string strEmailID { get; set; }
         public string strAddress { get; set; }
-        public Nullable<int> iPincode { get; set; }
+        public string iPincode { get; set; }
         public string strPhoneNumber { get; set; }
     }
 }

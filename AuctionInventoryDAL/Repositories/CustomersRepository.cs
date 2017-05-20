@@ -97,7 +97,7 @@ namespace AuctionInventoryDAL.Repositories
                     cust.strCompanyName = customer.strCompanyName;
                     cust.CustomerPhoto = customer.CustomerPhoto;
                     cust.CustomerDate = customer.CustomerDate;
-
+                    cust.iCreditCategoryID = customer.iCreditCategoryID;
                 }
             }
             else

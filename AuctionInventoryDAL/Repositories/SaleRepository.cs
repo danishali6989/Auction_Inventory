@@ -331,6 +331,7 @@ namespace AuctionInventoryDAL.Repositories
                                  strLastName = AM.strLastName,
                                  iPhoneNumber = AM.iPhoneNumber,
                                  strCreditLimit = AM.strCreditLimit,
+                                 iCreditCategoryID = AM.iCreditCategoryID,
                                  //Address = AM.Address
 
                              }).ToList();

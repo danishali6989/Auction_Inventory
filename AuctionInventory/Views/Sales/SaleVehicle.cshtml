@@ -76,7 +76,12 @@
                     <input id="txtCreditLimit" class="form-control input-group-lg" type="text" readonly
                            placeholder="Credit Limit" />
                 </div>
-            </div>
+                <div class="form-group col-xs-3">
+                    <label>Credit Category</label>
+                    <input id="txtCreditCategory" class="form-control input-group-lg" type="text" readonly
+                           placeholder="Credit Category" />
+                </div>
+                </div>
 
 
             <div class="row">
@@ -379,6 +384,7 @@
                                     strLastName: item.strLastName,
                                     iPhoneNumber: item.iPhoneNumber,
                                     strCreditLimit: item.strCreditLimit,
+                                    iCreditCategoryID: item.iCreditCategoryID,
                                     value: item.strFirstName
 
                                 }
@@ -399,6 +405,18 @@
                 $("#txtCustomerName").val(i.item.strFirstName + " " + i.item.strLastName);
                 $("#txtCustomerContact").val(i.item.iPhoneNumber);
                 $("#txtCreditLimit").val(i.item.strCreditLimit);
+                if (i.item.iCreditCategoryID == 1)
+                {
+                    $("#txtCreditCategory").val("A");
+                }
+                else if (i.item.iCreditCategoryID == 2)
+                {
+                    $("#txtCreditCategory").val("B");
+                }
+                else if (i.item.iCreditCategoryID == 3) {
+                    $("#txtCreditCategory").val("C");
+                }
+               
 
                 $("#divCustomerInfo").show();
                 return false;

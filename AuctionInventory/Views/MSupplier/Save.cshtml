@@ -45,8 +45,7 @@
         <legend>Supplier Information:</legend>
         <div class="row">
             <div style="margin-left: 100px; margin-top: -15px;">
-                strPicName
-
+               
 
                 @if (Model != null && Model.iSupplierID > 0 && Model.iSupplierID != null)
                 {                
@@ -276,12 +275,12 @@
                 dataType: this.dataType,
                 contentType: "application/json; charset=utf-8",
                 success: function (Data) {
-                 
+                    debugger
                     var imageURL = Data.SupplierPhoto.replace('..','');
 
                     $("#hdnPicName").val(Data.strPicName);
                   
-                      
+                  
                     //var data = imageURL.text().split('/');                   
 
                     //alert(data[1]);       

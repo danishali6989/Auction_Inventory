@@ -33,10 +33,15 @@ namespace AuctionInventory.Models
         [Required(ErrorMessage = "Your must provide a PhoneNumber")]
         [Display(Name = "Phone Number")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]       
-        public Nullable<int> iPhoneNumber { get; set; }
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
+        public string iPhoneNumber { get; set; }
+
+
+       
+       
+
         public string strAddress { get; set; }
-        public Nullable<int> iPincode { get; set; }
+        public string iPincode { get; set; }
          [Required(ErrorMessage = "Your must provide a Credit Limit")]
         public string strCreditLimit { get; set; }
       
@@ -46,5 +51,7 @@ namespace AuctionInventory.Models
         public string strCompanyName { get; set; }
         public string CustomerPhoto { get; set; }
         public string CustomerDate { get; set; }
+
+        public Nullable<long> iCreditCategoryID { get; set; }
     }
 }

@@ -30,6 +30,7 @@ namespace AuctionInventoryDAL.Entity
         public virtual DbSet<AuctionList> AuctionLists { get; set; }
         public virtual DbSet<CityMaster> CityMasters { get; set; }
         public virtual DbSet<CountryMaster> CountryMasters { get; set; }
+        public virtual DbSet<CreditCategory> CreditCategories { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<MCategory> MCategories { get; set; }
         public virtual DbSet<MCity> MCities { get; set; }
