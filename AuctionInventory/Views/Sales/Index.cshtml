@@ -9,6 +9,7 @@
         padding: 5px 15px;
         color: #FFF;
     }
+   
 </style>
 <div class="box-body" id="divForSalesVehicleGrid">
     <div>
@@ -198,7 +199,7 @@
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
 
-            colNames: ['iSaleID', 'iSaleFrontEndID', 'iSalesInvoiceID', 'Sales Invoice No', 'iImpExpTransfer', 'iPaymentType', 'iBuyerID', 'BuyerName', 'SalesDate', 'SellingPrice', 'Deposit', 'Advance', 'Balance', 'Installment', 'CashType', 'PaperMode', 'Action'],
+            colNames: ['iSaleID', 'iSaleFrontEndID', 'iSalesInvoiceID', 'Sales Invoice No', 'iImpExpTransfer', 'iPaymentType', 'iCustomerID', 'BuyerName', 'SalesDate', 'SellingPrice', 'Deposit', 'Advance', 'Balance', 'Installment', 'CashType', 'PaperMode', 'Action'],
             colModel: [
                 { name: 'iSaleID', index: 'iSaleID', hidden: true, hidedlg: true },
                 { name: 'iSaleFrontEndID', index: 'iSaleFrontEndID', hidden: true, hidedlg: true },
@@ -208,7 +209,7 @@
 
                  { name: 'iImpExpTransfer', index: 'iImpExpTransfer', hidden: true, hidedlg: true },
                   { name: 'iPaymentType', index: 'iPaymentType', hidden: true, hidedlg: true },
-                  { name: 'iBuyerID', index: 'iBuyerID', hidden: true, hidedlg: true },
+                  { name: 'iCustomerID', index: 'iCustomerID', hidden: true, hidedlg: true },
                 { name: 'strBuyerName', index: 'strBuyerName', align: 'center' },
                 { name: 'strSalesDate', index: 'strSalesDate', align: 'center' },
                 { name: 'dmlSellingPrice', index: 'dmlSellingPrice', align: 'center' },
@@ -282,7 +283,7 @@
 
         var strSalesInvoiceNo = rowData['strSalesInvoiceNo'];
 
-        var iBuyerID = rowData['iBuyerID'];
+        var iCustomerID = rowData['iCustomerID'];
 
       
         var strBuyerName = rowData['strBuyerName'];
@@ -308,7 +309,7 @@
         /////////feching data from grid and passing value to textboxes  
 
         $("#hfSaleID").val(iSaleID);
-        $("#hfCustomer").val(iBuyerID);
+        $("#hfCustomer").val(iCustomerID);
         $("#hfSaleFrontEndID").html(iSaleFrontEndID); $("#txtBuyerName").val("");
          $("#txtCustomerName").val(strBuyerName);
         $("#salesDate").val(strSalesDate); $("#txtSellingPrice").val(dmlSellingPrice); $("#txtDeposit").val(dmlDeposit);
@@ -498,7 +499,7 @@
 
   ///////////////customer some data fill from here and remaing fill from griq data
 
-        var customerID = iBuyerID;
+        var customerID = iCustomerID;
 
                     $.ajax({
                         url: '/Sales/GetCustomerDetailsBYCustomerID/',
@@ -690,7 +691,7 @@
 
 
                 var SaleData = {
-                    iBuyerID: $("#hfCustomer").val(),
+                    iCustomerID: $("#hfCustomer").val(),
                     iSaleFrontEndID: $("#hfSaleFrontEndID").html(),
                     iSaleID: $("#hfSaleID").val(),
                     strBuyerName: $("#txtCustomerName").val(),

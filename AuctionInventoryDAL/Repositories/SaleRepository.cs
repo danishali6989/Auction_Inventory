@@ -35,7 +35,7 @@ namespace AuctionInventoryDAL.Repositories
                     sales.iSaleID = sale.iSaleID;
                     sales.iSaleFrontEndID = sale.iSaleFrontEndID;
                     sales.strBuyerName = sale.strBuyerName;
-                    sales.iBuyerID = sale.iBuyerID;
+                    sales.iCustomerID = sale.iCustomerID;
                     sales.strSalesDate = sale.strSalesDate;
 
                     sales.dmlSellingPrice = sale.dmlSellingPrice;
@@ -50,6 +50,7 @@ namespace AuctionInventoryDAL.Repositories
                     sales.iImpExpTransfer = sale.iImpExpTransfer;
                     sales.iSalesInvoiceID = sale.iSalesInvoiceID;
                     sales.dtSalesDate = sale.dtSalesDate;
+                    sales.dtCreditLimitDate = sale.dtCreditLimitDate;
 
 
                 }
@@ -116,7 +117,7 @@ namespace AuctionInventoryDAL.Repositories
         //            sales.iSaleID = sale.iSaleID;
         //            sales.iSaleFrontEndID = sale.iSaleFrontEndID;
         //            sales.strBuyerName = sale.strBuyerName;
-        //            sales.iBuyerID = sale.iBuyerID;
+        //            sales.iCustomerID = sale.iCustomerID;
         //            sales.strSalesDate = sale.strSalesDate;
 
         //            sales.dmlSellingPrice = sale.dmlSellingPrice;
@@ -205,7 +206,7 @@ namespace AuctionInventoryDAL.Repositories
                                          //iImpExpTransfer = AM.iImpExpTransfer,
                                          //iPaymentType = AM.iPaymentType,
 
-                                         //iBuyerID = AM.iBuyerID,
+                                         //iCustomerID = AM.iCustomerID,
                                       
                                          strBuyerName = AM.strBuyerName,
                                          strSalesDate = AM.strSalesDate,
@@ -224,6 +225,42 @@ namespace AuctionInventoryDAL.Repositories
             return new { salesReportByDate, sumOfSellingPrice };
 
         }
+
+
+        public bool CheckCustomerIsBlockOrNot()
+        {
+            bool status = false; 
+
+            MCustomer cust = new MCustomer();
+
+
+            //var checkCustomer = auctionContext.Sales.Where(x=>x.dtCreditLimitDate>DateTime.Now);
+
+            var checkCustomer = (from AM in auctionContext.Sales
+             join t1 in auctionContext.MCustomers on AM.iCustomerID equals t1.iCustomerID
+             where(AM.dtCreditLimitDate)>DateTime.Now
+             select t1
+             ).ToList();
+
+            if (checkCustomer!=null)
+            {
+                foreach (var item in checkCustomer)
+                {
+                    //Save
+                   // var customer = auctionContext.MCustomers.Where(x => x.iCustomerID==item.iCustomerID).FirstOrDefault();
+                    //customer.IsBlocked = true;
+                    //auctionContext.MCustomers.Add(item);
+
+                    item.IsBlocked = true;
+                }
+            }
+
+            auctionContext.SaveChanges();
+             status = true;
+             return status;
+
+        }
+
         public dynamic GetVehiclesData()
         {
             using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
@@ -289,7 +326,7 @@ namespace AuctionInventoryDAL.Repositories
                                iImpExpTransfer = AM.iImpExpTransfer,
                                iPaymentType = AM.iPaymentType,
 
-                               iBuyerID = AM.iBuyerID,
+                               iCustomerID = AM.iCustomerID,
 
                                strBuyerName = AM.strBuyerName,
                                strSalesDate = AM.strSalesDate,
@@ -308,7 +345,7 @@ namespace AuctionInventoryDAL.Repositories
                           cell = new string[] {
                Convert.ToString(sales.iSaleID),Convert.ToString(sales.iSaleFrontEndID),Convert.ToString(sales.iSalesInvoiceID),
                Convert.ToString(sales.strSalesInvoiceNo),
-               Convert.ToString(sales.iImpExpTransfer),Convert.ToString(sales.iPaymentType),Convert.ToString(sales.iBuyerID)
+               Convert.ToString(sales.iImpExpTransfer),Convert.ToString(sales.iPaymentType),Convert.ToString(sales.iCustomerID)
                ,Convert.ToString( sales.strBuyerName),Convert.ToString(sales.strSalesDate)
                ,Convert.ToString( sales.dmlSellingPrice),Convert.ToString(sales.dmlDeposit),Convert.ToString( sales.dmlAdvance),Convert.ToString(sales.dmlBalance)
                 ,Convert.ToString( sales.iInstallment),Convert.ToString(sales.strCashName),Convert.ToString( sales.strPaperModeName)
@@ -332,6 +369,7 @@ namespace AuctionInventoryDAL.Repositories
                                  iPhoneNumber = AM.iPhoneNumber,
                                  strCreditLimit = AM.strCreditLimit,
                                  iCreditCategoryID = AM.iCreditCategoryID,
+                                 IsBlocked = AM.IsBlocked,
                                  //Address = AM.Address
 
                              }).ToList();

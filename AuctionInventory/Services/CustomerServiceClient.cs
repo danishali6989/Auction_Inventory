@@ -76,6 +76,8 @@ namespace AuctionInventory.Services
                 mCustomer.CustomerPhoto = customer.CustomerPhoto ?? " ";
                 mCustomer.CustomerDate = customer.CustomerDate ?? " ";
                 mCustomer.iCreditCategoryID = customer.iCreditCategoryID;
+
+                mCustomer.IsBlocked = customer.IsBlocked;
             }
             return mCustomer;
         }

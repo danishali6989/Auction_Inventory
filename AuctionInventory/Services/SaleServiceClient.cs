@@ -34,6 +34,15 @@ namespace AuctionInventory.Services
            return listSales;
        }
 
+
+       public bool CheckCustomerIsBlockOrNot()
+       {
+           bool status = true;
+
+           SaleRepository repo = new SaleRepository();
+           status = repo.CheckCustomerIsBlockOrNot();
+           return status;
+       }
        public dynamic GetSalesData()
         {
             SaleRepository repo = new SaleRepository();
@@ -82,7 +91,7 @@ namespace AuctionInventory.Services
                 eSale.iSaleID = mSale.iSaleID;
                 eSale.iSaleFrontEndID = mSale.iSaleFrontEndID;
                 eSale.strBuyerName = mSale.strBuyerName ?? " ";
-                eSale.iBuyerID = mSale.iBuyerID;
+                eSale.iCustomerID = mSale.iCustomerID;
 
                 eSale.strSalesInvoiceNo = mSale.strSalesInvoiceNo ?? " ";
 
@@ -96,6 +105,7 @@ namespace AuctionInventory.Services
                 eSale.iImpExpTransfer = mSale.iImpExpTransfer;
                 eSale.iSalesInvoiceID = mSale.iSalesInvoiceID;
                 eSale.dtSalesDate = mSale.dtSalesDate;
+                eSale.dtCreditLimitDate = mSale.dtCreditLimitDate;
             }
             return eSale;
         }

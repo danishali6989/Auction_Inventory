@@ -384,5 +384,37 @@ namespace AuctionInventory.Controllers
 
         //}
 
+
+        [HttpGet]
+        public JsonResult CheckCustomerIsBlockOrNot()
+        {
+            bool status = false;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SaleServiceClient saleServiceClient = new SaleServiceClient();
+                    status = saleServiceClient.CheckCustomerIsBlockOrNot();
+
+
+                    //if (purchase.Count == 0 || purchase == null)
+                    //{
+                    //    ModelState.AddModelError("error", "No Record Found");
+                    //}
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                status = false;
+                throw e;
+            }
+
+            //return Json(purchaseReportByDate, JsonRequestBehavior.AllowGet);
+            return Json(new { status = true }, JsonRequestBehavior.AllowGet);
+
+        }
+
     }
 }

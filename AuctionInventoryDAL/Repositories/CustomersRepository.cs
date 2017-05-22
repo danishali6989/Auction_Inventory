@@ -98,11 +98,14 @@ namespace AuctionInventoryDAL.Repositories
                     cust.CustomerPhoto = customer.CustomerPhoto;
                     cust.CustomerDate = customer.CustomerDate;
                     cust.iCreditCategoryID = customer.iCreditCategoryID;
+
+                    cust.IsBlocked = customer.IsBlocked;
                 }
             }
             else
             {
                 //Save
+                customer.IsBlocked = false;
                 auctionContext.MCustomers.Add(customer);
             }
             auctionContext.SaveChanges();

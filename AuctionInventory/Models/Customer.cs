@@ -53,5 +53,7 @@ namespace AuctionInventory.Models
         public string CustomerDate { get; set; }
 
         public Nullable<long> iCreditCategoryID { get; set; }
+
+        public Nullable<bool> IsBlocked { get; set; }
     }
 }

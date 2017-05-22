@@ -32,5 +32,6 @@ namespace AuctionInventoryDAL.Entity
         public Nullable<long> iCreditCategoryID { get; set; }
         public string iPincode { get; set; }
         public string iPhoneNumber { get; set; }
+        public Nullable<bool> IsBlocked { get; set; }
     }
 }
