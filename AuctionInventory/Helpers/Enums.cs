@@ -19,9 +19,16 @@ namespace AuctionInventory.Helpers
 
         public enum VehicleExpenseType
         {
-            AllVehicleExpense=1,
-            SingleVehicleExpense=2
+            AllVehicleExpense = 1,
+            SingleVehicleExpense = 2
         }
 
+
+        public enum Creditcategory
+        {
+            A = 10,
+            B = 15,
+            C = 20
+        }
     }
 }

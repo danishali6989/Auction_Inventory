@@ -18,6 +18,7 @@
 <div class="row">
     <input type="hidden" id="hfCustomer" />
 
+    <input type="hidden" id="hdnSumOfJPY" name="hdnSumOfJPY" />
 
     <input type="hidden" id="hfCreditLimitDate" />
 
@@ -32,7 +33,7 @@
         <input id="salesDate" class="form-control datepicker input-group-lg" type="text" name="Date"
                placeholder="Enter Drop-off date here..." />
     </div>
-   
+
 </div>
 
 <div class="box-body" id="divFillByVehicle">
@@ -54,67 +55,89 @@
                    placeholder="Search By Customer Name" />
         </div>
     </div>
-        <br>
-        <div id="divCustomerInfo" style="display:none">
-            <div class="row">
-                <div class="form-group col-xs-3">
-                    <label>Customer Name</label>
-                    <input id="txtCustomerName" class="form-control input-group-lg" type="text" name="CustomerName"
-                           placeholder="Customer Name" readonly />
-                </div>
-
-                <div class="form-group col-xs-3">
-                    <label>Customer Contact</label>
-                    <input id="txtCustomerContact" class="form-control input-group-lg" type="text" name="CustomerContact"
-                           placeholder="Customer Contact" readonly />
-                </div>
-
-                <div class="form-group col-xs-3">
-                    <label>Balance</label>
-                    <input id="txtBalance" class="form-control input-group-lg" type="text" readonly
-                           placeholder="Balance" />
-                </div>
-
-                <div class="form-group col-xs-3">
-                    <label>Credit Limit</label>
-                    <input id="txtCreditLimit" class="form-control input-group-lg" type="text" readonly
-                           placeholder="Credit Limit" />
-                </div>
-                <div class="form-group col-xs-3">
-                    <label>Credit Category</label>
-                    <input id="txtCreditCategory" class="form-control input-group-lg" type="text" readonly
-                           placeholder="Credit Category" />
-                </div>
-                </div>
-
-
-            <div class="row">
-                <br />
-                <div class="form-group col-xs-4">
-                    <label>Selling Price</label>
-                    <input id="txtSellingPrice" class="form-control input-group-lg" type="text"
-                           placeholder="Selling Price" />
-                </div>
-
-                <div class="form-group col-xs-4">
-                    <label>Deposit</label>
-                    <input id="txtDeposit" class="form-control input-group-lg" type="text"
-                           placeholder="Deposit" />
-                </div>
-                <div class="form-group col-xs-4">
-                    <label>Advance</label>
-                    <input id="txtAdvance" class="form-control input-group-lg" type="text"
-                           placeholder="Advance" />
-                </div>
+    <br>
+    <div id="divCustomerInfo" style="display:none">
+        <div class="row">
+            <div class="form-group col-xs-3">
+                <label>Customer Name</label>
+                <input id="txtCustomerName" class="form-control input-group-lg" type="text" name="CustomerName"
+                       placeholder="Customer Name" readonly />
             </div>
 
+            <div class="form-group col-xs-3">
+                <label>Customer Contact</label>
+                <input id="txtCustomerContact" class="form-control input-group-lg" type="text" name="CustomerContact"
+                       placeholder="Customer Contact" readonly />
+            </div>
+
+            <div class="form-group col-xs-3">
+                <label>Balance</label>
+                <input id="txtBalance" class="form-control input-group-lg" type="text" readonly
+                       placeholder="Balance" />
+            </div>
+
+            <div class="form-group col-xs-3">
+                <label>Credit Limit</label>
+                <input id="txtCreditLimit" class="form-control input-group-lg" type="text" readonly
+                       placeholder="Credit Limit" />
+            </div>
+            <div class="form-group col-xs-3">
+                <label>Credit Category</label>
+                <input id="txtCreditCategory" class="form-control input-group-lg" type="text" readonly
+                       placeholder="Credit Category" />
+            </div>
+        </div>
+
+
+        @*<div class="row">
+            <br />
+            <div class="form-group col-xs-4">
+                <label>Selling Price</label>
+                <input id="txtSellingPrice" class="form-control input-group-lg" type="text"
+                       placeholder="Selling Price" />
+            </div>
+
+            <div class="form-group col-xs-4">
+                <label>Deposit</label>
+                <input id="txtDeposit" class="form-control input-group-lg" type="text"
+                       placeholder="Deposit" />
+            </div>
+            <div class="form-group col-xs-4">
+                <label>Advance</label>
+                <input id="txtAdvance" class="form-control input-group-lg" type="text"
+                       placeholder="Advance" />
+            </div>
+        </div>*@
+
+        <div class="row">
+            <br />
+            <div class="form-group col-xs-4">
+                <label>Total Amount</label>
+                <input id="txtSellingPrice" class="form-control input-group-lg" type="text"
+                       placeholder="Selling Price" />
+            </div>
+
+            <div class="form-group col-xs-4">
+                <label>Deposit</label>
+                <input id="txtDeposit" class="form-control input-group-lg" type="text"
+                       placeholder="Deposit" />
+            </div>
+            <div class="form-group col-xs-4">
+                <label>Paid Amount</label>
+                <input id="txtAdvance" class="form-control input-group-lg" oninput="calculateBalance()" type="text"
+                       placeholder="Advance" />
+            </div>
+
+        </div>
 
 
 
 
-            <div class="row">
 
-                @*<div class="form-group col-xs-4">
+
+        <div class="row" id="divCredit" style="display:none;">
+
+            @*<div class="form-group col-xs-4">
                 <label for="Select payment Option" class="sr-only"></label>
                 <div class="options">
                     <label for="Cash" class="sr-only"></label>
@@ -128,7 +151,7 @@
 
             </div>*@
 
-                @*<label>Select payment Option</label>
+            @*<label>Select payment Option</label>
             <div class="options">
                 <label>Cash</label>
                 <input type="radio" name="PaymentOption" id="rdbCashOption" onclick="CashPaymentOption()" checked="checked" />
@@ -137,65 +160,75 @@
                 <input type="radio" name="PaymentOption" id="rdbCreditOption" onclick="CreditPaymentOption()" />
             </div>*@
 
-                @*<div class="form-group col-xs-4">
+            @*<div class="form-group col-xs-4">
                 <label for="Payment" class="sr-only"></label>
                 <input id="txtPayment" class="form-control input-group-lg" type="text"
                        placeholder="Payment" />
             </div>*@
-                <div class="form-group col-xs-4">
-                    <label>Installment</label>
-                    <input id="txtInstallment" class="form-control input-group-lg" type="text"
-                           placeholder="Installment" />
-                </div>
 
-                <div class="form-group col-xs-4">
-                    <label>Balance</label>
-                    <input id="txtSaleBalance" class="form-control input-group-lg" type="text"
-                           placeholder="Balance" />
-                </div>
+            <div class="form-group col-xs-4">
+                <label>Installment</label>
+                <input id="txtInstallment" class="form-control input-group-lg" type="text"
+                       placeholder="Installment" />
             </div>
 
-
-            <label style="margin-left: 63px;">Select payment Option:</label>
-            <div class="options">
-
-                <label>Cash</label>
-                <input type="radio" name="PaymentOption" id="rdbCashOption" checked="checked" />
-                &nbsp;
-                <label>Credit</label>
-                <input type="radio" name="PaymentOption" id="rdbCreditOption" />
+            <div class="form-group col-xs-4">
+                <label>Balance</label>
+                <input id="txtSaleBalance" class="form-control input-group-lg" type="text"
+                       placeholder="Balance" />
             </div>
+        </div>
 
-            <label style="margin-left: 130px;">Paper Type:</label>
-            <div class="options" id="divBoxGroup">
-                <label>
-                    <input type="radio" id="ckbImportOption" name="nam_GroupMode" value="1" checked="checked" />Import
-                </label>
-                <label>
-                    <input type="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
-                </label>
-                <label>
-                    <input type="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
-                </label>
-            </div>
-            @*<div class="row" id="divBoxGroup">
+        <label style="margin-left: 63px;">Select payment Option:</label>
+        @*<div class="options">
 
-            <label>
-                <input type="checkbox" class="radio" id="ckbImportOption" name="nam_GroupMode" value="1" />Import
-            </label>
-            <label>
-                <input type="checkbox" class="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
-            </label>
-            <label>
-                <input type="checkbox" class="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
-            </label>
+            <label>Cash</label>
+            <input type="radio" name="PaymentOption" id="rdbCashOption" checked="checked" />
+            &nbsp;
+            <label>Credit</label>
+            <input type="radio" name="PaymentOption" id="rdbCreditOption" />
         </div>*@
 
+        <div class="options">
 
+            <label>Cash</label>
+            <input type="radio" name="PaymentOption" onclick="CashPaymentOption()" id="rdbCashOption" checked="checked" />
+            &nbsp;
+            <label>Credit</label>
+            <input type="radio" name="PaymentOption" onclick="CreditPaymentOption()" id="rdbCreditOption" />
         </div>
-      
+
+
+        <label style="margin-left: 130px;">Paper Type:</label>
+        <div class="options" id="divBoxGroup">
+            <label>
+                <input type="radio" id="ckbImportOption" name="nam_GroupMode" value="1" checked="checked" />Import
+            </label>
+            <label>
+                <input type="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
+            </label>
+            <label>
+                <input type="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
+            </label>
+        </div>
+        @*<div class="row" id="divBoxGroup">
+
+                <label>
+                    <input type="checkbox" class="radio" id="ckbImportOption" name="nam_GroupMode" value="1" />Import
+                </label>
+                <label>
+                    <input type="checkbox" class="radio" id="ckbExportOption" name="nam_GroupMode" value="2" />Export
+                </label>
+                <label>
+                    <input type="checkbox" class="radio" id="ckbTransferOption" name="nam_GroupMode" value="3" />Transfer
+                </label>
+            </div>*@
+
 
     </div>
+
+
+</div>
 <div>
     <br />
 
@@ -204,12 +237,12 @@
     </div>
     @*<input type="button" style="margin-left: 400px" class="btn btn-success" id="saveSaleInfo" value="Save"/>*@
     <input type="button" style="margin-left: 330px;" class="btn btn-success col-md-2" id="saveSaleInfo" value="Save">
-    
+
     <input type="button" style="margin-left: 40px" class="btn btn-warning col-md-2" value="Cancel" onclick="CancelSalesInfo();" id="cancelSaleInfo">
 </div>
 
 
-    
+
 
 
 
@@ -227,22 +260,22 @@
         contentType: "application/json; charset=utf-8",
         success: function (data) {
 
-          
+
 
         }
     });
-   
-        $.ajax({
-            url: '/Sales/GetInvoice/',
-            dataType: "json",
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
 
-                $("#txtInvoiceNum").html(data);
+    $.ajax({
+        url: '/Sales/GetInvoice/',
+        dataType: "json",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
 
-            }
-        });
+            $("#txtInvoiceNum").html(data);
+
+        }
+    });
 
     $.ajax({
         url: '/Sales/GetSalesFrontEndID/',
@@ -260,13 +293,16 @@
 <script type="text/javascript">
     $(function () { // will trigger when the document is ready
         $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy' }); //Initialise any date pickers
+        $("#salesDate").datepicker().datepicker("setDate", new Date());
 
-     });
+    });
 </script>
 
 <script>
 
     var arr = new Array();
+
+    var arrRemoveSumJPY = new Array();
     $(function () {
 
         $('#dataGrid').jqGrid({
@@ -298,7 +334,7 @@
 
                 var rowData = jQuery("#dataGrid").getRowData(rowid);
                 var rowDataVehicleID = rowData['iVehicleID'];
-
+                var rowDataJPY= rowData['iCustomValInJPY'];
 
                 var addVehicleID = false;
                 $.map(arr, function (elementOfArray, indexInArray) {
@@ -310,7 +346,12 @@
                 if (!addVehicleID) {
                     arr.push({ VehicleID: rowDataVehicleID })
                     $('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
+
+                    arrRemoveSumJPY.push({ VehicleID: rowDataVehicleID, JPY: rowDataJPY })
+
+                    
                     $('#divAddVehicle').show();
+                    calculateSum();
                 }
 
 
@@ -344,15 +385,16 @@
                     formatter: function (cellvalue, options, rowObject) {
                         // return '<a href="/MAreas/Edit/' + options.rowId + '">' + "<img src='../Images/edit%20(2).png' '/>" + '</a>' + "     " + '<a href="/MAreas/Delete/' + options.rowId + '">' + "<img src='../Images/delete%20(2).png' />" + '</a>';
                         //return $('#GridAddVehicle').jqGrid('delRowData', options.rowId);
-                        return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"jQuery('#GridAddVehicle').delRowData('" + options.rowId + "');\"  />";
+                        return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"RemoveSumOfJPY('" + options.rowId + "');\"  />";
+                       
                     }
 
                 },
 
             ],
             width: 1150,
-           // width: 900,
-           
+            // width: 900,
+
             rowNum: 10,
             loadonce: false,
             rowList: [10, 20, 30],
@@ -363,7 +405,7 @@
 
     });
 
-    
+
 
 
 </script>
@@ -392,8 +434,7 @@
                             // normal response
                             response($.map(data, function (item) {
 
-                                if (item.IsBlocked == false)
-                                {
+                                if (item.IsBlocked == false) {
                                     return {
 
                                         iCustomerID: item.iCustomerID,
@@ -407,7 +448,7 @@
 
                                     }
                                 }
-                               
+
                             }));
                         }
                     }
@@ -421,64 +462,70 @@
 
                 $("#txtBuyerName").val(i.item.value);
                 $("#hfCustomer").val(i.item.iCustomerID);
-               
+
                 $("#txtCustomerName").val(i.item.strFirstName + " " + i.item.strLastName);
                 $("#txtCustomerContact").val(i.item.iPhoneNumber);
                 $("#txtCreditLimit").val(i.item.strCreditLimit);
 
 
-                if (i.item.iCreditCategoryID == 1)
-                {
+                if (i.item.iCreditCategoryID == 1) {
                     $("#txtCreditCategory").val("A");
 
+                    var datepicker = jQuery(".datepicker").val();
+                    var dmy = datepicker.split("/");
+                    var joindate = new Date(
+                    parseInt(
+                        dmy[2], 10),
+                        parseInt(dmy[1], 10) - 1,
+                        parseInt(dmy[0], 10)
+                    );
 
-                   // var today = new new Date(Date.parse(jQuery(".datepicker").val()));
-                   // var dd = today.getDate();
-                   // var mm = today.getMonth() + 1; //January is 0!
+                    joindate.setDate(joindate.getDate() + 10);
+                    var date = ("0" + joindate.getDate()).slice(-2) + "/" +
+                        ("0" + (joindate.getMonth() + 1)).slice(-2) + "/" +
+                        joindate.getFullYear();
 
-                   // var yyyy = today.getFullYear();
-                   // if (dd < 10) {
-                   //     dd = '0' + dd;
-                   // }
-                   // if (mm < 10) {
-                   //     mm = '0' + mm;
-                   // }
-                   // var today = dd + '/' + mm + '/' + yyyy;
-                   //// document.getElementById("DATE").value = today;
-                    
-                   // alert(today);
-
-                    //var creditDate = new Date(Date.parse(jQuery(".datepicker").val()));
-                   
-                    ////creditDate.setDate(creditDate.getDate() + 10);
-                    //alert("A");
-                  
-                    //alert('0' + (creditDate.getMonth() + 1 + 10) + '/' + '0' + creditDate.getDate() + '/' + creditDate.getFullYear());
-                    //    //creditDate.setDate(creditDate.getDate() + parseInt(jQuery(".paymentterms").text()));
-                    //    //jQuery(".duedate").html((creditDate.getMonth() + 1) + '/' + creditDate.getDate() + '/' + creditDate.getFullYear());
-                    //alert(creditDate);
+                    $('#hfCreditLimitDate').val(date);
                 }
-                else if (i.item.iCreditCategoryID == 2)
-                {
+                else if (i.item.iCreditCategoryID == 2) {
                     $("#txtCreditCategory").val("B");
-                    var creditDate = new Date(Date.parse(jQuery(".datepicker").val()));
-                    creditDate.setDate(creditDate.getDate() + 15);
-                    alert("B");
-                    alert(creditDate);
+                    var datepicker = jQuery(".datepicker").val();
+                    var dmy = datepicker.split("/");
+                    var joindate = new Date(
+                    parseInt(
+                        dmy[2], 10),
+                        parseInt(dmy[1], 10) - 1,
+                        parseInt(dmy[0], 10)
+                    );
+
+                    joindate.setDate(joindate.getDate() + 15);
+                    var date = ("0" + joindate.getDate()).slice(-2) + "/" +
+                        ("0" + (joindate.getMonth() + 1)).slice(-2) + "/" +
+                        joindate.getFullYear();
+
+                    $('#hfCreditLimitDate').val(date);
+
                 }
                 else if (i.item.iCreditCategoryID == 3) {
+                    debugger
                     $("#txtCreditCategory").val("C");
-                    var creditDate = new Date(Date.parse(jQuery(".datepicker").val()));
-                    creditDate.setDate(creditDate.getDate() + 20);
-                    alert("C");
-                    alert(creditDate);
+                    var datepicker = jQuery(".datepicker").val();
+                    var dmy = datepicker.split("/");
+                    var joindate = new Date(
+                    parseInt(
+                        dmy[2], 10),
+                        parseInt(dmy[1], 10) - 1,
+                        parseInt(dmy[0], 10)
+                    );
+
+                    joindate.setDate(joindate.getDate() + 20);
+                    var date = ("0" + joindate.getDate()).slice(-2) + "/" +
+                        ("0" + (joindate.getMonth() + 1)).slice(-2) + "/" +
+                        joindate.getFullYear();
+
+                    $('#hfCreditLimitDate').val(date);
+
                 }
-               
-
-
-                $('#hfCreditLimitDate').val($('.datepicker').val());
-
-               
 
 
                 $("#divCustomerInfo").show();
@@ -490,18 +537,27 @@
 </script>
 
 <script>
-    
+
+
     var parameters = [];
     var chkBoxvalue;
+    var ysnPaymentStatus;
     $("#saveSaleInfo").click(function () {
-            
+
         debugger;
+
+        if ($("#txtSaleBalance").val()==0) {
+             ysnPaymentStatus = true;
+        }
+        else {
+             ysnPaymentStatus = false;
+        }
 
         var data = $('#invoiceLbl').text().split(':');
 
         $("#invoiceLbl").html(data[1]);
 
-      
+
         $(function () {
             if ($(this).attr("rel") != "update") {
                 $('#dialog').dialog('open');
@@ -574,7 +630,19 @@
                     iImpExpTransfer: chkBoxvalue,
                     dtSalesDate: $("#salesDate").val(),
                     strSalesInvoiceNo: $("#invoiceLbl").text(),
-                    dtCreditLimitDate:$('#hfCreditLimitDate').val()
+                    dtCreditLimitDate: $('#hfCreditLimitDate').val(),
+                    ysnPaymentStatus: ysnPaymentStatus
+
+                }
+
+
+
+                var SalesPaymentParameter = {
+                    iCustomerID: $("#hfCustomer").val(),
+                    strPaymentDate: $("#salesDate").val(),
+                    dtPaymentDate: $("#salesDate").val(),
+                    dmlPaidAmount: $("#txtAdvance").val(),
+                    ysnPaymentStatus: ysnPaymentStatus
 
                 }
 
@@ -583,7 +651,7 @@
                     type: "POST",
                     url: "/Sales/Save",
                     cache: false,
-                    data: JSON.stringify({ sale: SaleData, saleVehicles: parameters }),
+                    data: JSON.stringify({ sale: SaleData, saleVehicles: parameters, salesPaymentModel: SalesPaymentParameter, }),
                     // data: JSON.stringify(purchase),
                     dataType: this.dataType,
                     contentType: "application/json; charset=utf-8",
@@ -612,9 +680,9 @@
 
 
 
-       
+
     });
-    
+
 
 
 
@@ -631,7 +699,7 @@
     //    }
     //}
 
-   
+
 
 
     function Mode() {
@@ -644,7 +712,85 @@
         });
     }
 
+   
+    function calculateSum() {
+        debugger;
+        var sum = 0;
+
+        for (var i = 0; i < arrRemoveSumJPY.length; i++) {
+
+            if (!isNaN(arrRemoveSumJPY[i].JPY) && arrRemoveSumJPY[i].JPY.length != 0) {
+                sum += parseFloat(arrRemoveSumJPY[i].JPY);
+            }
+
+        }
+        $('#txtSellingPrice').val(sum);
+        $('#txtAdvance').val(sum);
+
+
+       // var SumOfJPY = $('#hdnSumOfJPY').val();
+       // if (!isNaN(SumOfJPY) && SumOfJPY.length != 0) {
+       //     sum += parseFloat(SumOfJPY);
+       // }
+
+       // //sum += parseFloat($('#hdnSumOfJPY').val());
+       // $('#txtSellingPrice').val(sum)
+       // $('#txtAdvance').val(sum)
+       //// alert(sum);
+
+ 
+        //for (var i = 0; i < arrRemoveSumJPY.length; i++) {
+        //    sum += parseFloat(arrRemoveSumJPY[i].JPY);
+        //}
+        //alert(sum);
+    }
+
+
+    function RemoveSumOfJPY(Removedata) {
+        debugger
+        jQuery('#GridAddVehicle').delRowData(Removedata);
+
+        arrRemoveSumJPY.splice($.inArray(Removedata, arrRemoveSumJPY), 1);
+        calculateSum();
+     }
+
 </script>
+
+
+
+<script>
+    //For Credit Payment
+    function CreditPaymentOption() {
+
+        $('#divCredit').show();
+        $('#txtAdvance').focus();
+
+    }
+    //For Cash Payment
+    function CashPaymentOption() {
+        var total = parseFloat($('#txtSellingPrice').val());
+        $('#txtAdvance').val(total);
+        $('#txtSaleBalance').val("0");
+        $('#divCredit').hide();
+    }
+
+    //Calculate Balance amount
+    function calculateBalance() {
+        var total = parseFloat($('#txtSellingPrice').val());
+        var paid = parseFloat($('#txtAdvance').val());
+        var balance = total - paid;
+        if (!isNaN(balance))
+        { $('#txtSaleBalance').val(balance); } else { $('#txtSaleBalance').val("0"); }
+
+    }
+
+
+   
+  
+
+</script>
+
+
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />

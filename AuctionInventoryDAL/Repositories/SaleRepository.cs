@@ -13,7 +13,7 @@ namespace AuctionInventoryDAL.Repositories
     {
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
 
-        public bool SaveRepository(Sale sale, List<SalesVehicle> saleVehicles)
+        public bool SaveRepository(Sale sale, List<SalesVehicle> saleVehicles, SalesPayment salesPayment)
         {
             bool status = false;
 
@@ -51,6 +51,7 @@ namespace AuctionInventoryDAL.Repositories
                     sales.iSalesInvoiceID = sale.iSalesInvoiceID;
                     sales.dtSalesDate = sale.dtSalesDate;
                     sales.dtCreditLimitDate = sale.dtCreditLimitDate;
+                    sales.ysnPaymentStatus = sale.ysnPaymentStatus;
 
 
                 }
@@ -63,6 +64,38 @@ namespace AuctionInventoryDAL.Repositories
                 sale.iSaleFrontEndID = salesFrontEndID;
                 auctionContext.Sales.Add(sale);
             }
+            auctionContext.SaveChanges();
+
+            var SaleID = sale.iSaleID;
+
+            var eSalesPayment = auctionContext.SalesPayments.Where(a => a.iPaymentID == salesPayment.iPaymentID).FirstOrDefault();
+
+            if (salesPayment.iPaymentID > 0)
+            {
+                //Edit Existing Record
+
+                if (eSalesPayment != null)
+                {
+
+                    eSalesPayment.iPaymentID = salesPayment.iPaymentID;
+                    eSalesPayment.iSaleID = salesPayment.iSaleID;
+                    eSalesPayment.iCustomerID = salesPayment.iCustomerID;
+                    eSalesPayment.strPaymentDate = salesPayment.strPaymentDate;
+                    eSalesPayment.dmlPaidAmount = salesPayment.dmlPaidAmount;
+                    eSalesPayment.dmlPrevBalance = salesPayment.dmlPrevBalance;
+                    eSalesPayment.ysnPaymentStatus = salesPayment.ysnPaymentStatus;
+                    eSalesPayment.dtPaymentDate = salesPayment.dtPaymentDate;
+                }
+            }
+
+            else
+            {
+                //Save
+                salesPayment.iSaleID= SaleID;
+                auctionContext.SalesPayments.Add(salesPayment);
+            }
+
+            auctionContext.SaveChanges();
 
 
             foreach (var items in saleVehicles)

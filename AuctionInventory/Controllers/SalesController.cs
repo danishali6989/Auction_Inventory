@@ -299,7 +299,7 @@ namespace AuctionInventory.Controllers
             return Json(SalesFrontEndID, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult Save(SaleModel sale, List<SalesVehicleModel> saleVehicles)
+        public ActionResult Save(SaleModel sale, List<SalesVehicleModel> saleVehicles, SalesPaymentModel salesPaymentModel)
         {
             bool status = false;
             try
@@ -307,7 +307,7 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     SaleServiceClient saleServiceClient = new SaleServiceClient();
-                    status = saleServiceClient.SaveSalesData(sale, saleVehicles);
+                    status = saleServiceClient.SaveSalesData(sale, saleVehicles, salesPaymentModel);
 
                 }
                 // return RedirectToAction("GetPurchaseList", "TPurchase");

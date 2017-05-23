@@ -30,5 +30,6 @@ namespace AuctionInventoryDAL.Entity
         public Nullable<System.DateTime> dtSalesDate { get; set; }
         public Nullable<System.DateTime> dtCreditLimitDate { get; set; }
         public Nullable<int> iCustomerID { get; set; }
+        public Nullable<bool> ysnPaymentStatus { get; set; }
     }
 }

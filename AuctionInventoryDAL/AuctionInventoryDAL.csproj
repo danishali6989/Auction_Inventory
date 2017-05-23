@@ -135,6 +135,9 @@
     <Compile Include="Entity\Sale.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\SalesPayment.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\SalesVehicle.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>

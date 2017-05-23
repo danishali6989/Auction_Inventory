@@ -212,6 +212,7 @@
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\PurchaseViewModel.cs" />
     <Compile Include="Models\SaleModel.cs" />
+    <Compile Include="Models\SalesPaymentModel.cs" />
     <Compile Include="Models\SalesVehicleModel.cs" />
     <Compile Include="Models\SingleVehicleExpenseModel.cs" />
     <Compile Include="Models\Staff.cs" />

@@ -60,7 +60,7 @@
           <Property Name="Country" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.ExpenseAmount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.ExpenseAmount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ExpenseAmount">
           <Key>
             <PropertyRef Name="iExpID" />
@@ -70,7 +70,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.ExpenseAmount' does not ha
           <Property Name="iExpenseAmount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.MailModel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.MailModel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MailModel">
           <Key>
             <PropertyRef Name="From" />
@@ -266,7 +266,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.MailModel' does not have a
           <Property Name="strCashName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6013: The table/view 'DB_A1EE51_AuctionDB.dbo.Roles' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+warning 6013: The table/view 'DB_A256F5_daauctiondb.dbo.Roles' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="Roles">
           <Property Name="RoleId" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="20" />
@@ -291,6 +291,20 @@ warning 6013: The table/view 'DB_A1EE51_AuctionDB.dbo.Roles' does not have a pri
           <Property Name="dtSalesDate" Type="datetime" />
           <Property Name="dtCreditLimitDate" Type="datetime" />
           <Property Name="iCustomerID" Type="int" />
+          <Property Name="ysnPaymentStatus" Type="bit" />
+        </EntityType>
+        <EntityType Name="SalesPayment">
+          <Key>
+            <PropertyRef Name="iPaymentID" />
+          </Key>
+          <Property Name="iPaymentID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="iSaleID" Type="bigint" />
+          <Property Name="iCustomerID" Type="int" />
+          <Property Name="strPaymentDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="dtPaymentDate" Type="datetime" />
+          <Property Name="dmlPaidAmount" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="dmlPrevBalance" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="ysnPaymentStatus" Type="bit" />
         </EntityType>
         <EntityType Name="SalesVehicle">
           <Key>
@@ -320,7 +334,7 @@ warning 6013: The table/view 'DB_A1EE51_AuctionDB.dbo.Roles' does not have a pri
           <Property Name="CountryID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_AuthorizedPages' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tbl_AuthorizedPages">
           <Key>
             <PropertyRef Name="id" />
@@ -334,7 +348,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_AuthorizedPages' does 
           <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_Pages' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_Pages' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tbl_Pages">
           <Key>
             <PropertyRef Name="PageId" />
@@ -344,7 +358,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_Pages' does not have a
           <Property Name="DefaultPageName" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tbl_UserRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -494,6 +508,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <EntitySet Name="PaperType" EntityType="Self.PaperType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesPayment" EntityType="Self.SalesPayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesVehicle" EntityType="Self.SalesVehicle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SingleVehicleExpense" EntityType="Self.SingleVehicleExpense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StateMaster" EntityType="Self.StateMaster" Schema="dbo" store:Type="Tables" />
@@ -577,6 +592,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <EntitySet Name="PaperTypes" EntityType="AuctionInventoryModel.PaperType" />
           <EntitySet Name="PaymentTypes" EntityType="AuctionInventoryModel.PaymentType" />
           <EntitySet Name="Sales" EntityType="AuctionInventoryModel.Sale" />
+          <EntitySet Name="SalesPayments" EntityType="AuctionInventoryModel.SalesPayment" />
           <EntitySet Name="SalesVehicles" EntityType="AuctionInventoryModel.SalesVehicle" />
           <EntitySet Name="SingleVehicleExpenses" EntityType="AuctionInventoryModel.SingleVehicleExpense" />
           <EntitySet Name="StateMasters" EntityType="AuctionInventoryModel.StateMaster" />
@@ -883,6 +899,20 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <Property Name="dtSalesDate" Type="DateTime" Precision="3" />
           <Property Name="dtCreditLimitDate" Type="DateTime" Precision="3" />
           <Property Name="iCustomerID" Type="Int32" />
+          <Property Name="ysnPaymentStatus" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="SalesPayment">
+          <Key>
+            <PropertyRef Name="iPaymentID" />
+          </Key>
+          <Property Name="iPaymentID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="iSaleID" Type="Int64" />
+          <Property Name="iCustomerID" Type="Int32" />
+          <Property Name="strPaymentDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dtPaymentDate" Type="DateTime" Precision="3" />
+          <Property Name="dmlPaidAmount" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="dmlPrevBalance" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="ysnPaymentStatus" Type="Boolean" />
         </EntityType>
         <EntityType Name="SalesVehicle">
           <Key>
@@ -1348,6 +1378,7 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
           <EntitySetMapping Name="Sales">
             <EntityTypeMapping TypeName="AuctionInventoryModel.Sale">
               <MappingFragment StoreEntitySet="Sales">
+                <ScalarProperty Name="ysnPaymentStatus" ColumnName="ysnPaymentStatus" />
                 <ScalarProperty Name="iCustomerID" ColumnName="iCustomerID" />
                 <ScalarProperty Name="dtCreditLimitDate" ColumnName="dtCreditLimitDate" />
                 <ScalarProperty Name="dtSalesDate" ColumnName="dtSalesDate" />
@@ -1364,6 +1395,20 @@ warning 6002: The table/view 'DB_A1EE51_AuctionDB.dbo.tbl_UserRoles' does not ha
                 <ScalarProperty Name="strBuyerName" ColumnName="strBuyerName" />
                 <ScalarProperty Name="iSaleFrontEndID" ColumnName="iSaleFrontEndID" />
                 <ScalarProperty Name="iSaleID" ColumnName="iSaleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesPayments">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.SalesPayment">
+              <MappingFragment StoreEntitySet="SalesPayment">
+                <ScalarProperty Name="ysnPaymentStatus" ColumnName="ysnPaymentStatus" />
+                <ScalarProperty Name="dmlPrevBalance" ColumnName="dmlPrevBalance" />
+                <ScalarProperty Name="dmlPaidAmount" ColumnName="dmlPaidAmount" />
+                <ScalarProperty Name="dtPaymentDate" ColumnName="dtPaymentDate" />
+                <ScalarProperty Name="strPaymentDate" ColumnName="strPaymentDate" />
+                <ScalarProperty Name="iCustomerID" ColumnName="iCustomerID" />
+                <ScalarProperty Name="iSaleID" ColumnName="iSaleID" />
+                <ScalarProperty Name="iPaymentID" ColumnName="iPaymentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

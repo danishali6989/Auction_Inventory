@@ -10,12 +10,12 @@ namespace AuctionInventory.Services
 {
     public class SaleServiceClient
     {
-        public bool SaveSalesData(SaleModel sale,List<SalesVehicleModel> saleVehicles)
+        public bool SaveSalesData(SaleModel sale, List<SalesVehicleModel> saleVehicles, SalesPaymentModel salesPaymentModel)
         {
             bool status = true;
 
             SaleRepository repo = new SaleRepository();
-            status = repo.SaveRepository(ParserAddSale(sale), ParserAddSalesVehicle(saleVehicles));
+            status = repo.SaveRepository(ParserAddSale(sale), ParserAddSalesVehicle(saleVehicles), ParserAddSalesPayment(salesPaymentModel));
             return status;
         }
        public dynamic GetVehiclesData()
@@ -106,6 +106,7 @@ namespace AuctionInventory.Services
                 eSale.iSalesInvoiceID = mSale.iSalesInvoiceID;
                 eSale.dtSalesDate = mSale.dtSalesDate;
                 eSale.dtCreditLimitDate = mSale.dtCreditLimitDate;
+                eSale.ysnPaymentStatus = mSale.ysnPaymentStatus;
             }
             return eSale;
         }
@@ -133,6 +134,24 @@ namespace AuctionInventory.Services
         }
 
 
+        private SalesPayment ParserAddSalesPayment(SalesPaymentModel mSalesPayment)
+        {
+            SalesPayment eSalesPayment = new SalesPayment();
+
+            if (mSalesPayment != null)
+            {
+               
+                eSalesPayment.iPaymentID = mSalesPayment.iPaymentID;
+                eSalesPayment.iSaleID = mSalesPayment.iSaleID;
+                eSalesPayment.iCustomerID = mSalesPayment.iCustomerID;
+                eSalesPayment.strPaymentDate = mSalesPayment.strPaymentDate;              
+                eSalesPayment.dmlPaidAmount = mSalesPayment.dmlPaidAmount;              
+                eSalesPayment.dmlPrevBalance = mSalesPayment.dmlPrevBalance;
+                eSalesPayment.ysnPaymentStatus = mSalesPayment.ysnPaymentStatus;
+                eSalesPayment.dtPaymentDate = mSalesPayment.dtPaymentDate;
+            }
+            return eSalesPayment;
+        }
         #endregion
     }
 }
