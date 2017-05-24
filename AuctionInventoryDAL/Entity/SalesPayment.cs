@@ -22,5 +22,7 @@ namespace AuctionInventoryDAL.Entity
         public Nullable<decimal> dmlPaidAmount { get; set; }
         public Nullable<decimal> dmlPrevBalance { get; set; }
         public Nullable<bool> ysnPaymentStatus { get; set; }
+        public Nullable<int> iSalesInvoiceID { get; set; }
+        public string strSalesInvoiceNo { get; set; }
     }
 }

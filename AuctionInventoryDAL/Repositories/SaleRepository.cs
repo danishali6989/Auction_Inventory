@@ -68,30 +68,9 @@ namespace AuctionInventoryDAL.Repositories
 
             var SaleID = sale.iSaleID;
 
-            var eSalesPayment = auctionContext.SalesPayments.Where(a => a.iPaymentID == salesPayment.iPaymentID).FirstOrDefault();
-
-            if (salesPayment.iPaymentID > 0)
-            {
-                //Edit Existing Record
-
-                if (eSalesPayment != null)
-                {
-
-                    eSalesPayment.iPaymentID = salesPayment.iPaymentID;
-                    eSalesPayment.iSaleID = salesPayment.iSaleID;
-                    eSalesPayment.iCustomerID = salesPayment.iCustomerID;
-                    eSalesPayment.strPaymentDate = salesPayment.strPaymentDate;
-                    eSalesPayment.dmlPaidAmount = salesPayment.dmlPaidAmount;
-                    eSalesPayment.dmlPrevBalance = salesPayment.dmlPrevBalance;
-                    eSalesPayment.ysnPaymentStatus = salesPayment.ysnPaymentStatus;
-                    eSalesPayment.dtPaymentDate = salesPayment.dtPaymentDate;
-                }
-            }
-
-            else
             {
                 //Save
-                salesPayment.iSaleID= SaleID;
+                salesPayment.iSaleID = SaleID;
                 auctionContext.SalesPayments.Add(salesPayment);
             }
 
@@ -102,7 +81,7 @@ namespace AuctionInventoryDAL.Repositories
             {
                 var salesVehicle = auctionContext.SalesVehicles.Where(a => a.iSaleFrontEndID == items.iSaleFrontEndID).ToList();
 
-                if (salesVehicle.Count>0)
+                if (salesVehicle.Count > 0)
                 {
                     foreach (var deletesaleVehicle in salesVehicle)
                     {
@@ -240,7 +219,7 @@ namespace AuctionInventoryDAL.Repositories
                                          //iPaymentType = AM.iPaymentType,
 
                                          //iCustomerID = AM.iCustomerID,
-                                      
+
                                          strBuyerName = AM.strBuyerName,
                                          strSalesDate = AM.strSalesDate,
                                          dmlSellingPrice = AM.dmlSellingPrice,
@@ -262,7 +241,7 @@ namespace AuctionInventoryDAL.Repositories
 
         public bool CheckCustomerIsBlockOrNot()
         {
-            bool status = false; 
+            bool status = false;
 
             MCustomer cust = new MCustomer();
 
@@ -270,17 +249,17 @@ namespace AuctionInventoryDAL.Repositories
             //var checkCustomer = auctionContext.Sales.Where(x=>x.dtCreditLimitDate>DateTime.Now);
 
             var checkCustomer = (from AM in auctionContext.Sales
-             join t1 in auctionContext.MCustomers on AM.iCustomerID equals t1.iCustomerID
-             where(AM.dtCreditLimitDate)>DateTime.Now
-             select t1
+                                 join t1 in auctionContext.MCustomers on AM.iCustomerID equals t1.iCustomerID
+                                 where (AM.dtCreditLimitDate) > DateTime.Now
+                                 select t1
              ).ToList();
 
-            if (checkCustomer!=null)
+            if (checkCustomer != null)
             {
                 foreach (var item in checkCustomer)
                 {
                     //Save
-                   // var customer = auctionContext.MCustomers.Where(x => x.iCustomerID==item.iCustomerID).FirstOrDefault();
+                    // var customer = auctionContext.MCustomers.Where(x => x.iCustomerID==item.iCustomerID).FirstOrDefault();
                     //customer.IsBlocked = true;
                     //auctionContext.MCustomers.Add(item);
 
@@ -289,8 +268,8 @@ namespace AuctionInventoryDAL.Repositories
             }
 
             auctionContext.SaveChanges();
-             status = true;
-             return status;
+            status = true;
+            return status;
 
         }
 
@@ -354,7 +333,7 @@ namespace AuctionInventoryDAL.Repositories
                                iSaleFrontEndID = AM.iSaleFrontEndID,
                                iSalesInvoiceID = AM.iSalesInvoiceID,
 
-                                strSalesInvoiceNo = AM.strSalesInvoiceNo,
+                               strSalesInvoiceNo = AM.strSalesInvoiceNo,
 
                                iImpExpTransfer = AM.iImpExpTransfer,
                                iPaymentType = AM.iPaymentType,
@@ -371,7 +350,7 @@ namespace AuctionInventoryDAL.Repositories
                                strCashName = t3.strCashName,
                                strPaperModeName = t2.strPaperModeName
 
-                           }).OrderBy(a=>a.strSalesInvoiceNo).ToList()
+                           }).OrderBy(a => a.strSalesInvoiceNo).ToList()
                       select new
                       {
                           id = sales.iSaleID,
@@ -388,6 +367,144 @@ namespace AuctionInventoryDAL.Repositories
                 return jsonData;
             }
             //return View();
+        }
+
+
+
+
+        public dynamic GetAllSalesPaymentList()
+        {
+            using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+            {
+                var jsonData = new
+                {
+                    total = 1,
+                    page = 1,
+                    records = dc.SalesPayments.ToList().Count,
+                    rows = (
+                      from salesPayment in
+                          (from t2 in dc.Sales
+                           //join t1 in dc.MCustomers on AM.iCustomerID equals t1.iCustomerID
+                           //join t2 in dc.Sales on AM.iSaleID equals t2.iSaleID
+
+
+
+                           where t2.ysnPaymentStatus==false
+
+                           select new
+                           {
+                              
+                               iSaleID = t2.iSaleID,
+
+                               iSalesInvoiceID = t2.iSalesInvoiceID,
+                               strSalesInvoiceNo = t2.strSalesInvoiceNo,
+
+                               iCustomerID = t2.iCustomerID,
+                               ////strFirstName = t1.strFirstName,
+                               ////strLastName = t1.strLastName,
+
+                               
+                               //dmlPaidAmount = t2.dmlPaidAmount,
+                               //dmlPrevBalance = t2.dmlPrevBalance,
+
+                               strSalesDate = t2.strSalesDate,
+
+                               //ysnPaymentStatus = t2.ysnPaymentStatus,
+                               dmlSellingPrice = t2.dmlSellingPrice,
+                               dmlBalance = t2.dmlBalance,
+                               dmlAdvance = t2.dmlAdvance,
+
+                           }).OrderBy(a => a.iSaleID).ToList()
+                      select new
+                      {
+                          id = salesPayment.iSaleID,
+                          cell = new string[] {
+               Convert.ToString(salesPayment.iSaleID),
+               //Convert.ToString(salesPayment.iSaleID),
+               Convert.ToString(salesPayment.iCustomerID),Convert.ToString(salesPayment.iSalesInvoiceID),
+             
+                Convert.ToString( salesPayment.strSalesInvoiceNo), 
+                 Convert.ToString(salesPayment.strSalesDate),
+                Convert.ToString(salesPayment.dmlSellingPrice),
+              
+               Convert.ToString(salesPayment.dmlAdvance),
+                Convert.ToString(salesPayment.dmlBalance),
+
+                
+               //Convert.ToString(salesPayment.strFirstName+" "+salesPayment.strLastName),
+             
+              
+              // Convert.ToString(salesPayment.ysnPaymentStatus),
+               
+              
+                        }
+                      }).ToArray()
+                };
+                return jsonData;
+            }
+            //return View();
+        }
+
+
+        public bool UpdateOnlySalesPayment(SalesPayment salesPayment)
+        {
+            bool status = false;
+
+            var eSalesPayment = auctionContext.Sales.Where(a => a.iSaleID == salesPayment.iSaleID).FirstOrDefault();
+
+
+            if (salesPayment.iSaleID > 0)
+            {
+                //Adding paid amount into sales table
+
+                if (eSalesPayment != null)
+                {
+                    var paid = eSalesPayment.dmlAdvance + salesPayment.dmlPaidAmount;
+                    eSalesPayment.dmlBalance = salesPayment.dmlPrevBalance;
+
+                    eSalesPayment.dmlAdvance = paid;
+                }
+            }
+
+            if (salesPayment.ysnPaymentStatus == true && salesPayment!=null)
+            {
+                //Adding paid amount into sales table
+
+                //var customer = auctionContext.MCustomers.Where(a => a.iCustomerID == salesPayment.iCustomerID).FirstOrDefault();
+
+                if (eSalesPayment != null)
+                {
+                    eSalesPayment.ysnPaymentStatus = true;
+                    //customer.IsBlocked = true;
+                }
+            }
+
+
+
+            //if (salesPayment.iPaymentID > 0)
+            //{
+            //    //Edit Existing Record
+
+            //    if (eSalesPayment != null)
+            //    {
+
+                   
+            //        eSalesPayment.iSaleID = salesPayment.iSaleID;
+            //        eSalesPayment.iCustomerID = salesPayment.iCustomerID;
+            //        eSalesPayment.strPaymentDate = salesPayment.strPaymentDate;
+            //        eSalesPayment.dmlPaidAmount = salesPayment.dmlPaidAmount;
+            //        eSalesPayment.dmlPrevBalance = salesPayment.dmlPrevBalance;
+            //        eSalesPayment.ysnPaymentStatus = salesPayment.ysnPaymentStatus;
+            //        eSalesPayment.dtPaymentDate = salesPayment.dtPaymentDate;
+            //        eSalesPayment.iSalesInvoiceID = salesPayment.iSalesInvoiceID;
+            //        eSalesPayment.strSalesInvoiceNo = salesPayment.strSalesInvoiceNo;
+            //    }
+            //}
+            auctionContext.SalesPayments.Add(salesPayment);
+            auctionContext.SaveChanges();
+            status = true;
+            return status;
+
         }
         public dynamic GetCustomerDetails(string prefix)
         {

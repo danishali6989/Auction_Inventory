@@ -305,6 +305,8 @@ warning 6013: The table/view 'DB_A256F5_daauctiondb.dbo.Roles' does not have a p
           <Property Name="dmlPaidAmount" Type="decimal" Precision="18" Scale="3" />
           <Property Name="dmlPrevBalance" Type="decimal" Precision="18" Scale="3" />
           <Property Name="ysnPaymentStatus" Type="bit" />
+          <Property Name="iSalesInvoiceID" Type="int" />
+          <Property Name="strSalesInvoiceNo" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="SalesVehicle">
           <Key>
@@ -913,6 +915,8 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <Property Name="dmlPaidAmount" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="dmlPrevBalance" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="ysnPaymentStatus" Type="Boolean" />
+          <Property Name="iSalesInvoiceID" Type="Int32" />
+          <Property Name="strSalesInvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SalesVehicle">
           <Key>
@@ -1401,6 +1405,8 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <EntitySetMapping Name="SalesPayments">
             <EntityTypeMapping TypeName="AuctionInventoryModel.SalesPayment">
               <MappingFragment StoreEntitySet="SalesPayment">
+                <ScalarProperty Name="strSalesInvoiceNo" ColumnName="strSalesInvoiceNo" />
+                <ScalarProperty Name="iSalesInvoiceID" ColumnName="iSalesInvoiceID" />
                 <ScalarProperty Name="ysnPaymentStatus" ColumnName="ysnPaymentStatus" />
                 <ScalarProperty Name="dmlPrevBalance" ColumnName="dmlPrevBalance" />
                 <ScalarProperty Name="dmlPaidAmount" ColumnName="dmlPaidAmount" />

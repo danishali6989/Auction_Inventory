@@ -1239,6 +1239,7 @@
     <Content Include="Views\MCreditCategory\Index.cshtml" />
     <Content Include="Views\MCreditCategory\Save.cshtml" />
     <Content Include="Views\MCreditCategory\Delete.cshtml" />
+    <Content Include="Views\Sales\SalesPayment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

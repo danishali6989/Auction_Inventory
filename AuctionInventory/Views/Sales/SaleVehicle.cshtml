@@ -635,13 +635,17 @@
 
                 }
 
-
+                
+                
 
                 var SalesPaymentParameter = {
                     iCustomerID: $("#hfCustomer").val(),
                     strPaymentDate: $("#salesDate").val(),
                     dtPaymentDate: $("#salesDate").val(),
                     dmlPaidAmount: $("#txtAdvance").val(),
+                    iSalesInvoiceID: $("#txtInvoiceNum").html(),
+                    strSalesInvoiceNo: $("#invoiceLbl").text(),
+
                     ysnPaymentStatus: ysnPaymentStatus
 
                 }

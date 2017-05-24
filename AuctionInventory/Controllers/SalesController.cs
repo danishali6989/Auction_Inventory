@@ -22,6 +22,66 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
+        public ActionResult SalesPayment()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UpdateOnlySalesPayment(SalesPaymentModel salesPayment)
+        {
+            bool status = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SaleServiceClient saleServiceClient = new SaleServiceClient();
+                    status = saleServiceClient.UpdateOnlySalesPayment(salesPayment);
+
+                }
+                // return RedirectToAction("GetPurchaseList", "TPurchase");
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong");
+                status = false;
+                throw e;
+            }
+
+            return Json(new { status = true }, JsonRequestBehavior.AllowGet);
+            //return new JsonResult { Data = new { status = status ,purID=purchase.PurchaseID} };
+
+        }
+
+        
+
+        [HttpGet]
+        public ActionResult GetAllSalesPaymentList()
+        {
+            dynamic salesPaymentList = 0;
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    SaleServiceClient service = new SaleServiceClient();
+                    salesPaymentList = service.GetAllSalesPaymentList();
+                    //return Json(vehicleList, JsonRequestBehavior.AllowGet);
+                }
+               
+            }
+            catch(Exception ex)
+            {
+                
+                ModelState.AddModelError("error", "Something Went Wrong");
+                salesPaymentList = null;
+                throw ex;
+            }
+            return Json(salesPaymentList, JsonRequestBehavior.AllowGet);
+
+            
+        }
+
+
         public ActionResult SaleVehicle()
         {
             return View();
