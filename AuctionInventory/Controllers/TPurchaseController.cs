@@ -10,6 +10,9 @@ using AuctionInventory.Models;
 using AuctionInventory.Helpers;
 using OfficeOpenXml;
 using AuctionInventory.MyRoleProvider;
+using System.Security.Cryptography;
+using System.IO;
+using System.Text;
 namespace AuctionInventory.Controllers
 {
     [Permissions(Permissions.View)]
@@ -104,8 +107,9 @@ namespace AuctionInventory.Controllers
 
 
         [HttpGet]
-        public ActionResult UpdateIndex(int id)
+        public ActionResult UpdateIndex(String ID)
         {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
             Purchase purchase = new Purchase();
             try
             {
@@ -239,8 +243,13 @@ namespace AuctionInventory.Controllers
 
 
         [HttpGet]
-        public ActionResult Save(int id)
+        public ActionResult Save(String ID)
         {
+            int id = 0;
+            if (ID != "0")//ID=0 for new record
+            {
+                id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+            }
             Purchase purchase = new Purchase();
             try
             {
@@ -287,8 +296,9 @@ namespace AuctionInventory.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(String ID)
         {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
             Purchase purchase = new Purchase();
             try
             {
@@ -311,6 +321,7 @@ namespace AuctionInventory.Controllers
         [ActionName("Delete")]
         public ActionResult DeletePurchase(int id)
         {
+            
             bool status = false;
             try
             {
@@ -570,7 +581,7 @@ namespace AuctionInventory.Controllers
             return Json(null, JsonRequestBehavior.AllowGet);
         }
 
-
+       
         #endregion
 
     }

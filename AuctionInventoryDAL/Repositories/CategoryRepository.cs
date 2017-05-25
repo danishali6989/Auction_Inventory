@@ -1,9 +1,11 @@
-﻿using AuctionInventoryDAL.Entity;
+﻿using AuctionInventoryDAL.CommonMethods;
+using AuctionInventoryDAL.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace AuctionInventoryDAL.Repositories
 {
@@ -35,7 +37,8 @@ namespace AuctionInventoryDAL.Repositories
                            }).OrderBy(a => a.strCategoryName).ToList()
                       select new
                       {
-                          id = category.iCategoryID,
+                          //id = category.iCategoryID,
+                          id = HttpUtility.UrlEncode(Encryption.Encrypt(Convert.ToString(category.iCategoryID))),
                           cell = new string[] {
                Convert.ToString(category.iCategoryID),Convert.ToString(category.strCategoryName)
                         }

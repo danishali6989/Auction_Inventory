@@ -9,6 +9,9 @@ using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
 using AuctionInventory.MyRoleProvider;
+using System.Security.Cryptography;
+using System.IO;
+using System.Text;
 namespace AuctionInventory.Controllers
 {
     [Permissions(Permissions.View)]
@@ -49,8 +52,13 @@ namespace AuctionInventory.Controllers
 
         }
         [HttpGet]
-        public ActionResult Save(int id)
+        public ActionResult Save(string ID)
         {
+            int id = 0;
+            if (ID != "0")
+            {
+                id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+            }
             Staff staff = new Staff();
             try
             {
@@ -134,8 +142,9 @@ namespace AuctionInventory.Controllers
 
 
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(String ID)
         {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));//Decrypt ID
             Staff staff = new Staff();
             try
             {
@@ -161,8 +170,9 @@ namespace AuctionInventory.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public ActionResult DeleteStaff(int id)
+        public ActionResult DeleteStaff(String ID)
         {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));//Decrypt ID
             bool status = false;
             try
             {
@@ -185,6 +195,7 @@ namespace AuctionInventory.Controllers
 
         }
 
+     
         #endregion
     }
 }

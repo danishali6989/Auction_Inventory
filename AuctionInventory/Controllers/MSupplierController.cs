@@ -10,6 +10,9 @@ using AuctionInventory.Models;
 using AuctionInventory.Helpers;
 using System.Transactions;
 using AuctionInventory.MyRoleProvider;
+using System.Security.Cryptography;
+using System.IO;
+using System.Text;
 
 namespace AuctionInventory.Controllers
 {
@@ -53,8 +56,13 @@ namespace AuctionInventory.Controllers
         }
 
         [HttpGet]
-        public ActionResult Save(int id)
+        public ActionResult Save(String ID)
         {
+            int id = 0;
+            if (ID != "0")
+            {
+                id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+            }
             Supplier supplier = new Supplier();
 
            // ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
@@ -137,8 +145,9 @@ namespace AuctionInventory.Controllers
 
 
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(String ID)
         {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
             Supplier supplier = new Supplier();
 
             //ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
@@ -164,8 +173,9 @@ namespace AuctionInventory.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public ActionResult DeleteSupplier(int id)
+        public ActionResult DeleteSupplier(String ID)
         {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
             bool status = false;
             try
             {
@@ -229,6 +239,7 @@ namespace AuctionInventory.Controllers
 
         }
 
+        
 
 
     }

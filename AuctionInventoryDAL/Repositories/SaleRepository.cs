@@ -25,6 +25,10 @@ namespace AuctionInventoryDAL.Repositories
             int? salesFrontEndID = auctionContext.Sales.Max(i => i.iSaleFrontEndID) ?? 0;
             salesFrontEndID = salesFrontEndID + 1;
 
+
+            //int? receiptNo = auctionContext.SalesPayments.Max(i => i.iPaymentReceiptNo) ?? 0;
+            //receiptNo = receiptNo + 1;
+
             if (sale.iSaleID > 0)
             {
                 //Edit Existing Record
@@ -70,7 +74,9 @@ namespace AuctionInventoryDAL.Repositories
 
             {
                 //Save
-                salesPayment.iSaleID = SaleID;
+
+              
+                salesPayment.iSaleID = SaleID;              
                 auctionContext.SalesPayments.Add(salesPayment);
             }
 
@@ -250,7 +256,9 @@ namespace AuctionInventoryDAL.Repositories
 
             var checkCustomer = (from AM in auctionContext.Sales
                                  join t1 in auctionContext.MCustomers on AM.iCustomerID equals t1.iCustomerID
-                                 where (AM.dtCreditLimitDate) > DateTime.Now
+                                 where (AM.dtCreditLimitDate) < DateTime.Now
+                                 //yourDate.Date >= DateTime.Now.Date
+
                                  select t1
              ).ToList();
 
@@ -384,8 +392,8 @@ namespace AuctionInventoryDAL.Repositories
                     rows = (
                       from salesPayment in
                           (from t2 in dc.Sales
-                           //join t1 in dc.MCustomers on AM.iCustomerID equals t1.iCustomerID
-                           //join t2 in dc.Sales on AM.iSaleID equals t2.iSaleID
+                           join t1 in dc.MCustomers on t2.iCustomerID equals t1.iCustomerID
+                          // join t3 in dc.SalesPayments on t2.iCustomerID equals t3.iCustomerID
 
 
 
@@ -393,7 +401,7 @@ namespace AuctionInventoryDAL.Repositories
 
                            select new
                            {
-                              
+                               IsBlocked = t1.IsBlocked,
                                iSaleID = t2.iSaleID,
 
                                iSalesInvoiceID = t2.iSalesInvoiceID,
@@ -403,9 +411,9 @@ namespace AuctionInventoryDAL.Repositories
                                ////strFirstName = t1.strFirstName,
                                ////strLastName = t1.strLastName,
 
-                               
-                               //dmlPaidAmount = t2.dmlPaidAmount,
-                               //dmlPrevBalance = t2.dmlPrevBalance,
+
+                               //iPaymentReceiptNo = t3.iPaymentReceiptNo,
+                               //strPaymentReceiptNo = t3.strPaymentReceiptNo,
 
                                strSalesDate = t2.strSalesDate,
 
@@ -422,7 +430,11 @@ namespace AuctionInventoryDAL.Repositories
                Convert.ToString(salesPayment.iSaleID),
                //Convert.ToString(salesPayment.iSaleID),
                Convert.ToString(salesPayment.iCustomerID),Convert.ToString(salesPayment.iSalesInvoiceID),
-             
+             Convert.ToString(salesPayment.IsBlocked),
+
+             //Convert.ToString( salesPayment.iPaymentReceiptNo), 
+             //    Convert.ToString(salesPayment.strPaymentReceiptNo),
+
                 Convert.ToString( salesPayment.strSalesInvoiceNo), 
                  Convert.ToString(salesPayment.strSalesDate),
                 Convert.ToString(salesPayment.dmlSellingPrice),
@@ -470,12 +482,12 @@ namespace AuctionInventoryDAL.Repositories
             {
                 //Adding paid amount into sales table
 
-                //var customer = auctionContext.MCustomers.Where(a => a.iCustomerID == salesPayment.iCustomerID).FirstOrDefault();
+                var customer = auctionContext.MCustomers.Where(a => a.iCustomerID == salesPayment.iCustomerID).FirstOrDefault();
 
                 if (eSalesPayment != null)
                 {
                     eSalesPayment.ysnPaymentStatus = true;
-                    //customer.IsBlocked = true;
+                    customer.IsBlocked = false;
                 }
             }
 
@@ -524,6 +536,9 @@ namespace AuctionInventoryDAL.Repositories
 
                              }).ToList();
 
+
+            //var chkCreditLimitDate=auctionContext.Sales.Where(a=>a.iCustomerID==customers.Select(x=>x.iCustomerID));
+
             return customers;
         }
 
@@ -533,6 +548,18 @@ namespace AuctionInventoryDAL.Repositories
             invNo = invNo + 1;
             return invNo;
         }
+
+
+        public dynamic GetReceiptNo()
+        {
+            int? receiptNo = auctionContext.SalesPayments.Max(i => i.iPaymentReceiptNo) ?? 0;
+            receiptNo = receiptNo + 1;
+            return receiptNo;
+        }
+
+
+       
+
         public dynamic GetSalesFrontEndID()
         {
             int? SalesFrontEndID = auctionContext.Sales.Max(i => i.iSaleFrontEndID) ?? 0;

@@ -83,6 +83,21 @@ namespace AuctionInventory.Services
             return invoiceID;
 
         }
+
+
+        public dynamic GetReceiptNo()
+        {
+            SaleRepository repo = new SaleRepository();
+            var receiptNo = repo.GetReceiptNo();
+            return receiptNo;
+
+        }
+
+
+
+      
+
+
         public dynamic GetSalesFrontEndID()
         {
             SaleRepository repo = new SaleRepository();
@@ -170,7 +185,8 @@ namespace AuctionInventory.Services
                 eSalesPayment.dtPaymentDate = mSalesPayment.dtPaymentDate;
                 eSalesPayment.iSalesInvoiceID = mSalesPayment.iSalesInvoiceID;
                 eSalesPayment.strSalesInvoiceNo = mSalesPayment.strSalesInvoiceNo;
-
+                eSalesPayment.iPaymentReceiptNo = mSalesPayment.iPaymentReceiptNo;
+                eSalesPayment.strPaymentReceiptNo = mSalesPayment.strPaymentReceiptNo;
 
             }
             return eSalesPayment;

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AuctionInventoryDAL.Entity;
+using AuctionInventoryDAL.CommonMethods;
+using System.Web;
 
 namespace AuctionInventoryDAL.Repositories
 {
@@ -49,7 +51,8 @@ namespace AuctionInventoryDAL.Repositories
                        }).OrderBy(a => a.strFirstName).ToList()
                   select new
                   {
-                      id = customers.iCustomerID,
+                      //id = customers.iCustomerID,
+                      id = HttpUtility.UrlEncode(Encryption.Encrypt(Convert.ToString(customers.iCustomerID))),
                       cell = new string[] {
                Convert.ToString(customers.iCustomerID),Convert.ToString(customers.strFirstName+" "+customers.strLastName),
                Convert.ToString(customers.iCountry),Convert.ToString(customers.iCity),

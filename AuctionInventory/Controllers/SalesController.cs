@@ -334,6 +334,30 @@ namespace AuctionInventory.Controllers
             return Json(invNo, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult GetReceiptNo()
+        {
+            dynamic receiptNo = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SaleServiceClient service = new SaleServiceClient();
+                    receiptNo = service.GetReceiptNo();
+                    //return Json(invNo, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                ModelState.AddModelError("error", "Something Went Wrong");
+                receiptNo = null;
+                throw ex;
+            }
+            return Json(receiptNo, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpPost]
         public ActionResult GetSalesFrontEndID()
@@ -475,6 +499,10 @@ namespace AuctionInventory.Controllers
             return Json(new { status = true }, JsonRequestBehavior.AllowGet);
 
         }
+
+
+
+     
 
     }
 }

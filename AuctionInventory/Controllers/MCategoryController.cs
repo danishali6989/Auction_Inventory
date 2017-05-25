@@ -9,6 +9,9 @@ using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
 using AuctionInventory.MyRoleProvider;
+using System.Security.Cryptography;
+using System.IO;
+using System.Text;
 namespace AuctionInventory.Controllers
 {
     [Permissions(Permissions.View)]
@@ -49,8 +52,13 @@ namespace AuctionInventory.Controllers
 
         }
         [HttpGet]
-        public ActionResult Save(int id)
+        public ActionResult Save(String ID)
         {
+            int id = 0;
+            if (ID != "0")
+            {
+                id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+            }
             Category category = new Category();
             try
             {
@@ -100,8 +108,9 @@ namespace AuctionInventory.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(String ID)
         {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
             Category category = new Category();
             try
             {
@@ -123,8 +132,9 @@ namespace AuctionInventory.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public ActionResult DeleteCategory(int id)
+        public ActionResult DeleteCategory(String ID)
         {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
             bool status = false;
             try
             {
@@ -145,6 +155,8 @@ namespace AuctionInventory.Controllers
             //return new JsonResult { Data = new { status = status } };
 
         }
+
+
 
         #endregion
     }

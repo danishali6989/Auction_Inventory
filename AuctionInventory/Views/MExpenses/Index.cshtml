@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -17,88 +16,146 @@
 </style>
 <div style="width:90%; margin:70px auto" class="tablecontainer">
     <a class="popup btn btn-primary" href="/MExpenses/save/0" style="margin-bottom:20px; margin-top:20px;">Add New Expense</a>
-    <table id="myDatatable">
-        <thead>
-            <tr>
-                <th>Expense Name</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-    </table>
+    @*<table id="myDatatable">
+            <thead>
+                <tr>
+                    <th>Expense Name</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+        </table>*@
+
+    <div>
+        <table id="dataGrid" class="table table-bordered table-striped"></table>
+        <div id="pagingGrid"></div>
+        <br><br>
+    </div>
 </div>
 <script>
-    $(document).ready(function () {
-        var oTable = $('#myDatatable').DataTable({
-            //"scrollY": 200,
-            //"scrollX": true,
-            "ajax": {
-                "url": '/MExpenses/GetAllExpense',
-                "type": "get",
-                "datatype": "json"
-            },
-            "columns": [
-                { "data": "strExpenseName", "autoWidth": true },
+    $(function () {
 
-                {
-                    "data": "iExpenseID", "width": "50px", "render": function (data) {
-                        return '<a class="popup" href="/MExpenses/save/' + data + '">Edit</a>';
-                    }
+        //this grid is used to fill the Category list
+
+        $('#dataGrid').jqGrid({
+            caption: "Expense List",
+            url: '/MExpenses/GetAllExpense/',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+
+            colNames: ['ExpenseID', 'Expense Name', 'Action'],
+            colModel: [
+                { name: 'iExpenseID', index: 'iExpenseID', hidden: true, hidedlg: true },
+                { name: 'strExpenseName', index: 'strExpenseName', align: 'center' },
+
+
+                   {
+                       name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
+                       formatter: function (cellvalue, options, rowObject) {
+
+                           return '<a class="popup btn btn-warning" href="/MExpenses/save/' + options.rowId + '">Edit</a>' + "   " + '<a class="popup btn btn-danger"  href="/MExpenses/delete/' + options.rowId + '">Delete</a>';
+
+                           //return  "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Edit'  onclick=\"editRowData('" + options.rowId + "');\"  />";
+                       }
+
+                   },
+
+
+
+            ],
+            width: 800,
+            height: 250,
+            rowNum: 10,
+            loadonce: true,
+            ignoreCase: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGrid',
+        });
+        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+    });
+</script>
+@*<script>
+        $(document).ready(function () {
+            var oTable = $('#myDatatable').DataTable({
+                //"scrollY": 200,
+                //"scrollX": true,
+                "ajax": {
+                    "url": '/MExpenses/GetAllExpense',
+                    "type": "get",
+                    "datatype": "json"
                 },
-                {
-                    "data": "iExpenseID", "width": "50px", "render": function (data) {
-                        return '<a class="popup" href="/MExpenses/delete/' + data + '">Delete</a>';
-                    }
-                }
-            ]
-        })
-        //$('.tablecontainer').on('click', 'a.popup', function (e) {
-        //    e.preventDefault();
-        //    OpenPopup($(this).attr('href'));
-        //})
-        function OpenPopup(pageUrl) {
-            var $pageContent = $('<div/>');
-            $pageContent.load(pageUrl, function () {
-                $('#popupForm', $pageContent).removeData('validator');
-                $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
-                $.validator.unobtrusive.parse('form');
+                "columns": [
+                    { "data": "strExpenseName", "autoWidth": true },
 
-            });
-
-            $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
-                      .html($pageContent)
-                      .dialog({
-                          draggable: false,
-                          autoOpen: false,
-                          resizable: false,
-                          model: true,
-                          title: 'Popup Dialog',
-                          height: 550,
-                          width: 600,
-                          close: function () {
-                              $dialog.dialog('destroy').remove();
-                          }
-                      })
-
-            $('.popupWindow').on('submit', '#popupForm', function (e) {
-                var url = $('#popupForm')[0].action;
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: $('#popupForm').serialize(),
-                    success: function (data) {
-                        if (data.status) {
-                            $dialog.dialog('close');
-                            oTable.ajax.reload();
+                    {
+                        "data": "iExpenseID", "width": "50px", "render": function (data) {
+                            return '<a class="popup" href="/MExpenses/save/' + data + '">Edit</a>';
+                        }
+                    },
+                    {
+                        "data": "iExpenseID", "width": "50px", "render": function (data) {
+                            return '<a class="popup" href="/MExpenses/delete/' + data + '">Delete</a>';
                         }
                     }
+                ]
+            })
+            //$('.tablecontainer').on('click', 'a.popup', function (e) {
+            //    e.preventDefault();
+            //    OpenPopup($(this).attr('href'));
+            //})
+            function OpenPopup(pageUrl) {
+                var $pageContent = $('<div/>');
+                $pageContent.load(pageUrl, function () {
+                    $('#popupForm', $pageContent).removeData('validator');
+                    $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
+                    $.validator.unobtrusive.parse('form');
+
+                });
+
+                $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
+                          .html($pageContent)
+                          .dialog({
+                              draggable: false,
+                              autoOpen: false,
+                              resizable: false,
+                              model: true,
+                              title: 'Popup Dialog',
+                              height: 550,
+                              width: 600,
+                              close: function () {
+                                  $dialog.dialog('destroy').remove();
+                              }
+                          })
+
+                $('.popupWindow').on('submit', '#popupForm', function (e) {
+                    var url = $('#popupForm')[0].action;
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: $('#popupForm').serialize(),
+                        success: function (data) {
+                            if (data.status) {
+                                $dialog.dialog('close');
+                                oTable.ajax.reload();
+                            }
+                        }
+                    })
+
+                    e.preventDefault();
                 })
 
-                e.preventDefault();
-            })
+                $dialog.dialog('open');
+            }
+        })
+    </script>*@
 
-            $dialog.dialog('open');
-        }
-    })
-</script>
-
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>

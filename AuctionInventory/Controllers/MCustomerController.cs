@@ -51,9 +51,16 @@ namespace AuctionInventory.Controllers
             return Json(customer, JsonRequestBehavior.AllowGet);
 
         }
+
+
         [HttpGet]
-        public ActionResult Save(int id)
+        public ActionResult Save(String ID)
         {
+            int id = 0;
+            if (ID != "0")
+            {
+                id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+            }
             Customer customer = new Customer();
 
             try
@@ -141,10 +148,10 @@ namespace AuctionInventory.Controllers
         }
 
 
-
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(String ID)
         {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
             Customer customer = new Customer();
             try
             {
@@ -172,8 +179,9 @@ namespace AuctionInventory.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public ActionResult DeleteCustomers(int id)
+        public ActionResult DeleteCustomers(String ID)
         {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
             bool status = false;
             try
             {

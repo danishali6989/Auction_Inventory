@@ -9,6 +9,7 @@ using System.Net;
 using System.Web;
 using System.IO;
 using System.Threading;
+using AuctionInventoryDAL.CommonMethods;
 
 namespace AuctionInventoryDAL.Repositories
 {
@@ -59,7 +60,8 @@ namespace AuctionInventoryDAL.Repositories
                        }).OrderBy(a => a.strFirstName).ToList()
                   select new
                   {
-                      id = supplier.iSupplierID,
+                      //id = supplier.iSupplierID,
+                      id = HttpUtility.UrlEncode(Encryption.Encrypt(Convert.ToString(supplier.iSupplierID))),
                       cell = new string[] {
                Convert.ToString(supplier.iSupplierID),
                Convert.ToString(supplier.SupplierPhoto),

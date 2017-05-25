@@ -24,5 +24,7 @@ namespace AuctionInventoryDAL.Entity
         public Nullable<bool> ysnPaymentStatus { get; set; }
         public Nullable<int> iSalesInvoiceID { get; set; }
         public string strSalesInvoiceNo { get; set; }
+        public Nullable<int> iPaymentReceiptNo { get; set; }
+        public string strPaymentReceiptNo { get; set; }
     }
 }

@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonMethods\Encryption.cs" />
     <Compile Include="Entity\AllVehicleExpense.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>

@@ -9,6 +9,9 @@ using AuctionInventory.Services;
 using AuctionInventory.Models;
 using AuctionInventory.Helpers;
 using AuctionInventory.MyRoleProvider;
+using System.Security.Cryptography;
+using System.IO;
+using System.Text;
 namespace AuctionInventory.Controllers
 {
     //[Permissions(Permissions.View)]
@@ -24,34 +27,65 @@ namespace AuctionInventory.Controllers
         #region CRUD
         public ActionResult GetAllExpense()
         {
-            List<Expenses> expense = new List<Expenses>();
+            //List<Expenses> expense = new List<Expenses>();
+            //try
+            //{
+            //    if (ModelState.IsValid)
+            //    {
+            //        ExpensesServiceClient expensesServiceClient = new ExpensesServiceClient();
+            //        expense = expensesServiceClient.GetAllExpenses();
+            //        if (expense.Count == 0 || expense == null)
+            //        {
+            //            ModelState.AddModelError("error", "No Record Found");
+            //        }
+
+
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    ModelState.AddModelError("error", "Something Wrong");
+            //    expense = null;
+            //    throw e;
+
+            //}
+
+            //return Json(new { data = expense }, JsonRequestBehavior.AllowGet);
+
+            dynamic expenses = 0;
+
             try
             {
                 if (ModelState.IsValid)
                 {
-                    ExpensesServiceClient expensesServiceClient = new ExpensesServiceClient();
-                    expense = expensesServiceClient.GetAllExpenses();
-                    if (expense.Count == 0 || expense == null)
-                    {
-                        ModelState.AddModelError("error", "No Record Found");
-                    }
-
+                   
+                    Services.ExpensesServiceClient expenseServiceClient = new Services.ExpensesServiceClient();
+                    expenses = expenseServiceClient.GetAllExpenses();
+                    //if (currency.Count == 0 || currency == null)
+                    //{
+                    //    ModelState.AddModelError("error", "No Record Found");
+                    //}
 
                 }
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("error", "Something Wrong");
-                expense = null;
+                expenses = null;
                 throw e;
 
             }
-            return Json(new { data = expense }, JsonRequestBehavior.AllowGet);
+            return Json(expenses, JsonRequestBehavior.AllowGet);
 
         }
         [HttpGet]
-        public ActionResult Save(int id)
+        public ActionResult Save(string ID)
         {
+            int id = 0;
+            if (ID != "0")//ID=0 for new record
+            {
+                id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+            }
             Expenses expense = new Expenses();
             try
             {
@@ -133,8 +167,9 @@ namespace AuctionInventory.Controllers
 
 
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string ID)
         {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
             Expenses expense = new Expenses();
             try
             {
@@ -156,8 +191,9 @@ namespace AuctionInventory.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public ActionResult DeleteExpense(int id)
+        public ActionResult DeleteExpense(string ID)
         {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
             bool status = false;
             try
             {
@@ -628,6 +664,8 @@ namespace AuctionInventory.Controllers
             //return View();
             return new JsonResult { Data = new { status = status } };
         }
+
+            
 
         //[HttpPost]
         //public ActionResult SaveSingleVehicleExpense(List<VehicleExpenseModel> expense)

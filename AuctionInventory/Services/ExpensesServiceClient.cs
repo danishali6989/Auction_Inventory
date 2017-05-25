@@ -11,13 +11,21 @@ namespace AuctionInventory.Services
 {
     public class ExpensesServiceClient
     {
-        public List<Expenses> GetAllExpenses()
+        //public List<Expenses> GetAllExpenses()
+        //{
+        //    List<Expenses> listExpenses = new List<Expenses>();
+        //    ExpensesRepository repo = new ExpensesRepository();
+        //    dynamic expenses = repo.GetAll();
+        //    listExpenses = ParserGetAllExpenses(expenses);
+        //    return listExpenses;
+        //}
+
+        public dynamic GetAllExpenses()
         {
-            List<Expenses> listExpenses = new List<Expenses>();
+
             ExpensesRepository repo = new ExpensesRepository();
-            dynamic expenses = repo.GetAll();
-            listExpenses = ParserGetAllExpenses(expenses);
-            return listExpenses;
+            var expenses = repo.GetAll();
+            return expenses;
         }
         public bool SaveData(Expenses expenses)
         {

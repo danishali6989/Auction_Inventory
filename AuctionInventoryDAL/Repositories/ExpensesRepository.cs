@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AuctionInventoryDAL.Entity;
 using System.Data.Entity;
+using System.Web;
+using AuctionInventoryDAL.CommonMethods;
 
 namespace AuctionInventoryDAL.Repositories
 {
@@ -13,11 +15,47 @@ namespace AuctionInventoryDAL.Repositories
         #region CRUD
         private AuctionInventoryEntities auctionContext = new AuctionInventoryEntities();
 
-        public List<MExpense> GetAll()
+        //public List<MExpense> GetAll()
+        //{
+        //    List<MExpense> listexpense = new List<MExpense>();
+        //    listexpense = (from r in auctionContext.MExpenses select r).OrderBy(a => a.strExpenseName).ToList();
+        //    return listexpense;
+        //}
+
+        public dynamic GetAll()
         {
-            List<MExpense> listexpense = new List<MExpense>();
-            listexpense = (from r in auctionContext.MExpenses select r).OrderBy(a => a.strExpenseName).ToList();
-            return listexpense;
+            
+
+            var jsonData = new
+            {
+                total = 1,
+                page = 1,
+                records = auctionContext.MExpenses.ToList().Count,
+                rows = (
+                  from expenses in
+                      (from AM in auctionContext.MExpenses
+
+                       select new
+                       {
+
+                           iExpenseID = AM.iExpenseID,
+                           strExpenseName = AM.strExpenseName
+                          
+
+                       }).OrderBy(a => a.strExpenseName).ToList()
+                  select new
+                  {
+                      //id = expenses.iExpenseID,
+                      id = HttpUtility.UrlEncode(Encryption.Encrypt(Convert.ToString(expenses.iExpenseID))),
+
+                      cell = new string[] {
+               Convert.ToString(expenses.iExpenseID),Convert.ToString(expenses.strExpenseName)
+                        }
+                  }).ToArray()
+            };
+            return jsonData;
+
+
         }
         public MExpense Get(int id)
         {

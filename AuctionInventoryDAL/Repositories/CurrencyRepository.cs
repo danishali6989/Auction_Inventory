@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AuctionInventoryDAL.Entity;
+using AuctionInventoryDAL.CommonMethods;
+using System.Web;
 namespace AuctionInventoryDAL.Repositories
 {
     public class CurrencyRepository
@@ -35,7 +37,9 @@ namespace AuctionInventoryDAL.Repositories
                        }).OrderBy(a => a.strCurrencyName).ToList()
                   select new
                   {
-                      id = currency.CurrencyID,
+                      //id = currency.CurrencyID,
+                      id = HttpUtility.UrlEncode(Encryption.Encrypt(Convert.ToString(currency.CurrencyID))),
+                     
                       cell = new string[] {
                Convert.ToString(currency.CurrencyID),Convert.ToString(currency.strCurrencyName),Convert.ToString(currency.strCurrencyShortName)
                         }
@@ -86,6 +90,8 @@ namespace AuctionInventoryDAL.Repositories
             }
             return status;
         }
+
+       
         #endregion
     }
 }

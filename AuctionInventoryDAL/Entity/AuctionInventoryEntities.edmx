@@ -307,6 +307,8 @@ warning 6013: The table/view 'DB_A256F5_daauctiondb.dbo.Roles' does not have a p
           <Property Name="ysnPaymentStatus" Type="bit" />
           <Property Name="iSalesInvoiceID" Type="int" />
           <Property Name="strSalesInvoiceNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="iPaymentReceiptNo" Type="int" />
+          <Property Name="strPaymentReceiptNo" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="SalesVehicle">
           <Key>
@@ -917,6 +919,8 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <Property Name="ysnPaymentStatus" Type="Boolean" />
           <Property Name="iSalesInvoiceID" Type="Int32" />
           <Property Name="strSalesInvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="iPaymentReceiptNo" Type="Int32" />
+          <Property Name="strPaymentReceiptNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SalesVehicle">
           <Key>
@@ -1405,6 +1409,8 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <EntitySetMapping Name="SalesPayments">
             <EntityTypeMapping TypeName="AuctionInventoryModel.SalesPayment">
               <MappingFragment StoreEntitySet="SalesPayment">
+                <ScalarProperty Name="strPaymentReceiptNo" ColumnName="strPaymentReceiptNo" />
+                <ScalarProperty Name="iPaymentReceiptNo" ColumnName="iPaymentReceiptNo" />
                 <ScalarProperty Name="strSalesInvoiceNo" ColumnName="strSalesInvoiceNo" />
                 <ScalarProperty Name="iSalesInvoiceID" ColumnName="iSalesInvoiceID" />
                 <ScalarProperty Name="ysnPaymentStatus" ColumnName="ysnPaymentStatus" />

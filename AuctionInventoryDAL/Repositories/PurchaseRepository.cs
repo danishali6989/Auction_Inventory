@@ -1,9 +1,11 @@
-﻿using AuctionInventoryDAL.Entity;
+﻿using AuctionInventoryDAL.CommonMethods;
+using AuctionInventoryDAL.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.UI.WebControls;
 
 namespace AuctionInventoryDAL.Repositories
@@ -46,7 +48,8 @@ namespace AuctionInventoryDAL.Repositories
                        }).OrderBy(a => a.iPurchaseInvoiceNo).ToList()
                   select new
                   {
-                      id = purchase.PurchaseID,
+                      //id = purchase.PurchaseID,
+                      id = HttpUtility.UrlEncode(Encryption.Encrypt(Convert.ToString(purchase.PurchaseID))),
                       cell = new string[] {
                Convert.ToString(purchase.PurchaseID),Convert.ToString(purchase.iPurchaseInvoiceNo),
                Convert.ToString(purchase.strPurchaseInvoiceNo),Convert.ToString(purchase.strPurchaseInvoiceDate),
