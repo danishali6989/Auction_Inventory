@@ -155,14 +155,90 @@ namespace AuctionInventory.Services
 
 
 
-        public bool UndoSpreadExpenseAmount(int purchaseInvoiceID)
+        public bool UndoSpreadExpenseAmount(int purchaseInvoiceID, decimal spreadAmount)
         {
             bool status = true;
             //Expenses expense = new Expenses();
             ExpensesRepository repo = new ExpensesRepository();
-            status = repo.UndoSpreadExpenseAmount(purchaseInvoiceID);
+            status = repo.UndoSpreadExpenseAmount(purchaseInvoiceID, spreadAmount);
             return status;
         }
+
+        #region Lots
+        public dynamic GetAllLots()
+        {
+
+            ExpensesRepository repo = new ExpensesRepository();
+            var listLot = repo.GetAllLots();
+            return listLot;
+        }
+
+        public bool SaveExpenseLot(Lots lot)
+        {
+            bool status = true;
+
+            ExpensesRepository repo = new ExpensesRepository();
+            status = repo.expenseLotSaveEdit(ParserAddExpenseLot(lot));
+            return status;
+        }
+
+        public Lots GetLots(int id)
+        {
+
+            Lots lots = new Lots();
+            ExpensesRepository repo = new ExpensesRepository();
+            if (lots != null)
+            {
+                lots = ParserGetExpenseLot(repo.GetLot(id));
+            }
+            return lots;
+
+        }
+        public bool DeleteExpenseLot(int id)
+        {
+            bool status = false;
+            ExpensesRepository repo = new ExpensesRepository();
+            status = repo.DeleteExpenseLot(id);
+            return status;
+        }
+        private MLot ParserAddExpenseLot(Lots lot)
+        {
+            MLot mlot = new MLot();
+
+            if (mlot != null)
+            {
+                mlot.iLotID = lot.iLotID;
+                mlot.strLotName = lot.strLotName ?? " ";
+                mlot.strFromDate = lot.strFromDate ?? " ";
+                mlot.dtFromDate = lot.dtFromDate;
+                mlot.strToDate = lot.strToDate;
+                mlot.dtToDate = lot.dtToDate;
+                mlot.chLotType = lot.chLotType ?? " ";
+
+            }
+            return mlot;
+        }
+
+        private Lots ParserGetExpenseLot(dynamic data)
+        {
+            Lots lot = new Lots();
+
+            if (data != null)
+            {
+
+                lot.iLotID = data.iLotID;
+                lot.strLotName = data.strLotName ?? " ";
+                lot.strFromDate = data.strFromDate ?? " ";
+                lot.dtFromDate = data.dtFromDate ?? " ";
+                lot.strToDate = data.strToDate;
+                lot.dtToDate = data.dtToDate;
+                lot.chLotType = data.chLotType ?? " ";
+
+            }
+            return lot;
+        }
+        #endregion
+
 
         #region Parser
 

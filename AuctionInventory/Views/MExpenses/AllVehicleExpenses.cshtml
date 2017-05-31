@@ -30,6 +30,8 @@
                     </div>*@
                 <div class='form-group col-sm-3'>
                     <input type="hidden" id="hfStrPurchaseInvoiceNo" />
+                    
+                    <input type="hidden" id="hdnNoOfUnits" />
 
                     <input type='number' id="invno" class='form-control input-group-sm' style='margin-left: -20px;' placeholder='Search By Invoice ID' />
                 </div>
@@ -222,7 +224,7 @@
 
 
     $("#btnUndo").click(function () {
-
+       
 
         $(function () {
             if ($(this).attr("rel") != "update") {
@@ -246,17 +248,26 @@
                 //calling function here for update
                
                 var purchaseInvoiceID = $("#invno").val();
+                var NoOfUnits= $('#hdnNoOfUnits').val();
+                var ExpenseTotalAmount = parseFloat($("#totalSum").html());
+
+                var value = ExpenseTotalAmount / NoOfUnits;
+   
+
+                var spreadAmount = value.toFixed(2);
 
 
                 $.ajax({
 
                     url: "/MExpenses/UndoSpreadExpenseAmount",
-                    data: JSON.stringify({ purchaseInvoiceID: purchaseInvoiceID }),
+                    data: JSON.stringify({ purchaseInvoiceID: purchaseInvoiceID, spreadAmount: spreadAmount }),
                     dataType: "json",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
                         alert("Undo Success!!!");
+                        $("#btnSpread").hide();
+                        $("#btnSaveAllVehiclesExpense").show();
                         //window.location.href = "/MExpenses/AllVehicleExpensesList";
                     }
                 });
@@ -302,7 +313,7 @@
             click: function () {
 
                 //calling function here for update
-                var ExpenseTotalAmount = parseInt($("#totalSum").html());
+                var ExpenseTotalAmount = parseFloat($("#totalSum").html());
                 var purchaseInvoiceID = $("#invno").val();
 
 
@@ -314,6 +325,7 @@
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
+                        alert("Amount Spread Succesfully!");
                        // window.location.href = "/MExpenses/AllVehicleExpensesList";
                     }
                 });
@@ -409,6 +421,8 @@
             success: function (result) {
                 var listPurchase = result.listPurchase
                 $('#hfStrPurchaseInvoiceNo').val(listPurchase[0].strPurchaseInvoiceNo);
+
+                $('#hdnNoOfUnits').val(listPurchase[0].NoOfUnits);
 
                 bindGrid(listPurchase);
                 $('#AddExpenseDynamic').show();
@@ -557,7 +571,7 @@
                     // var ExpenseID = $("#lblExpenseID" + i).html();
                     //var ExpenseName = $("#lblExpense" + i).html();
                     //var ExpenseAmount = $("#txtAmount" + i).val();
-                    var ExpenseTotalAmount = parseInt($("#totalSum").html());
+                    var ExpenseTotalAmount = parseFloat($("#totalSum").html());
                     var expenseAmount =
                           {
                               //iExpenseID: $("#hfExpense").val(),

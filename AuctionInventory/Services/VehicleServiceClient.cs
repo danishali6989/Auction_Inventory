@@ -61,31 +61,38 @@ namespace AuctionInventory.Services
 
         private Vehicle ParserAddVehicle(Vehicles vehicles)
         {
-            Vehicle mvehicle = new Vehicle();
+            Vehicle mVehicle = new Vehicle();
 
             if (vehicles != null)
             {
-                mvehicle.iVehicleID = vehicles.iVehicleID;
-                mvehicle.iLotNum = vehicles.iLotNum;
-                mvehicle.strGrade = vehicles.strGrade ?? " ";
-                mvehicle.strChassisNum = vehicles.strChassisNum ?? " ";
-                mvehicle.strCategory = vehicles.strCategory ?? " ";
-                mvehicle.strMake = vehicles.strMake ?? " ";
-                mvehicle.iModel = vehicles.iModel ?? " ";
-                mvehicle.iYear = vehicles.iYear ?? " ";
-                mvehicle.strColor = vehicles.strColor;
-                mvehicle.dmlKM = vehicles.dmlKM;
-                mvehicle.strOrigin = vehicles.strOrigin ?? " ";
-                mvehicle.iDoor = vehicles.iDoor;
-                mvehicle.strLocation = vehicles.strLocation ?? " ";
-                mvehicle.weight = vehicles.weight ?? " ";
-                mvehicle.strHSCode = vehicles.strHSCode ?? " ";
-                mvehicle.ATMT = vehicles.ATMT ?? " ";
-                mvehicle.iCustomAssesVal = vehicles.iCustomAssesVal;
-                mvehicle.iDuty = vehicles.iDuty;
-                mvehicle.iCustomValInJPY = vehicles.iCustomValInJPY;
+                mVehicle.iVehicleID = vehicles.iVehicleID;
+                mVehicle.iLotNum = vehicles.iLotNum;
+                mVehicle.strGrade = vehicles.strGrade ?? " ";
+                mVehicle.strChassisNum = vehicles.strChassisNum ?? " ";
+                mVehicle.strCategory = vehicles.strCategory ?? " ";
+                mVehicle.strMake = vehicles.strMake ?? " ";
+                mVehicle.iModel = vehicles.iModel;
+                mVehicle.iYear = vehicles.iYear ?? " ";
+                mVehicle.strColor = vehicles.strColor;
+                mVehicle.dmlKM = vehicles.dmlKM;
+                mVehicle.strOrigin = vehicles.strOrigin ?? " ";
+                mVehicle.iDoor = vehicles.iDoor;
+                mVehicle.strLocation = vehicles.strLocation ?? " ";
+                mVehicle.weight = vehicles.weight ?? " ";
+                mVehicle.strHSCode = vehicles.strHSCode ?? " ";
+                mVehicle.ATMT = vehicles.ATMT ?? " ";
+                mVehicle.iCustomAssesVal = vehicles.iCustomAssesVal;
+                mVehicle.dmlDuty = vehicles.dmlDuty;
+                mVehicle.iCustomValInJPY = vehicles.iCustomValInJPY;
+
+
+                mVehicle.strGradeA = vehicles.strGradeA ?? " ";
+                mVehicle.strGradeB = vehicles.strGradeB ?? " ";
+                mVehicle.dmlLitter = vehicles.dmlLitter;
+                mVehicle.strTrans = vehicles.strTrans;
+                mVehicle.iMileage = vehicles.iMileage;
             }
-            return mvehicle;
+            return mVehicle;
         }
 
         private List<Vehicles> ParserGetAllVehicles(dynamic responseData)
@@ -96,27 +103,34 @@ namespace AuctionInventory.Services
             {
                 if (data != null)
                 {
-                    Vehicles vehicle = new Vehicles();
-                    vehicle.iVehicleID = data.iVehicleID;
-                    vehicle.iLotNum = data.iLotNum;
-                    vehicle.strGrade = data.strGrade ?? " ";
-                    vehicle.strChassisNum = data.strChassisNum ?? " ";
-                    vehicle.strCategory = data.strCategory ?? " ";
-                    vehicle.strMake = data.strMake ?? " ";
-                    vehicle.iModel = data.iModel ?? " ";
-                    vehicle.iYear = data.iYear ?? " ";
-                    vehicle.strColor = data.strColor;
-                    vehicle.dmlKM = data.dmlKM;
-                    vehicle.strOrigin = data.strOrigin ?? " ";
-                    vehicle.iDoor = data.iDoor;
-                    vehicle.strLocation = data.strLocation ?? " ";
-                    vehicle.weight = data.weight ?? " ";
-                    vehicle.strHSCode = data.strHSCode ?? " ";
-                    vehicle.ATMT = data.ATMT ?? " ";
-                    vehicle.iCustomAssesVal = data.iCustomAssesVal;
-                    vehicle.iDuty = data.iDuty;
-                    vehicle.iCustomValInJPY = data.iCustomValInJPY;
-                    listVehicles.Add(vehicle);
+                    Vehicles mVehicle = new Vehicles();
+                    mVehicle.iVehicleID = data.iVehicleID;
+                    mVehicle.iLotNum = data.iLotNum;
+                    mVehicle.strGrade = data.strGrade ?? " ";
+                    mVehicle.strChassisNum = data.strChassisNum ?? " ";
+                    mVehicle.strCategory = data.strCategory ?? " ";
+                    mVehicle.strMake = data.strMake ?? " ";
+                    mVehicle.iModel = data.iModel ?? " ";
+                    mVehicle.iYear = data.iYear ?? " ";
+                    mVehicle.strColor = data.strColor;
+                    mVehicle.dmlKM = data.dmlKM;
+                    mVehicle.strOrigin = data.strOrigin ?? " ";
+                    mVehicle.iDoor = data.iDoor;
+                    mVehicle.strLocation = data.strLocation ?? " ";
+                    mVehicle.weight = data.weight ?? " ";
+                    mVehicle.strHSCode = data.strHSCode ?? " ";
+                    mVehicle.ATMT = data.ATMT ?? " ";
+                    mVehicle.iCustomAssesVal = data.iCustomAssesVal;
+                    mVehicle.dmlDuty = data.dmlDuty;
+                    mVehicle.iCustomValInJPY = data.iCustomValInJPY;
+
+
+                    mVehicle.strGradeA = data.strGradeA ?? " ";
+                    mVehicle.strGradeB = data.strGradeB ?? " ";
+                    mVehicle.dmlLitter = data.dmlLitter;
+                    mVehicle.strTrans = data.strTrans;
+                    mVehicle.iMileage = data.iMileage;
+                    listVehicles.Add(mVehicle);
                 }
             }
             return listVehicles;
@@ -125,31 +139,38 @@ namespace AuctionInventory.Services
 
         private Vehicles ParserVehicles(dynamic data)
         {
-            Vehicles vehicle = new Vehicles();
+            Vehicles mVehicle = new Vehicles();
 
             if (data != null)
             {
-                vehicle.iVehicleID = data.iVehicleID;
-                vehicle.iLotNum = data.iLotNum;
-                vehicle.strGrade = data.strGrade ?? " ";
-                vehicle.strChassisNum = data.strChassisNum ?? " ";
-                vehicle.strCategory = data.strCategory ?? " ";
-                vehicle.strMake = data.strMake ?? " ";
-                vehicle.iModel = data.iModel ?? " ";
-                vehicle.iYear = data.iYear ?? " ";
-                vehicle.strColor = data.strColor;
-                vehicle.dmlKM = data.dmlKM;
-                vehicle.strOrigin = data.strOrigin ?? " ";
-                vehicle.iDoor = data.iDoor;
-                vehicle.strLocation = data.strLocation ?? " ";
-                vehicle.weight = data.weight ?? " ";
-                vehicle.strHSCode = data.strHSCode ?? " ";
-                vehicle.ATMT = data.ATMT ?? " ";
-                vehicle.iCustomAssesVal = data.iCustomAssesVal;
-                vehicle.iDuty = data.iDuty;
-                vehicle.iCustomValInJPY = data.iCustomValInJPY;
+                mVehicle.iVehicleID = data.iVehicleID;
+                mVehicle.iLotNum = data.iLotNum;
+                mVehicle.strGrade = data.strGrade ?? " ";
+                mVehicle.strChassisNum = data.strChassisNum ?? " ";
+                mVehicle.strCategory = data.strCategory ?? " ";
+                mVehicle.strMake = data.strMake ?? " ";
+                mVehicle.iModel = data.iModel ?? " ";
+                mVehicle.iYear = data.iYear ?? " ";
+                mVehicle.strColor = data.strColor;
+                mVehicle.dmlKM = data.dmlKM;
+                mVehicle.strOrigin = data.strOrigin ?? " ";
+                mVehicle.iDoor = data.iDoor;
+                mVehicle.strLocation = data.strLocation ?? " ";
+                mVehicle.weight = data.weight ?? " ";
+                mVehicle.strHSCode = data.strHSCode ?? " ";
+                mVehicle.ATMT = data.ATMT ?? " ";
+                mVehicle.iCustomAssesVal = data.iCustomAssesVal;
+                mVehicle.dmlDuty = data.dmlDuty;
+                mVehicle.iCustomValInJPY = data.iCustomValInJPY;
+
+
+                mVehicle.strGradeA = data.strGradeA ?? " ";
+                mVehicle.strGradeB = data.strGradeB ?? " ";
+                mVehicle.dmlLitter = data.dmlLitter;
+                mVehicle.strTrans = data.strTrans;
+                mVehicle.iMileage = data.iMileage;
             }
-            return vehicle;
+            return mVehicle;
         }
 
 
@@ -167,7 +188,7 @@ namespace AuctionInventory.Services
                     mVehicle.strChassisNum = item.strChassisNum ?? " ";
                     mVehicle.strCategory = item.strCategory ?? " ";
                     mVehicle.strMake = item.strMake ?? " ";
-                    mVehicle.iModel = item.iModel ?? " ";
+                    mVehicle.iModel = item.iModel;
                     mVehicle.iYear = item.iYear ?? " ";
                     mVehicle.strColor = item.strColor;
                     mVehicle.dmlKM = item.dmlKM;
@@ -178,8 +199,15 @@ namespace AuctionInventory.Services
                     mVehicle.strHSCode = item.strHSCode ?? " ";
                     mVehicle.ATMT = item.ATMT ?? " ";
                     mVehicle.iCustomAssesVal = item.iCustomAssesVal;
-                    mVehicle.iDuty = item.iDuty;
+                    mVehicle.dmlDuty = item.dmlDuty;
                     mVehicle.iCustomValInJPY = item.iCustomValInJPY;
+
+
+                    mVehicle.strGradeA = item.strGradeA ?? " ";
+                    mVehicle.strGradeB = item.strGradeB ?? " ";
+                    mVehicle.dmlLitter = item.dmlLitter;
+                    mVehicle.strTrans = item.strTrans;
+                    mVehicle.iMileage = item.iMileage;
                     listVehicle.Add(mVehicle);
                 }
             }

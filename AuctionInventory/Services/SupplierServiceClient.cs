@@ -29,6 +29,14 @@ namespace AuctionInventory.Services
             return listSupplier;
         }
 
+        public dynamic GetAllSupplierBankDetails()
+        {
+
+            SupplierRepository repo = new SupplierRepository();
+
+            var listSupplierBankDetails = repo.GetAllSupplierBankDetails();
+            return listSupplierBankDetails;
+        }
         public Supplier GetSupplier(int id)
         {
             Supplier supplier = new Supplier();
@@ -107,6 +115,9 @@ namespace AuctionInventory.Services
                     supplier.strCompanyName = data.strCompanyName;
                     supplier.strWebsites = data.strWebsites;
                     supplier.strPicName = data.strPicName;
+
+               
+
                     listSupplier.Add(supplier);
                 }
             }
@@ -139,6 +150,11 @@ namespace AuctionInventory.Services
                 supplier.strCompanyName = data.strCompanyName;
                 supplier.strWebsites = data.strWebsites;
                 supplier.strPicName = data.strPicName;
+
+                supplier.AccountNumber = data.AccountNumber;
+                supplier.strBankName = data.strBankName;
+                supplier.strBranchName = data.strBranchName;
+                supplier.strSwiftCode = data.strSwiftCode;
             }
             return supplier;
         }
@@ -168,6 +184,11 @@ namespace AuctionInventory.Services
                 supplier.strCompanyName = data.strCompanyName;
                 supplier.strWebsites = data.strWebsites;
                 supplier.strPicName = data.strPicName;
+
+                supplier.AccountNumber = data.AccountNumber;
+                supplier.strBankName = data.strBankName;
+                supplier.strBranchName = data.strBranchName;
+                supplier.strSwiftCode = data.strSwiftCode;
             }
             return supplier;
         }

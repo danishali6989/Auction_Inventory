@@ -1,0 +1,111 @@
+﻿@model AuctionInventory.Models.Lots
+@{
+    ViewBag.Title = "ExpenseLotList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ExpenseLotList</h2>
+
+<div>
+    <a class="popup btn btn-primary" href="/MExpenses/SaveExpenseLot/0" style="margin-bottom:20px; margin-top:20px;">Add New Lot</a>
+
+</div>
+<div>
+    <table id="dataGrid" class="table table-bordered table-striped"></table>
+    <div id="pagingGrid"></div>
+    <br><br>
+</div>
+
+
+
+<script>
+    $(function () {
+
+        //this grid is used to fill the Customers list
+
+        $('#dataGrid').jqGrid({
+            caption: "All Lots List",
+            url: '/MExpenses/GetAllLots',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+
+            colNames: ['iLotID', 'Lot Name', 'From Date', 'dtFromDate', 'To Date', 'dtToDate', 'Type', 'Action'],
+            colModel: [
+                { name: 'iLotID', index: 'iLotID', hidden: true, hidedlg: true },
+                { name: 'strLotName', index: 'strLotName', align: 'center' },
+                { name: 'strFromDate', index: 'strFromDate', align: 'center' },
+                { name: 'dtFromDate', index: 'dtFromDate', align: 'center', hidden: true, hidedlg: true },
+                { name: 'strToDate', index: 'strToDate', align: 'center' },
+                { name: 'dtToDate', index: 'dtToDate', align: 'center', hidden: true, hidedlg: true },
+
+                { name: 'chLotType', index: 'chLotType', align: 'center' },
+
+                   {
+                       name: 'Action', index: 'Action', align: 'center', width: 250, search: false, title: false,
+                       formatter: function (cellvalue, options, rowObject) {
+
+                           return '<a class="popup btn btn-warning"  href="/MExpenses/SaveExpenseLot/' + options.rowId + '">Edit</a>' + "   " + '<a class="popup btn btn-danger"  href="/MExpenses/DeleteExpenseLot/' + options.rowId + '">Delete</a>';
+
+                           //return  "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Edit'  onclick=\"editRowData('" + options.rowId + "');\"  />";
+                       }
+
+                   },
+
+
+
+            ],
+            width: 1050,
+            height: 450,
+            rowNum: 10,
+            loadonce: true,
+            ignoreCase: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGrid',
+        });
+        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+    });
+
+
+
+    $(document).on('keyup', 'input[name="DateTextBox"]', function () {
+
+
+        $("#dtFromDate").val($("#txtFromDate").val());
+        $("#dtToDate").val($("#txtToDate").val());
+
+        // calculateSum();
+    });
+
+
+    //function calculateSum() {
+    //    debugger;
+
+    //    var sum = 0;
+    //    //iterate through each textboxes and add the values
+    //    $("input[name='DynamicTextBox']").each(function () {
+
+    //        //add only if the value is number
+    //        if (!isNaN(this.value) && this.value.length != 0) {
+    //            sum += parseFloat(this.value);
+    //        }
+
+    //    });
+    //    //.toFixed() method will roundoff the final sum to 2 decimal places
+    //    $("#totalSum").html(sum.toFixed(2));
+
+    //}
+
+
+</script>
+
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>

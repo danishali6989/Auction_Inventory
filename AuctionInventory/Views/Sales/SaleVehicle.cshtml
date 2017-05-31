@@ -33,23 +33,23 @@
 
     <div class="form-group col-xs-4">
         <label>Sales Date</label>
-        <input id="salesDate" class="form-control datepicker input-group-lg" type="text" name="Date"
+        <input id="salesDate" class="form-control datepicker input-group-lg" type="text" name="salesDate"
                placeholder="Enter Drop-off date here..." />
     </div>
-
+    <input type="button" class="btn btn-success col-md-2" id="btnsalesDate" value="Get Auction List By Date">
 </div>
 
 <div class="box-body" id="divFillByVehicle">
     <br />
     <table id="dataGrid" class="table table-bordered table-striped"></table>
-    <div id="pagingGrid"></div>
+    @*<div id="pagingGrid"></div>*@
 
 </div>
 
 
 <div class="box-body" id="divAddVehicle" style="display:none">
     <table id="GridAddVehicle" class="table table-bordered table-striped"></table>
-    <div id="pagingGridAddVehicle"></div>
+    @*<div id="pagingGridAddVehicle"></div>*@
     <br>
     <div class="row">
         <div class="form-group col-xs-4">
@@ -93,24 +93,24 @@
 
 
         @*<div class="row">
-            <br />
-            <div class="form-group col-xs-4">
-                <label>Selling Price</label>
-                <input id="txtSellingPrice" class="form-control input-group-lg" type="text"
-                       placeholder="Selling Price" />
-            </div>
+                <br />
+                <div class="form-group col-xs-4">
+                    <label>Selling Price</label>
+                    <input id="txtSellingPrice" class="form-control input-group-lg" type="text"
+                           placeholder="Selling Price" />
+                </div>
 
-            <div class="form-group col-xs-4">
-                <label>Deposit</label>
-                <input id="txtDeposit" class="form-control input-group-lg" type="text"
-                       placeholder="Deposit" />
-            </div>
-            <div class="form-group col-xs-4">
-                <label>Advance</label>
-                <input id="txtAdvance" class="form-control input-group-lg" type="text"
-                       placeholder="Advance" />
-            </div>
-        </div>*@
+                <div class="form-group col-xs-4">
+                    <label>Deposit</label>
+                    <input id="txtDeposit" class="form-control input-group-lg" type="text"
+                           placeholder="Deposit" />
+                </div>
+                <div class="form-group col-xs-4">
+                    <label>Advance</label>
+                    <input id="txtAdvance" class="form-control input-group-lg" type="text"
+                           placeholder="Advance" />
+                </div>
+            </div>*@
 
         <div class="row">
             <br />
@@ -141,33 +141,33 @@
         <div class="row" id="divCredit" style="display:none;">
 
             @*<div class="form-group col-xs-4">
-                <label for="Select payment Option" class="sr-only"></label>
-                <div class="options">
-                    <label for="Cash" class="sr-only"></label>
+                    <label for="Select payment Option" class="sr-only"></label>
+                    <div class="options">
+                        <label for="Cash" class="sr-only"></label>
 
-                    <input type="radio" class="form-control input-group-lg" name="PaymentOption" id="rdbCashOption" checked="checked" />
-                    &nbsp;
-                    <label for="Credit" class="sr-only"></label>
+                        <input type="radio" class="form-control input-group-lg" name="PaymentOption" id="rdbCashOption" checked="checked" />
+                        &nbsp;
+                        <label for="Credit" class="sr-only"></label>
 
-                    <input type="radio" class="form-control input-group-lg" name="PaymentOption" id="rdbCreditOption" />
-                </div>
+                        <input type="radio" class="form-control input-group-lg" name="PaymentOption" id="rdbCreditOption" />
+                    </div>
 
-            </div>*@
+                </div>*@
 
             @*<label>Select payment Option</label>
-            <div class="options">
-                <label>Cash</label>
-                <input type="radio" name="PaymentOption" id="rdbCashOption" onclick="CashPaymentOption()" checked="checked" />
-                &nbsp;
-                <label>Credit</label>
-                <input type="radio" name="PaymentOption" id="rdbCreditOption" onclick="CreditPaymentOption()" />
-            </div>*@
+                <div class="options">
+                    <label>Cash</label>
+                    <input type="radio" name="PaymentOption" id="rdbCashOption" onclick="CashPaymentOption()" checked="checked" />
+                    &nbsp;
+                    <label>Credit</label>
+                    <input type="radio" name="PaymentOption" id="rdbCreditOption" onclick="CreditPaymentOption()" />
+                </div>*@
 
             @*<div class="form-group col-xs-4">
-                <label for="Payment" class="sr-only"></label>
-                <input id="txtPayment" class="form-control input-group-lg" type="text"
-                       placeholder="Payment" />
-            </div>*@
+                    <label for="Payment" class="sr-only"></label>
+                    <input id="txtPayment" class="form-control input-group-lg" type="text"
+                           placeholder="Payment" />
+                </div>*@
 
             <div class="form-group col-xs-4">
                 <label>Installment</label>
@@ -185,12 +185,12 @@
         <label style="margin-left: 63px;">Select payment Option:</label>
         @*<div class="options">
 
-            <label>Cash</label>
-            <input type="radio" name="PaymentOption" id="rdbCashOption" checked="checked" />
-            &nbsp;
-            <label>Credit</label>
-            <input type="radio" name="PaymentOption" id="rdbCreditOption" />
-        </div>*@
+                <label>Cash</label>
+                <input type="radio" name="PaymentOption" id="rdbCashOption" checked="checked" />
+                &nbsp;
+                <label>Credit</label>
+                <input type="radio" name="PaymentOption" id="rdbCreditOption" />
+            </div>*@
 
         <div class="options">
 
@@ -290,15 +290,15 @@
         success: function (data) {
 
             $("#iReceiptNo").html(data);
-            
+
             $("#hdnReceiptNo").val(data);
 
-          
+
 
             var receipt = $('#receiptLbl').text().split(':');
 
             $("#receiptLbl").html(receipt[1]);
-          
+
         }
     });
 
@@ -329,107 +329,131 @@
     var arr = new Array();
 
     var arrRemoveSumJPY = new Array();
-    $(function () {
 
-        $('#dataGrid').jqGrid({
-            caption: "Vehicle List",
-            url: '/Sales/GetData/',
-            datatype: "json",
-            contentType: "application/json; charset-utf-8",
-            mtype: 'GET',
-            colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY'],
-            colModel: [
-                { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
-                { name: 'iLotNum', index: 'iLotNum', align: 'center' },
-                { name: 'strChassisNum', index: 'strChassisNum', align: 'center' },
-                { name: 'iModel', index: 'iModel', align: 'center' },
-                { name: 'iYear', index: 'iYear', align: 'center' },
-                { name: 'strColor', index: 'strColor', align: 'center' },
-                { name: 'iCustomValInJPY', index: 'iCustomValInJPY', align: 'center' },
 
-            ],
-            width: 1150,
-            height: 150,
-            rowNum: 10,
-            loadonce: true,
-            rowList: [10, 20, 30],
-            pager: 'pagingGrid',
-            caption: 'Select Vehicle to Add',
 
-            beforeSelectRow: function (rowid, celname, value, iRow, iCol) {
 
-                var rowData = jQuery("#dataGrid").getRowData(rowid);
-                var rowDataVehicleID = rowData['iVehicleID'];
-                var rowDataJPY= rowData['iCustomValInJPY'];
+    $("#btnsalesDate").click(function () {
 
-                var addVehicleID = false;
-                $.map(arr, function (elementOfArray, indexInArray) {
-                    if (elementOfArray.VehicleID == rowDataVehicleID) {
 
-                        addVehicleID = true;
+        var salesDate = $("#salesDate").val();
+
+
+        $.ajax({
+            url: '/Sales/GetVehiclesDataBySalesDate/',
+            dataType: 'json',
+            type: 'POST',
+            data: JSON.stringify({ 'salesDate': salesDate }),
+            contentType: 'application/json; charset=utf-8',
+
+            success: function (result) {
+                debugger
+              
+
+                var vehicleByDate = result.VehiclesByDate;
+
+
+                $('#dataGrid').jqGrid({
+                    caption: "Vehicle List",
+                    data: vehicleByDate,
+                    datatype: "local",
+                    colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY'],
+                    colModel: [
+                        { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+                        { name: 'iLotNum', index: 'iLotNum', align: 'center' },
+                        { name: 'strChassisNum', index: 'strChassisNum', align: 'center' },
+                        { name: 'iModel', index: 'iModel', align: 'center' },
+                        { name: 'iYear', index: 'iYear', align: 'center' },
+                        { name: 'strColor', index: 'strColor', align: 'center' },
+                        { name: 'iCustomValInJPY', index: 'iCustomValInJPY', align: 'center', hidden: true, hidedlg: true },
+
+                    ],
+                    width: 1050,
+                    height: 150,
+                   // rowNum: 10,
+                    loadonce: true,
+                    //rowList: [10, 20, 30],
+                    pager: 'pagingGrid',
+                    caption: 'Select Vehicle to Add',
+
+                    beforeSelectRow: function (rowid, celname, value, iRow, iCol) {
+
+                        var rowData = jQuery("#dataGrid").getRowData(rowid);
+                        var rowDataVehicleID = rowData['iVehicleID'];
+                        var rowDataJPY = rowData['iCustomValInJPY'];
+
+                        var addVehicleID = false;
+                        $.map(arr, function (elementOfArray, indexInArray) {
+                            if (elementOfArray.VehicleID == rowDataVehicleID) {
+
+                                addVehicleID = true;
+                            }
+                        })
+                        if (!addVehicleID) {
+                            arr.push({ VehicleID: rowDataVehicleID })
+                            $('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
+
+                            arrRemoveSumJPY.push({ VehicleID: rowDataVehicleID, JPY: rowDataJPY })
+
+
+                            $('#divAddVehicle').show();
+                            calculateSum();
+                        }
+
+
+                        //// arr.push(rowDataVehicleID);
+                        //$('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
+
+                        //$('#divAddVehicle').show();
                     }
-                })
-                if (!addVehicleID) {
-                    arr.push({ VehicleID: rowDataVehicleID })
-                    $('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
 
-                    arrRemoveSumJPY.push({ VehicleID: rowDataVehicleID, JPY: rowDataJPY })
-
-                    
-                    $('#divAddVehicle').show();
-                    calculateSum();
-                }
+                });
+                jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+                //jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
 
 
-                //// arr.push(rowDataVehicleID);
-                //$('#GridAddVehicle').jqGrid('addRowData', rowDataVehicleID, rowData);
+                $('#GridAddVehicle').jqGrid({
+                    caption: "ADD Single Vehicle",
+                    //data: SingleVehicle,
+                    //datatype: "local",
+                    colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'],
+                    colModel: [
+                        { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
+                        { name: 'iLotNum', index: 'iLotNum' },
+                        { name: 'strChassisNum', index: 'strChassisNum' },
+                        { name: 'iModel', index: 'iModel' },
+                        { name: 'iYear', index: 'iYear' },
+                        { name: 'strColor', index: 'strColor' },
+                        { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
 
-                //$('#divAddVehicle').show();
+                        {
+                            name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
+                            formatter: function (cellvalue, options, rowObject) {
+                                // return '<a href="/MAreas/Edit/' + options.rowId + '">' + "<img src='../Images/edit%20(2).png' '/>" + '</a>' + "     " + '<a href="/MAreas/Delete/' + options.rowId + '">' + "<img src='../Images/delete%20(2).png' />" + '</a>';
+                                //return $('#GridAddVehicle').jqGrid('delRowData', options.rowId);
+                                return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"RemoveSumOfJPY('" + options.rowId + "');\"  />";
+
+                            }
+
+                        },
+
+                    ],
+                    width: 1050,
+                    // width: 900,
+                    height: 250,
+                    //rowNum: 10,
+                    loadonce: false,
+                    //rowList: [10, 20, 30],
+                    pager: 'pagingGridAddVehicle',
+                });
+                jQuery("#GridAddVehicle").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+                //jQuery("#GridAddVehicle").jqGrid('navGrid', '#pagingGridAddVehicle', { edit: false, add: false, del: false, search: false, rel: false });
+
             }
-
         });
-        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
-        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
-
-
-        $('#GridAddVehicle').jqGrid({
-            caption: "ADD Single Vehicle",
-            //data: SingleVehicle,
-            //datatype: "local",
-            colNames: ['ID', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Action'],
-            colModel: [
-                { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true },
-                { name: 'iLotNum', index: 'iLotNum' },
-                { name: 'strChassisNum', index: 'strChassisNum' },
-                { name: 'iModel', index: 'iModel' },
-                { name: 'iYear', index: 'iYear' },
-                { name: 'strColor', index: 'strColor' },
-                { name: 'iCustomValInJPY', index: 'iCustomValInJPY' },
-
-                {
-                    name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
-                    formatter: function (cellvalue, options, rowObject) {
-                        // return '<a href="/MAreas/Edit/' + options.rowId + '">' + "<img src='../Images/edit%20(2).png' '/>" + '</a>' + "     " + '<a href="/MAreas/Delete/' + options.rowId + '">' + "<img src='../Images/delete%20(2).png' />" + '</a>';
-                        //return $('#GridAddVehicle').jqGrid('delRowData', options.rowId);
-                        return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Delete' onclick=\"RemoveSumOfJPY('" + options.rowId + "');\"  />";
-                       
-                    }
-
-                },
-
-            ],
-            width: 1150,
-            // width: 900,
-
-            rowNum: 10,
-            loadonce: false,
-            rowList: [10, 20, 30],
-            pager: 'pagingGridAddVehicle',
-        });
-        jQuery("#GridAddVehicle").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
-        jQuery("#GridAddVehicle").jqGrid('navGrid', '#pagingGridAddVehicle', { edit: false, add: false, del: false, search: false, rel: false });
-
     });
+
+
 
 
 
@@ -572,11 +596,11 @@
 
         debugger;
 
-        if ($("#txtSaleBalance").val()==0) {
-             ysnPaymentStatus = true;
+        if ($("#txtSaleBalance").val() == 0) {
+            ysnPaymentStatus = true;
         }
         else {
-             ysnPaymentStatus = false;
+            ysnPaymentStatus = false;
         }
 
         var data = $('#invoiceLbl').text().split(':');
@@ -662,8 +686,8 @@
 
                 }
 
-                
-                
+
+
 
                 var SalesPaymentParameter = {
                     iCustomerID: $("#hfCustomer").val(),
@@ -747,7 +771,7 @@
         });
     }
 
-   
+
     function calculateSum() {
         debugger;
         var sum = 0;
@@ -763,17 +787,17 @@
         $('#txtAdvance').val(sum);
 
 
-       // var SumOfJPY = $('#hdnSumOfJPY').val();
-       // if (!isNaN(SumOfJPY) && SumOfJPY.length != 0) {
-       //     sum += parseFloat(SumOfJPY);
-       // }
+        // var SumOfJPY = $('#hdnSumOfJPY').val();
+        // if (!isNaN(SumOfJPY) && SumOfJPY.length != 0) {
+        //     sum += parseFloat(SumOfJPY);
+        // }
 
-       // //sum += parseFloat($('#hdnSumOfJPY').val());
-       // $('#txtSellingPrice').val(sum)
-       // $('#txtAdvance').val(sum)
-       //// alert(sum);
+        // //sum += parseFloat($('#hdnSumOfJPY').val());
+        // $('#txtSellingPrice').val(sum)
+        // $('#txtAdvance').val(sum)
+        //// alert(sum);
 
- 
+
         //for (var i = 0; i < arrRemoveSumJPY.length; i++) {
         //    sum += parseFloat(arrRemoveSumJPY[i].JPY);
         //}
@@ -787,7 +811,7 @@
 
         arrRemoveSumJPY.splice($.inArray(Removedata, arrRemoveSumJPY), 1);
         calculateSum();
-     }
+    }
 
 </script>
 
@@ -820,8 +844,8 @@
     }
 
 
-   
-  
+
+
 
 </script>
 
@@ -829,15 +853,12 @@
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
-<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
-<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
-<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
-<script src="~/scripts/grid.locale-en.js"></script>
-<script src="~/scripts/jquery.jqgrid.min.js"></script>
+    <link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+    <script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+    <script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+    <script src="~/scripts/grid.locale-en.js"></script>
+    <script src="~/scripts/jquery.jqgrid.min.js"></script>
 
 
-<script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
-<script src="~/Content/plugins/jsPDF/jspdf.plugin.autotable.js"></script>
-
-@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>*@
-@*<script src="~/Scripts/jquery-3.1.1.min.js"></script>*@
+    <script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
+    <script src="~/Content/plugins/jsPDF/jspdf.plugin.autotable.js"></script>

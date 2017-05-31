@@ -77,7 +77,7 @@ namespace AuctionInventory.Controllers
                     vehicle.strChassisNum = data.strChassisNum ?? " ";
                     vehicle.strCategory = data.strCategory ?? " ";
                     vehicle.strMake = data.strMake ?? " ";
-                    vehicle.iModel = data.iModel ?? " ";
+                    vehicle.iModel = data.iModel;
                     vehicle.iYear = data.iYear ?? " ";
                     vehicle.strColor = data.strColor;
                     vehicle.dmlKM = data.dmlKM;
@@ -88,7 +88,7 @@ namespace AuctionInventory.Controllers
                     vehicle.strHSCode = data.strHSCode ?? " ";
                     vehicle.ATMT = data.ATMT ?? " ";
                     vehicle.iCustomAssesVal = data.iCustomAssesVal;
-                    vehicle.iDuty = data.iDuty;
+                    vehicle.dmlDuty = data.dmlDuty;
                     vehicle.iCustomValInJPY = data.iCustomValInJPY;
                     listVehicles.Add(vehicle);
                 }

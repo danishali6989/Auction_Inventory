@@ -12,12 +12,14 @@ namespace AuctionInventoryDAL.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class AuctionList
+    public partial class MLot
     {
-        public long iAuctionListID { get; set; }
-        public Nullable<int> iVehicleID { get; set; }
-        public string strAuctionDate { get; set; }
-        public Nullable<int> iAuctionFrontEndID { get; set; }
-        public Nullable<System.DateTime> dtAuctionDate { get; set; }
+        public long iLotID { get; set; }
+        public string strLotName { get; set; }
+        public string strFromDate { get; set; }
+        public Nullable<System.DateTime> dtFromDate { get; set; }
+        public string strToDate { get; set; }
+        public Nullable<System.DateTime> dtToDate { get; set; }
+        public string chLotType { get; set; }
     }
 }

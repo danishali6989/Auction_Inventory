@@ -585,6 +585,17 @@ namespace AuctionInventoryDAL.Repositories
                     {
                         auctionContext.VehicleExpenses.Remove(item);
                     }
+
+                    //var vehicle = auctionContext.Vehicles.Where(a => a.iVehicleID == id).FirstOrDefault();
+
+                 
+                    //if (vehicle != null)
+                    //{
+                    //    vehicle.dcmlExpenseAmount=ex
+                    //    auctionContext.Vehicles.Remove(vehicle);
+                       
+                    //}
+
                     auctionContext.SaveChanges();
 
                 }
@@ -635,6 +646,21 @@ namespace AuctionInventoryDAL.Repositories
                 {
 
                     //Save
+                    //Add single vehicle expense on a particular vehicle
+                    var vehi = auctionContext.Vehicles.Where(a => a.iVehicleID == item.iVehicleID).FirstOrDefault();
+                    if (vehi != null)
+                    {
+                        //ADD  Amount In Vehicles Table
+                        if (id != 0)
+                        {
+                            vehi.dcmlExpenseAmount =  item.dcmlExpenseAmount;
+                        }
+                        else
+                        {
+                            vehi.dcmlExpenseAmount = vehi.dcmlExpenseAmount + item.dcmlExpenseAmount;
+                        }
+                    }
+
                     //item.dcmlSpreadAmount = spreadAmount;
                     item.strExpenseKey = refenceNumber;
                     auctionContext.VehicleExpenses.Add(item);
@@ -726,17 +752,19 @@ namespace AuctionInventoryDAL.Repositories
         }
 
 
-        public bool UndoSpreadExpenseAmount(int purchaseInvoiceID)
+        public bool UndoSpreadExpenseAmount(int purchaseInvoiceID, decimal spreadAmount)
         {
             bool status = false;
             {
                 var undoSpreadAmountByPurchaseInvoiceID = (from t1 in auctionContext.VehicleExpenses
+                                                         
                                                                     where t1.iPurchaseInvoiceID == purchaseInvoiceID
 
                                                                     select new
                                                                     {
                                                                         iPurchaseInvoiceID = t1.iPurchaseInvoiceID,
                                                                         dcmlSpreadAmount = t1.dcmlSpreadAmount,
+                                                                     
 
                                                                     }).ToList();
 
@@ -751,8 +779,36 @@ namespace AuctionInventoryDAL.Repositories
                             {
                                 vehicleExpense.dcmlSpreadAmount = null;
                             }
+
                         }
                     }
+
+                var undoSpreadAmountByVehiclesID = (from t1 in auctionContext.TPurchases
+                                                    join t2 in auctionContext.Vehicles on t1.PurchaseID equals t2.PurchaseID
+                                                    where t1.iPurchaseInvoiceNo == purchaseInvoiceID
+
+                                                           select new
+                                                           {
+                                                               
+                                                               iVehicleID = t2.iVehicleID,
+
+                                                           }).ToList();
+
+                foreach (var dataItem in undoSpreadAmountByVehiclesID)
+                {
+                    if (dataItem.iVehicleID > 0)
+                    {
+                        //UNDO Spread Amount from Vehicles Table
+
+                        var vehicle = auctionContext.Vehicles.Where(a => a.iVehicleID == dataItem.iVehicleID).FirstOrDefault();
+                        if (vehicle != null)
+                        {
+
+                            vehicle.dcmlExpenseAmount = vehicle.dcmlExpenseAmount - spreadAmount;
+                        }
+                    }
+                }
+
 
                 }
 
@@ -761,8 +817,96 @@ namespace AuctionInventoryDAL.Repositories
             return status;
             }
 
-           
 
+        #region Lots
+        public dynamic GetAllLots()
+        {
+            var jsonData = new
+            {
+                total = 1,
+                page = 1,
+                records = auctionContext.MLots.ToList().Count,
+                rows = (
+                  from lots in
+                      (from AM in auctionContext.MLots
+                       where AM.chLotType == "E"
+
+                       select new
+                       {
+                           iLotID = AM.iLotID,
+                           strLotName = AM.strLotName,
+                           strFromDate = AM.strFromDate,
+                           dtFromDate = AM.dtFromDate,
+                           strToDate = AM.strToDate,
+                           dtToDate = AM.dtToDate,
+                           chLotType = AM.chLotType,
+
+
+                       }).OrderBy(a => a.iLotID).ToList()
+                  select new
+                  {
+                      //id = staff.iStaffID,
+                      id = HttpUtility.UrlEncode(Encryption.Encrypt(Convert.ToString(lots.iLotID))),
+                      cell = new string[] {
+               Convert.ToString(lots.iLotID),Convert.ToString(lots.strLotName),
+               Convert.ToString(lots.strFromDate),Convert.ToString(lots.dtFromDate),
+               Convert.ToString(lots.strToDate),Convert.ToString(lots.dtToDate),Convert.ToString(lots.chLotType),
+               
+               
+                      }
+                  }).ToArray()
+            };
+            return jsonData;
+        }
+
+        public MLot GetLot(int id)
+        {
+            MLot lot = new MLot();
+            lot = auctionContext.MLots.Where(a => a.iLotID == id).FirstOrDefault();
+            return lot;
+        }
+        public bool expenseLotSaveEdit(MLot lot)
+        {
+            bool status = false;
+            if (lot.iLotID > 0)
+            {
+                //Edit Existing Record
+                var lots = auctionContext.MLots.Where(a => a.iLotID == lot.iLotID).FirstOrDefault();
+                if (lots != null)
+                {
+
+                    lots.strLotName = lot.strLotName;
+                    lots.strFromDate = lot.strFromDate;
+                    lots.dtFromDate = lot.dtFromDate;
+                    lots.strToDate = lot.strToDate;
+                    lots.dtToDate = lot.dtToDate;
+                    lots.chLotType = lot.chLotType;
+
+                }
+            }
+            else
+            {
+                //Save
+                auctionContext.MLots.Add(lot);
+            }
+            auctionContext.SaveChanges();
+            status = true;
+            return status;
+        }
+
+        public bool DeleteExpenseLot(int id)
+        {
+            bool status = false;
+            var SalesLot = auctionContext.MLots.Where(a => a.iLotID == id).FirstOrDefault();
+            if (SalesLot != null)
+            {
+                auctionContext.MLots.Remove(SalesLot);
+                auctionContext.SaveChanges();
+                status = true;
+            }
+            return status;
+        }
+        #endregion
         
     }
 }

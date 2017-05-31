@@ -53,7 +53,7 @@ namespace AuctionInventory.Controllers
 
         }
 
-        
+
 
         [HttpGet]
         public ActionResult GetAllSalesPaymentList()
@@ -61,24 +61,24 @@ namespace AuctionInventory.Controllers
             dynamic salesPaymentList = 0;
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     SaleServiceClient service = new SaleServiceClient();
                     salesPaymentList = service.GetAllSalesPaymentList();
                     //return Json(vehicleList, JsonRequestBehavior.AllowGet);
                 }
-               
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                
+
                 ModelState.AddModelError("error", "Something Went Wrong");
                 salesPaymentList = null;
                 throw ex;
             }
             return Json(salesPaymentList, JsonRequestBehavior.AllowGet);
 
-            
+
         }
 
 
@@ -92,34 +92,34 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ActionResult GetData()
+        [HttpPost]
+        public ActionResult GetVehiclesDataBySalesDate(DateTime salesDate)
         {
             dynamic vehicleList = 0;
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     SaleServiceClient service = new SaleServiceClient();
-                     vehicleList = service.GetVehiclesData();
+                    vehicleList = service.GetVehiclesDataBySalesDate(salesDate);
                     //return Json(vehicleList, JsonRequestBehavior.AllowGet);
                 }
-               
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                
+
                 ModelState.AddModelError("error", "Something Went Wrong");
                 vehicleList = null;
                 throw ex;
             }
             return Json(vehicleList, JsonRequestBehavior.AllowGet);
 
-            
+
         }
 
 
-         [HttpPost]
+        [HttpPost]
         public ActionResult GetSaleVehicleBySalesFrntID(int id)
         {
             AuctionInventoryEntities dc = new AuctionInventoryEntities();
@@ -130,40 +130,40 @@ namespace AuctionInventory.Controllers
 
                 where t1.iSaleFrontEndID == id
 
-               
-                               select new
-                               {
 
-                                   iSalesVehicleID = t1.iSalesVehicleID,
-                                   iVehicleID = t2.iVehicleID,
-                                   iLotNum = t2.iLotNum,
-                                   strChassisNum = t2.strChassisNum,
-                                   //strMake = t2.strMake,
-                                   iModel = t2.iModel,
-                                   //strCategory = t2.strCategory,
-                                   iYear = t2.iYear,
-                                   strColor = t2.strColor,
-                                  // strOrigin = t2.strOrigin,
-                                   //strLocation = t2.strLocation,
-                                   //iCustomAssesVal = t2.iCustomAssesVal,
-                                   //iDuty = t2.iDuty,
-                                   iCustomValInJPY = t2.iCustomValInJPY
-                                   //,strGrade =t1.strGrade,                                             
+                select new
+                {
 
-
-                                   //dmlKM = t1.dmlKM,
-
-                                   //iDoor = t1.iDoor,
-
-                                   //weight = t1.weight,
-                                   //strHSCode = t1.strHSCode,
-                                   //ATMT = t1.ATMT,
+                    iSalesVehicleID = t1.iSalesVehicleID,
+                    iVehicleID = t2.iVehicleID,
+                    iLotNum = t2.iLotNum,
+                    strChassisNum = t2.strChassisNum,
+                    //strMake = t2.strMake,
+                    iModel = t2.iModel,
+                    //strCategory = t2.strCategory,
+                    iYear = t2.iYear,
+                    strColor = t2.strColor,
+                    // strOrigin = t2.strOrigin,
+                    //strLocation = t2.strLocation,
+                    //iCustomAssesVal = t2.iCustomAssesVal,
+                    //iDuty = t2.iDuty,
+                    iCustomValInJPY = t2.iCustomValInJPY
+                    //,strGrade =t1.strGrade,                                             
 
 
+                    //dmlKM = t1.dmlKM,
 
-                               }).ToList();
+                    //iDoor = t1.iDoor,
 
-          
+                    //weight = t1.weight,
+                    //strHSCode = t1.strHSCode,
+                    //ATMT = t1.ATMT,
+
+
+
+                }).ToList();
+
+
             return Json(new { listVehicle }, JsonRequestBehavior.AllowGet);
         }
 
@@ -233,24 +233,24 @@ namespace AuctionInventory.Controllers
             dynamic salesList = 0;
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     SaleServiceClient service = new SaleServiceClient();
                     salesList = service.GetSalesData();
                     //return Json(vehicleList, JsonRequestBehavior.AllowGet);
                 }
-               
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                
+
                 ModelState.AddModelError("error", "Something Went Wrong");
                 salesList = null;
                 throw ex;
             }
             return Json(salesList, JsonRequestBehavior.AllowGet);
 
-            
+
         }
 
 
@@ -263,7 +263,7 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     SaleServiceClient service = new SaleServiceClient();
-                     customers = service.GetCustomerDetails(prefix);
+                    customers = service.GetCustomerDetails(prefix);
                     //return Json(customers, JsonRequestBehavior.AllowGet);
                 }
 
@@ -275,7 +275,7 @@ namespace AuctionInventory.Controllers
                 customers = null;
                 throw ex;
             }
-           return Json(customers, JsonRequestBehavior.AllowGet);
+            return Json(customers, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -283,29 +283,29 @@ namespace AuctionInventory.Controllers
         [HttpPost]
         public JsonResult GetCustomerDetailsBYCustomerID(int id)
         {
-              AuctionInventoryEntities dc = new AuctionInventoryEntities();
+            AuctionInventoryEntities dc = new AuctionInventoryEntities();
 
-              var customer = (
-                from t1 in dc.MCustomers                
-                where t1.iCustomerID == id
-
-               
-                               select new
-                               {
-
-                                   //iCustomerID = t1.iCustomerID,
-                                   //strFirstName = t1.strFirstName,
-                                   //strMiddleName = t1.strMiddleName,
-                                   //strLastName = t1.strLastName,
-                                   iPhoneNumber = t1.iPhoneNumber,
-                                   strCreditLimit = t1.strCreditLimit,
-                                   //Address = t1.Address
+            var customer = (
+              from t1 in dc.MCustomers
+              where t1.iCustomerID == id
 
 
-                               }).ToList();
+              select new
+              {
+
+                  //iCustomerID = t1.iCustomerID,
+                  //strFirstName = t1.strFirstName,
+                  //strMiddleName = t1.strMiddleName,
+                  //strLastName = t1.strLastName,
+                  iPhoneNumber = t1.iPhoneNumber,
+                  strCreditLimit = t1.strCreditLimit,
+                  //Address = t1.Address
 
 
-              return Json(customer, JsonRequestBehavior.AllowGet);
+              }).ToList();
+
+
+            return Json(customer, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -319,7 +319,7 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     SaleServiceClient service = new SaleServiceClient();
-                     invNo = service.GetInvoice();
+                    invNo = service.GetInvoice();
                     //return Json(invNo, JsonRequestBehavior.AllowGet);
                 }
 
@@ -368,7 +368,7 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     SaleServiceClient service = new SaleServiceClient();
-                     SalesFrontEndID = service.GetSalesFrontEndID();
+                    SalesFrontEndID = service.GetSalesFrontEndID();
                     //return Json(SalesFrontEndID, JsonRequestBehavior.AllowGet);
                 }
 
@@ -413,8 +413,8 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
-        [HttpPost]
-        public JsonResult GetAllSalesReportByDate(DateTime fromDate, DateTime toDate)
+           [HttpPost]
+        public JsonResult GetAllSalesReportByDate(DateTime fromDate, DateTime toDate, int customerID)
         {
             dynamic salesReportByDate = 0;
 
@@ -423,9 +423,9 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     SaleServiceClient saleServiceClient = new SaleServiceClient();
-                    salesReportByDate = saleServiceClient.GetAllSalesReportByDate(fromDate, toDate);
+                    salesReportByDate = saleServiceClient.GetAllSalesReportByDate(fromDate, toDate, customerID);
 
-                   
+
                     //if (purchase.Count == 0 || purchase == null)
                     //{
                     //    ModelState.AddModelError("error", "No Record Found");
@@ -443,6 +443,37 @@ namespace AuctionInventory.Controllers
             return Json(new { salesReportByDate }, JsonRequestBehavior.AllowGet);
 
         }
+
+        //[HttpPost]
+        //public JsonResult GetAllSalesReportByDate(DateTime fromDate, DateTime toDate)
+        //{
+        //    dynamic salesReportByDate = 0;
+
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            SaleServiceClient saleServiceClient = new SaleServiceClient();
+        //            salesReportByDate = saleServiceClient.GetAllSalesReportByDate(fromDate, toDate);
+
+
+        //            //if (purchase.Count == 0 || purchase == null)
+        //            //{
+        //            //    ModelState.AddModelError("error", "No Record Found");
+        //            //}
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ModelState.AddModelError("error", "Something Wrong");
+        //        salesReportByDate = null;
+        //        throw e;
+        //    }
+
+        //    //return Json(purchaseReportByDate, JsonRequestBehavior.AllowGet);
+        //    return Json(new { salesReportByDate }, JsonRequestBehavior.AllowGet);
+
+        //}
 
         //[HttpPost]       
         //public ActionResult Delete(int id)
@@ -501,8 +532,181 @@ namespace AuctionInventory.Controllers
         }
 
 
+        #region Sales Lot
 
-     
+        //public ActionResult SaveSalesLot()
+        //{
+        //    //int id = 0;
+        //    //if (ID != "0")
+        //    //{
+        //    //    id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+        //    //}
+        //    //Lots lot = new Lots();
+
+        //    //// ViewBag.category = new SelectList(db.MCategories, "iCategoryID", "strCategoryName", supplier.iSupplierCategory);
+        //    ////ViewBag.currency = new SelectList(db.MCurrencies, "CurrencyID", "strCurrencyName", supplier.iCurrency);
+
+        //    //try
+        //    //{
+        //    //    if (ModelState.IsValid)
+        //    //    {
+
+        //    //        Services.SupplierServiceClient supplierServiceClient = new Services.SupplierServiceClient();
+        //    //        supplier = supplierServiceClient.GetSupplier(id);
+
+        //    //    }
+        //    //}
+        //    //catch (Exception e)
+        //    //{
+        //    //    ModelState.AddModelError("error", "something went wrong");
+        //    //    supplier = null;
+        //    //    throw e;
+        //    //}
+
+        //    //// return View()
+        //    //return View(supplier);
+        //    //// return View(supplier);
+        //    return View();
+        //}
+        public ActionResult SalesLotList()
+        {
+            return View();
+        }
+        public ActionResult GetAllLots()
+        {
+            dynamic lots = 0;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SaleServiceClient saleServiceClient = new SaleServiceClient();
+                    lots = saleServiceClient.GetAllLots();
+
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                lots = null;
+                throw e;
+
+            }
+            return Json(lots, JsonRequestBehavior.AllowGet);
+
+        }
+        [HttpGet]
+        public ActionResult SaveSalesLot(string ID)
+        {
+            int id = 0;
+            if (ID != "0")
+            {
+                id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+            }
+            Lots lot = new Lots();
+            lot.iLotID = id;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SaleServiceClient saleServiceClient = new SaleServiceClient();
+                    lot = saleServiceClient.GetLots(id);
+
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "something went wrong");
+                lot = null;
+                throw e;
+            }
+            return View(lot);
+        }
+
+        [HttpPost]
+        public ActionResult SaveSalesLot(Lots lot)
+        {
+
+            bool status = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SaleServiceClient saleServiceClient = new SaleServiceClient();
+
+                    status = saleServiceClient.SaveSlesLot(lot);
+                    //return RedirectToAction("Index");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong");
+                status = false;
+                throw e;
+
+            }
+            return View(lot);
+            //   return new JsonResult { Data = new { status = status } };
+        }
+
+
+        [HttpGet]
+        public ActionResult DeleteSalesLot(string ID)
+        {
+            int id = 0;
+            if (ID != "0")
+            {
+                id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+            }
+            Lots lot = new Lots();
+            lot.iLotID = id;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SaleServiceClient saleServiceClient = new SaleServiceClient();
+                    lot = saleServiceClient.GetLots(id);
+
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "something went wrong");
+                lot = null;
+                throw e;
+            }
+            return View("DeleteSalesLot", lot);
+        }
+
+        [HttpPost]
+        [ActionName("DeleteSalesLot")]
+        public ActionResult DeleteLot(string ID)
+        {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+            bool status = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Services.SaleServiceClient salesServiceClient = new Services.SaleServiceClient();
+                    status = salesServiceClient.DeleteSalesLot(id);
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong!");
+                status = false;
+                throw e;
+            }
+
+            return View("SalesLotList");
+            //return new JsonResult { Data = new { status = status } };
+        }
+
+        #endregion
+
 
     }
 }

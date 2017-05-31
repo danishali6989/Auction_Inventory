@@ -23,6 +23,7 @@
           <Property Name="iVehicleID" Type="int" />
           <Property Name="strAuctionDate" Type="nvarchar" MaxLength="50" />
           <Property Name="iAuctionFrontEndID" Type="int" />
+          <Property Name="dtAuctionDate" Type="datetime" />
         </EntityType>
         <EntityType Name="CityMaster">
           <Key>
@@ -155,6 +156,18 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.MailModel' does not have
           <Property Name="iSubCategoryID" Type="int" />
           <Property Name="dcmlExpenseAmount" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
+        <EntityType Name="MLots">
+          <Key>
+            <PropertyRef Name="iLotID" />
+          </Key>
+          <Property Name="iLotID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="strLotName" Type="nvarchar" MaxLength="50" />
+          <Property Name="strFromDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="dtFromDate" Type="datetime" />
+          <Property Name="strToDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="dtToDate" Type="datetime" />
+          <Property Name="chLotType" Type="nvarchar" MaxLength="2" />
+        </EntityType>
         <EntityType Name="MParty">
           <Key>
             <PropertyRef Name="iPartyID" />
@@ -219,6 +232,10 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.MailModel' does not have
           <Property Name="strWebsites" Type="nvarchar" MaxLength="50" />
           <Property Name="strPicName" Type="nvarchar" MaxLength="50" />
           <Property Name="iPincode" Type="varchar" MaxLength="50" />
+          <Property Name="AccountNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="strBankName" Type="nvarchar" MaxLength="50" />
+          <Property Name="strBranchName" Type="nvarchar" MaxLength="50" />
+          <Property Name="strSwiftCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PaperDetailsForExport">
           <Key>
@@ -413,7 +430,6 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <Property Name="strChassisNum" Type="nvarchar" MaxLength="50" />
           <Property Name="strCategory" Type="nvarchar" MaxLength="50" />
           <Property Name="strMake" Type="nvarchar" MaxLength="50" />
-          <Property Name="iModel" Type="varchar" MaxLength="50" />
           <Property Name="iYear" Type="varchar" MaxLength="50" />
           <Property Name="strColor" Type="nvarchar" MaxLength="50" />
           <Property Name="dmlKM" Type="decimal" Precision="18" Scale="0" />
@@ -424,11 +440,17 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <Property Name="strHSCode" Type="nvarchar" MaxLength="50" />
           <Property Name="ATMT" Type="nvarchar" MaxLength="50" />
           <Property Name="iCustomAssesVal" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="iDuty" Type="int" />
           <Property Name="iCustomValInJPY" Type="decimal" Precision="18" Scale="2" />
           <Property Name="IsStockRecieved" Type="bit" />
           <Property Name="PurchaseID" Type="bigint" Nullable="false" />
           <Property Name="dcmlExpenseAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="strGradeA" Type="nvarchar" MaxLength="50" />
+          <Property Name="strGradeB" Type="nvarchar" MaxLength="50" />
+          <Property Name="dmlLitter" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="strTrans" Type="nvarchar" MaxLength="50" />
+          <Property Name="iMileage" Type="int" />
+          <Property Name="dmlDuty" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="iModel" Type="int" />
         </EntityType>
         <EntityType Name="VehicleExpenses">
           <Key>
@@ -504,6 +526,7 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <EntitySet Name="MCurrency" EntityType="Self.MCurrency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MCustomer" EntityType="Self.MCustomer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MExpense" EntityType="Self.MExpense" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MLots" EntityType="Self.MLots" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MParty" EntityType="Self.MParty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MStaff" EntityType="Self.MStaff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MSupplier" EntityType="Self.MSupplier" Schema="dbo" store:Type="Tables" />
@@ -588,6 +611,7 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <EntitySet Name="MCurrencies" EntityType="AuctionInventoryModel.MCurrency" />
           <EntitySet Name="MCustomers" EntityType="AuctionInventoryModel.MCustomer" />
           <EntitySet Name="MExpenses" EntityType="AuctionInventoryModel.MExpense" />
+          <EntitySet Name="MLots" EntityType="AuctionInventoryModel.MLot" />
           <EntitySet Name="MParties" EntityType="AuctionInventoryModel.MParty" />
           <EntitySet Name="MStaffs" EntityType="AuctionInventoryModel.MStaff" />
           <EntitySet Name="MSuppliers" EntityType="AuctionInventoryModel.MSupplier" />
@@ -663,6 +687,7 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <Property Name="iVehicleID" Type="Int32" />
           <Property Name="strAuctionDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="iAuctionFrontEndID" Type="Int32" />
+          <Property Name="dtAuctionDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="CityMaster">
           <Key>
@@ -773,6 +798,18 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <Property Name="iSubCategoryID" Type="Int32" />
           <Property Name="dcmlExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
+        <EntityType Name="MLot">
+          <Key>
+            <PropertyRef Name="iLotID" />
+          </Key>
+          <Property Name="iLotID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="strLotName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="strFromDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dtFromDate" Type="DateTime" Precision="3" />
+          <Property Name="strToDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dtToDate" Type="DateTime" Precision="3" />
+          <Property Name="chLotType" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="MParty">
           <Key>
             <PropertyRef Name="iPartyID" />
@@ -837,6 +874,10 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <Property Name="strWebsites" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strPicName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="iPincode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AccountNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="strBankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="strBranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="strSwiftCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PaperDetailsForExport">
           <Key>
@@ -994,7 +1035,6 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <Property Name="strChassisNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="strMake" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="iModel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="iYear" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="strColor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="dmlKM" Type="Decimal" Precision="18" Scale="0" />
@@ -1005,11 +1045,17 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <Property Name="strHSCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ATMT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="iCustomAssesVal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="iDuty" Type="Int32" />
           <Property Name="iCustomValInJPY" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="IsStockRecieved" Type="Boolean" />
           <Property Name="PurchaseID" Type="Int64" Nullable="false" />
           <Property Name="dcmlExpenseAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="strGradeA" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="strGradeB" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dmlLitter" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="strTrans" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="iMileage" Type="Int32" />
+          <Property Name="dmlDuty" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="iModel" Type="Int32" />
           <NavigationProperty Name="TPurchase" Relationship="AuctionInventoryModel.FK_Vehicle_TPurchase" FromRole="Vehicle" ToRole="TPurchase" />
         </EntityType>
         <EntityType Name="ExpenseAmount">
@@ -1141,6 +1187,7 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <EntitySetMapping Name="AuctionLists">
             <EntityTypeMapping TypeName="AuctionInventoryModel.AuctionList">
               <MappingFragment StoreEntitySet="AuctionList">
+                <ScalarProperty Name="dtAuctionDate" ColumnName="dtAuctionDate" />
                 <ScalarProperty Name="iAuctionFrontEndID" ColumnName="iAuctionFrontEndID" />
                 <ScalarProperty Name="strAuctionDate" ColumnName="strAuctionDate" />
                 <ScalarProperty Name="iVehicleID" ColumnName="iVehicleID" />
@@ -1266,6 +1313,19 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MLots">
+            <EntityTypeMapping TypeName="AuctionInventoryModel.MLot">
+              <MappingFragment StoreEntitySet="MLots">
+                <ScalarProperty Name="chLotType" ColumnName="chLotType" />
+                <ScalarProperty Name="dtToDate" ColumnName="dtToDate" />
+                <ScalarProperty Name="strToDate" ColumnName="strToDate" />
+                <ScalarProperty Name="dtFromDate" ColumnName="dtFromDate" />
+                <ScalarProperty Name="strFromDate" ColumnName="strFromDate" />
+                <ScalarProperty Name="strLotName" ColumnName="strLotName" />
+                <ScalarProperty Name="iLotID" ColumnName="iLotID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="MParties">
             <EntityTypeMapping TypeName="AuctionInventoryModel.MParty">
               <MappingFragment StoreEntitySet="MParty">
@@ -1312,6 +1372,10 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <EntitySetMapping Name="MSuppliers">
             <EntityTypeMapping TypeName="AuctionInventoryModel.MSupplier">
               <MappingFragment StoreEntitySet="MSupplier">
+                <ScalarProperty Name="strSwiftCode" ColumnName="strSwiftCode" />
+                <ScalarProperty Name="strBranchName" ColumnName="strBranchName" />
+                <ScalarProperty Name="strBankName" ColumnName="strBankName" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
                 <ScalarProperty Name="iPincode" ColumnName="iPincode" />
                 <ScalarProperty Name="strPicName" ColumnName="strPicName" />
                 <ScalarProperty Name="strWebsites" ColumnName="strWebsites" />
@@ -1491,11 +1555,17 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
           <EntitySetMapping Name="Vehicles">
             <EntityTypeMapping TypeName="AuctionInventoryModel.Vehicle">
               <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="iModel" ColumnName="iModel" />
+                <ScalarProperty Name="dmlDuty" ColumnName="dmlDuty" />
+                <ScalarProperty Name="iMileage" ColumnName="iMileage" />
+                <ScalarProperty Name="strTrans" ColumnName="strTrans" />
+                <ScalarProperty Name="dmlLitter" ColumnName="dmlLitter" />
+                <ScalarProperty Name="strGradeB" ColumnName="strGradeB" />
+                <ScalarProperty Name="strGradeA" ColumnName="strGradeA" />
                 <ScalarProperty Name="dcmlExpenseAmount" ColumnName="dcmlExpenseAmount" />
                 <ScalarProperty Name="PurchaseID" ColumnName="PurchaseID" />
                 <ScalarProperty Name="IsStockRecieved" ColumnName="IsStockRecieved" />
                 <ScalarProperty Name="iCustomValInJPY" ColumnName="iCustomValInJPY" />
-                <ScalarProperty Name="iDuty" ColumnName="iDuty" />
                 <ScalarProperty Name="iCustomAssesVal" ColumnName="iCustomAssesVal" />
                 <ScalarProperty Name="ATMT" ColumnName="ATMT" />
                 <ScalarProperty Name="strHSCode" ColumnName="strHSCode" />
@@ -1506,7 +1576,6 @@ warning 6002: The table/view 'DB_A256F5_daauctiondb.dbo.tbl_UserRoles' does not 
                 <ScalarProperty Name="dmlKM" ColumnName="dmlKM" />
                 <ScalarProperty Name="strColor" ColumnName="strColor" />
                 <ScalarProperty Name="iYear" ColumnName="iYear" />
-                <ScalarProperty Name="iModel" ColumnName="iModel" />
                 <ScalarProperty Name="strMake" ColumnName="strMake" />
                 <ScalarProperty Name="strCategory" ColumnName="strCategory" />
                 <ScalarProperty Name="strChassisNum" ColumnName="strChassisNum" />

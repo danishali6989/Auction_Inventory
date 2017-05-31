@@ -206,6 +206,7 @@
     <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\ExpenseAmountModel.cs" />
     <Compile Include="Models\Expenses.cs" />
+    <Compile Include="Models\Lots.cs" />
     <Compile Include="Models\PaperDetailsExportModel.cs" />
     <Compile Include="Models\PaperDetailsImportModel.cs" />
     <Compile Include="Models\PartyModel.cs" />
@@ -1240,6 +1241,17 @@
     <Content Include="Views\MCreditCategory\Save.cshtml" />
     <Content Include="Views\MCreditCategory\Delete.cshtml" />
     <Content Include="Views\Sales\SalesPayment.cshtml" />
+    <Content Include="Views\Sales\DeleteSalesLot.cshtml" />
+    <Content Include="Views\Sales\GetAllLots.cshtml" />
+    <Content Include="Views\Sales\SalesLotList.cshtml" />
+    <Content Include="Views\Sales\SaveSalesLot.cshtml" />
+    <Content Include="Views\MSupplier\SupplierBankDetails.cshtml" />
+    <Content Include="Views\TPurchase\DeletePurchaseLot.cshtml" />
+    <Content Include="Views\TPurchase\PurchaseLotList.cshtml" />
+    <Content Include="Views\TPurchase\SavePurchaseLot.cshtml" />
+    <Content Include="Views\MExpenses\DeleteExpenseLot.cshtml" />
+    <Content Include="Views\MExpenses\ExpenseLotList.cshtml" />
+    <Content Include="Views\MExpenses\SaveExpenseLot.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "GetAllLots";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>GetAllLots</h2>
+
+<div class="box-body">
+    <div>
+        <a class="popup btn btn-primary" href="/Sales/SaveSalesLot/0" style="margin-bottom:20px; margin-top:20px;">Add New</a>
+
+    </div>
+    <br />
+    <div>
+        <table id="dataGrid" class="table table-bordered table-striped"></table>
+        <div id="pagingGrid"></div>
+        <br><br>
+    </div>
+</div>
+
+
+
+<script>
+    $(function () {
+
+        //this grid is used to fill the Customers list
+
+        $('#dataGrid').jqGrid({
+            caption: "All Lots List",
+            url: '/Sales/GetAllLots',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+
+            colNames: ['iLotID', 'Lot Name', 'From Date', 'dtFromDate', 'To Date', 'dtToDate', 'Type', 'Action'],
+            colModel: [
+                { name: 'iLotID', index: 'iLotID', hidden: true, hidedlg: true },
+                { name: 'strLotName', index: 'strLotName', align: 'center' },
+                { name: 'strFromDate', index: 'strFromDate', align: 'center' },
+                { name: 'dtFromDate', index: 'dtFromDate', align: 'center', hidden: true, hidedlg: true },
+                { name: 'strToDate', index: 'strToDate', align: 'center' },
+                { name: 'dtToDate', index: 'dtToDate', align: 'center', hidden: true, hidedlg: true },
+
+                { name: 'chLotType', index: 'chLotType', align: 'center' },
+
+                   {
+                       name: 'Action', index: 'Action', align: 'center', width: 250, search: false, title: false,
+                       formatter: function (cellvalue, options, rowObject) {
+
+                           return '<a class="popup btn btn-warning" href="/Sales/SaveSalesLot/' + options.rowId + '">Edit</a>' + "   " + '<a class="popup btn btn-danger" href="/MStaff/Delete/' + options.rowId + '">Delete</a>';
+
+                           //return  "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Edit' onclick=\"editRowData('" + options.rowid + "');\" />";
+                       }
+
+                   },
+
+
+
+            ],
+            width: 1050,
+            height: 450,
+            rowNum: 10,
+            loadonce: true,
+            ignoreCase: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGrid',
+        });
+        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+    });
+
+</script>
+
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>

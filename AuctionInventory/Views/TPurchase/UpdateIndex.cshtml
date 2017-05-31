@@ -34,7 +34,7 @@
 
                     @Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @type = "hidden", @id = "intInvno" })
 
-                    @Html.TextBoxFor(a => a.strPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })
+                    @Html.TextBoxFor(a => a.strPurchaseInvoiceNo, new { @class = "form-control", @id = "invno", @readonly = "readonly" })
 
                 </div>
             </div>
@@ -99,12 +99,31 @@
 
         <div class="row" id="divParsedExcel" style="display:none">
 
-            <div class="col-sm-6">
+            @*<div class="col-sm-6">
                 <b>Invoice value JPY </b>: &yen; <span id="spnINVJPY"></span>
                 <br />
                 <b>Invoice value AED </b>: 	د.إ <span id="spnINVAED"></span>
             </div>
-            <br /><br /><br /><br />
+            <br /><br /><br /><br />*@
+
+            <div class="col-sm-6">
+                @*<b>Invoice value JPY </b>: &yen; <span id="spnINVJPY"></span>
+            <br />
+            <b>Invoice value AED </b>: 	د.إ  <span id="spnINVAED"></span>
+            <br /><br />*@
+                <h4><label class="label label-warning form-control input-group-lg">Invoice value JPY: &yen <span id="spnINVJPY"></span></label></h4>
+
+                <h4><label class="label label-warning form-control input-group-lg">Invoice value AED: د.إ <span id="spnINVAED"></span></label></h4>
+            </div>
+            <br />
+            <div class="col-sm-6">
+                <h4><label class="label label-warning form-control input-group-lg">No Of Imported Vehicles: <span id="rowCount"></span></label></h4>
+                @*<b>No Of Imported Vehicles </b>: 	 <span id="rowCount"></span>*@
+            </div>
+
+            <br />
+            <br />
+
             <table id="dataGrid" class="table table-bordered table-striped"></table>
             <div id="pagingGrid"></div>
            
@@ -363,23 +382,46 @@
                 data: listVehicle,
                 datatype: "local",
                 // colNames: ['Action', 'Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Assessed Value', 'AED'],
-                colNames: ['ID','Lot No', 'Chasis No','Make', 'Model','Category', 'Year', 'Color','Origin','Location', 'CustomAssessed Value','Duty', 'JPY'],
+                colNames: ['iVehicleID','Lot No', 'Chasis No', 'Make', 'Model', 'Grade', 'Door', 'Litter', 'Trans','Mileage','weight', 'Category', 'Year', 'Color', 'Origin', 'Location', 'CustomAssessed Value', 'Duty', 'CNF(JPY)'],
                 colModel: [
-                    { name: 'iVehicleID', index: 'iVehicleID',hidden: true, editable: true, editrules: { edithidden: false }, hidedlg: true },
-                    { name: 'iLotNum', index: 'iLotNum', editable: true },
-                    { name: 'strChassisNum', index: 'strChassisNum', editable: true },
-                    { name: 'strMake', index: 'strMake', editable: true },
-                    { name: 'iModel', index: 'iModel', editable: true },
-                    { name: 'strCategory', index: 'strCategory', editable: true },
-                    { name: 'iYear', index: 'iYear', editable: true },
-                    { name: 'strColor', index: 'strColor', editable: true },
-                    { name: 'strOrigin', index: 'strOrigin', editable: true },
-                    { name: 'strLocation', index: 'strLocation', editable: true },
-                    { name: 'iCustomAssesVal', index: 'iCustomAssesVal', editable: true },
-                    { name: 'iDuty', index: 'iDuty', editable: true },
-                    { name: 'iCustomValInJPY', index: 'iCustomValInJPY', editable: true }
+                    
+                { name: 'iVehicleID', index: 'iVehicleID', hidden: true, hidedlg: true  },
+                    { name: 'iLotNum', index: 'iLotNum', width: 50, editable: true, align: 'center' },
+                    { name: 'strChassisNum', index: 'strChassisNum', width: 120, editable: true, align: 'center' },
+                    { name: 'strMake', index: 'strMake', width: 50, editable: true, align: 'center' },
+                    { name: 'iModel', index: 'iModel', width: 50, editable: true, align: 'center' },
+                    { name: 'strGrade', index: 'strGrade', width: 170, editable: true, align: 'center' },
+                    { name: 'iDoor', index: 'iDoor', width: 50, editable: true, align: 'center' },
+                    { name: 'dmlLitter', index: 'dmlLitter', width: 50, editable: true, align: 'center' },
+                    { name: 'strTrans', index: 'strTrans', width: 50, editable: true, align: 'center' },
+                    { name: 'iMileage', index: 'iMileage', width: 60, editable: true, align: 'center' },
+                    { name: 'weight', index: 'weight', width: 50, editable: true, align: 'center' },
+                    { name: 'strCategory', index: 'strCategory', width: 50, editable: true, align: 'center' },
+                    { name: 'iYear', index: 'iYear', width: 50, editable: true, align: 'center' },
+                    { name: 'strColor', index: 'strColor', width: 50, editable: true, align: 'center' },
+                    { name: 'strOrigin', index: 'strOrigin', width: 50, editable: true, align: 'center' },
+                    { name: 'strLocation', index: 'strLocation', width: 50, editable: true, align: 'center' },
+                    { name: 'iCustomAssesVal', index: 'iCustomAssesVal', width: 50, editable: true, align: 'center' },
+                    { name: 'dmlDuty', index: 'dmlDuty', width: 50, editable: true, align: 'center' },
+                    { name: 'iCustomValInJPY', index: 'iCustomValInJPY', width: 100, editable: true, align: 'center' }
 
-                    //,{ name: 'act', index: 'act', width: 350 }
+
+                    //,{ name: 'act', index: 'act', width: 750 }
+
+
+
+                //colNames: ['Lot No', 'Chasis No', 'Model', 'Year', 'Color', 'JPY', 'Assessed Value', 'AED', 'Action'],
+                //colModel: [
+
+                //    { name: 'iLotNum', index: 'iLotNum', editable: true },
+                //    { name: 'strChassisNum', index: 'strChassisNum', editable: true },
+                //    { name: 'iModel', index: 'iModel', editable: true },
+                //    { name: 'iYear', index: 'iYear', editable: true },
+                //    { name: 'strColor', index: 'strColor', editable: true },
+                //    { name: 'iCustomValInJPY', index: 'iCustomValInJPY', editable: true },
+                //    { name: 'iCustomAssesVal', index: 'iCustomAssesVal', editable: true },
+                //    { name: 'AED', index: 'AED', editable: true },
+                //    { name: 'act', index: 'act', width: 350 }
 
                     //{
                     //    name: 'Action', index: 'Action', align: 'center', width: 200, search: false, title: false,
@@ -435,7 +477,8 @@
             jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
             jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false, rel: false });
 
-
+            var rowCount = $("#dataGrid").getGridParam("reccount");
+            $("#rowCount").text(rowCount);
 
             //jQuery('#dataGrid').jqGrid({
             //    url: '/MVehicle/GetData/',

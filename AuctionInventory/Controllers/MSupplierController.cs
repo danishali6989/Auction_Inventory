@@ -203,14 +203,52 @@ namespace AuctionInventory.Controllers
 
         }
 
+
+        [HttpGet]
+        public ActionResult GetAllSupplierBankDetails()
+        {
+
+            dynamic listSupplierBankDetails = 0;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Services.SupplierServiceClient supplierServiceClient = new Services.SupplierServiceClient();
+                    listSupplierBankDetails = supplierServiceClient.GetAllSupplierBankDetails();
+                    //ViewBag.ImageData = listSupplier.SupplierPhoto;
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                listSupplierBankDetails = null;
+                throw e;
+
+            }
+            return Json(listSupplierBankDetails, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult SupplierBankDetails()
+        {
+            
+            return View();
+
+        }
+
         #endregion
 
 
 
         //for image Retrieve from db  
         [HttpPost]
+        //public ActionResult RetrieveImage(String ID)
+        //{
+        //  int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+
         public ActionResult RetrieveImage(int id)
         {
+           
             dynamic cover = 0;
 
             try

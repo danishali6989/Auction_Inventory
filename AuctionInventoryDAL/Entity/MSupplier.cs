@@ -33,5 +33,9 @@ namespace AuctionInventoryDAL.Entity
         public string strWebsites { get; set; }
         public string strPicName { get; set; }
         public string iPincode { get; set; }
+        public string AccountNumber { get; set; }
+        public string strBankName { get; set; }
+        public string strBranchName { get; set; }
+        public string strSwiftCode { get; set; }
     }
 }

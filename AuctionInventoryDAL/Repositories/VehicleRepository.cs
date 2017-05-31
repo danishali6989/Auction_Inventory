@@ -31,7 +31,7 @@ namespace AuctionInventoryDAL.Repositories
                               iModel = AM.iModel,
                               iYear = AM.iYear,
                               color = AM.strColor,
-                          iDuty = AM.iDuty,
+                          iDuty = AM.dmlDuty,
                               iCustomValInJPY = AM.iCustomValInJPY,
                               iCustomAssesVal = AM.iCustomAssesVal
 
@@ -97,7 +97,7 @@ namespace AuctionInventoryDAL.Repositories
                     a.strHSCode = vehicle.strHSCode;
                     a.ATMT = vehicle.ATMT;
                     a.iCustomAssesVal = vehicle.iCustomAssesVal;
-                    a.iDuty = vehicle.iDuty;
+                    a.dmlDuty = vehicle.dmlDuty;
                     a.iCustomValInJPY = vehicle.iCustomValInJPY;
                 }
 

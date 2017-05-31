@@ -11,5 +11,6 @@ namespace AuctionInventory.Models
         public Nullable<int> iVehicleID { get; set; }
         public string strAuctionDate { get; set; }
         public Nullable<int> iAuctionFrontEndID { get; set; }
+        public Nullable<System.DateTime> dtAuctionDate { get; set; }
     }
 }

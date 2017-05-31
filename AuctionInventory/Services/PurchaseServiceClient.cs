@@ -21,13 +21,31 @@ namespace AuctionInventory.Services
             return listPurchase;
         }
 
-        public dynamic GetAllPurchaseReportByDate(DateTime fromDate, DateTime toDate)
-        {
+        //public dynamic GetAllPurchaseReportByDate(DateTime fromDate, DateTime toDate)
+        //{
 
+        //    PurchaseRepository repo = new PurchaseRepository();
+        //    var listPurchase = repo.GetAllPurchaseReportByDate(fromDate, toDate);
+        //    return listPurchase;
+        //}
+
+
+        public dynamic GetAllPurchaseReportByDate(DateTime fromDate, DateTime toDate, string supplierName)
+        {
+            dynamic listPurchase = 0;
             PurchaseRepository repo = new PurchaseRepository();
-            var listPurchase = repo.GetAllPurchaseReportByDate(fromDate, toDate);
+            if (supplierName != "")
+            {
+                listPurchase = repo.GetAllPurchaseReportByDateAndSuppier(fromDate, toDate, supplierName);
+            }
+            else
+            {
+                listPurchase = repo.GetAllPurchaseReportByDate(fromDate, toDate);
+            }
+
             return listPurchase;
         }
+
 
         //public dynamic GetAllPurchaseReport()
         //{
@@ -40,7 +58,7 @@ namespace AuctionInventory.Services
         public bool SaveData(Purchase purchase, List<Vehicles> griddata)
         {
             bool status = true;
-            Purchase Pur = new Purchase();
+            //Purchase Pur = new Purchase();
             PurchaseRepository repo = new PurchaseRepository();
           //  string purchaseInvoice=CommonMethods.GetPurchaseInvoiceNumber(PurchaseInvoiceNum.PurchaseInvoice,)
            
@@ -62,7 +80,7 @@ namespace AuctionInventory.Services
                     mVehicle.strChassisNum = item.strChassisNum ?? " ";
                     mVehicle.strCategory = item.strCategory ?? " ";
                     mVehicle.strMake = item.strMake ?? " ";
-                    mVehicle.iModel = item.iModel ?? " ";
+                    mVehicle.iModel = item.iModel;
                     mVehicle.iYear = item.iYear ?? " ";
                     mVehicle.strColor = item.strColor;
                     mVehicle.dmlKM = item.dmlKM;
@@ -73,8 +91,18 @@ namespace AuctionInventory.Services
                     mVehicle.strHSCode = item.strHSCode ?? " ";
                     mVehicle.ATMT = item.ATMT ?? " ";
                     mVehicle.iCustomAssesVal = item.iCustomAssesVal;
-                    mVehicle.iDuty = item.iDuty;
+                    mVehicle.dmlDuty = item.dmlDuty;
                     mVehicle.iCustomValInJPY = item.iCustomValInJPY;
+
+
+                     mVehicle.strGradeA = item.strGradeA ?? " ";
+                    mVehicle.strGradeB = item.strGradeB ?? " ";
+                    mVehicle.dmlLitter = item.dmlLitter;
+                    mVehicle.strTrans = item.strTrans;
+                    mVehicle.iMileage = item.iMileage;
+                  
+
+
                     listVehicle.Add(mVehicle);
                 }
             }
@@ -145,6 +173,83 @@ namespace AuctionInventory.Services
             status = repo.Delete(id);
             return status;
         }
+
+
+        #region Lots
+        public dynamic GetAllLots()
+        {
+
+            PurchaseRepository repo = new PurchaseRepository();
+            var listLot = repo.GetAllLots();
+            return listLot;
+        }
+
+        public bool SavePurchaseLot(Lots lot)
+        {
+            bool status = true;
+
+            PurchaseRepository repo = new PurchaseRepository();
+            status = repo.PurchaseLotSaveEdit(ParserAddPurchaseLot(lot));
+            return status;
+        }
+
+        public Lots GetLots(int id)
+        {
+
+            Lots lots = new Lots();
+            PurchaseRepository repo = new PurchaseRepository();
+            if (lots != null)
+            {
+                lots = ParserGetPurchaseLot(repo.GetLot(id));
+            }
+            return lots;
+
+        }
+        public bool DeletePurchaseLot(int id)
+        {
+            bool status = false;
+            PurchaseRepository repo = new PurchaseRepository();
+            status = repo.DeletePurchaseLot(id);
+            return status;
+        }
+        private MLot ParserAddPurchaseLot(Lots lot)
+        {
+            MLot mlot = new MLot();
+
+            if (mlot != null)
+            {
+                mlot.iLotID = lot.iLotID;
+                mlot.strLotName = lot.strLotName ?? " ";
+                mlot.strFromDate = lot.strFromDate ?? " ";
+                mlot.dtFromDate = lot.dtFromDate;
+                mlot.strToDate = lot.strToDate;
+                mlot.dtToDate = lot.dtToDate;
+                mlot.chLotType = lot.chLotType ?? " ";
+
+            }
+            return mlot;
+        }
+
+        private Lots ParserGetPurchaseLot(dynamic data)
+        {
+            Lots lot = new Lots();
+
+            if (data != null)
+            {
+
+                lot.iLotID = data.iLotID;
+                lot.strLotName = data.strLotName ?? " ";
+                lot.strFromDate = data.strFromDate ?? " ";
+                lot.dtFromDate = data.dtFromDate ?? " ";
+                lot.strToDate = data.strToDate;
+                lot.dtToDate = data.dtToDate;
+                lot.chLotType = data.chLotType ?? " ";
+
+            }
+            return lot;
+        }
+        #endregion
+
 
         #region Parser
 

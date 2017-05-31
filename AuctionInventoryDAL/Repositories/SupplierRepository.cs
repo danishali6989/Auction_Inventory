@@ -79,6 +79,56 @@ namespace AuctionInventoryDAL.Repositories
             return jsonData;
         }
 
+        public dynamic GetAllSupplierBankDetails()
+        {
+            var jsonData = new
+            {
+                total = 1,
+                page = 1,
+                records = auctionContext.MSuppliers.ToList().Count,
+                rows = (
+                  from supplier in
+                      (from AM in auctionContext.MSuppliers
+                       //join t1 in auctionContext.MCurrencies on AM.iCurrency equals t1.CurrencyID
+                       // join t2 in auctionContext.MCategories on AM.iSupplierCategory equals t2.iCategoryID
+
+
+                       select new
+                       {
+                           
+
+                           //iSupplierServiceType = AM.iSupplierServiceType,
+                           //iSupplierCategory = AM.iSupplierCategory,
+                           iSupplierID = AM.iSupplierID,
+                           strCompanyName = AM.strCompanyName,
+                           AccountNumber = AM.AccountNumber,
+
+                           strBankName = AM.strBankName,
+                           strBranchName = AM.strBranchName,
+
+                           strSwiftCode = AM.strSwiftCode,
+
+
+                       }).OrderBy(a => a.iSupplierID).ToList()
+                  select new
+                  {
+                      //id = supplier.iSupplierID,
+                      id = HttpUtility.UrlEncode(Encryption.Encrypt(Convert.ToString(supplier.iSupplierID))),
+                      cell = new string[] {
+               Convert.ToString(supplier.iSupplierID),
+             
+                Convert.ToString(supplier.strCompanyName),
+               
+                  //Convert.ToString(supplier.iOfcPhoneNumber),
+               //Convert.ToString(supplier.strFirstName+" "+supplier.strLastName),             
+              Convert.ToString(supplier.AccountNumber),Convert.ToString(supplier.strBankName),
+              Convert.ToString(supplier.strBranchName),  Convert.ToString(supplier.strSwiftCode)
+              //, Convert.ToString(supplier.strCategoryName)
+                      }
+                  }).ToArray()
+            };
+            return jsonData;
+        }
 
         public MSupplier Get(int id)
         {
@@ -92,12 +142,44 @@ namespace AuctionInventoryDAL.Repositories
             bool status = false;
             if (supplier.iSupplierID > 0)
             {
-                if (supplier.strPicName != null && supplier.strPicName.Length>0)
+                //if (supplier.strPicName != null && supplier.strPicName.Length>0)
+                //{
+                //    //string pic = System.IO.Path.GetFileName(file.FileName);
+
+
+                //    string pic = supplier.strPicName;
+
+                //    string path = @"..\Images\Profiles\" + pic;
+
+
+
+                //    file.SaveAs(System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic));
+
+                   
+                //        supplier.SupplierPhoto = path;
+                    
+                   
+                //    // auctionContext.SaveChanges();
+                //}
+
+                string chkFileName = System.IO.Path.GetFileName(file.FileName);
+
+                if (chkFileName == "" && supplier.strPicName != null )
                 {
-                    //string pic = System.IO.Path.GetFileName(file.FileName);
-
-
                     string pic = supplier.strPicName;
+
+                    string path = @"..\Images\Profiles\" + pic;
+
+
+
+                    //file.SaveAs(System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic));
+
+
+                    supplier.SupplierPhoto = path;
+                }
+                else if (chkFileName != "")
+                {
+                    string pic = chkFileName;
 
                     string path = @"..\Images\Profiles\" + pic;
 
@@ -106,8 +188,11 @@ namespace AuctionInventoryDAL.Repositories
                     file.SaveAs(System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic));
 
                     supplier.SupplierPhoto = path;
-                    // auctionContext.SaveChanges();
+                    supplier.strPicName = chkFileName;
+
+                   
                 }
+
 
                 //Edit Existing Record
                 var supp = auctionContext.MSuppliers.Where(a => a.iSupplierID == supplier.iSupplierID).FirstOrDefault();
@@ -125,12 +210,17 @@ namespace AuctionInventoryDAL.Repositories
                     supp.iCurrency = supplier.iCurrency;
                     supp.SupplierPhoto = supplier.SupplierPhoto;
                     supp.SupplierDate = supplier.SupplierDate;
-
+                    supp.strPicName = supplier.strPicName;
 
                     supp.iPersonPhoneNumber = supplier.iPersonPhoneNumber;
                     supp.strPersonEmailID = supplier.strPersonEmailID;
                     supp.strCompanyName = supplier.strCompanyName;
                     supp.strWebsites = supplier.strWebsites;
+
+                    supp.AccountNumber = supplier.AccountNumber;
+                    supp.strBankName = supplier.strBankName;
+                    supp.strBranchName = supplier.strBranchName;
+                    supp.strSwiftCode = supplier.strSwiftCode;
                   
                     auctionContext.SaveChanges();
                 }
@@ -153,6 +243,9 @@ namespace AuctionInventoryDAL.Repositories
 
 
                     file.SaveAs(System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Images/Profiles"), pic));
+
+
+                    supplier.strPicName = pic;
 
                     supplier.SupplierPhoto = path;
                     // auctionContext.SaveChanges();

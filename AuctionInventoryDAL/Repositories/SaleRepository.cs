@@ -1,9 +1,11 @@
-﻿using AuctionInventoryDAL.Entity;
+﻿using AuctionInventoryDAL.CommonMethods;
+using AuctionInventoryDAL.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.UI.WebControls;
 
 
@@ -205,8 +207,49 @@ namespace AuctionInventoryDAL.Repositories
         //}
 
 
+        //public dynamic GetAllSalesReportByDate(DateTime fromDate, DateTime toDate)
+        //{
+
+        //    var salesReportByDate = (from AM in auctionContext.Sales
+        //                             join t2 in auctionContext.PaperTypes on AM.iImpExpTransfer equals t2.iPaperModeID
+        //                             join t3 in auctionContext.PaymentTypes on AM.iPaymentType equals t3.iCashID
+        //                             where (AM.dtSalesDate) >= (fromDate) && (AM.dtSalesDate) <= (toDate)
+
+        //                             select new
+        //                             {
+        //                                 //iSaleID = AM.iSaleID,
+        //                                 //iSaleFrontEndID = AM.iSaleFrontEndID,
+        //                                 //iSalesInvoiceID = AM.iSalesInvoiceID,
+
+        //                                 strSalesInvoiceNo = AM.strSalesInvoiceNo,
+
+        //                                 //iImpExpTransfer = AM.iImpExpTransfer,
+        //                                 //iPaymentType = AM.iPaymentType,
+
+        //                                 //iCustomerID = AM.iCustomerID,
+
+        //                                 strBuyerName = AM.strBuyerName,
+        //                                 strSalesDate = AM.strSalesDate,
+        //                                 dmlSellingPrice = AM.dmlSellingPrice,
+        //                                 dmlDeposit = AM.dmlDeposit,
+        //                                 dmlAdvance = AM.dmlAdvance,
+        //                                 dmlBalance = AM.dmlBalance,
+        //                                 iInstallment = AM.iInstallment,
+        //                                 strCashName = t3.strCashName,
+        //                                 strPaperModeName = t2.strPaperModeName
+
+        //                             }).OrderBy(a => a.strSalesInvoiceNo).ToList();
+
+        //    var sumOfSellingPrice = salesReportByDate.Sum(x => x.dmlSellingPrice);
+
+        //    return new { salesReportByDate, sumOfSellingPrice };
+
+        //}
+
+        //Return all the sales between Dates
         public dynamic GetAllSalesReportByDate(DateTime fromDate, DateTime toDate)
         {
+
 
             var salesReportByDate = (from AM in auctionContext.Sales
                                      join t2 in auctionContext.PaperTypes on AM.iImpExpTransfer equals t2.iPaperModeID
@@ -237,13 +280,57 @@ namespace AuctionInventoryDAL.Repositories
                                          strPaperModeName = t2.strPaperModeName
 
                                      }).OrderBy(a => a.strSalesInvoiceNo).ToList();
-
             var sumOfSellingPrice = salesReportByDate.Sum(x => x.dmlSellingPrice);
+
+
+
 
             return new { salesReportByDate, sumOfSellingPrice };
 
         }
 
+        //Return Sales Report Filterd By Customer
+        public dynamic GetAllSalesReportByDateandCustomer(DateTime fromDate, DateTime toDate, int customerID)
+        {
+
+
+            var salesReportByDate = (from AM in auctionContext.Sales
+                                     join t2 in auctionContext.PaperTypes on AM.iImpExpTransfer equals t2.iPaperModeID
+                                     join t3 in auctionContext.PaymentTypes on AM.iPaymentType equals t3.iCashID
+                                     where (AM.dtSalesDate) >= (fromDate) && (AM.dtSalesDate) <= (toDate) && (AM.iCustomerID) == (customerID)
+
+                                     select new
+                                     {
+                                         //iSaleID = AM.iSaleID,
+                                         //iSaleFrontEndID = AM.iSaleFrontEndID,
+                                         //iSalesInvoiceID = AM.iSalesInvoiceID,
+
+                                         strSalesInvoiceNo = AM.strSalesInvoiceNo,
+
+                                         //iImpExpTransfer = AM.iImpExpTransfer,
+                                         //iPaymentType = AM.iPaymentType,
+
+                                         //iCustomerID = AM.iCustomerID,
+
+                                         strBuyerName = AM.strBuyerName,
+                                         strSalesDate = AM.strSalesDate,
+                                         dmlSellingPrice = AM.dmlSellingPrice,
+                                         dmlDeposit = AM.dmlDeposit,
+                                         dmlAdvance = AM.dmlAdvance,
+                                         dmlBalance = AM.dmlBalance,
+                                         iInstallment = AM.iInstallment,
+                                         strCashName = t3.strCashName,
+                                         strPaperModeName = t2.strPaperModeName
+
+                                     }).OrderBy(a => a.strSalesInvoiceNo).ToList();
+            var sumOfSellingPrice = salesReportByDate.Sum(x => x.dmlSellingPrice);
+
+
+
+
+            return new { salesReportByDate, sumOfSellingPrice };
+
+        }
 
         public bool CheckCustomerIsBlockOrNot()
         {
@@ -281,44 +368,74 @@ namespace AuctionInventoryDAL.Repositories
 
         }
 
-        public dynamic GetVehiclesData()
+        //public dynamic GetVehiclesDataBySalesDate(DateTime salesDate)
+        //{
+        //    using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
+        //    {
+        //        var jsonData = new
+        //        {
+        //            total = 1,
+        //            page = 1,
+        //            records = dc.Vehicles.ToList().Count,
+        //            rows = (
+        //              from vehi in
+        //                  (from AM in dc.Vehicles
+        //                   join t1 in dc.AuctionLists on AM.iVehicleID equals t1.iVehicleID
+        //                   where t1.dtAuctionDate==salesDate
+
+        //                   select new
+        //                   {
+        //                       iVehicleID = AM.iVehicleID,
+        //                       iLotNum = AM.iLotNum,
+        //                       strChassisNum = AM.strChassisNum,
+        //                       iModel = AM.iModel,
+        //                       iYear = AM.iYear,
+        //                       color = AM.strColor,
+        //                       iCustomValInJPY = AM.iCustomValInJPY,
+        //                       iCustomAssesVal = AM.iCustomAssesVal
+
+        //                   }).ToList()
+        //              select new
+        //              {
+        //                  id = vehi.iVehicleID,
+        //                  cell = new string[] {
+        //       Convert.ToString(vehi.iVehicleID),Convert.ToString(vehi.iLotNum),Convert.ToString( vehi.strChassisNum),Convert.ToString(vehi.iModel),Convert.ToString( vehi.iYear),Convert.ToString(vehi.color),Convert.ToString( vehi.iCustomValInJPY),Convert.ToString(vehi.iCustomAssesVal)
+        //                }
+        //              }).ToArray()
+        //        };
+        //        return jsonData;
+        //    }
+        //    //return View();
+        //}
+
+
+        public dynamic GetVehiclesDataBySalesDate(DateTime salesDate)
         {
-            using (AuctionInventoryEntities dc = new AuctionInventoryEntities())
-            {
-                var jsonData = new
-                {
-                    total = 1,
-                    page = 1,
-                    records = dc.Vehicles.ToList().Count,
-                    rows = (
-                      from vehi in
-                          (from AM in dc.Vehicles
+
+            var VehiclesByDate = (from AM in auctionContext.Vehicles
+                                        join t1 in auctionContext.AuctionLists on AM.iVehicleID equals t1.iVehicleID
+                                        where t1.dtAuctionDate == salesDate
+
+                                        select new
+                                        {
+                                            iVehicleID = AM.iVehicleID,
+                                            iLotNum = AM.iLotNum,
+                                            strChassisNum = AM.strChassisNum,
+                                            iModel = AM.iModel,
+                                            iYear = AM.iYear,
+                                            color = AM.strColor,
+                                            iCustomValInJPY = AM.iCustomValInJPY,
+                                            iCustomAssesVal = AM.iCustomAssesVal
 
 
-                           select new
-                           {
-                               iVehicleID = AM.iVehicleID,
-                               iLotNum = AM.iLotNum,
-                               strChassisNum = AM.strChassisNum,
-                               iModel = AM.iModel,
-                               iYear = AM.iYear,
-                               color = AM.strColor,
-                               iCustomValInJPY = AM.iCustomValInJPY,
-                               iCustomAssesVal = AM.iCustomAssesVal
+                                        }).OrderBy(a => a.iVehicleID).ToList();
 
-                           }).ToList()
-                      select new
-                      {
-                          id = vehi.iVehicleID,
-                          cell = new string[] {
-               Convert.ToString(vehi.iVehicleID),Convert.ToString(vehi.iLotNum),Convert.ToString( vehi.strChassisNum),Convert.ToString(vehi.iModel),Convert.ToString( vehi.iYear),Convert.ToString(vehi.color),Convert.ToString( vehi.iCustomValInJPY),Convert.ToString(vehi.iCustomAssesVal)
-                        }
-                      }).ToArray()
-                };
-                return jsonData;
-            }
-            //return View();
+           
+            return new { VehiclesByDate };
+            //return purchaseReportByDate;
+
         }
+
 
         public dynamic GetSalesData()
         {
@@ -518,6 +635,30 @@ namespace AuctionInventoryDAL.Repositories
             return status;
 
         }
+        //public dynamic GetCustomerDetails(string prefix)
+        //{
+        //    var customers = (from AM in auctionContext.MCustomers
+        //                     where AM.strFirstName.StartsWith(prefix)
+        //                     select new
+        //                     {
+        //                         iCustomerID = AM.iCustomerID,
+        //                         strFirstName = AM.strFirstName,
+        //                         strMiddleName = AM.strMiddleName,
+        //                         strLastName = AM.strLastName,
+        //                         iPhoneNumber = AM.iPhoneNumber,
+        //                         strCreditLimit = AM.strCreditLimit,
+        //                         iCreditCategoryID = AM.iCreditCategoryID,
+        //                         IsBlocked = AM.IsBlocked,
+        //                         //Address = AM.Address
+
+        //                     }).ToList();
+
+
+        //    //var chkCreditLimitDate=auctionContext.Sales.Where(a=>a.iCustomerID==customers.Select(x=>x.iCustomerID));
+
+        //    return customers;
+        //}
+
         public dynamic GetCustomerDetails(string prefix)
         {
             var customers = (from AM in auctionContext.MCustomers
@@ -532,6 +673,7 @@ namespace AuctionInventoryDAL.Repositories
                                  strCreditLimit = AM.strCreditLimit,
                                  iCreditCategoryID = AM.iCreditCategoryID,
                                  IsBlocked = AM.IsBlocked,
+                                 strAddress = AM.strAddress,
                                  //Address = AM.Address
 
                              }).ToList();
@@ -567,6 +709,95 @@ namespace AuctionInventoryDAL.Repositories
             return SalesFrontEndID;
         }
 
+        public MLot GetLot(int id)
+        {
+            MLot lot = new MLot();
+            lot = auctionContext.MLots.Where(a => a.iLotID == id).FirstOrDefault();
+            return lot;
+        }
+        public dynamic GetAllLots()
+        {
+            var jsonData = new
+            {
+                total = 1,
+                page = 1,
+                records = auctionContext.MLots.ToList().Count,
+                rows = (
+                  from lots in
+                      (from AM in auctionContext.MLots
+
+                       where AM.chLotType=="S"
+
+                      
+                       select new
+                       {
+                           iLotID = AM.iLotID,
+                           strLotName = AM.strLotName,
+                           strFromDate = AM.strFromDate,
+                           dtFromDate = AM.dtFromDate,
+                           strToDate = AM.strToDate,
+                           dtToDate = AM.dtToDate,
+                           chLotType = AM.chLotType,
+
+
+                       }).OrderBy(a => a.iLotID).ToList()
+                  select new
+                  {
+                      //id = staff.iStaffID,
+                      id = HttpUtility.UrlEncode(Encryption.Encrypt(Convert.ToString(lots.iLotID))),
+                      cell = new string[] {
+               Convert.ToString(lots.iLotID),Convert.ToString(lots.strLotName),
+               Convert.ToString(lots.strFromDate),Convert.ToString(lots.dtFromDate),
+               Convert.ToString(lots.strToDate),Convert.ToString(lots.dtToDate),Convert.ToString(lots.chLotType),
+               
+               
+                      }
+                  }).ToArray()
+            };
+            return jsonData;
+        }
+
+        
+        public bool SalesLotSaveEdit(MLot lot)
+        {
+            bool status = false;
+            if (lot.iLotID > 0)
+            {
+                //Edit Existing Record
+                var lots = auctionContext.MLots.Where(a => a.iLotID == lot.iLotID).FirstOrDefault();
+                if (lots != null)
+                {
+
+                    lots.strLotName = lot.strLotName;
+                    lots.strFromDate = lot.strFromDate;
+                    lots.dtFromDate = lot.dtFromDate;
+                    lots.strToDate = lot.strToDate;
+                    lots.dtToDate = lot.dtToDate;
+                    lots.chLotType = lot.chLotType;
+                  
+                }
+            }
+            else
+            {
+                //Save
+                auctionContext.MLots.Add(lot);
+            }
+            auctionContext.SaveChanges();
+            status = true;
+            return status;
+        }
+        public bool DeleteSalesLot(int id)
+        {
+            bool status = false;
+            var SalesLot = auctionContext.MLots.Where(a => a.iLotID == id).FirstOrDefault();
+            if (SalesLot != null)
+            {
+                auctionContext.MLots.Remove(SalesLot);
+                auctionContext.SaveChanges();
+                status = true;
+            }
+            return status;
+        }
         //public bool Delete(int id)
         //{
         //    bool status = false;

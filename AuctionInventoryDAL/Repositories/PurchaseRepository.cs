@@ -70,30 +70,94 @@ namespace AuctionInventoryDAL.Repositories
 
 
 
+        //public dynamic GetAllPurchaseReportByDate(DateTime fromDate, DateTime toDate)
+        //{
+
+        //    var purchaseReportByDate = (from AM in auctionContext.TPurchases
+
+        //                              where (AM.dtPurchaseInvoiceDate) >= (fromDate) && (AM.dtPurchaseInvoiceDate) <= (toDate)
+
+        //                              select new
+        //                              {
+        //                                  //PurchaseID = AM.PurchaseID,
+        //                                  //iPurchaseInvoiceNo = AM.iPurchaseInvoiceNo,
+        //                                  strPurchaseInvoiceNo = AM.strPurchaseInvoiceNo,
+
+        //                                  strPurchaseInvoiceDate = AM.strPurchaseInvoiceDate,
+        //                                  strSupplierName = AM.strSupplierName,
+        //                                  strMasterDecNo = AM.strMasterDecNo,
+        //                                  strBLNo = AM.strBLNo,
+        //                                  strArrivalDate = AM.strArrivalDate,
+        //                                  //dmlConversionRate = AM.dmlConversionRate,
+        //                                  dcmlAED = AM.dcmlAED,
+        //                                  dcmlJYP = AM.dcmlJYP,
+
+
+        //                              }).OrderBy(a => a.strPurchaseInvoiceNo).ToList();
+
+        //    var sumOfAED = purchaseReportByDate.Sum(x => x.dcmlAED);
+        //    var sumOfJYP = purchaseReportByDate.Sum(x => x.dcmlJYP);
+        //    return new { purchaseReportByDate, sumOfAED, sumOfJYP };
+        //    //return purchaseReportByDate;
+
+        //}
+
+
+        public dynamic GetAllPurchaseReportByDateAndSuppier(DateTime fromDate, DateTime toDate, string supplierName)
+        {
+
+            var purchaseReportByDate = (from AM in auctionContext.TPurchases
+
+                                        where (AM.dtPurchaseInvoiceDate) >= (fromDate) && (AM.dtPurchaseInvoiceDate) <= (toDate) && (AM.strSupplierName) == supplierName
+
+                                        select new
+                                        {
+                                            //PurchaseID = AM.PurchaseID,
+                                            //iPurchaseInvoiceNo = AM.iPurchaseInvoiceNo,
+                                            strPurchaseInvoiceNo = AM.strPurchaseInvoiceNo,
+
+                                            strPurchaseInvoiceDate = AM.strPurchaseInvoiceDate,
+                                            strSupplierName = AM.strSupplierName,
+                                            strMasterDecNo = AM.strMasterDecNo,
+                                            strBLNo = AM.strBLNo,
+                                            strArrivalDate = AM.strArrivalDate,
+                                            //dmlConversionRate = AM.dmlConversionRate,
+                                            dcmlAED = AM.dcmlAED,
+                                            dcmlJYP = AM.dcmlJYP,
+
+
+                                        }).OrderBy(a => a.strPurchaseInvoiceNo).ToList();
+
+            var sumOfAED = purchaseReportByDate.Sum(x => x.dcmlAED);
+            var sumOfJYP = purchaseReportByDate.Sum(x => x.dcmlJYP);
+            return new { purchaseReportByDate, sumOfAED, sumOfJYP };
+            //return purchaseReportByDate;
+
+        }
+
         public dynamic GetAllPurchaseReportByDate(DateTime fromDate, DateTime toDate)
         {
 
             var purchaseReportByDate = (from AM in auctionContext.TPurchases
 
-                                      where (AM.dtPurchaseInvoiceDate) >= (fromDate) && (AM.dtPurchaseInvoiceDate) <= (toDate)
+                                        where (AM.dtPurchaseInvoiceDate) >= (fromDate) && (AM.dtPurchaseInvoiceDate) <= (toDate)
+                                        select new
+                                        {
+                                            //PurchaseID = AM.PurchaseID,
+                                            //iPurchaseInvoiceNo = AM.iPurchaseInvoiceNo,
+                                            strPurchaseInvoiceNo = AM.strPurchaseInvoiceNo,
 
-                                      select new
-                                      {
-                                          //PurchaseID = AM.PurchaseID,
-                                          //iPurchaseInvoiceNo = AM.iPurchaseInvoiceNo,
-                                          strPurchaseInvoiceNo = AM.strPurchaseInvoiceNo,
-
-                                          strPurchaseInvoiceDate = AM.strPurchaseInvoiceDate,
-                                          strSupplierName = AM.strSupplierName,
-                                          strMasterDecNo = AM.strMasterDecNo,
-                                          strBLNo = AM.strBLNo,
-                                          strArrivalDate = AM.strArrivalDate,
-                                          //dmlConversionRate = AM.dmlConversionRate,
-                                          dcmlAED = AM.dcmlAED,
-                                          dcmlJYP = AM.dcmlJYP,
+                                            strPurchaseInvoiceDate = AM.strPurchaseInvoiceDate,
+                                            strSupplierName = AM.strSupplierName,
+                                            strMasterDecNo = AM.strMasterDecNo,
+                                            strBLNo = AM.strBLNo,
+                                            strArrivalDate = AM.strArrivalDate,
+                                            //dmlConversionRate = AM.dmlConversionRate,
+                                            dcmlAED = AM.dcmlAED,
+                                            dcmlJYP = AM.dcmlJYP,
 
 
-                                      }).OrderBy(a => a.strPurchaseInvoiceNo).ToList();
+                                        }).OrderBy(a => a.strPurchaseInvoiceNo).ToList();
 
             var sumOfAED = purchaseReportByDate.Sum(x => x.dcmlAED);
             var sumOfJYP = purchaseReportByDate.Sum(x => x.dcmlJYP);
@@ -195,18 +259,18 @@ namespace AuctionInventoryDAL.Repositories
                                    strOrigin = t1.strOrigin,
                                    strLocation = t1.strLocation,
                                    iCustomAssesVal = t1.iCustomAssesVal,
-                                   iDuty = t1.iDuty,
-                                   iCustomValInJPY = t1.iCustomValInJPY
-                                   //,strGrade =t1.strGrade,                                             
-
-
-                                   //dmlKM = t1.dmlKM,
-
-                                   //iDoor = t1.iDoor,
-
-                                   //weight = t1.weight,
-                                   //strHSCode = t1.strHSCode,
-                                   //ATMT = t1.ATMT,
+                                   iDuty = t1.dmlDuty,
+                                   iCustomValInJPY = t1.iCustomValInJPY,
+                                   strGrade =t1.strGrade,                                             
+                                   iDoor=t1.iDoor,
+                                   weight=t1.weight,
+                                  
+                                   
+                                  strGradeA=t1.strGradeA,
+                                   strGradeB = t1.strGradeB,
+                                   dmlLitter = t1.dmlLitter,
+                                   strTrans = t1.strTrans,
+                                   iMileage = t1.iMileage,
 
 
 
@@ -254,18 +318,40 @@ namespace AuctionInventoryDAL.Repositories
 
             return catNames;
         }
+
+
+        //public dynamic AutoCompleteRepo(string prefix)
+        //{
+            
+        //    var suppliers = (from supplier in auctionContext.MSuppliers
+        //                     where supplier.strFirstName.StartsWith(prefix)
+        //                     select new
+        //                     {
+        //                         strFirstName = supplier.strFirstName,
+        //                         iSupplierID = supplier.iSupplierID
+        //                     }).ToList();
+
+           
+        //    return suppliers;
+        //}
+
         public dynamic AutoCompleteRepo(string prefix)
         {
-            
+
             var suppliers = (from supplier in auctionContext.MSuppliers
                              where supplier.strFirstName.StartsWith(prefix)
                              select new
                              {
                                  strFirstName = supplier.strFirstName,
+                                 strMiddleName = supplier.strMiddleName,
+                                 strLastName = supplier.strLastName,
+                                 strAddress = supplier.strAddress,
+                                 iPhoneNumber = supplier.iPhoneNumber,
+                                 strEmailID = supplier.strEmailID,
                                  iSupplierID = supplier.iSupplierID
                              }).ToList();
 
-           
+
             return suppliers;
         }
         public bool SaveEdit(TPurchase purchase, List<Vehicle> griddata)
@@ -347,8 +433,15 @@ namespace AuctionInventoryDAL.Repositories
                         vehicle.strHSCode = item.strHSCode;
                         vehicle.ATMT = item.ATMT;
                         vehicle.iCustomAssesVal = item.iCustomAssesVal;
-                        vehicle.iDuty = item.iDuty;
+                        vehicle.dmlDuty = item.dmlDuty;
                         vehicle.iCustomValInJPY = item.iCustomValInJPY;
+
+                        vehicle.strGradeA = item.strGradeA;
+                        vehicle.strGradeB = item.strGradeB;
+                        vehicle.dmlLitter = item.dmlLitter;
+                        vehicle.strTrans = item.strTrans;
+                        vehicle.iMileage = item.iMileage;
+                  
 
                     }
                 }
@@ -398,5 +491,96 @@ namespace AuctionInventoryDAL.Repositories
 
 
         #endregion
+
+        #region Lots
+        public dynamic GetAllLots()
+        {
+            var jsonData = new
+            {
+                total = 1,
+                page = 1,
+                records = auctionContext.MLots.ToList().Count,
+                rows = (
+                  from lots in
+                      (from AM in auctionContext.MLots
+                       where AM.chLotType == "P"
+
+                       select new
+                       {
+                           iLotID = AM.iLotID,
+                           strLotName = AM.strLotName,
+                           strFromDate = AM.strFromDate,
+                           dtFromDate = AM.dtFromDate,
+                           strToDate = AM.strToDate,
+                           dtToDate = AM.dtToDate,
+                           chLotType = AM.chLotType,
+
+
+                       }).OrderBy(a => a.iLotID).ToList()
+                  select new
+                  {
+                      //id = staff.iStaffID,
+                      id = HttpUtility.UrlEncode(Encryption.Encrypt(Convert.ToString(lots.iLotID))),
+                      cell = new string[] {
+               Convert.ToString(lots.iLotID),Convert.ToString(lots.strLotName),
+               Convert.ToString(lots.strFromDate),Convert.ToString(lots.dtFromDate),
+               Convert.ToString(lots.strToDate),Convert.ToString(lots.dtToDate),Convert.ToString(lots.chLotType),
+               
+               
+                      }
+                  }).ToArray()
+            };
+            return jsonData;
+        }
+
+        public MLot GetLot(int id)
+        {
+            MLot lot = new MLot();
+            lot = auctionContext.MLots.Where(a => a.iLotID == id).FirstOrDefault();
+            return lot;
+        }
+        public bool PurchaseLotSaveEdit(MLot lot)
+        {
+            bool status = false;
+            if (lot.iLotID > 0)
+            {
+                //Edit Existing Record
+                var lots = auctionContext.MLots.Where(a => a.iLotID == lot.iLotID).FirstOrDefault();
+                if (lots != null)
+                {
+
+                    lots.strLotName = lot.strLotName;
+                    lots.strFromDate = lot.strFromDate;
+                    lots.dtFromDate = lot.dtFromDate;
+                    lots.strToDate = lot.strToDate;
+                    lots.dtToDate = lot.dtToDate;
+                    lots.chLotType = lot.chLotType;
+
+                }
+            }
+            else
+            {
+                //Save
+                auctionContext.MLots.Add(lot);
+            }
+            auctionContext.SaveChanges();
+            status = true;
+            return status;
+        }
+
+        public bool DeletePurchaseLot(int id)
+        {
+            bool status = false;
+            var SalesLot = auctionContext.MLots.Where(a => a.iLotID == id).FirstOrDefault();
+            if (SalesLot != null)
+            {
+                auctionContext.MLots.Remove(SalesLot);
+                auctionContext.SaveChanges();
+                status = true;
+            }
+            return status;
+        }
+        #endregion
+
     }
 }

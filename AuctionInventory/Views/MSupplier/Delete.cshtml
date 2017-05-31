@@ -166,6 +166,37 @@
             </div>
         </div>
     </fieldset> 
+    
+     <br/>
+    <fieldset>
+        <legend>Bank Details:</legend>
+        <div class="row">
+            <div class="col-md-4">
+
+                <label>A/C No:</label>
+                @Html.TextBoxFor(a => a.AccountNumber, new { @class = "form-control  input-group-lg", @placeholder = "Enter Account Number" })
+                @Html.ValidationMessageFor(m => m.AccountNumber, "", new { @class = "error" })
+            </div>
+            <div class="col-md-4">
+                <label>Bank Name</label>
+                @Html.TextBoxFor(a => a.strBankName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Bank Name" })
+                @Html.ValidationMessageFor(a => a.strBankName, "", new { @class = "error" })
+            </div>
+            <div class="col-md-4">
+                <label>Branch Name</label>
+                @Html.TextBoxFor(a => a.strBranchName, new { @class = "form-control  input-group-lg", @placeholder = "Enter Branch Name" })
+                @Html.ValidationMessageFor(a => a.strBranchName, "", new { @class = "error" })
+
+            </div>
+
+            <div class="col-md-4">
+                <label>Swift Code:</label>
+                @Html.TextBoxFor(a => a.strSwiftCode, new { @class = "form-control  input-group-lg", @placeholder = "Enter Swift" })
+                @Html.ValidationMessageFor(a => a.strSwiftCode, "", new { @class = "error" })
+            </div>
+           
+        </div>
+    </fieldset>
     <div>
         <br />
         @*<input type="submit" value="Delete" />*@

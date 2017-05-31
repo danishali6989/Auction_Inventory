@@ -77,7 +77,7 @@
 
         @Html.Partial("MainSideBar")
 
-        <div class="content-wrapper">
+        <div class="content-wrapper" id="divLayout">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <ol class="breadcrumb" style="position:relative;">
@@ -87,7 +87,7 @@
                 <div style="clear:both"></div>
             </section>
             <section class="content">
-                <div class="row">
+                <div class="row" id="layoutRowID">
                     <!-- fix for small devices only -->
                     <div class="clearfix visible-sm-block"></div>
 
@@ -139,21 +139,20 @@
     <!-- AdminLTE for demo purposes -->
     <script src="~/Content/dist/js/demo.js"></script>
 
+
     <!-- JqGrid Scripts -->
     @*<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
-        <link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />*@
-
-
-
-    @*<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
-        <script src="~/scripts/jQuery-ui-1.9.2.custom.js"></script>
+        <link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+        <script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+        <script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
         <script src="~/scripts/grid.locale-en.js"></script>
-        <script src="~/scripts/jquery.jqgrid.min.js"></script>*@
-    <!-- JqGrid Scripts -->
-    <!----Validation Script--->
-    @*<script src="~/Scripts/jquery.validate.min.js"></script>
-        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
-    <!----Validation Script--->
+        <script src="~/scripts/jquery.jqgrid.min.js"></script>
+
+
+        <script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
+        <script src="~/Content/plugins/jsPDF/jspdf.plugin.autotable.js"></script>
+
+        <script src="~/Content/plugins/jsPDF-2/faker.min.js"></script>*@
 
 
 

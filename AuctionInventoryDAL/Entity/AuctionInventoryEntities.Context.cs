@@ -39,6 +39,7 @@ namespace AuctionInventoryDAL.Entity
         public virtual DbSet<MCurrency> MCurrencies { get; set; }
         public virtual DbSet<MCustomer> MCustomers { get; set; }
         public virtual DbSet<MExpense> MExpenses { get; set; }
+        public virtual DbSet<MLot> MLots { get; set; }
         public virtual DbSet<MParty> MParties { get; set; }
         public virtual DbSet<MStaff> MStaffs { get; set; }
         public virtual DbSet<MSupplier> MSuppliers { get; set; }

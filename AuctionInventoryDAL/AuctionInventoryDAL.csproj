@@ -112,6 +112,9 @@
     <Compile Include="Entity\MExpense.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\MLot.cs">
+      <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\MParty.cs">
       <DependentUpon>AuctionInventoryEntities.tt</DependentUpon>
     </Compile>

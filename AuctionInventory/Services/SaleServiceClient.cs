@@ -29,23 +29,77 @@ namespace AuctionInventory.Services
             return status;
         }
 
-        public dynamic GetVehiclesData()
+        public dynamic GetVehiclesDataBySalesDate(DateTime salesDate)
         {
             SaleRepository repo = new SaleRepository();
-            var getvehiclelist = repo.GetVehiclesData();
+            var getvehiclelist = repo.GetVehiclesDataBySalesDate(salesDate);
             return getvehiclelist;
 
         }
 
-        public dynamic GetAllSalesReportByDate(DateTime fromDate, DateTime toDate)
+        public dynamic GetAllSalesReportByDate(DateTime fromDate, DateTime toDate, int customerID)
         {
-
+            dynamic listSales = 0;
             SaleRepository repo = new SaleRepository();
-            var listSales = repo.GetAllSalesReportByDate(fromDate, toDate);
+            if (customerID != 0)
+            {
+                listSales = repo.GetAllSalesReportByDateandCustomer(fromDate, toDate, customerID);
+            }
+            else
+            {
+
+                listSales = repo.GetAllSalesReportByDate(fromDate, toDate);
+            }
             return listSales;
         }
 
+        //public dynamic GetAllSalesReportByDate(DateTime fromDate, DateTime toDate)
+        //{
 
+        //    SaleRepository repo = new SaleRepository();
+        //    var listSales = repo.GetAllSalesReportByDate(fromDate, toDate);
+        //    return listSales;
+        //}
+
+        public bool SaveSlesLot(Lots lot)
+        {
+            bool status = true;
+          
+            SaleRepository repo = new SaleRepository();
+            status = repo.SalesLotSaveEdit(ParserAddSalesLot(lot));
+            return status;
+        }
+
+      
+
+        public dynamic GetAllLots()
+        {
+
+            SaleRepository repo = new SaleRepository();
+            var listLot = repo.GetAllLots();
+            return listLot;
+        }
+
+        public Lots GetLots(int id)
+        {
+
+            Lots lots = new Lots();
+            SaleRepository repo = new SaleRepository();
+            if (lots != null)
+            {
+                lots = ParserGetSalesLot(repo.GetLot(id));
+            }
+            return lots;
+
+        }
+
+        public bool DeleteSalesLot(int id)
+        {
+            bool status = false;
+            SaleRepository repo = new SaleRepository();
+            status = repo.DeleteSalesLot(id);
+            return status;
+        }
         public bool CheckCustomerIsBlockOrNot()
         {
             bool status = true;
@@ -107,7 +161,7 @@ namespace AuctionInventory.Services
         }
 
 
-        //public bool Delete(int id)
+        //public bool Delete(string id)
         //{
         //    bool status = false;
         //    SaleRepository repo = new SaleRepository();
@@ -190,6 +244,60 @@ namespace AuctionInventory.Services
 
             }
             return eSalesPayment;
+        }
+
+        private MLot ParserAddSalesLot(Lots lot)
+        {
+            MLot mlot = new MLot();
+
+            if (mlot != null)
+            {
+                mlot.iLotID = lot.iLotID;
+                mlot.strLotName = lot.strLotName ?? " ";
+                mlot.strFromDate = lot.strFromDate ?? " ";
+                mlot.dtFromDate = lot.dtFromDate;
+                mlot.strToDate = lot.strToDate;
+                mlot.dtToDate = lot.dtToDate;
+                mlot.chLotType = lot.chLotType ?? " ";
+               
+            }
+            return mlot;
+        }
+        private MLot ParserSalesLot(dynamic data)
+        {
+            MLot lot = new MLot();
+            if (data != null)
+            {
+                // supplier.FullName = data.FullName;
+                lot.iLotID = data.iLotID ?? -1;
+                lot.strLotName = data.strLotName ?? " ";
+                lot.strFromDate = data.strMiddleName ?? " ";
+                lot.dtFromDate = data.dtFromDate ?? " ";
+                lot.strToDate = data.strToDate ?? " ";
+                lot.dtToDate = data.dtToDate ?? " ";
+                lot.chLotType = data.chLotType ?? " ";
+
+            }
+            return lot;
+        }
+
+        private Lots ParserGetSalesLot(dynamic data)
+        {
+            Lots lot = new Lots();
+
+            if (data != null)
+            {
+
+                lot.iLotID = data.iLotID;
+                lot.strLotName = data.strLotName ?? " ";
+                lot.strFromDate = data.strFromDate ?? " ";
+                lot.dtFromDate = data.dtFromDate ?? " ";
+                lot.strToDate = data.strToDate;
+                lot.dtToDate = data.dtToDate;
+                lot.chLotType = data.chLotType ?? " ";
+               
+            }
+            return lot;
         }
         #endregion
     }

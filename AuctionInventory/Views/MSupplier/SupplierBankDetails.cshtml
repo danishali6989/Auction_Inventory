@@ -1,0 +1,177 @@
+﻿@model AuctionInventory.Models.Supplier
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<meta name="viewport" content="width=device-width" />
+<title>Index</title>
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+    /*we have overrides the css to change border color of menus*/
+    .navbar-inverse {
+        background-color: #337ab7;
+        border-color: #333;
+    }
+</style>
+
+<div class="box-body">
+    <div>
+        <table id="dataGrid" class="table table-bordered table-striped"></table>
+        <div id="pagingGrid"></div>
+        <br><br>
+    </div>
+</div>
+<script>
+    $(function () {
+
+        //this grid is used to fill the Supplier list
+
+        $('#dataGrid').jqGrid({
+            caption: "All Supplier Bank  Details",
+            url: '/MSupplier/GetAllSupplierBankDetails',
+            datatype: "json",
+            contentType: "application/json; charset-utf-8",
+            mtype: 'GET',
+
+            colNames: ['iSupplierID', 'Company Name', 'A/C NO.', 'Bank Name', 'Branch Name', 'Swift Code', 'Action'],
+            colModel: [
+                { name: 'iSupplierID', index: 'iSupplierID', hidden: true, hidedlg: true },
+               
+                { name: 'strCompanyName', index: 'strCompanyName', align: 'center' },
+
+
+                { name: 'AccountNumber', index: 'AccountNumber', align: 'center' },
+                 { name: 'strBankName', index: 'strBankName', align: 'center', width: 250 },
+                 { name: 'strBranchName', index: 'strBranchName', align: 'center' },
+
+                  { name: 'strSwiftCode', index: 'strSwiftCode', align: 'center', width: 250 },
+                 
+             //{ name: 'strCategoryName', index: 'strCategoryName', align: 'center', width: 100 },
+                   //{
+                   //    name: 'Action', index: 'Action', align: 'center', width: 250, search: false, title: false,
+                   //    formatter: function (cellvalue, options, rowObject) {
+
+                   //        return '<a class="popup btn btn-warning"  href="/MSupplier/Save/' + options.rowId + '">Print</a>';
+                   //    }
+
+                   //},
+
+                    {
+                        name: 'Action', index: 'Action', align: 'center', width: 100, search: false, title: false,
+                        formatter: function (cellvalue, options, rowObject) {
+
+                            return "<input class='popup btn btn-info' style='margin-right: 5%; ' type='button' value='Print' onclick=\"generateSupplierBankDetailsPDF('" + options.rowId + "');\"  />";
+                        }
+
+                    },
+
+
+            ],
+            width: 1050,
+            height: 450,
+            rowNum: 10,
+            loadonce: true,
+            ignoreCase: true,
+            rowList: [10, 20, 30],
+            pager: 'pagingGrid',
+        });
+        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+
+    });
+
+    function generateSupplierBankDetailsPDF(rowID) {
+        debugger
+
+        var griddata = jQuery("#dataGrid").getRowData(rowID);
+
+       
+
+        //var columns = ['Company Name', 'A/C No', 'Bank Name', 'Branch Name', 'Swift Code'];
+        var columns = [];
+
+        var data = [];
+         //data.push(['smart', '78787', 'axis', 'delhi', '455']);
+        //for (var i = 0; i < griddata.length; i++) {
+
+            
+        //    data.push([griddata[i].strCompanyName, griddata[i].AccountNumber, griddata[i].strBankName, griddata[i].strBranchName, griddata[i].strSwiftCode]);
+
+        //}
+        //data.push([griddata.strCompanyName, griddata.AccountNumber, griddata.strBankName, griddata.strBranchName, griddata.strSwiftCode]);
+
+        var pageContent = function (data) {
+            // HEADER
+
+            //doc.setFontSize(20);
+            //doc.setTextColor(40);
+            doc.setFontStyle('normal');
+
+            doc.setFontSize(30);
+            doc.setTextColor(0, 0, 255);
+            doc.text("Supplier Bank Details", data.settings.margin.left + 40, 15);
+
+
+            doc.setFontSize(15);
+            doc.setTextColor(40);
+            doc.text("Company Name", data.settings.margin.left + 0, 30);
+            doc.text(":", data.settings.margin.left + 40, 30);
+            doc.text(griddata.strCompanyName, data.settings.margin.left + 55, 30);
+            doc.text("A/C No", data.settings.margin.left + 0, 40);
+            doc.text(":", data.settings.margin.left + 40, 40);
+            doc.text(griddata.AccountNumber, data.settings.margin.left + 55, 40);
+            doc.text("Bank Name", data.settings.margin.left + 0, 50);
+            doc.text(":", data.settings.margin.left + 40, 50);
+            doc.text(griddata.strBankName, data.settings.margin.left + 55, 50);
+            doc.text("Branch Name", data.settings.margin.left + 0, 60);
+            doc.text(":", data.settings.margin.left + 40, 60);
+            doc.text(griddata.strBranchName, data.settings.margin.left + 55, 60);
+            doc.text("Swift Code", data.settings.margin.left + 0, 70);
+            doc.text(":", data.settings.margin.left + 40, 70);
+            doc.text(griddata.strSwiftCode, data.settings.margin.left + 55, 70);
+            //doc.setFontSize(30)
+            //doc.setTextColor(0, 0, 255)
+            //doc.text('DAA', data.settings.margin.left, 20);
+
+            //// FOOTER
+            //var str = "Page " + data.pageCount;
+            //// Total page number plugin only available in jspdf v1.0+
+            //if (typeof doc.putTotalPages === 'function') {
+            //    str = str + " of " + totalPagesExp;
+            //}
+            doc.setFontSize(10);
+            //doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
+
+            //doc.text('Note: This is computer generated ', data.settings.margin.left, 20);
+        };
+
+        var doc = new jsPDF('l', 'mm',[197, 110],'');
+
+        doc.setLineWidth(50);
+
+     
+        doc.autoTable(columns, data, {
+            theme: 'grid',
+            addPageContent: pageContent,
+            margin: { top: 30 },
+          
+        });
+
+       
+        doc.output("dataurlnewwindow");
+    }
+  
+</script>
+
+<!-- JqGrid Scripts -->
+<link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
+<script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
+<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>
+<script src="~/scripts/grid.locale-en.js"></script>
+<script src="~/scripts/jquery.jqgrid.min.js"></script>
+
+<script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
+<script src="~/Content/plugins/jsPDF/jspdf.plugin.autotable.js"></script>

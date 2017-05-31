@@ -23,6 +23,8 @@
         <div class="form-group">
 
             <input class="form-control " id="AuctionFrontEndID" type="hidden" />
+
+            <input id="dtAuctionDate" type="hidden" />
         </div>
     </div>
 
@@ -83,9 +85,12 @@
             datatype: "json",
             contentType: "application/json; charset-utf-8",
             mtype: 'GET',
-            colNames: ['iAuctionFrontEndID', 'Auction Date', 'No Of Vehicles', 'Action'],
+            colNames: ['iAuctionFrontEndID', 'dtAuctionDate', 'Auction Date', 'No Of Vehicles', 'Action'],
             colModel: [
                 { name: 'iAuctionFrontEndID', index: 'iAuctionFrontEndID', hidden: true, hidedlg: true },
+                
+            { name: 'dtAuctionDate', index: 'dtAuctionDate', hidden: true, hidedlg: true },
+
                 { name: 'strAuctionDate', index: 'strAuctionDate',align:'center' },
                 { name: 'iVehicleID', index: 'iVehicleID', align: 'center' },
                 //{ name: 'iModel', index: 'iModel' },
@@ -160,10 +165,12 @@
 
         var iAuctionFrontEndID = rowData['iAuctionFrontEndID'];
 
+        var dtAuctionDate = rowData['dtAuctionDate'];
+
         $("#AuctionFrontEndID").val(iAuctionFrontEndID);
 
         $("#auctionDate").val(strAuctionDate);
-       
+        $("#dtAuctionDate").val(dtAuctionDate);
 
         $(function () {
             //arr = new Array();
@@ -336,11 +343,14 @@
 
                 var AuctionFrontEndID = $('#AuctionFrontEndID').val();
                 var strAuctionDate = $('#auctionDate').val();
+
+                var dtAuctionDate = $("#dtAuctionDate").val();
                 for (var i = 0; i < arr.length; i++) {
 
 
                     parameters.push({
                         iVehicleID: arr[i].VehicleID,
+                        dtAuctionDate:dtAuctionDate,
                         iAuctionFrontEndID: AuctionFrontEndID,
                         strAuctionDate: strAuctionDate
                     });

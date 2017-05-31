@@ -9,7 +9,9 @@
 <div class="col-sm-6">
     <div class="form-group">
 
-        <input class="form-control " id="AuctionFrontEndID" type="hidden" />
+        <input  id="AuctionFrontEndID" type="hidden" />
+
+        <input id="dtAuctionDate" type="hidden" />
     </div>
 </div>
 
@@ -91,6 +93,7 @@
 <script type="text/javascript">
     $(function () { // will trigger when the document is ready
         $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy' }); //Initialise any date pickers
+        $("#auctionDate").datepicker().datepicker("setDate", new Date());
     });
 </script>
 
@@ -240,6 +243,8 @@
         arr = new Array();
         debugger;
 
+      
+
         $(function () {
             if ($(this).attr("rel") != "update") {
                 $('#dialog').dialog('open');
@@ -263,6 +268,7 @@
                 var ids = jQuery("#GridAddVehicle").jqGrid('getDataIDs');
 
                 var date = $('#auctionDate').val();
+
                 var AuctionfrontID = $('#AuctionFrontEndID').val();
                 //var gridDataVehicleID = JSON.stringify(arr);
 
@@ -272,6 +278,7 @@
                     parameters.push({
                         iVehicleID: ids[i],
                         strAuctionDate: date,
+                        dtAuctionDate:date,
                         iAuctionFrontEndID: AuctionfrontID
                     });
                 }

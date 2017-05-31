@@ -59,6 +59,7 @@ namespace AuctionInventoryDAL.Repositories
                                      //iAuctionListID = AM.iAuctionListID,
                                      iAuctionFrontEndID = AM.iAuctionFrontEndID,
                                      strAuctionDate = AM.strAuctionDate,
+                                     dtAuctionDate = AM.dtAuctionDate,
                                      iVehicleID = AM.iVehicleID,
 
 
@@ -71,6 +72,7 @@ namespace AuctionInventoryDAL.Repositories
                         {
                             strAuctionDate = y.Key,
                             iAuctionFrontEndID = y.First().iAuctionFrontEndID,
+                            dtAuctionDate = y.First().dtAuctionDate,
                             iVehicleID = y.Count(),
 
                         }).ToList();
@@ -80,7 +82,7 @@ namespace AuctionInventoryDAL.Repositories
                  {
                      id = AM.iAuctionFrontEndID,
                      cell = new string[] {
-               Convert.ToString(AM.iAuctionFrontEndID),Convert.ToString(AM.strAuctionDate),Convert.ToString( AM.iVehicleID)
+               Convert.ToString(AM.iAuctionFrontEndID),Convert.ToString(AM.dtAuctionDate),Convert.ToString(AM.strAuctionDate),Convert.ToString( AM.iVehicleID)
                         }
                  }).ToArray();
 

@@ -12,7 +12,7 @@ namespace AuctionInventory.Services
     {
         public bool SaveDataAuctionList(List<AuctionListModel> auction)
         {
-            bool status = true;           
+            bool status = true;
             AuctionRepository repo = new AuctionRepository();
             status = repo.SaveRepoAuctionList(ParserAddAuctionList(auction));
             return status;
@@ -23,8 +23,8 @@ namespace AuctionInventory.Services
             //List<Vehicles> listVehicles = new List<Vehicles>();
             AuctionRepository repo = new AuctionRepository();
             dynamic vehicle = repo.GetAuctionListData();
-           // listVehicles = ParserGetAllVehicles(vehicle);
-            return vehicle;           
+            // listVehicles = ParserGetAllVehicles(vehicle);
+            return vehicle;
         }
 
         public dynamic GetAuctionListVehicles()
@@ -32,29 +32,29 @@ namespace AuctionInventory.Services
             //List<Vehicles> listVehicles = new List<Vehicles>();
             AuctionRepository repo = new AuctionRepository();
             dynamic vehicle = repo.GetRepoAuctionListVehicles();
-           // listVehicles = ParserGetAllVehicles(vehicle);
-            return vehicle;           
+            // listVehicles = ParserGetAllVehicles(vehicle);
+            return vehicle;
         }
 
 
-        
+
         public dynamic GetVehiclesForPDF(int id)
         {
             //List<Vehicles> listVehicles = new List<Vehicles>();
             AuctionRepository repo = new AuctionRepository();
             dynamic vehicle = repo.GetVehicleForAuctionListPDF(id);
             //listVehicles = ParserVehiclesForPDF(vehicle);
-            return vehicle; 
+            return vehicle;
 
         }
 
         public dynamic AuctionFrontEndID()
         {
-           
+
             AuctionRepository repo = new AuctionRepository();
             dynamic vehicle = repo.AuctionFrontEnd();
             //listVehicles = ParserVehiclesForPDF(vehicle);
-            return vehicle; 
+            return vehicle;
 
         }
 
@@ -67,7 +67,7 @@ namespace AuctionInventory.Services
                 if (data != null)
                 {
                     Vehicles vehicles = new Vehicles();
-                    
+
                     vehicles.iVehicleID = data.iVehicleID;
                     vehicles.iLotNum = data.iLotNum;
                     vehicles.strChassisNum = data.strChassisNum;
@@ -75,7 +75,7 @@ namespace AuctionInventory.Services
                     vehicles.iYear = data.iYear;
                     vehicles.strColor = data.strColor;
                     vehicles.iCustomValInJPY = data.iCustomValInJPY;
-                    vehicles.iCustomAssesVal = data.iCustomAssesVal;                   
+                    vehicles.iCustomAssesVal = data.iCustomAssesVal;
 
                     listVehicles.Add(vehicles);
                 }
@@ -85,9 +85,9 @@ namespace AuctionInventory.Services
 
         private List<AuctionList> ParserAddAuctionList(List<AuctionListModel> auction)
         {
-            
+
             List<AuctionList> AllAuctionList = new List<AuctionList>();
-            
+
             foreach (var item in auction)
             {
 
@@ -100,6 +100,9 @@ namespace AuctionInventory.Services
                     auctionList.iVehicleID = item.iVehicleID;
                     auctionList.strAuctionDate = item.strAuctionDate;
                     auctionList.iAuctionFrontEndID = item.iAuctionFrontEndID;
+
+                    auctionList.dtAuctionDate = item.dtAuctionDate;
+
                     AllAuctionList.Add(auctionList);
                 }
             }
@@ -111,24 +114,24 @@ namespace AuctionInventory.Services
         {
             List<Vehicle> eVehicleList = new List<Vehicle>();
 
-            foreach(var dataList in data)
+            foreach (var dataList in data)
             {
                 if (dataList != null)
                 {
                     Vehicle vehicle = new Vehicle();
                     //vehicle.iVehicleID = dataList.iVehicleID;
-                    vehicle.iLotNum = dataList.iLotNum;                   
-                    vehicle.strChassisNum = dataList.strChassisNum;                   
+                    vehicle.iLotNum = dataList.iLotNum;
+                    vehicle.strChassisNum = dataList.strChassisNum;
                     vehicle.iModel = dataList.iModel;
                     vehicle.iYear = dataList.iYear;
-                    vehicle.strColor = dataList.strColor;                    
+                    vehicle.strColor = dataList.strColor;
                     vehicle.iCustomAssesVal = dataList.iCustomAssesVal;
-                   
-                   // vehicle.iCustomValInJPY = dataList.iCustomValInJPY;
+
+                    // vehicle.iCustomValInJPY = dataList.iCustomValInJPY;
                     eVehicleList.Add(vehicle);
                 }
             }
-            
+
             return eVehicleList;
         }
 

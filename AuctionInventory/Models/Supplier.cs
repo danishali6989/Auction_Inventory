@@ -67,6 +67,11 @@ namespace AuctionInventory.Models
 
         public string strPicName { get; set; }
 
+        public string AccountNumber { get; set; }
+        public string strBankName { get; set; }
+        public string strBranchName { get; set; }
+        public string strSwiftCode { get; set; }
+
         //[ScaffoldColumn(false)]
         //public int iSupplierID { get; set; }
 

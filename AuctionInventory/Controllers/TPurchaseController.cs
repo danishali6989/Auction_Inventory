@@ -13,6 +13,7 @@ using AuctionInventory.MyRoleProvider;
 using System.Security.Cryptography;
 using System.IO;
 using System.Text;
+
 namespace AuctionInventory.Controllers
 {
     [Permissions(Permissions.View)]
@@ -159,6 +160,150 @@ namespace AuctionInventory.Controllers
             return View();
         }
 
+
+        #region Lots
+        public ActionResult PurchaseLotList()
+        {
+            return View();
+        }
+
+
+        public ActionResult GetAllLots()
+        {
+            dynamic lots = 0;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
+                    lots = purchaseServiceClient.GetAllLots();
+
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Wrong");
+                lots = null;
+                throw e;
+
+            }
+            return Json(lots, JsonRequestBehavior.AllowGet);
+
+        }
+        [HttpGet]
+        public ActionResult SavePurchaseLot(string ID)
+        {
+            int id = 0;
+            if (ID != "0")
+            {
+                id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+            }
+            Lots lot = new Lots();
+            lot.iLotID = id;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
+                    lot = purchaseServiceClient.GetLots(id);
+
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "something went wrong");
+                lot = null;
+                throw e;
+            }
+            return View(lot);
+        }
+
+        [HttpPost]
+        public ActionResult SavePurchaseLot(Lots lot)
+        {
+
+            bool status = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
+
+                    status = purchaseServiceClient.SavePurchaseLot(lot);
+                    //return RedirectToAction("Index");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong");
+                status = false;
+                throw e;
+
+            }
+            return View(lot);
+            //   return new JsonResult { Data = new { status = status } };
+        }
+
+
+        [HttpGet]
+        public ActionResult DeletePurchaseLot(string ID)
+        {
+            int id = 0;
+            if (ID != "0")
+            {
+                id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+            }
+            Lots lot = new Lots();
+            lot.iLotID = id;
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
+                    lot = purchaseServiceClient.GetLots(id);
+
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "something went wrong");
+                lot = null;
+                throw e;
+            }
+            return View("DeletePurchaseLot", lot);
+        }
+
+        [HttpPost]
+        [ActionName("DeletePurchaseLot")]
+        public ActionResult DeleteLot(string ID)
+        {
+            int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+            bool status = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Services.PurchaseServiceClient purchaseServiceClient = new Services.PurchaseServiceClient();
+                    status = purchaseServiceClient.DeletePurchaseLot(id);
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("error", "Something Went Wrong!");
+                status = false;
+                throw e;
+            }
+
+            return View("PurchaseLotList");
+            //return new JsonResult { Data = new { status = status } };
+        }
+
+        #endregion
+
+
         #region CRUD
         public ActionResult GetAllPurchase()
         {
@@ -212,8 +357,37 @@ namespace AuctionInventory.Controllers
         //    return Json(purchase, JsonRequestBehavior.AllowGet);
 
         //}
+        //[HttpPost]
+        //public JsonResult GetAllPurchaseReportByDate(DateTime fromDate, DateTime toDate)
+        //{
+        //    dynamic purchaseReportByDate = 0;
+
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
+        //            purchaseReportByDate = purchaseServiceClient.GetAllPurchaseReportByDate(fromDate, toDate);
+        //            //if (purchase.Count == 0 || purchase == null)
+        //            //{
+        //            //    ModelState.AddModelError("error", "No Record Found");
+        //            //}
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ModelState.AddModelError("error", "Something Wrong");
+        //        purchaseReportByDate = null;
+        //        throw e;
+        //    }
+
+        //    //return Json(purchaseReportByDate, JsonRequestBehavior.AllowGet);
+        //    return Json(new { purchaseReportByDate }, JsonRequestBehavior.AllowGet);
+
+        //}
+
         [HttpPost]
-        public JsonResult GetAllPurchaseReportByDate(DateTime fromDate, DateTime toDate)
+        public JsonResult GetAllPurchaseReportByDate(DateTime fromDate, DateTime toDate, string supplierName)
         {
             dynamic purchaseReportByDate = 0;
 
@@ -222,7 +396,7 @@ namespace AuctionInventory.Controllers
                 if (ModelState.IsValid)
                 {
                     PurchaseServiceClient purchaseServiceClient = new PurchaseServiceClient();
-                    purchaseReportByDate = purchaseServiceClient.GetAllPurchaseReportByDate(fromDate, toDate);
+                    purchaseReportByDate = purchaseServiceClient.GetAllPurchaseReportByDate(fromDate, toDate, supplierName);
                     //if (purchase.Count == 0 || purchase == null)
                     //{
                     //    ModelState.AddModelError("error", "No Record Found");
@@ -477,27 +651,159 @@ namespace AuctionInventory.Controllers
                         string fileContentType = file.ContentType;
                         byte[] fileBytes = new byte[file.ContentLength];
                         var data = file.InputStream.Read(fileBytes, 0, Convert.ToInt32(file.ContentLength));
-
+                       
                         using (var package = new ExcelPackage(file.InputStream))
+                        
                         {
                             var currentSheet = package.Workbook.Worksheets;
                             var workSheet = currentSheet.First();
                             var noOfCol = workSheet.Dimension.End.Column;
                             var noOfRow = workSheet.Dimension.End.Row;
+                            //DataTable dt = new DataTable();
+                            //dt.d workSheet as DataTable;
                             List<Vehicles> listVehicle = new List<Vehicles>();
-                            for (int i = 2; i <= noOfRow; i++)
+
+                            int? lotNumber = auctionContext.Vehicles.Max(max => max.iLotNum) ?? 0;
+
+                            for (int i = 15; i <= (noOfRow-6); i++)
                             {
                                 Vehicles vehicle = new Vehicles();
-                                int lotNumber = 0;
-                                int.TryParse(workSheet.Cells[i, 1].Value.ToString(), out lotNumber);
+
+                               
+
+                              
+                                lotNumber = lotNumber + 1;
+
+                                //int lotNumber = 0;
+                                //int.TryParse(workSheet.Cells[i, 1].Value.ToString(), out lotNumber);
                                 vehicle.iLotNum = lotNumber;
-                                vehicle.strChassisNum = workSheet.Cells[i, 2].Value.ToString();
-                                vehicle.iModel = workSheet.Cells[i, 3].Value.ToString();
-                                vehicle.iYear = workSheet.Cells[i, 4].Value.ToString();
-                                vehicle.strColor = workSheet.Cells[i, 5].Value.ToString();
-                                decimal customValueInPY = 0;
-                                decimal.TryParse(workSheet.Cells[i, 6].Value.ToString(), out customValueInPY);
-                                vehicle.iCustomValInJPY = customValueInPY;
+
+
+
+
+                                if (string.IsNullOrEmpty(workSheet.Cells[i, 3].Text.ToString()))
+                                {
+                                    vehicle.strMake = "";
+                                }
+                               
+                                else
+                                {
+                                    vehicle.strMake = workSheet.Cells[i, 3].Text.ToString();
+                                }
+
+
+                                if (string.IsNullOrEmpty(workSheet.Cells[i, 4].Text.ToString()))
+                                {
+                                    vehicle.strChassisNum = "";
+                                }
+                                else
+                                {
+                                    vehicle.strChassisNum = workSheet.Cells[i, 4].Text.ToString();
+                                }
+
+                                //vehicle.strGradeA = workSheet.Cells[i, 4].Value.ToString();
+                                //vehicle.strGradeB = workSheet.Cells[i, 5].Value.ToString();
+
+
+                                //vehicle.strGrade = Convert.ToString(vehicle.strGradeA + " | " + vehicle.strGradeB);
+
+                                //int Door = 0;
+                                //int.TryParse(workSheet.Cells[i, 6].Value.ToString(), out Door);
+                                //vehicle.iDoor = Door;
+
+                                //vehicle.iYear = workSheet.Cells[i, 7].Value.ToString();
+
+                                //decimal Litter = 0;
+                                //decimal.TryParse(workSheet.Cells[i, 8].Value.ToString(), out Litter);
+                                //vehicle.dmlLitter = Litter;
+
+
+
+
+                                //if (workSheet.Cells[i, 5].Value.ToString() == "")
+                                //{
+                                //    vehicle.strColor = "";
+                                //}
+                                //else
+                                //{
+                                //    vehicle.strColor = workSheet.Cells[i, 5].Value.ToString();
+                                //}
+
+
+
+
+
+                                if (string.IsNullOrEmpty(workSheet.Cells[i, 5].Text.ToString()))
+                                {
+                                    vehicle.strColor = "";
+                                }
+                                else
+                                {
+                                    vehicle.strColor = workSheet.Cells[i, 5].Text.ToString();
+                                }
+
+
+
+
+
+
+                                //vehicle.strTrans = workSheet.Cells[i, 11].Value.ToString();
+
+                                //int Mileage = 0;
+                                //int.TryParse(workSheet.Cells[i, 12].Value.ToString(), out Mileage);
+                                //vehicle.iMileage = Mileage;
+
+
+
+                                if (string.IsNullOrEmpty(workSheet.Cells[i, 6].Text.ToString()))
+                                {
+                                    vehicle.weight = "";
+                                }
+                                else
+                                {
+                                    vehicle.weight = workSheet.Cells[i, 6].Text.ToString();
+
+                                }
+
+
+                                if (string.IsNullOrEmpty(workSheet.Cells[i, 7].Text.ToString()))
+                                {
+                                    vehicle.iModel = -1;
+                                }
+                                else
+                                {
+                                    int model = 0;
+                                    int.TryParse(workSheet.Cells[i, 7].Text.ToString(), out model);
+                                    vehicle.iModel = model;
+
+                                }
+
+                                
+                              
+                                vehicle.strOrigin = "Japan";
+
+                                //vehicle.iDoor = 4;
+
+                                //vehicle.strLocation = "India";
+
+                                //vehicle.iCustomAssesVal = 54682;
+
+                                //vehicle.dmlDuty = 12345;
+
+                                if (string.IsNullOrEmpty(workSheet.Cells[i, 8].Text.ToString()))
+                                {
+                                    vehicle.iCustomValInJPY = -1;
+                                }
+                                else
+                                {
+                                    decimal customValueInPY = 0;
+                                    decimal.TryParse(workSheet.Cells[i, 8].Text.ToString(), out customValueInPY);
+                                    vehicle.iCustomValInJPY = customValueInPY;
+
+                                }
+
+
+                               
 
                                 listVehicle.Add(vehicle);
                             }

@@ -19,26 +19,27 @@
         <EntityTypeShape EntityType="AuctionInventoryModel.MCurrency" Width="1.5" PointX="9.75" PointY="6.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.MCustomer" Width="1.5" PointX="7.75" PointY="9.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.MExpense" Width="1.5" PointX="9.75" PointY="9.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.MParty" Width="1.5" PointX="0.75" PointY="10.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.MStaff" Width="1.5" PointX="2.75" PointY="10.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.MSupplier" Width="1.5" PointX="11.75" PointY="0.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.PaperDetailsForExport" Width="1.5" PointX="11.75" PointY="6.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.PaperDetailsForImport" Width="1.5" PointX="11.75" PointY="10.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.PaperType" Width="1.5" PointX="4.75" PointY="12.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.PaymentType" Width="1.5" PointX="13.75" PointY="0.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.Sale" Width="1.5" PointX="13.75" PointY="3.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.SalesPayment" Width="1.5" PointX="13.75" PointY="9.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.SalesVehicle" Width="1.5" PointX="9.75" PointY="14.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.SingleVehicleExpense" Width="1.5" PointX="11.75" PointY="14.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.MLot" Width="1.5" PointX="11.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.MParty" Width="1.5" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.MStaff" Width="1.5" PointX="2.75" PointY="11.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.MSupplier" Width="1.5" PointX="11.75" PointY="4.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.PaperDetailsForExport" Width="1.5" PointX="11.75" PointY="11.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.PaperDetailsForImport" Width="1.5" PointX="4.75" PointY="12.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.PaperType" Width="1.5" PointX="13.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.PaymentType" Width="1.5" PointX="13.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.Sale" Width="1.5" PointX="13.75" PointY="6.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.SalesPayment" Width="1.5" PointX="13.75" PointY="12.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.SalesVehicle" Width="1.5" PointX="15.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.SingleVehicleExpense" Width="1.5" PointX="15.75" PointY="3.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.StateMaster" Width="1.5" PointX="3" PointY="0.875" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.TPurchase" Width="1.5" PointX="0.75" PointY="5" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.UserLogin" Width="1.5" PointX="13.75" PointY="14.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.TPurchase" Width="1.5" PointX="0.75" PointY="5.5" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.UserLogin" Width="1.5" PointX="15.75" PointY="6.75" />
         <EntityTypeShape EntityType="AuctionInventoryModel.Vehicle" Width="1.5" PointX="3" PointY="4.125" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.ExpenseAmount" Width="1.5" PointX="15.75" PointY="0.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.MailModel" Width="1.5" PointX="15.75" PointY="3.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.tbl_AuthorizedPages" Width="1.5" PointX="4.75" PointY="15.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.tbl_Pages" Width="1.5" PointX="15.75" PointY="6.75" />
-        <EntityTypeShape EntityType="AuctionInventoryModel.tbl_UserRoles" Width="1.5" PointX="6.75" PointY="15.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.ExpenseAmount" Width="1.5" PointX="6.75" PointY="15.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.MailModel" Width="1.5" PointX="8.75" PointY="15.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.tbl_AuthorizedPages" Width="1.5" PointX="15.75" PointY="10.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.tbl_Pages" Width="1.5" PointX="10.75" PointY="15.75" />
+        <EntityTypeShape EntityType="AuctionInventoryModel.tbl_UserRoles" Width="1.5" PointX="15.75" PointY="13.75" />
         <AssociationConnector Association="AuctionInventoryModel.FK_CityMaster_StateMaster" />
         <AssociationConnector Association="AuctionInventoryModel.FK_StateMaster_CountryMaster" />
         <AssociationConnector Association="AuctionInventoryModel.FK_Vehicle_TPurchase" />

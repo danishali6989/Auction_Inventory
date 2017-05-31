@@ -638,7 +638,7 @@ namespace AuctionInventory.Controllers
 
         
              [HttpPost]
-        public ActionResult UndoSpreadExpenseAmount(int purchaseInvoiceID)
+        public ActionResult UndoSpreadExpenseAmount(int purchaseInvoiceID, decimal spreadAmount)
         {
             bool status = false;
 
@@ -647,7 +647,7 @@ namespace AuctionInventory.Controllers
                     if (ModelState.IsValid)
                     {
                         ExpensesServiceClient service = new ExpensesServiceClient();
-                        status = service.UndoSpreadExpenseAmount(purchaseInvoiceID);
+                        status = service.UndoSpreadExpenseAmount(purchaseInvoiceID, spreadAmount);
                         //return RedirectToAction("Index");
                        
                     }
@@ -692,6 +692,150 @@ namespace AuctionInventory.Controllers
         //    //return View();
         //    return new JsonResult { Data = new { status = status } };
         //}
+
+
+             #region Lots
+             public ActionResult ExpenseLotList()
+             {
+                 return View();
+             }
+
+
+             public ActionResult GetAllLots()
+             {
+                 dynamic lots = 0;
+
+                 try
+                 {
+                     if (ModelState.IsValid)
+                     {
+                         ExpensesServiceClient expenseServiceClient = new ExpensesServiceClient();
+                         lots = expenseServiceClient.GetAllLots();
+
+                     }
+                 }
+                 catch (Exception e)
+                 {
+                     ModelState.AddModelError("error", "Something Wrong");
+                     lots = null;
+                     throw e;
+
+                 }
+                 return Json(lots, JsonRequestBehavior.AllowGet);
+
+             }
+             [HttpGet]
+             public ActionResult SaveExpenseLot(string ID)
+             {
+                 int id = 0;
+                 if (ID != "0")
+                 {
+                     id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+                 }
+                 Lots lot = new Lots();
+                 lot.iLotID = id;
+
+                 try
+                 {
+                     if (ModelState.IsValid)
+                     {
+                         ExpensesServiceClient expensesServiceClient = new ExpensesServiceClient();
+                         lot = expensesServiceClient.GetLots(id);
+
+                     }
+                 }
+                 catch (Exception e)
+                 {
+                     ModelState.AddModelError("error", "something went wrong");
+                     lot = null;
+                     throw e;
+                 }
+                 return View(lot);
+             }
+
+             [HttpPost]
+             public ActionResult SaveExpenseLot(Lots lot)
+             {
+
+                 bool status = false;
+                 try
+                 {
+                     if (ModelState.IsValid)
+                     {
+                         ExpensesServiceClient expensesServiceClient = new ExpensesServiceClient();
+
+                         status = expensesServiceClient.SaveExpenseLot(lot);
+                         //return RedirectToAction("Index");
+                     }
+                 }
+                 catch (Exception e)
+                 {
+                     ModelState.AddModelError("error", "Something Went Wrong");
+                     status = false;
+                     throw e;
+
+                 }
+                 return View(lot);
+                 //   return new JsonResult { Data = new { status = status } };
+             }
+
+
+             [HttpGet]
+             public ActionResult DeleteExpenseLot(string ID)
+             {
+                 int id = 0;
+                 if (ID != "0")
+                 {
+                     id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+                 }
+                 Lots lot = new Lots();
+                 lot.iLotID = id;
+
+                 try
+                 {
+                     if (ModelState.IsValid)
+                     {
+                         ExpensesServiceClient expenseServiceClient = new ExpensesServiceClient();
+                         lot = expenseServiceClient.GetLots(id);
+
+                     }
+                 }
+                 catch (Exception e)
+                 {
+                     ModelState.AddModelError("error", "something went wrong");
+                     lot = null;
+                     throw e;
+                 }
+                 return View("DeleteExpenseLot", lot);
+             }
+
+             [HttpPost]
+             [ActionName("DeleteExpenseLot")]
+             public ActionResult DeleteLot(string ID)
+             {
+                 int id = Convert.ToInt32(Helpers.CommonMethods.Decrypt(HttpUtility.UrlDecode(ID)));
+                 bool status = false;
+                 try
+                 {
+                     if (ModelState.IsValid)
+                     {
+                         Services.ExpensesServiceClient expenseServiceClient = new Services.ExpensesServiceClient();
+                         status = expenseServiceClient.DeleteExpenseLot(id);
+                     }
+                 }
+                 catch (Exception e)
+                 {
+                     ModelState.AddModelError("error", "Something Went Wrong!");
+                     status = false;
+                     throw e;
+                 }
+
+                 return View("DeleteExpenseLot");
+                 //return new JsonResult { Data = new { status = status } };
+             }
+
+             #endregion
+
 
     }
 }

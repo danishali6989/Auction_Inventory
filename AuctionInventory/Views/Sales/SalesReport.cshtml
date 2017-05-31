@@ -21,7 +21,10 @@
 </style>
 <div class="box-body">
     <input type="hidden" id="hdnSellingPrice" />
-  
+    <input type="hidden" id="hdnCustomerID" />
+    <input type="hidden" id="hdnCustomerName" />
+    <input type="hidden" id="hdnCustomerAddress" />
+    <input type="hidden" id="hdnCustomerContactNumber" />
     <input type="hidden" id="ReportDate" />
     <div class='form-group col-sm-3'>
         <label>From Date:</label>
@@ -32,6 +35,11 @@
         <input class='form-control datepicker input-group-sm' placeholder='Enter drop of date...' id='toDate' />
 
     </div>
+    <div class="form-group col-xs-3">
+        <label>Search By Customer Name</label>
+        <input id="txtBuyerName" class="form-control input-group-lg" type="text" name="BuyerName"
+               placeholder="Search By Customer Name" />
+    </div>
     <div class='form-group col-sm-3' style="margin-top:25px;">
 
         <input type="button" class="btn btn-success  input-group-sm" value="Sort List By Date" id="btnDate" />
@@ -40,8 +48,9 @@
     <div id="divDataGrid">
         <br /><br /><br />
         <table id="dataGrid" class="table table-bordered table-striped"></table>
-        <div id="pagingGrid"></div>
+        @*<div id="pagingGrid"></div>*@
         <br><br>
+        <input type="button" class="btn btn-success  input-group-sm" value="Print Report" id="btnPrintAll" style="margin-left: 400px; " />
     </div>
     <br />
     <div id="divDataGridByDate">
@@ -49,11 +58,12 @@
         <table id="dataGridByDate" class="table table-bordered table-striped"></table>
         <div id="pagingGridByDate"></div>
         <br><br>
+        <input type="button" class="btn btn-success  input-group-sm" value="Print Report" id="btnPrintByDate" style="display: none; margin-left: 400px; " />
     </div>
     <br />
-    <div class='form-group col-sm-2' style="display: none; margin-left: 400px; " id="divBtnPrint">
+    <div class='form-group col-sm-2'>
 
-        <input type="button" class="btn btn-success  input-group-sm" value="Print Report" id="btnPrint" onclick="generateSalesReportPDF()" />
+        
 
         </div>
 
@@ -96,15 +106,15 @@
                 ],
                 width: 1100,
                 height: 250,
-                rowNum: 10,
+                rowNum: 100,
                 loadonce: true,
                 ignoreCase: true,
                 rowList: [10, 20, 30],
-                pager: 'pagingGrid',
+                //pager: 'pagingGrid',
 
             });
         jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
-        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+        //jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
 
         });
 </script>
@@ -114,23 +124,28 @@
 
 
     $("#btnDate").click(function () {
-
-
-
+        debugger
+        //$("#hdnCustomerID").val('2')
         var fromDate = $("#fromDate").val();
         var toDate = $("#toDate").val();
+       
+        if (isNaN(parseInt($("#hdnCustomerID").val()))) {
+            var custid = 0;
+        }
+        else { var custid=parseInt($("#hdnCustomerID").val()) }
+        //var custid =2;
         //alert(fromDate);
         //alert(toDate);
         $.ajax({
             url: '/Sales/GetAllSalesReportByDate/',
             dataType: 'json',
             type: 'POST',
-            data: JSON.stringify({ 'fromDate': fromDate, 'toDate': toDate }),
+            data: JSON.stringify({ 'fromDate': fromDate, 'toDate': toDate, 'customerID': custid }),
             contentType: 'application/json; charset=utf-8',
 
             success: function (result) {
                 $("#dataGridByDate").jqGrid('GridUnload');
-                $('#divBtnPrint').show();
+                $('#btnPrintByDate').show();
 
                 var salesReportByDate = result.salesReportByDate.salesReportByDate;
                 var sumOfSellingPrice = result.salesReportByDate.sumOfSellingPrice;
@@ -141,7 +156,7 @@
                     data: salesReportByDate,
                     datatype: "local",
 
-                    colNames: ['Sales Invoice No', 'BuyerName', 'SalesDate', 'SellingPrice', 'Deposit', 'Advance', 'Balance', 'Installment', 'CashType', 'PaperMode'],
+                    colNames: ['Sales Invoice No', 'BuyerName', 'SalesDate', 'SellingPrice', 'Deposit', 'Advance', 'Balance', 'Installment', 'CashType'],
                     colModel: [
 
                         { name: 'strSalesInvoiceNo', index: 'strSalesInvoiceNo', align: 'center' },
@@ -153,7 +168,7 @@
                         { name: 'dmlBalance', index: 'dmlBalance', align: 'center' },
                         { name: 'iInstallment', index: 'iInstallment', align: 'center' },
                         { name: 'strCashName', index: 'strCashName', align: 'center' },
-                        { name: 'strPaperModeName', index: 'strPaperModeName', align: 'center' },
+                        //{ name: 'strPaperModeName', index: 'strPaperModeName', align: 'center' },
 
 
                     ],
@@ -178,12 +193,44 @@
         });
     });
 
+    //Calculate Total Selling Price for First Grid
+    function CalculateSellingPrice() {
+
+        //caculating all rows Selling Price
+        var allRows = jQuery('#dataGrid').getDataIDs();
+        var Total = 0;
+        var totalDiscount = 0;
+        for (var j = 0; j < allRows.length; j++) {
+            var rowData = jQuery("#dataGrid").getRowData(allRows[j]);
+            Total += Number(rowData['dmlSellingPrice']);//Calculating Sum of total column
+        }
+        return Total;
+        
+    }
+    //To Print All Sales Record
+    $("#btnPrintAll").click(function () {
+        debugger
+        var totalSellingPrice = CalculateSellingPrice();
+        $('#hdnSellingPrice').val(totalSellingPrice);
+        var grid = jQuery("#dataGrid").getRowData();
+        generateSalesReportPDF(grid);
+    });
+
+    //To Print  Sales Record By Date
+    $("#btnPrintByDate").click(function () {
+
+        var grid = jQuery("#dataGridByDate").getRowData();
+        generateSalesReportPDF(grid);
+    });
 
 
-    function generateSalesReportPDF() {
+
+    function generateSalesReportPDF(data) {
         debugger
 
-        var griddata = jQuery("#dataGridByDate").getRowData();
+        //var griddata = jQuery("#dataGridByDate").getRowData();
+
+        var griddata = data;
 
         var columns = ['SalesInvNo', 'BuyerName', 'SalesDate', 'Installment', 'CashType', 'PaperMode', 'SellingPrice'];
 
@@ -196,6 +243,10 @@
         var fromDate = $("#fromDate").val();
         var toDate = $("#toDate").val();
         var sumOfSellingPrice = $('#hdnSellingPrice').val();
+
+        var custFullName = $("#hdnCustomerName").val();
+        var custAddr=$("#hdnCustomerAddress").val();
+        var custPhone=$("#hdnCustomerContactNumber").val();
 
         data.push([, , , , , 'Total', sumOfSellingPrice]);
         
@@ -230,15 +281,19 @@
 
 
             doc.text("Sales Report", data.settings.margin.left + 70, 10);
-            doc.text("From Dt:", data.settings.margin.left + 30, 20);
-            doc.text(fromDate + '- ', data.settings.margin.left + 58, 20);
-            doc.text("To Dt:", data.settings.margin.left + 95, 20);
-            doc.text(toDate, data.settings.margin.left + 115, 20);
-            doc.text("Rprt Dt:", data.settings.margin.left + 130, 10);
-            doc.text(ReportDate, data.settings.margin.left + 155, 10);
-            doc.setFontSize(30)
+            doc.setFontSize(15);
+            doc.text("From Dt:", data.settings.margin.left + 30, 50);
+            doc.text(fromDate + '- ', data.settings.margin.left + 50, 50);
+            doc.text("To Dt:", data.settings.margin.left + 80, 50);
+            doc.text(toDate, data.settings.margin.left + 95, 50);
+            doc.text("Rprt Dt:", data.settings.margin.left + 125, 20);
+            doc.text(ReportDate, data.settings.margin.left + 145, 20);
+            doc.setFontSize(20)
             doc.setTextColor(0, 0, 255)
-            doc.text('DAA', data.settings.margin.left, 20);
+            doc.text(custFullName, data.settings.margin.left, 20);
+            doc.setFontSize(10)
+            doc.text(custAddr, data.settings.margin.left, 30);
+            doc.text(custPhone, data.settings.margin.left, 40);
 
             // FOOTER
             var str = "Page " + data.pageCount;
@@ -255,7 +310,7 @@
         doc.autoTable(columns, data, {
             theme: 'grid',
             addPageContent: pageContent,
-            margin: { top: 30 },
+            margin: { top: 60 },
 
             drawCell: function (cell, data) {
                 var rows = data.table.rows;
@@ -292,19 +347,78 @@
     });
 
 </script>
+<script type="text/javascript">
+    $(function () {
+        $("#txtBuyerName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/Sales/GetCustomerDetails/',
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (!data.length) {
+                            var result = [
+                             {
+                                 label: 'No matches found',
+                                 value: response.term
+                             }
+                            ];
+                            response(result);
+                        }
+                        else {
+                            // normal response
+                            response($.map(data, function (item) {
 
+                                
+                                    return {
+
+                                        iCustomerID: item.iCustomerID,
+                                        strFirstName: item.strFirstName,
+                                        strMiddleName: item.strMiddleName,
+                                        strLastName: item.strLastName,
+                                        iPhoneNumber: item.iPhoneNumber,
+                                        strAddress:item.strAddress,
+                                        strCreditLimit: item.strCreditLimit,
+                                        iCreditCategoryID: item.iCreditCategoryID,
+                                        value: item.strFirstName
+
+                                    }
+                                
+                            }));
+                        }
+                    }
+
+
+                });
+            },
+            select: function (event, i) {
+                debugger
+                event.preventDefault();
+
+                //$("#").val(i.item.value);
+                $("#hdnCustomerID").val(i.item.iCustomerID);
+                $("#txtBuyerName").val(i.item.strFirstName);
+                $("#hdnCustomerName").val(i.item.strFirstName+'  '+i.item.strMiddleName+' '+i.item.strLastName);
+                $("#hdnCustomerAddress").val(i.item.strAddress);
+                $("#hdnCustomerContactNumber").val(i.item.iPhoneNumber);
+
+                
+            },
+            minLength: 1
+        });
+    });
+</script>
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
 <link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
 <script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
-@*<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>*@
 <script src="~/scripts/grid.locale-en.js"></script>
 <script src="~/scripts/jquery.jqgrid.min.js"></script>
 
 <script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
 <script src="~/Content/plugins/jsPDF/jspdf.plugin.autotable.js"></script>
-@*<script src="~/Content/plugins/jsPDF-2/examples.js"></script>*@
 <script src="~/Content/plugins/jsPDF-2/faker.min.js"></script>
-
 

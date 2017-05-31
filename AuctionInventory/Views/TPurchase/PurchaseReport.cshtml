@@ -21,6 +21,12 @@
     <input type="hidden" id="hdnSumOfAED" />
     <input type="hidden" id="hdnSumOfJPY" />
 
+    <input type="hidden" id="hdnSupplierName" />
+    <input type="hidden" id="hdnSupplierFullName" />
+    <input type="hidden" id="hdnSupplierAddress" />
+    <input type="hidden" id="hdnSupplierContactNumber" />
+    <input type="hidden" id="hdnSupplierEmail" />
+
     <input type="hidden" id="ReportDate" />
     <div class='form-group col-sm-3'>
         <label>From Date:</label>
@@ -31,6 +37,11 @@
         <input class='form-control datepicker input-group-sm' placeholder='Enter drop of date...' id='toDate' />
 
     </div>
+    <div class="form-group col-sm-3">
+        <label>Search By Supplier Name</label>
+        <input id="txtSearchSupplier" class="form-control input-group-lg" type="text" name="SupplierName"
+               placeholder="Search By Supplier Name" />
+    </div>
     <div class='form-group col-sm-3' style="margin-top:25px;">
 
         <input type="button" class="btn btn-success  input-group-sm" value="Sort List By Date" id="btnDate" />
@@ -39,20 +50,22 @@
     <div id="divDataGrid">
         <br /><br /><br />
         <table id="dataGrid" class="table table-bordered table-striped"></table>
-        <div id="pagingGrid"></div>
+        @*<div id="pagingGrid"></div>*@
         <br><br>
+        <input type="button" class="btn btn-success  input-group-sm" value="Print Report" id="btnPrintAll"/>
     </div>
     <br />
     <div id="divDataGridByDate">
         <br /><br /><br />
         <table id="dataGridByDate" class="table table-bordered table-striped"></table>
-        <div id="pagingGridByDate"></div>
+        @*<div id="pagingGridByDate"></div>*@
         <br><br>
+        <input type="button" class="btn btn-success  input-group-sm" value="Print Report" id="btnPrintByDate" style="display: none; margin-left: 400px; " />
     </div>
     <br />
-    <div class='form-group col-sm-2' style="display: none; margin-left: 400px; " id="divBtnPrint">
+    <div class='form-group col-sm-2'  id="divBtnPrint">
 
-        <input type="button" class="btn btn-success  input-group-sm" value="Print Report" id="btnPrint" onclick="generatePurchaseReportPDF()" />
+        @*<input type="button" class="btn btn-success  input-group-sm" value="Print Report" id="btnPrint" onclick="generatePurchaseReportPDF()" />*@
     </div>
 
 </div>
@@ -84,15 +97,15 @@
             ],
             width: 1050,
             height: 250,
-            rowNum: 10,
+          
             loadonce: true,
             ignoreCase: true,
             rowList: [10, 20, 30],
             pager: 'pagingGrid',
             caption: "Purchase List"
         });
-        jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
-        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
+        //jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
+        //jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false });
 
     });
 </script>
@@ -104,18 +117,22 @@
     $("#btnDate").click(function () {
         var fromDate = $("#fromDate").val();
         var toDate = $("#toDate").val();
+        debugger
+        //$("#hdnSupplierID").val('shahzad');
+        
+        var supplierName = $("#hdnSupplierName").val();
         //alert(fromDate);
         //alert(toDate);
         $.ajax({
             url: '/TPurchase/GetAllPurchaseReportByDate/',
             dataType: 'json',
             type: 'POST',
-            data: JSON.stringify({ 'fromDate': fromDate, 'toDate': toDate }),
+            data: JSON.stringify({ 'fromDate': fromDate, 'toDate': toDate, 'supplierName': supplierName }),
             contentType: 'application/json; charset=utf-8',
 
             success: function (result) {
                 $("#dataGridByDate").jqGrid('GridUnload');
-                $('#divBtnPrint').show();
+                $('#btnPrintByDate').show();
 
                 var purchaseReportByDate = result.purchaseReportByDate.purchaseReportByDate;
 
@@ -151,7 +168,7 @@
                     ],
                     width: 1050,
                     height: 250,
-                    rowNum: 10,
+                    rowNum: 100,
                     ignoreCase: true,
                     rowList: [10, 20, 30],
                     pager: 'pagingGridByDate',
@@ -170,12 +187,44 @@
         });
     });
 
+    //Calculate Sum of AED and JPY From first grid
+    function CalculateSum() {
 
-    function generatePurchaseReportPDF() {
+        //caculating all rows AED and JPY
+        var allRows = jQuery('#dataGrid').getDataIDs();
+        var sumAED = 0;
+        var sumJPY = 0;
+        var totalDiscount = 0;
+        for (var j = 0; j < allRows.length; j++) {
+            var rowData = jQuery("#dataGrid").getRowData(allRows[j]);
+            sumAED += Number(rowData['dcmlAED']);//Calculating Sum of AED column
+            sumJPY += Number(rowData['dcmlJYP']);//Calculating Sum of dcmlJYP column
+        }
+        $('#hdnSumOfAED').val(sumAED);
+        $('#hdnSumOfJPY').val(sumJPY);
+
+    }
+
+    //To Print All Sales Record
+    $("#btnPrintAll").click(function () {
+        debugger
+        CalculateSum();
+        var grid = jQuery("#dataGrid").getRowData();
+        generatePurchaseReportPDF(grid);
+    });
+
+    //To Print  Sales Record By Date
+    $("#btnPrintByDate").click(function () {
+
+        var grid = jQuery("#dataGridByDate").getRowData();
+        generatePurchaseReportPDF(grid);
+    });
+
+    function generatePurchaseReportPDF(data) {
         debugger
         
-        var griddata = jQuery("#dataGridByDate").getRowData();       
-      
+        //var griddata = jQuery("#dataGridByDate").getRowData(); 
+        var griddata = data;
 
         var columns = ['PurchaseInv', 'InvDate', 'SupplierName', 'MstrDecNo', 'BLNo', 'ArvlDate', 'AED', 'JPY'];
 
@@ -191,6 +240,11 @@
         var toDate = $("#toDate").val();
         var SumOfAED = $("#hdnSumOfAED").val();      
         var SumOfJPY = $("#hdnSumOfJPY").val();
+
+        var suppFullName = $("#hdnSupplierFullName").val();
+        var suppAddress = $("#hdnSupplierAddress").val();
+        var suppPhone = $("#hdnSupplierContactNumber").val();
+        var suppEmail = $("#hdnSupplierEmail").val();
 
         data.push([, , , , , 'Total', SumOfAED, SumOfJPY]);
 
@@ -225,15 +279,21 @@
 
 
             doc.text("Purchase Report", data.settings.margin.left + 65, 10);
-            doc.text("From Dt:", data.settings.margin.left + 30, 20);
-            doc.text(fromDate + '- ', data.settings.margin.left + 58, 20);
-            doc.text("To Dt:", data.settings.margin.left + 95, 20);
-            doc.text(toDate, data.settings.margin.left + 115, 20);
-            doc.text("Rprt Dt:", data.settings.margin.left + 130, 10);
-            doc.text(ReportDate, data.settings.margin.left + 155, 10);
-            doc.setFontSize(30)
+            doc.setFontSize(10);
+            doc.text("From Dt:", data.settings.margin.left + 40, 40);
+            doc.text(fromDate + '- ', data.settings.margin.left + 55, 40);
+            doc.text("To Dt:", data.settings.margin.left + 75, 40);
+            doc.text(toDate, data.settings.margin.left + 85, 40);
+            doc.text("Rprt Dt:", data.settings.margin.left + 130, 20);
+            doc.text(ReportDate, data.settings.margin.left + 145, 20);
+            doc.setFontSize(20)
             doc.setTextColor(0, 0, 255)
-            doc.text('DAA', data.settings.margin.left, 20);
+            doc.text(suppFullName, data.settings.margin.left, 20);
+            doc.setFontSize(10)
+            doc.text(suppAddress, data.settings.margin.left, 25);
+            doc.text(suppPhone, data.settings.margin.left, 30);
+            doc.text(suppEmail, data.settings.margin.left, 35);
+
 
             // FOOTER
             var str = "Page " + data.pageCount;
@@ -250,7 +310,7 @@
         doc.autoTable(columns, data, {
             theme: 'grid',
             addPageContent: pageContent,
-            margin: { top: 30 },
+            margin: { top: 50 },
 
             drawCell: function (cell, data) {
                 var rows = data.table.rows;
@@ -285,13 +345,73 @@
     });
 
 </script>
+<script type="text/javascript">
+    $(function () {
+        $("#txtSearchSupplier").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/TPurchase/AutoComplete/',
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (!data.length) {
+                            var result = [
+                             {
+                                 label: 'No matches found',
+                                 value: response.term
+                             }
+                            ];
+                            response(result);
+                        }
+                        else {
+                            // normal response
+                            response($.map(data, function (item) {
+                                    return {
+                                    iSupplierID: item.iSupplierID,
+                                    strFirstName: item.strFirstName,
+                                    strMiddleName:item.strMiddleName,
+                                    strLastName:item.strLastName,
+                                    strAddress :item.strAddress,
+                                    iPhoneNumber :item.iPhoneNumber,
+                                    strEmailID:item.strEmailID, 
+                                    value: item.strFirstName
+                                }
 
+                            }));
+                        }
+                    }
+
+
+                });
+            },
+            select: function (event, i) {
+                debugger
+                event.preventDefault();
+
+                //$("#").val(i.item.value);
+                $("#txtSearchSupplier").val(i.item.value);
+                $("#hdnSupplierName").val(i.item.value);
+                $("#hdnSupplierFullName").val(i.item.strFirstName+' '+i.item.strMiddleName+' '+i.item.strLastName);
+                $("#hdnSupplierAddress").val(i.item.strAddress);
+                $("#hdnSupplierContactNumber").val(i.item.iPhoneNumber);
+                $("#hdnSupplierEmail").val(i.item.strEmailID);
+
+            },
+            minLength: 1
+        });
+    });
+
+
+
+
+</script>
 
 <!-- JqGrid Scripts -->
 <link href="~/scripts/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
 <link href="~/scripts/ui.jqgrid.css" rel="stylesheet" />
 <script src="~/Scripts/jQuery-migrate-1.2.1-min.js"></script>
-@*<script src="~/scripts/jQuery-migrate-1.2.1.js"></script>*@
 <script src="~/scripts/grid.locale-en.js"></script>
 <script src="~/scripts/jquery.jqgrid.min.js"></script>
 
@@ -299,5 +419,4 @@
 
 <script src="~/Content/plugins/jsPDF/jspdf.debug.js"></script>
 <script src="~/Content/plugins/jsPDF/jspdf.plugin.autotable.js"></script>
-@*<script src="~/Content/plugins/jsPDF-2/examples.js"></script>*@
 <script src="~/Content/plugins/jsPDF-2/faker.min.js"></script>

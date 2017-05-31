@@ -137,7 +137,11 @@
         <div id="divDetails" class="row">
             @Html.ValidationSummary(true)
             @*@Html.HiddenFor(a => a.PurchaseID, new {  @id = "PurchaseID" })*@
-            <label id="invoiceLbl">Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label>
+
+            <input type="hidden" id="hdninvoiceLbl" />
+
+            <h4><label id="invoiceLbl" class="label label-warning form-control input-group-lg">Purchase Inv No:PUR-@(@DateTime.Now.Year % 100)-<span id="invno"></span></label></h4>
+
             <br />
 
             @*@Html.TextBoxFor(a => a.iPurchaseInvoiceNo, new { @class = "form-control", @id = "invno" })*@
@@ -179,7 +183,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>Master Dec No:</label>
-                    @Html.TextBoxFor(a => a.strMasterDecNo, new { @class = "form-control", @id = "strMasterDecNo", @required = "required" })
+                    @Html.TextBoxFor(a => a.strMasterDecNo, new { @class = "form-control", @id = "strMasterDecNo", @required = "required", @placeholder = "Enter Master DecNo" })
                     @Html.ValidationMessageFor(a => a.strMasterDecNo)
                 </div>
             </div>
@@ -188,7 +192,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label>BL No:</label>
-                    @Html.TextBoxFor(a => a.strBLNo, new { @class = "form-control", @id = "strBLNo", @required = "required" })
+                    @Html.TextBoxFor(a => a.strBLNo, new { @class = "form-control", @id = "strBLNo", @required = "required", @placeholder = "Enter BL No" })
                     @Html.ValidationMessageFor(a => a.strBLNo)
                 </div>
             </div>
@@ -257,17 +261,25 @@
         <div class="row" id="divParsedExcel" style="display:none">
 
             <div class="col-sm-6">
-                <b>Invoice value JPY </b>: &yen; <span id="spnINVJPY"></span>
-                <br />
-                <b>Invoice value AED </b>: 	د.إ  <span id="spnINVAED"></span>
-            </div>
+                @*<b>Invoice value JPY </b>: &yen; <span id="spnINVJPY"></span>
+                    <br />
+                    <b>Invoice value AED </b>: 	د.إ  <span id="spnINVAED"></span>
+                    <br /><br />*@
+                <h4><label class="label label-warning form-control input-group-lg">Invoice value JPY: &yen <span id="spnINVJPY"></span></label></h4>
 
+                <h4><label class="label label-warning form-control input-group-lg">Invoice value AED: د.إ <span id="spnINVAED"></span></label></h4>
+            </div>
+            <br />
+            <div class="col-sm-6">
+                <h4><label class="label label-warning form-control input-group-lg">No Of Imported Vehicles: <span id="rowCount"></span></label></h4>
+                @*<b>No Of Imported Vehicles </b>: 	 <span id="rowCount"></span>*@
+            </div>
 
             <br />
             <br />
 
             <table id="dataGrid" class="table table-bordered table-striped"></table>
-            <div id="pagingGrid"></div>
+            @*<div id="pagingGrid"></div>*@
             <br />
             <br />
             <div class="col-sm-6" style="margin-left:270px;">
@@ -277,23 +289,34 @@
                     <div id="dialog" style="display: none" align="center">
                         Do you want to Save this Purchase?
                     </div>
-                    <div class="col-sm-2">
-                        <input type="submit" style="margin-left: -150px;" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
+                    <div id="divSaveButton">
+                        <div class="col-sm-2">
+                            <input type="submit" style="margin-left: 0px;" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="button" style="margin-left: 0px;" class='popup btn btn-info' id="btnRcvStock" value="Stock Revice" />
+                        </div>
+                        <input type="button" style="margin-left: 20px;" class="btn btn-warning col-md-2" value="Cancel" onclick="Cancel();" id="cancelVehiclesExpenseInfo">
+
                     </div>
                     @*<div class="col-sm-2">
                             <input type="button" class='popup btn btn-info' id="btnSaveJQ" name="Save" value="Save" />
                         </div>*@
-                    <div class="col-sm-3">
-                        <input type="button" style="margin-left: -140px;" class='popup btn btn-info' id="btnRcvStock" name="Save" value="Stock Revice" />
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="button" style="margin-left: -135px;" class='popup btn btn-info' name="Save" value="Print Invoice" onclick="generateInvoicePDF()" />
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="button" style="margin-left: -135px;" class='popup btn btn-info' name="Save" value="Print Custom Invoice" onclick="generateCustomPDF()" />
-                    </div>
 
-                    <input type="button" style=" margin-left: 450px; margin-top: -33px;" class="btn btn-warning col-md-2" value="Cancel" onclick="Cancel();" id="cancelVehiclesExpenseInfo">
+
+                    <div id="divPrintButtons" style="display:none">
+                        <div class="col-sm-3">
+                            <input type="button" style="margin-left: 0px;" class='popup btn btn-info' id="btnRcvStock" value="Stock Revice" />
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="button" style="margin-left: 0px;" class='popup btn btn-info' value="Print Invoice" onclick="generateInvoicePDF()" />
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="button" style="margin-left: 0px;" class='popup btn btn-info' value="Print Custom Invoice" onclick="generateCustomPDF()" />
+                        </div>
+                        <input type="button" style=" margin-left: 447px; margin-top: -33px;" class="btn btn-warning col-md-2" value="Cancel" onclick="Cancel();" id="cancelVehiclesExpenseInfo">
+
+                    </div>
 
 
 
@@ -309,31 +332,31 @@
 
 
 <script type="text/javascript">
-   
-        //$("#dmlConversionRate").keyup(function () {
-        //    debugger
-        //    var ConversionRate = $("#dmlConversionRate").val();
-        //    $.ajax({
-        //        type:"POST",
-        //        url:"/TPurchase/UploadFiles",
-        //        cache: false,
-        //        data: JSON.stringify({ ConversionRate: ConversionRate }),
-        //        // data: JSON.stringify(purchase),
-        //        dataType: this.dataType,
-        //        contentType: "application/json; charset=utf-8",
-        //        success: function (Data) {
+
+    //$("#dmlConversionRate").keyup(function () {
+    //    debugger
+    //    var ConversionRate = $("#dmlConversionRate").val();
+    //    $.ajax({
+    //        type:"POST",
+    //        url:"/TPurchase/UploadFiles",
+    //        cache: false,
+    //        data: JSON.stringify({ ConversionRate: ConversionRate }),
+    //        // data: JSON.stringify(purchase),
+    //        dataType: this.dataType,
+    //        contentType: "application/json; charset=utf-8",
+    //        success: function (Data) {
 
 
-        //        }
-        //    });
-        //});
-    
+    //        }
+    //    });
+    //});
 
 
-       
 
 
-   
+
+
+
 
     function Cancel() {
         window.location.href = "/TPurchase/GetPurchaseList";
@@ -343,116 +366,130 @@
     $(function () { // will trigger when the document is ready
         $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy' }); //Initialise any date pickers
 
-        
+
     });
 
 </script>
 
 <script>
-
+    var lastsel;
     function generateInvoicePDF() {
-            debugger
+        debugger
+        jQuery('#dataGrid').jqGrid('saveRow', lastsel);
+        var griddata = jQuery("#dataGrid").getRowData();
 
-            var griddata = jQuery("#dataGrid").getRowData();
-
-            var columns = ['Lot No', 'Chasis No', 'Make', 'Model', 'Category', 'Year', 'Color', 'Origin', 'Location', 'JPY'];
-
-            var data = [];
-            for (var i = 0; i < griddata.length; i++) {
-               
-
-                data.push([griddata[i].iLotNum, griddata[i].strChassisNum, griddata[i].strMake, griddata[i].iModel, griddata[i].strCategory,
-                    griddata[i].iYear, griddata[i].strColor, griddata[i].strOrigin, griddata[i].strLocation, griddata[i].iCustomValInJPY]);
-
-            }
-
-            
-            var invoiceDate = $("#strPurchaseInvoiceDate").val();
-            //var fromDate = $("#fromDate").val();
-            //var toDate = $("#toDate").val();
-            //var dcmlAED = $('#spnINVAED').text();
-            var dcmlJYP = $('#spnINVJPY').text();
-
-          
-
-            data.push([, , , , , , , , 'Total', dcmlJYP]);
-
-            var d = new Date();
-
-            var month = d.getMonth() + 1;
-            var day = d.getDate();
-
-            var ReportDate = (('' + day).length < 2 ? '0' : '') + day + '/' + (('' + month).length < 2 ? '0' : '') + month + '/' + d.getFullYear();
+        var columns = ['Lot No', 'Chasis No', 'Make', 'Model', 'Grade', 'Door', 'Litter', 'Trans', 'Mileage', 'weight', 'Category', 'Year', 'Color', 'Origin', 'Location', 'C-Assess Val', 'Duty', 'CNF(JPY)'];
 
 
-            var doc = new jsPDF();
+        //var columns = ['Lot No', 'Chasis No', 'Make', 'Model', 'Category', 'Year', 'Color', 'Origin', 'Location', 'JPY'];
 
-            var totalPagesExp = "{total_pages_count_string}";
-
-            var pageContent = function (data) {
-                // HEADER
-
-                doc.setFontSize(20);
-                doc.setTextColor(40);
-                doc.setFontStyle('normal');
+        var data = [];
+        for (var i = 0; i < griddata.length; i++) {
 
 
-                doc.text("Purchase Invoice Report", data.settings.margin.left + 50, 10);
-                doc.text("Invoice Date:", data.settings.margin.left + 25, 20);
-                doc.text(invoiceDate, data.settings.margin.left + 67, 20);
-                //doc.text("To Dt:", data.settings.margin.left + 95, 20);
-                //doc.text(toDate, data.settings.margin.left + 115, 20);
-                doc.text("Rprt Dt:", data.settings.margin.left + 110, 20);
-                doc.text(ReportDate, data.settings.margin.left + 135, 20);
-                doc.setFontSize(30)
-                doc.setTextColor(0, 0, 255)
-                doc.text('DAA', data.settings.margin.left, 20);
 
-                // FOOTER
-                var str = "Page " + data.pageCount;
-                // Total page number plugin only available in jspdf v1.0+
-                if (typeof doc.putTotalPages === 'function') {
-                    str = str + " of " + totalPagesExp;
-                }
-                doc.setFontSize(10);
-                doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
+            data.push([griddata[i].iLotNum, griddata[i].strChassisNum, griddata[i].strMake, griddata[i].iModel,
 
-                //doc.text('Note: This is computer generated ', data.settings.margin.left, 20);
-            };
+                griddata[i].strGrade, griddata[i].iDoor, griddata[i].dmlLitter, griddata[i].strTrans,
 
-            doc.autoTable(columns, data, {
-                theme: 'grid',
-                addPageContent: pageContent,
-                margin: { top: 30 },
 
-                drawCell: function (cell, data) {
-                    var rows = data.table.rows;
-                    if (data.row.index == rows.length - 1) {
-                        // doc.setFillColor(200, 200, 255);
-                        doc.setFillColor(26, 188, 156);
-                        doc.setFontStyle('bold');
-                        //doc.setFontSize(16);
-                    }
-                },
-            });
+                griddata[i].iMileage, griddata[i].weight,
 
+                griddata[i].strCategory,
+                griddata[i].iYear, griddata[i].strColor, griddata[i].strOrigin, griddata[i].strLocation, griddata[i].iCustomAssesVal, griddata[i].dmlDuty, griddata[i].iCustomValInJPY]);
+
+        }
+
+
+        var invoiceDate = $("#strPurchaseInvoiceDate").val();
+        //var fromDate = $("#fromDate").val();
+        //var toDate = $("#toDate").val();
+        //var dcmlAED = $('#spnINVAED').text();
+        var dcmlJYP = $('#spnINVJPY').text();
+
+
+
+        data.push([, , , , , , , , , , , , , , , , 'Total', dcmlJYP]);
+
+        var d = new Date();
+
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+
+        var ReportDate = (('' + day).length < 2 ? '0' : '') + day + '/' + (('' + month).length < 2 ? '0' : '') + month + '/' + d.getFullYear();
+
+
+        // var doc = new jsPDF();
+
+        var doc = new jsPDF('l', 'mm', [500, 350], '');
+
+        var totalPagesExp = "{total_pages_count_string}";
+
+        var pageContent = function (data) {
+            // HEADER
+
+            doc.setFontSize(20);
+            doc.setTextColor(40);
+            doc.setFontStyle('normal');
+
+
+            doc.text("Purchase Invoice Report", data.settings.margin.left + 180, 10);
+            doc.text("Invoice Date:", data.settings.margin.left + 25, 20);
+            doc.text(invoiceDate, data.settings.margin.left + 67, 20);
+            //doc.text("To Dt:", data.settings.margin.left + 95, 20);
+            //doc.text(toDate, data.settings.margin.left + 115, 20);
+            doc.text("Rprt Dt:", data.settings.margin.left + 350, 20);
+            doc.text(ReportDate, data.settings.margin.left + 375, 20);
+            doc.setFontSize(30)
+            doc.setTextColor(0, 0, 255)
+            doc.text('DAA', data.settings.margin.left, 20);
+
+            // FOOTER
+            var str = "Page " + data.pageCount;
             // Total page number plugin only available in jspdf v1.0+
             if (typeof doc.putTotalPages === 'function') {
-                doc.putTotalPages(totalPagesExp);
+                str = str + " of " + totalPagesExp;
             }
-            doc.output("dataurlnewwindow");
+            doc.setFontSize(10);
+            doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
+
+            //doc.text('Note: This is computer generated ', data.settings.margin.left, 20);
+        };
+
+        doc.autoTable(columns, data, {
+            theme: 'grid',
+            addPageContent: pageContent,
+            margin: { top: 30 },
+
+            drawCell: function (cell, data) {
+                var rows = data.table.rows;
+                if (data.row.index == rows.length - 1) {
+                    // doc.setFillColor(200, 200, 255);
+                    doc.setFillColor(26, 188, 156);
+                    doc.setFontStyle('bold');
+                    //doc.setFontSize(16);
+                }
+            },
+        });
+
+        // Total page number plugin only available in jspdf v1.0+
+        if (typeof doc.putTotalPages === 'function') {
+            doc.putTotalPages(totalPagesExp);
         }
+        doc.output("dataurlnewwindow");
+    }
 
 
     function generateCustomPDF() {
         debugger;
+        jQuery('#dataGrid').jqGrid('saveRow', lastsel);
         $.ajax({
             cache: false,
             type: "POST",
             url: "/TPurchase/GenerateCustomPDF",
             dataType: 'json',
             success: function (result) {
-               
+
                 debugger;
                 var columns = ['Lot No', 'Chasis No', 'Make', 'Model', 'Category', 'Year', 'Color', 'Origin', 'Location', 'JPY'];
 
@@ -567,15 +604,17 @@
 
 <script>
 
+
     // What is this !!!!
     $("#btnSaveJQ").click(function () {
         debugger;
+        jQuery('#dataGrid').jqGrid('saveRow', lastsel);
+        // alert($('#spnINVAED').text() + "    JPY" + $('#spnINVJPY').text());
 
-       // alert($('#spnINVAED').text() + "    JPY" + $('#spnINVJPY').text());
-        
         var data = $('#invoiceLbl').text().split(':');
 
-        $("#invoiceLbl").html(data[1]);
+        $("#hdninvoiceLbl").val(data[1]);
+
 
         //// For Testing
         ////   var griddata1 = $('#dataGrid').jqGrid('getGridParam', 'data');
@@ -731,19 +770,11 @@
                 var validPurchase = ValidatePurchaseInfo();
                 if (validPurchase == true) {
 
-                    //debugger;
-                    //var tes = "salman"
-                    //var alphanumers = /^[a-zA-Z0-9]+$/;
-                    //if (!alphanumers.test(tes)) {
-                    //    alert("Special chareter found");
-                    //    $("#textboxid").css({ "background-color": "color" });
-                    //    return false;
-                    //}
 
-                  
 
                     var purchase = {
-                        iPurchaseInvoiceNo: $('#invno').val(),
+                        iPurchaseInvoiceNo: $('#invno').html(),
+                        //iPurchaseInvoiceNo: $('#invno').val(),
                         strPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
                         strSupplierName: $('#txtSearchSupplier').val(),
                         strMasterDecNo: $('#strMasterDecNo').val(),
@@ -751,7 +782,7 @@
                         strArrivalDate: $('#strArrivalDate').val(),
                         dmlConversionRate: $('#dmlConversionRate').val(),
                         dtPurchaseInvoiceDate: $('#strPurchaseInvoiceDate').val(),
-                        strPurchaseInvoiceNo: $('#invoiceLbl').text(),
+                        strPurchaseInvoiceNo: $('#hdninvoiceLbl').val(),
                         dcmlAED: $('#spnINVAED').text(),
                         dcmlJYP: $('#spnINVJPY').text()
 
@@ -765,9 +796,11 @@
                         cache: false,
                         data: JSON.stringify({ purchase: purchase, griddata: griddata }),
                         // data: JSON.stringify(purchase),
-                        dataType: this.dataType,
+                        dataType: 'json',
                         contentType: "application/json; charset=utf-8",
                         success: function (Data) {
+                            $('#divSaveButton').hide();
+                            $('#divPrintButtons').show();
 
                             alert("Data Saved You Can Generate PDF");
 
@@ -916,7 +949,7 @@
                         $("#spnINVAED").text(sumOfAED);
 
 
-                        var lastsel;
+
                         $('#dataGrid').jqGrid({
                             //// Comment and uncomment below lines for ajax and local data
                             //    caption: "Invoice Discription",
@@ -932,20 +965,35 @@
 
 
 
-                            colNames: ['Lot No', 'Chasis No', 'Make', 'Model', 'Category', 'Year', 'Color', 'Origin', 'Location', 'CustomAssessed Value', 'Duty', 'JPY'],
+                            colNames: ['Lot No', 'Make', 'Chasis No', 'Color', 'weight', 'Model', 'Door', 'Origin', 'Location', 'CustomAssessed Value', 'Duty', 'CNF(JPY)'],
                             colModel: [
-                                { name: 'iLotNum', index: 'iLotNum', editable: true },
-                                { name: 'strChassisNum', index: 'strChassisNum', editable: true },
-                                { name: 'strMake', index: 'strMake', editable: true },
-                                { name: 'iModel', index: 'iModel', editable: true },
-                                { name: 'strCategory', index: 'strCategory', editable: true },
-                                { name: 'iYear', index: 'iYear', editable: true },
-                                { name: 'strColor', index: 'strColor', editable: true },
-                                { name: 'strOrigin', index: 'strOrigin', editable: true },
-                                { name: 'strLocation', index: 'strLocation', editable: true },
-                                { name: 'iCustomAssesVal', index: 'iCustomAssesVal', editable: true },
-                                { name: 'iDuty', index: 'iDuty', editable: true },
-                                { name: 'iCustomValInJPY', index: 'iCustomValInJPY', editable: true }
+
+
+                                { name: 'iLotNum', index: 'iLotNum', width: 50, editable: true, align: 'center' },
+                                { name: 'strMake', index: 'strMake', width: 50, editable: true, align: 'center' },
+                                 { name: 'strChassisNum', index: 'strChassisNum', width: 120, editable: true, align: 'center' },
+                                   { name: 'strColor', index: 'strColor', width: 50, editable: true, align: 'center' },
+                                    { name: 'weight', index: 'weight', width: 50, editable: true, align: 'center' },
+                                    { name: 'iModel', index: 'iModel', width: 50, editable: true, align: 'center' },
+                                    { name: 'iDoor', index: 'iDoor', width: 50, editable: true, align: 'center' },
+                                      { name: 'strOrigin', index: 'strOrigin', width: 50, editable: true, align: 'center' },
+                                        { name: 'strLocation', index: 'strLocation', width: 50, editable: true, align: 'center' },
+                                         { name: 'iCustomAssesVal', index: 'iCustomAssesVal', width: 50, editable: true, align: 'center' },
+                                { name: 'dmlDuty', index: 'dmlDuty', width: 50, editable: true, align: 'center' },
+                                { name: 'iCustomValInJPY', index: 'iCustomValInJPY', width: 100, editable: true, align: 'center' }
+
+
+                                //{ name: 'strGrade', index: 'strGrade', width: 170, editable: true, align: 'center' },
+
+                                //{ name: 'dmlLitter', index: 'dmlLitter', width: 50, editable: true, align: 'center' },
+                                //{ name: 'strTrans', index: 'strTrans', width: 50, editable: true, align: 'center' },
+                                //{ name: 'iMileage', index: 'iMileage', width: 60, editable: true, align: 'center' },
+
+                                //{ name: 'strCategory', index: 'strCategory', width: 50, editable: true, align: 'center' },
+                                //{ name: 'iYear', index: 'iYear', width: 50, editable: true, align: 'center' },
+
+
+
 
 
                                 //,{ name: 'act', index: 'act', width: 750 }
@@ -974,29 +1022,51 @@
                                 //},
 
                             ],
+
+
+                            // rownumbers: true,
+                            //viewrecords: true,
+
                             width: 1050,
                             height: 250,
-                            rowNum: 10,
+                            rowNum: 120,
                             ignoreCase: true,
-                            rowList: [10, 20, 30],
-                            pager: 'pagingGrid',
+                            //rowList: [10, 20, 30],
+                            //pager: 'pagingGrid',
                             caption: 'Select Invoice to edit',
                             //cellEdit: true,
                             cellsubmit: 'clientArray',
+                            //restoreAfterSelect:function(id){
+                            //    jQuery('#dataGrid').jqGrid('saveRow', lastsel);
+                            //},
                             onSelectRow: function (id) {
-
+                                debugger
                                 if (id !== lastsel) {
 
 
                                     jQuery('#dataGrid').jqGrid('saveRow', lastsel);
 
-                                    lastsel = id;
 
+                                    var rowData = jQuery("#dataGrid").getRowData(lastsel);
+
+                                    var iCustomAssesVal = rowData['iCustomAssesVal'];
+
+
+                                    var Duty = (iCustomAssesVal * 5) / 100;
+
+
+                                    $("#dataGrid").jqGrid('setCell', lastsel, 'dmlDuty', Duty.toFixed(3));
+
+                                    lastsel = id;
                                 }
                                 jQuery('#dataGrid').jqGrid('editRow', id, true);
                                 return true;
 
                             },
+
+
+
+
 
 
                             //gridComplete: function () {
@@ -1013,7 +1083,11 @@
                             //},
                         });
                         jQuery("#dataGrid").jqGrid('filterToolbar', { stringResult: true, searchOnEnter: false, defaultSearch: "cn" });
-                        jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false, rel: false });
+                        // jQuery("#dataGrid").jqGrid('navGrid', '#pagingGrid', { edit: false, add: false, del: false, search: false, rel: false });
+
+
+                        var rowCount = $("#dataGrid").getGridParam("reccount");
+                        $("#rowCount").text(rowCount);
 
                     },
                     error: function (err) {
@@ -1025,6 +1099,11 @@
             }
         });
     });
+
+
+   
+
+
 </script>
 @*<script>
         $(document).ready(function () {
@@ -1174,16 +1253,16 @@
     function calculateSumOfAED() {
         debugger;
 
-      
+
 
         var sum = 0;
         //iterate through each textboxes and add the values
         $("input[name='dmlConversionRate']").each(function () {
-           
+
             //add only if the value is number
             if (!isNaN(this.value) && this.value.length != 0) {
-               
-                 sum += parseFloat($("#spnINVJPY").text() * this.value);
+
+                sum += parseFloat($("#spnINVJPY").text() * this.value);
 
             }
 
@@ -1194,7 +1273,25 @@
     }
 
 
+    //$(document).on('focusout', '[role="gridcell"] *', function () {
+    //    $("#dataGrid").jqGrid('editCell', lastsel, false);
+    //});
 
+    //$('#dataGrid').jqGrid().focusout(function () {
+    //    $('#dataGrid').jqGrid("resetSelection");
+    //});
+
+
+    //$("body").click(function (e) {
+    //   debugger
+    //   //alert(e.target.id);
+    //   if (e.target.id == "") {
+    //       return false;
+    //   }
+    //    //$("#dataGrid").jqGrid('editCell', lastsel, false);
+
+    //    jQuery('#dataGrid').jqGrid('saveRow', lastsel);
+    //});
 
 </script>
 
